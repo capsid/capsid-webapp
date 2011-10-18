@@ -12,7 +12,7 @@
         <div class="unit">
             <h1>Projects</h1>
         </div>        
-        <sec:ifAnyGranted roles="ROLE_capsidBASE_ADMIN">	
+        <sec:ifAnyGranted roles="ROLE_CAPSID_ADMIN">	
         <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Create Project</button>
         <div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Create Project" >
 			<g:form action="save" method="get" dojoType="dijit.form.Form" id="createForm" jsId="createForm">
