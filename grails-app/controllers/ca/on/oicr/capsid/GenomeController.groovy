@@ -31,9 +31,9 @@ class GenomeController {
 				,	gi: it.gi
 				,	accession: it.accession
 				,	name: it.name
-				,	taxonomy: it.taxonomy.join(", ")
+				,	taxonomy: it.taxonomy?.join(", ")
 				,	length: it.length
-                ,   samples: it.samples.size()
+                ,   samples: it.samples?.size()
 				]
 			}
 		
