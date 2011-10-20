@@ -1,5 +1,5 @@
-import ca.on.oicr.ferv.*
+import ca.on.oicr.capsid.*
 
 beans = {
-	userDetailsService(ca.on.oicr.ferv.MongoUserDetailsService)
+	userDetailsService(MongoUserDetailsService)
 }
