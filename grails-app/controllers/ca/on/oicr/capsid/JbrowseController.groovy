@@ -73,7 +73,6 @@ class JbrowseController {
 		ArrayList samples = []
 		def projects = [:]
         Project.security(AuthService.getRoles()).list().each {
-        //Project.list().each {
 			projects[it.label] = [
 					label: it.label
                 ,   type: "TrackGroup"
