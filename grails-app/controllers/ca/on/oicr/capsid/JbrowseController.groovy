@@ -19,6 +19,8 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_CAPSID'])
 class JbrowseController {
 
+    def AuthService
+
 	def index = {redirect(action: "show", params: params)}
 	def show = {
 		Genome genomeInstance = Genome.findByAccession(params.id)
@@ -70,19 +72,21 @@ class JbrowseController {
 
 		ArrayList samples = []
 		def projects = [:]
-		Project.list().each {  
+        Project.security(AuthService.getRoles()).list().each {
+        //Project.list().each {
 			projects[it.label] = [
 					label: it.label
                 ,   type: "TrackGroup"
-                ,	children: []
+                ,   children: []
                 ,   key: it.label
 				]
 		}
-		
 		genomeInstance.samples.each {
 			Sample sampleInstance = Sample.findByName(it)
 			Project projectInstance = Project.findByLabel(sampleInstance.project)
-			projects[projectInstance.label]["children"].add(["_reference":it])
+            if (projects[projectInstance.label]) {
+                projects[projectInstance.label]["children"].add(["_reference":it])
+            }
 			samples += [
 				url: "../track/{refseq}?track="+it
 			,	type: 'FeatureTrack'
