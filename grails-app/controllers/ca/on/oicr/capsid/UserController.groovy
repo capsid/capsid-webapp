@@ -39,6 +39,7 @@ class UserController {
 				   ,	email: it.email
 				   ,	admin: 'ROLE_CAPSID_ADMIN' in it.authorities.authority
 				   ,	enabled: it.enabled
+                   ,    roles: it.authorities.authority.sort().toString()
 				   ]
 			   }
 		   

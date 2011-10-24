@@ -57,6 +57,7 @@
 			    ,	{field: "email", name: "Email", datatype: "string", width: "auto"}
                 ,	{field: "enabled", name: "Enabled", styles:"text-align: center;", datatype: "bool", type: dojox.grid.cells.Bool, editable: true, width: "50px"}
 			    ,	{field: "admin", name: "Admin", styles:"text-align: center;", datatype: "bool", type: dojox.grid.cells.Bool, editable: true, width: "50px"}
+			    ,	{field: "roles", name: "Roles", datatype: "string", width: "auto"}
 			    ]}]'>
 	</div>
     </body>
