@@ -23,15 +23,12 @@
     <div class="line"> 
         <span id="title" class="unit size3of5">CaPSID<span id="version">v${grailsApplication.metadata.'app.version'}</span></span> 
 		<span class="unit lastUnit" id="account-links"> 
-	        <sec:ifLoggedIn><span id="account-name"><a href="${createLink(controller:"user", action:"show")}/<sec:username/>"><sec:username/></a></span>
+	        <sec:ifLoggedIn><span id="account-name"><a href="${createLink(controller:'user', action:'show')}/<sec:username/>"><sec:username/></a></span>
 	        <span id="account-tabs">
-        		<sec:ifAnyGranted roles="ROLE_CAPSID_ADMIN">	
-		        <a href="${createLink(controller:"user")}">Admin</a> 
-		        </sec:ifAnyGranted>
 		        <a href="${createLink(controller:"logout")}">Logout</a> 
 	        </span>
-	        </sec:ifLoggedIn>
-		</span> 
+            </sec:ifLoggedIn>
+		</span>
     </div> 
 </header>
 <div id="container">
