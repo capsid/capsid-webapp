@@ -12,7 +12,7 @@
         <div class="unit">
             <h1>Users</h1>
         </div>
-        <sec:ifAnyGranted roles="ROLE_CAPSID_ADMIN">	
+        <sec:ifAnyGranted roles="ROLE_CAPSID_ADMIN">
 	    <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Add User</button>
 	  	<div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Add User" >
 			<g:form action='save' method="post" dojoType="dijit.form.Form" id="createForm" jsId="createForm">
@@ -42,23 +42,20 @@
 	  	</div>
 	  	</sec:ifAnyGranted>
 	</div>
-    
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
-	<div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
+	<div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:465px" store="store"
          	 sortInfo="1"
      		 plugins="{
 			 	pagination: true, 
-			 	filter: {
-			 		itemsName : 'users'
-			 		}
-			 	}"
+			 	filter: {itemsName : 'users'}
+                }"
 			selectable="true"
 			editable="true"
 		 	structure='[{cells:[
 			    	{field: "username", name: "Username", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.user}
 			    ,	{field: "userRealName", name: "Name", datatype: "string", width: "auto"}
-			    ,	{field: "email", name: "Email", datatype: "string", width: "auto", editable: true}
-			    ,	{field: "enabled", name: "Enabled", styles:"text-align: center;", datatype: "bool", type: dojox.grid.cells.Bool, editable: true, width: "50px"}
+			    ,	{field: "email", name: "Email", datatype: "string", width: "auto"}
+                ,	{field: "enabled", name: "Enabled", styles:"text-align: center;", datatype: "bool", type: dojox.grid.cells.Bool, editable: true, width: "50px"}
 			    ,	{field: "admin", name: "Admin", styles:"text-align: center;", datatype: "bool", type: dojox.grid.cells.Bool, editable: true, width: "50px"}
 			    ]}]'>
 	</div>
