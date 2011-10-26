@@ -43,15 +43,20 @@ class ProjectService {
         if (project.save(flush: true)) {
             Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
             User user = springSecurityService.getCurrentUser()
-            UserRole.create user, role, ['read', 'write', 'admin'] as Set
+            UserRole.create user, role, ['read', 'update', 'delete', 'admin'] as Set
         }
 
         project
     }
 
-    boolean authorize(Map requiredAccess) {
-        if (!authService.hasAccess(requiredAccess)) {
-            render view: '../login/denied'
-        }
+    void delete(Project project) {
+        String projectRole = 'ROLE_' + project.label.toUpperCase()
+        project.delete()
+
+        // Delete the ACL information as well
+        Role role = Role.findByAuthority(projectRole)
+        role.delete()
+        User user = springSecurityService.getCurrentUser()
+        UserRole.remove user, role, true
     }
 }

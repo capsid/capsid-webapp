@@ -12,6 +12,7 @@ package ca.on.oicr.capsid
 
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
+import org.springframework.dao.DataIntegrityViolationException
 
 @Secured(['ROLE_CAPSID'])
 class ProjectController {
@@ -33,13 +34,18 @@ class ProjectController {
             ]
         }
 
-        def ret = [
+        Map ret = [
             'identifier': 'label',
             'label': 'name',
             'items': projects
         ]
 
         render ret as JSON
+    }
+
+    def show = {
+        Project projectInstance = findInstance()
+        [projectInstance: projectInstance]
     }
 
     def create = {
@@ -53,7 +59,6 @@ class ProjectController {
         }
     }
 
-    @Secured(['ROLE_CAPSID_ADMIN'])
     def update = {
         def projectInstance = Project.findByLabel(params.label)
 
@@ -67,10 +72,18 @@ class ProjectController {
         }
     }
 
-    def show = {
-        Project projectInstance = findInstance()
-        [projectInstance: projectInstance]
+    def delete = {
+        Project project = findInstance()
+
+        try {
+            projectService.delete project
+            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
+            redirect action: list
+        } catch (DataIntegrityViolationException e) {
+            redirectShow "Project $project.label could not be deleted", project.label
+        }
     }
+
 
     /* ************************************************************************
      * AJAX Tabs
