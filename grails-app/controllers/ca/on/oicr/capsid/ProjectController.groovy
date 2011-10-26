@@ -16,16 +16,17 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_CAPSID'])
 class ProjectController {
 
-    def AuthService
+    def projectService
+    def authService
 
     def index = {redirect(action: "list", params: params)}
 
     def list = {}
+
     def list_data = {
-        List projects = Project.security(AuthService.getRoles()).list().collect {
+        List projects = projectService.getAllowedProjects().collect {
             [
-                id: it.id.toString()
-            ,   label: it.label
+                label: it.label
             ,   name: it.name
             ,   description: it.description
             ,   wikiLink: it.wikiLink
@@ -33,7 +34,7 @@ class ProjectController {
         }
 
         def ret = [
-            'identifier': 'id',
+            'identifier': 'label',
             'label': 'name',
             'items': projects
         ]
@@ -41,16 +42,14 @@ class ProjectController {
         render ret as JSON
     }
 
-    @Secured(['ROLE_CAPSID_ADMIN'])
-    def save = {
-        def projectInstance = new Project(params)
-        projectInstance.roles = ['ROLE_CAPSID']
+    def create = {
+        [projectInstance: new Project(params)]
+    }
 
-        if (projectInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.label])}"
-            redirect(action: "show", id: projectInstance.label)
-        } else {
-            render 'Error while trying to save' //render(view: "ajax/create/project", model: [projectInstance: projectInstance])
+    def save = {
+        Project project = projectService.create(params)
+        if (!renderWithErrors('create', project)) {
+            redirectShow "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), project.label])}", project.label
         }
     }
 
@@ -69,13 +68,8 @@ class ProjectController {
     }
 
     def show = {
-        Project projectInstance = Project.security(AuthService.getRoles()).findByLabel(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            [projectInstance: projectInstance]
-        }
+        Project projectInstance = findInstance()
+        [projectInstance: projectInstance]
     }
 
     /* ************************************************************************
@@ -83,114 +77,104 @@ class ProjectController {
      *********************************************************************** */
     /* ** Show  ** */
     def show_samples = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            render(view: 'ajax/show/samples', model: [projectInstance: projectInstance])
-        }
+        Project projectInstance = findInstance()
+        render(view: 'ajax/show/samples', model: [projectInstance: projectInstance])
     }
     def show_samples_data = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            ArrayList samples = Sample.collection.find(project: projectInstance.label).collect {
-                [
-                    id: it._id.toString(),
-                    name: it.name,
-                    description: it.description,
-                    cancer: it.cancer,
-                    source: it.source,
-                    role: it.role,
-                ]
-            }
-
-            def ret = [
-                'identifier': 'id',
-                'label': 'name',
-                'items': samples
+        Project projectInstance = findInstance()
+        ArrayList samples = Sample.collection.find(project: projectInstance.label).collect {
+            [
+                name: it.name
+            ,   description: it.description
+            ,   cancer: it.cancer
+            ,   source: it.source
+            ,   role: it.role
             ]
-
-            render ret as JSON
         }
+
+        Map ret = [
+            'identifier': 'name',
+            'label': 'name',
+            'items': samples
+        ]
+
+        render ret as JSON
     }
 
     def show_alignments = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            render(view: 'ajax/show/alignments', model: [projectInstance: projectInstance])
-        }
+        Project projectInstance = findInstance()
+        render(view: 'ajax/show/alignments', model: [projectInstance: projectInstance])
     }
     def show_alignments_data = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            ArrayList alignments = Alignment.collection.find(project: projectInstance.label).collect {
-                [
-                        id: it._id.toString()
-					,	name: it.name
-                    ,   aligner: it.aligner
-                    ,   platform: it.platform
-                    ,   sample: it.sample
-                    ,   type: it.type
-                    ,   infile: it.infile
-                    ,   outfile: it.outfile
-                ]
-            }
-
-            def ret = [
-                'identifier': 'id',
-                'label': 'name',
-                'items': alignments
+        Project projectInstance = findInstance()
+        ArrayList alignments = Alignment.collection.find(project: projectInstance.label).collect {
+            [
+                name: it.name
+            ,   aligner: it.aligner
+            ,   platform: it.platform
+            ,   sample: it.sample
+            ,   type: it.type
+            ,   infile: it.infile
+            ,   outfile: it.outfile
             ]
-
-            render ret as JSON
         }
+
+        Map ret = [
+            'identifier': 'name',
+            'label': 'name',
+            'items': alignments
+        ]
+
+        render ret as JSON
     }
 
     def show_stats = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
-        if (!projectInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            render(view: 'ajax/show/stats', model: [projectInstance: projectInstance])
-        }
+        Project projectInstance = findInstance()
+        render(view: 'ajax/show/stats', model: [projectInstance: projectInstance])
     }
     def show_stats_data = {
-        Project projectInstance = Project.security(AuthService.getRoles()).get(params.id)
+        Project projectInstance = findInstance()
+        ArrayList stats = Statistics.collection.find(threshold:20, projectId:projectInstance.id, sampleId:0).collect {
+            [
+                id: it._id.toString()
+            ,   accession: it.genomeAccession
+            ,   gname: it.genomeName
+            ,   hits: it.hits
+            ,   geneHits: it.geneHits
+            ,   totalCoverage: it.totalCoverage
+            ,   geneCoverage: it.geneCoverage
+            ,   maxCoverage: it.maxCoverage
+            ]
+        }
+
+        Map ret = [
+                'identifier': 'id',
+                'label': 'gname',
+                'items': stats
+        ]
+
+        render ret as JSON
+    }
+
+    private Project findInstance() {
+        def projectInstance = projectService.get(params.id)
         if (!projectInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        } else {
-            ArrayList stats = Statistics.collection.find(threshold:20, projectId:projectInstance.id, sampleId:0).collect {
-                [
-                    id: it._id.toString()
-                ,   accession: it.genomeAccession
-                ,   gname: it.genomeName
-                ,   hits: it.hits
-                ,   geneHits: it.geneHits
-                ,   totalCoverage: it.totalCoverage
-                ,   geneCoverage: it.geneCoverage
-                ,   maxCoverage: it.maxCoverage
-                ]
-            }
-
-            def ret = [
-                    'identifier': 'id',
-                    'label': 'gname',
-                    'items': stats
-            ]
-
-            render ret as JSON
+            redirect action: list
         }
+        projectInstance
+    }
+
+    private void redirectShow(message, id) {
+        flash.message = message
+        redirect action: show, id: id
+    }
+
+    private boolean renderWithErrors(String view, Project projectInstance) {
+        if (projectInstance.hasErrors()) {
+            render view: view, model: [projectInstance: projectInstance]
+            return true
+        }
+        false
     }
 }

@@ -1,27 +1,41 @@
 /*
 *  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
 *
-*	This program and the accompanying materials are made available under the
-*	terms of the GNU Public License v3.0.
+*    This program and the accompanying materials are made available under the
+*    terms of the GNU Public License v3.0.
 *
-*	You should have received a copy of the GNU General Public License along with
-*	this program.  If not, see <http://www.gnu.org/licenses/>.
+*    You should have received a copy of the GNU General Public License along with
+*    this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
-
 class AuthService {
+
     def springSecurityService
 
     static transactional = false
 
-    def getRoles() {
-		springSecurityService.principal.authorities.toString().replaceAll(~"[\\[\\] ]", "").tokenize(',')
+    List getRoles() {
+        springSecurityService.principal.authorities.toString().replaceAll(~"[\\[\\] ]", "").tokenize(',')
     }
-	
-	def getAllowedProjects() {
-		Project.security(getRoles()).list()
-	}
+
+    Map getAccessLevels() {
+        springSecurityService.currentUser.accessLevels()
+    }
+
+    List getRolesWithAccess(ArrayList level) {
+        Map accessLevels = getAccessLevels()
+        accessLevels.findAll {level.intersect(it.value)}.keySet() as List
+    }
+
+    boolean hasAccess(Map requiredAccess) {
+        Map accessLevels = getAccessLevels()
+
+        requiredAccess.find { k,v ->
+            if (accessLevels.get(k) && v.intersect(accessLevels[k])) {
+                return true
+            }
+        }
+    }
 }
