@@ -24,6 +24,54 @@ class ProjectController {
 
     def list = {}
 
+    def show = {
+        Project project = findInstance()
+        authorize(project, ['read', 'admin'])
+        [projectInstance: project]
+    }
+
+    def create = {
+        authorize(['ROLE_CAPSID'], ['create', 'admin'])
+        [projectInstance: new Project(params)]
+    }
+
+    def save = {
+        authorize(['ROLE_CAPSID'], ['create', 'admin'])
+        Project project = projectService.save(params)
+
+        if (!renderWithErrors('create', project)) {
+            redirectShow "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), project.label])}", project.label
+        }
+    }
+
+    def update = {
+        Project project = findInstance()
+        authorize(project, ['update', 'admin'])
+        projectService.update project, params
+
+        if (!renderWithErrors('edit', project)) {
+            redirectShow "${message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), project.label])}", project.label
+        }
+    }
+
+    def delete = {
+        Project project = findInstance()
+        authorize(project, ['delete', 'admin'])
+
+        try {
+            projectService.delete project
+            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
+            redirect action: list
+        } catch (DataIntegrityViolationException e) {
+            redirectShow "Project $project.label could not be deleted", project.label
+        }
+    }
+
+
+    /* ************************************************************************
+     * AJAX Tabs
+     *********************************************************************** */
+    /* ** List ** */
     def list_data = {
         List projects = projectService.getAllowedProjects().collect {
             [
@@ -43,51 +91,6 @@ class ProjectController {
         render ret as JSON
     }
 
-    def show = {
-        Project projectInstance = findInstance()
-        [projectInstance: projectInstance]
-    }
-
-    def create = {
-        [projectInstance: new Project(params)]
-    }
-
-    def save = {
-        Project project = projectService.create(params)
-        if (!renderWithErrors('create', project)) {
-            redirectShow "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), project.label])}", project.label
-        }
-    }
-
-    def update = {
-        def projectInstance = Project.findByLabel(params.label)
-
-        projectInstance.properties = params
-
-        if (projectInstance.save(flush: true)) {
-            render 'Updated!'
-        }
-        else {
-            render 'Error while trying to update'
-        }
-    }
-
-    def delete = {
-        Project project = findInstance()
-
-        try {
-            projectService.delete project
-            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-            redirect action: list
-        } catch (DataIntegrityViolationException e) {
-            redirectShow "Project $project.label could not be deleted", project.label
-        }
-    }
-
-
-    /* ************************************************************************
-     * AJAX Tabs
-     *********************************************************************** */
     /* ** Show  ** */
     def show_samples = {
         Project projectInstance = findInstance()
@@ -170,7 +173,7 @@ class ProjectController {
     }
 
     private Project findInstance() {
-        def projectInstance = projectService.get(params.id)
+        Project projectInstance = projectService.get(params.id)
         if (!projectInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
             redirect action: list
@@ -189,5 +192,16 @@ class ProjectController {
             return true
         }
         false
+    }
+
+    private boolean authorize(Project project, List access) {
+        if (!authService.authorize(project, access)) {
+            render view: '../login/denied'
+        }
+    }
+    private boolean authorize(List roles, List access) {
+        if (!authService.authorize(roles, access)) {
+            render view: '../login/denied'
+        }
     }
 }

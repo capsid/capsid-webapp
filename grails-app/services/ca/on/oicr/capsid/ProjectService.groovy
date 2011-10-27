@@ -19,23 +19,23 @@ class ProjectService {
     def authService
     def springSecurityService
 
-    void update(Project project, String name) {
-       project.name = name
+    void update(Project project, Map params) {
+       project.properties = params
     }
 
-    def get(label) {
-        String projectRole = 'ROLE_' + label.toUpperCase()
-        if (!authService.hasAccess([projectRole: ['read','admin'], 'ROLE_CAPSID': ['admin']])) {
-            return false
-        }
+    Project get(label) {
         Project.findByLabel label
     }
 
     List<Project> getAllowedProjects() {
-        Project.security(authService.getRolesWithAccess(['read','admin'])).list()
+        if (authService.isCapsidAdmin()) {
+            Project.list()
+        } else {
+            Project.security(authService.getRolesWithAccess(['read','admin'])).list()
+        }
     }
 
-    Project create(Map params) {
+    Project save(Map params) {
         Project project = new Project(params)
         String projectRole = 'ROLE_' + project.label.toUpperCase()
         project.roles = [projectRole]

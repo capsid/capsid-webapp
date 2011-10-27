@@ -38,4 +38,18 @@ class AuthService {
             }
         }
     }
+
+    boolean isCapsidAdmin() {
+        Map access = getAccessLevels()
+        if (access.get('ROLE_CAPSID')) {
+            !['admin'].disjoint(getAccessLevels()['ROLE_CAPSID'])
+        }
+    }
+
+    boolean authorize(Project project, List access) {
+        isCapsidAdmin() || !project?.roles?.disjoint(getRolesWithAccess(access))
+    }
+    boolean authorize(List roles, List access) {
+        isCapsidAdmin() || !roles?.disjoint(getRolesWithAccess(access))
+    }
 }
