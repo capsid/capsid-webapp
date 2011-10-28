@@ -11,8 +11,8 @@
     <div class="line">
         <div class="unit">
             <h1>Projects</h1>
-        </div>        
-        <sec:ifAnyGranted roles="ROLE_CAPSID">    
+        </div>
+        <sec:ifAnyGranted roles="ROLE_CAPSID">
         <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Create Project</button>
         <div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Create Project" >
             <g:form action="save" method="get" dojoType="dijit.form.Form" id="createForm" jsId="createForm">
@@ -49,6 +49,14 @@
                            </td>
                            <td valign="top" class="value">
                                <g:textField name="wikiLink" value="${projectInstance?.wikiLink}" dojoType="dijit.form.TextBox"/>
+                           </td>
+                       </tr>
+                       <tr class="prop">
+                           <td valign="top" class="name">
+                               <label for="Private"><g:message code="project.private.label" default="Private" /></label>
+                           </td>
+                           <td valign="top" class="value">
+                               <input id="private" name="private" dojoType="dijit.form.CheckBox" value="agreed"/>
                            </td>
                        </tr>
                    </tbody>

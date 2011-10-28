@@ -12,7 +12,7 @@
         <div class="unit">
             <h1>Users</h1>
         </div>
-        <sec:ifAnyGranted roles="ROLE_CAPSID_ADMIN">
+        <sec:ifAnyGranted roles="ROLE_CAPSID">
 	    <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Add User</button>
 	  	<div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Add User" >
 			<g:form action='save' method="post" dojoType="dijit.form.Form" id="createForm" jsId="createForm">

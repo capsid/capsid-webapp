@@ -21,7 +21,7 @@
 <div id="wrap">
 <header>
     <div class="line"> 
-        <span id="title" class="unit size3of5">CaPSID<span id="version">v${grailsApplication.metadata.'app.version'}</span></span> 
+        <span id="title" class="unit size3of5">CaPSID<span id="version">v${grailsApplication.metadata.'app.version'}</span></span>
 		<span class="unit lastUnit" id="account-links"> 
 	        <sec:ifLoggedIn><span id="account-name"><a href="${createLink(controller:'user', action:'show')}/<sec:username/>"><sec:username/></a></span>
 	        <span id="account-tabs">
@@ -41,8 +41,8 @@
 <g:if test="${Environment.current==Environment.DEVELOPMENT}">
 <script>var dojoConfig = {modulePaths : {'capsid': '../../capsid'}};</script>
 </g:if>
-<script src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dojo/',file:'dojo.js')}' djConfig="parseOnLoad:true"></script>
-<script src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dijit/',file:'dijit.js')}'></script>
+<script type="text/javascript" src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dojo/',file:'dojo.js')}' djConfig="parseOnLoad:true"></script>
+<script type="text/javascript" src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dijit/',file:'dijit.js')}' djConfig="parseOnLoad:true"></script>
 <script src='${resource(dir:'js/' + grailsApplication.config.js.path + '/capsid/',file:'capsid.js')}'></script>
 <p:renderDependantJavascript />
 </footer>

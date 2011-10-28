@@ -44,6 +44,13 @@ class ProjectController {
         }
     }
 
+    def edit = {
+        Project project = findInstance()
+        authorize(project, ['update', 'admin'])
+        List users = projectService.users(project)
+        [projectInstance: project, userInstanceList: users]
+    }
+
     def update = {
         Project project = findInstance()
         authorize(project, ['update', 'admin'])

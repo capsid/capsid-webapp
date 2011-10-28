@@ -28,7 +28,16 @@ h1 a:link, h1 a:visited {color: hsla(203,27%,50%,1.0);}
 .subheader {font-size: 12px;}
 h1 {
     font: bold 22px 'Gruppo', arial, serif;
-   	margin: 5px 0;
+    margin: 5px 0;
+    }
+h2 {
+    font: bold 18px helvetica,arial,freesans,clean,sans-serif;
+    margin: 5px 0;
+    }
+h3 {
+    color: #333;
+    font: bold 14px helvetica,arial,freesans,clean,sans-serif;
+    margin: 3px 0;
     }
 
 /* -----------------------------------------------------------------------------
@@ -86,39 +95,57 @@ th a:link, th a:visited, th a:hover {
 /* -----------------------------------------------------------------------------
  *  $__nav
 ----------------------------------------------------------------------------- */
-#nav {
-	background: hsla(203,27%,50%,1.0);
+#nav, #admin-nav {
 	padding: 0;
 	margin-bottom: 10px;
 	-moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     }
+    #nav {
+      background: hsla(203,27%,50%,1.0);
+    }
+    #admin-nav {
+      background: hsla(203,0%,50%,1.0);
+    }
     #nav .item {
 	    padding: 7px 10px;
-    	}
-   	#nav .item:first-child {
+    }
+    #admin-nav .item {
+	    padding: 5px 8px;
+    }
+   	#admin-nav .item:first-child, #nav .item:first-child {
 		-moz-border-radius-topleft: 5px;
 	    -moz-border-radius-bottomleft: 5px;
 	    -webkit-border-bottom-left-radius: 5px;
  	    -webkit-border-top-left-radius: 5px;
     	}
-   	#nav .item:last-child {
+   	#admin-nav .item:last-child, #nav .item:last-child {
 		-moz-border-radius-topright: 5px;
 	    -moz-border-radius-bottomright: 5px;
 	    -webkit-border-bottom-right-radius: 5px;
  	    -webkit-border-top-right-radius: 5px;
-    	}
- 	#nav .item:hover {
-		background: hsla(203,27%,60%,1.0);
-    	}
+    }
+    #nav .item:hover {
+      background: hsla(203,27%,60%,1.0);
+    }
     #nav .item.selected {
-		background: hsla(203,27%,40%,1.0);
-    	}
+      background: hsla(203,27%,40%,1.0);
+    }
+    #admin-nav .item:hover {
+      background: hsla(203,0%,60%,1.0);
+    }
+    #admin-nav .item.selected {
+      background: hsla(203,0%,40%,1.0);
+    }
     #nav a {
     	font: bold 14px 'Gruppo', arial, serif;
     	color: #fff;
-    	}
-    	
+    }
+    #admin-nav a {
+    	font: bold 12px 'Gruppo', arial, serif;
+    	color: #fff;
+    }
+
 /* -----------------------------------------------------------------------------
  *  $__common
 ----------------------------------------------------------------------------- */
@@ -147,6 +174,38 @@ a:link, a:visited, a:hover {
     font-weight: bold;
     text-decoration: none;
 }
+
+/*** UserBox ***/
+.user-box-wrap {
+  margin: 0 10px;
+}
+.user-box {
+  background: hsla(0,0%,95%,1.0);
+  border: 1px solid hsla(0, 0%, 85%, 1.0);
+  padding:10px;
+  margin: 3px 0;
+  -moz-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+    .user-box:hover {
+      background: hsla(0,0%,85%,1.0);
+      border: 1px solid hsla(0, 0%, 75%, 1.0);
+    }
+    .user-box .delete {
+      background: url("../images/close_pill.png") no-repeat scroll 0 0 transparent;
+      float: right;
+      margin-bottom: -4px;
+      height: 18px;
+      width: 18px;
+    }
+    .user-box .delete:hover {
+      background-position: 0 -50px
+    }
+    .user-box a {
+      color: hsla(203,27%,50%,1.0);
+    }
 
 /*** Dialog ***/
 .dialog {

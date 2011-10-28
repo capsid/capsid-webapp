@@ -38,7 +38,13 @@ class ProjectService {
     Project save(Map params) {
         Project project = new Project(params)
         String projectRole = 'ROLE_' + project.label.toUpperCase()
-        project.roles = [projectRole]
+        List roles = [projectRole]
+
+        if (!params.private) {
+            roles.push("ROLE_CAPSID")
+        }
+
+        project.roles = roles
 
         if (project.save(flush: true)) {
             Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
@@ -58,5 +64,16 @@ class ProjectService {
         role.delete()
         User user = springSecurityService.getCurrentUser()
         UserRole.remove user, role, true
+    }
+
+    List users(Project project) {
+        authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).collect {[
+            'username': it.user.username
+        ,   'read': 'read' in it.access
+        ,   'update': 'update' in it.access
+        ,   'delete': 'delete' in it.access
+        ,   'create': 'create' in it.access
+        ,   'admin': 'admin' in it.access
+        ]}
     }
 }
