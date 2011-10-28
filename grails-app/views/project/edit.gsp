@@ -13,7 +13,7 @@
         <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
         <h1>Project Details</h1>
         <div class="line">
-            <g:form action="save" method="get" dojoType="dijit.form.Form" id="createForm" jsId="createForm" class="unit size1of2" style="margin-bottom: 25px;">
+            <g:form action="save" method="post" dojoType="dijit.form.Form" id="createForm" jsId="createForm" class="unit size1of2" style="margin-bottom: 25px;">
                 <table>
                     <tbody>
                         <tr class="prop">
@@ -67,15 +67,17 @@
                 <div dojoType="dijit.layout.ContentPane" title="Owners">
                     <div class="line">
                         <div class="user-box-wrap unit size1of2">
-                            <g:each var="admin" in="${userInstanceList * 3}">
+                            <g:each var="admin" in="${userInstanceList.admins}">
                                 <div class="user-box">
                                     <g:link controller="user" action="show" id="${admin.username}">${admin.username}</g:link>
                                     <g:link controller="user" action="demote" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="delete"></g:link>
                                     <g:link controller="user" action="show" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="edit"></g:link>
                                 </div>
                             </g:each>
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dijit.form.ComboBox" id="admin-users" name="admin-users" from="${User.list()}" noSelection="${['null':'Find user...']}" optionValue="username" optionKey="username" />
-                            <button class="unit right" id="add-admin" dojoType="dijit.form.Button" type="button">Add</button>
+                            <g:form controller="user" action="promote" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}" jsId="add-admin-form">
+                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="admin-users" name="admin-users" from="${userInstanceList.others}" noSelection="${['null':'']}" />
+                            <button type="submit" class="unit right" id="add-admin" dojoType="dijit.form.Button" type="button">Add</button>
+                            </g:form>
                         </div>
                         <div class="dialog lastUnit">
                             <h3>Owners</h3>
@@ -88,14 +90,14 @@
                 <div dojoType="dijit.layout.ContentPane" title="Collaborators">
                     <div class="line">
                         <div class="user-box-wrap unit size1of2">
-                            <g:each var="admin" in="${userInstanceList * 5}">
+                            <g:each var="collaborator" in="${userInstanceList.collaborators}">
                                 <div class="user-box">
-                                    <g:link controller="user" action="show" id="${admin.username}">${admin.username}</g:link>
-                                    <g:link controller="user" action="demote" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="delete"></g:link>
-                                    <g:link controller="user" action="show" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="edit"></g:link>
+                                    <g:link controller="user" action="show" id="${collaborator.username}">${collaborator.username}</g:link>
+                                    <g:link controller="user" action="demote" id="${collaborator.username}" params="[pid:projectInstance.label, role:'collaborator']" class="delete"></g:link>
+                                    <g:link controller="user" action="show" id="${collaborator.username}" params="[pid:projectInstance.label, role:'collaborator']" class="edit"></g:link>
                                 </div>
                             </g:each>
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dijit.form.ComboBox" id="collab-users" name="collab-users" from="${User.list()}" noSelection="${['null':'Find user...']}" optionValue="username" optionKey="username" />
+                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="collab-users" name="collab-users" from="${userInstanceList.others}" noSelection="${['null':'']}"/>
                             <button class="unit right" id="add-collab" dojoType="dijit.form.Button" type="button">Add</button>
                         </div>
                         <div class="dialog lastUnit">
@@ -109,15 +111,17 @@
                 <div dojoType="dijit.layout.ContentPane" title="Users">
                     <div class="line">
                         <div class="user-box-wrap unit size1of2">
-                            <g:each var="admin" in="${userInstanceList * 13}">
+                            <g:each var="user" in="${userInstanceList.users}">
                                 <div class="user-box">
-                                    <g:link controller="user" action="show" id="${admin.username}">${admin.username}</g:link>
-                                    <g:link controller="user" action="demote" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="delete"></g:link>
-                                    <g:link controller="user" action="show" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="edit"></g:link>
+                                    <g:link controller="user" action="show" id="${user.username}">${user.username}</g:link>
+                                    <g:link controller="user" action="demote" id="${user.username}" params="[pid:projectInstance.label, role:'user']" class="delete"></g:link>
+                                    <g:link controller="user" action="show" id="${user.username}" params="[pid:projectInstance.label, role:'user']" class="edit"></g:link>
                                 </div>
                             </g:each>
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dijit.form.ComboBox" id="user-users" name="user-users" from="${User.list()}" noSelection="${['null':'Find user...']}" optionValue="username" optionKey="username" />
+                            <g:form>
+                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="user-users" name="user-users" from="${userInstanceList.others}" noSelection="${['null':'']}"/>
                             <button class="unit right" id="add-user" dojoType="dijit.form.Button" type="button">Add</button>
+                            </g:form>
                         </div>
                         <div class="dialog lastUnit">
                             <h3>Users</h3>

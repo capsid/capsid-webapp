@@ -215,4 +215,9 @@ class UserController {
            }
            return sb.toString();
        }
+
+        def promote = {
+            println params
+            render 'yes'
+        }
 }

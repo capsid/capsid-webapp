@@ -29,9 +29,9 @@ class AuthService {
         accessLevels.findAll {level.intersect(it.value)}.keySet() as List
     }
 
-    List getUsersWithRole(String roleName) {
+    List<UserRole> getUsersWithRole(String roleName) {
         Role role = Role.findByAuthority(roleName)
-        List users = UserRole.findAllByRole(role)
+        List<UserRole> users = UserRole.findAllByRole(role)
     }
 
     boolean hasAccess(Map requiredAccess) {

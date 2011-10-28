@@ -18,6 +18,7 @@ dojo.require('dijit.form.FilteringSelect');
 dojo.require('dijit.InlineEditBox');
 dojo.require("dojox.validate.regexp");
 dojo.require("dojox.form.PasswordValidator");
+dojo.require("dojox.form.MultiComboBox")
 
 // Tabs
 dojo.require('dijit.layout.TabContainer');

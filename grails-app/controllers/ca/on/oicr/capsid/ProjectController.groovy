@@ -47,7 +47,8 @@ class ProjectController {
     def edit = {
         Project project = findInstance()
         authorize(project, ['update', 'admin'])
-        List users = projectService.users(project)
+        Map users = projectService.users(project)
+        users.others = User.findAll().username.minus(users.admins.username.plus(users.collaborators.username).plus(users.users.username))
         [projectInstance: project, userInstanceList: users]
     }
 

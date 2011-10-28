@@ -21,4 +21,22 @@ dojo.ready(function() {
 	var ajaxForm = new capsid.form.Base('createForm');
 	ajaxForm.wireButtonDialog('createButton', 'createDialog');
 	ajaxForm.ajaxSubmit();
+
+    /* Add User to access group */
+    var form = dojo.byId('add-admin-form');
+    dojo.connect(form, "onSubmit", function(e) {
+        dojo.xhrPost({
+            form: form,
+            handle: 'html',
+            load:function(data) {
+                console.log('load');
+                console.log(data);
+            },
+            error: function(error) {
+                console.log('error');
+                console.log(error);
+            }
+        })
+        e.preventDefault();
+    });
 });

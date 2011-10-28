@@ -66,14 +66,23 @@ class ProjectService {
         UserRole.remove user, role, true
     }
 
-    List users(Project project) {
-        authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).collect {[
-            'username': it.user.username
-        ,   'read': 'read' in it.access
-        ,   'update': 'update' in it.access
-        ,   'delete': 'delete' in it.access
-        ,   'create': 'create' in it.access
-        ,   'admin': 'admin' in it.access
-        ]}
+    Map users(Project project) {
+        Map userMap = [
+                admins: []
+            ,   collaborators: []
+            ,   users: []
+            ]
+
+        authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).each {
+            if ('admin' in it.access) {
+                userMap.admins.push(it.user)
+            } else if ('collaborator' in it.access) {
+                userMap.collaborators.push(it.user)
+            } else if ('user' in it.access) {
+                userMap.users.push(it.user)
+            }
+        }
+
+        userMap
     }
 }
