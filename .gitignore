@@ -2,4 +2,4 @@ stacktrace.log
 build/
 target/
 web-app/js/src/dojo-sdk
-web-app/js/release/
+web-app/js/release

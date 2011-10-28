@@ -5,14 +5,6 @@
 	<link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse/jslib/dijit/themes/tundra',file:'tundra.css')}"></link>
     <link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse', file:'genome.css')}"></link>
 	<p:dependantJavascript>
-	<script>
-	    var djConfig = {
-	    parseOnLoad: true,
-	    isDebug: true,
-	    locale: 'en-us',
-	    modulePaths : {}
-	};  
-	</script>
     <script type="text/javascript" src="${resource(dir:'js/jbrowse/jslib/dojo', file:'jbrowse_dojo.js')}" ></script>
     <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'prototype.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'jbrowse.js')}"></script>
@@ -36,15 +28,16 @@
 	   	                ,   overviewTrackData: []
 	   	                ,   defaultTracks: "DNA,genes"
 	   	                ,   location: queryParams.loc
-	   	                ,   tracks: queryParams.tracks
+	   	                ,   tracks: "DNA,genes," + queryParams.track
 	   	                ,   dataRoot: ""
 		                ,   browserRoot: "${resource(dir:'js/jbrowse')}/"
 			            ,   conf : {'flags': {'trackCustomizationOff': true, 'facetedOff': true,}}
 	   	                });
 	   	                 
-		   	            var gb=document.getElementById("browser").genomeBrowser;
-			   	        gb.removeAllTracks();
-		                gb.showTracks("DNA,genes," + queryParams.track);
+		   	            /* var gb=document.getElementById("browser").genomeBrowser;
+			   	        b.removeAllTracks();
+		                b.showTracks("DNA,genes," + queryParams.track);
+                        */
 	   	         	}
         	    });
            });
