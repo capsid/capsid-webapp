@@ -26,17 +26,17 @@ class ProjectController {
 
     def show = {
         Project project = findInstance()
-        authorize(project, ['read', 'admin'])
+        authorize(project, ['user', 'collaborator', 'owner'])
         [projectInstance: project]
     }
 
     def create = {
-        authorize(['ROLE_CAPSID'], ['create', 'admin'])
+        authorize(['ROLE_CAPSID'], ['collaborator', 'owner'])
         [projectInstance: new Project(params)]
     }
 
     def save = {
-        authorize(['ROLE_CAPSID'], ['create', 'admin'])
+        authorize(['ROLE_CAPSID'], ['collaborator', 'owner'])
         Project project = projectService.save(params)
 
         if (!renderWithErrors('create', project)) {
@@ -46,15 +46,15 @@ class ProjectController {
 
     def edit = {
         Project project = findInstance()
-        authorize(project, ['update', 'admin'])
+        authorize(project, ['collaborator', 'owner'])
         Map users = projectService.users(project)
-        users.others = User.findAll().username.minus(users.admins.username.plus(users.collaborators.username).plus(users.users.username))
-        [projectInstance: project, userInstanceList: users]
+        users.others = User.findAll().username.minus(users.owners.username.plus(users.collaborators.username).plus(users.users.username))
+        [projectInstance: project, users: users]
     }
 
     def update = {
         Project project = findInstance()
-        authorize(project, ['update', 'admin'])
+        authorize(project, ['collaborator', 'owner'])
         projectService.update project, params
 
         if (!renderWithErrors('edit', project)) {
@@ -64,7 +64,7 @@ class ProjectController {
 
     def delete = {
         Project project = findInstance()
-        authorize(project, ['delete', 'admin'])
+        authorize(project, ['collaborator', 'owner'])
 
         try {
             projectService.delete project

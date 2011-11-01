@@ -50,10 +50,10 @@
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name">
-                                <label for="Private"><g:message code="project.private.label" default="Private" /></label>
+                                <label for="private"><g:message code="project.private.label" default="Private" /></label>
                             </td>
                             <td valign="top" class="value">
-                                <input id="private" name="private" dojoType="dijit.form.CheckBox" value="agreed"/>
+                                <g:checkBox name="private" value="${!'ROLE_CAPSID' in projectInstance.roles}"/>
                             </td>
                         </tr>
                     </tbody>
@@ -62,75 +62,12 @@
         </div>
         <div class="line">
             <h1>Access Control</h1>
+            <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
             <div dojoType="dijit.layout.TabContainer" style="width: 50%;" doLayout="false"
-            tabPosition="left-h" tabStrip="true" parseOnLoad="true">
-                <div dojoType="dijit.layout.ContentPane" title="Owners">
-                    <div class="line">
-                        <div class="user-box-wrap unit size1of2">
-                            <g:each var="admin" in="${userInstanceList.admins}">
-                                <div class="user-box">
-                                    <g:link controller="user" action="show" id="${admin.username}">${admin.username}</g:link>
-                                    <g:link controller="user" action="demote" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="delete"></g:link>
-                                    <g:link controller="user" action="show" id="${admin.username}" params="[pid:projectInstance.label, role:'admin']" class="edit"></g:link>
-                                </div>
-                            </g:each>
-                            <g:form controller="user" action="promote" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}" jsId="add-admin-form">
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="admin-users" name="admin-users" from="${userInstanceList.others}" noSelection="${['null':'']}" />
-                            <button type="submit" class="unit right" id="add-admin" dojoType="dijit.form.Button" type="button">Add</button>
-                            </g:form>
-                        </div>
-                        <div class="dialog lastUnit">
-                            <h3>Owners</h3>
-                            <p>
-                                All the power
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div dojoType="dijit.layout.ContentPane" title="Collaborators">
-                    <div class="line">
-                        <div class="user-box-wrap unit size1of2">
-                            <g:each var="collaborator" in="${userInstanceList.collaborators}">
-                                <div class="user-box">
-                                    <g:link controller="user" action="show" id="${collaborator.username}">${collaborator.username}</g:link>
-                                    <g:link controller="user" action="demote" id="${collaborator.username}" params="[pid:projectInstance.label, role:'collaborator']" class="delete"></g:link>
-                                    <g:link controller="user" action="show" id="${collaborator.username}" params="[pid:projectInstance.label, role:'collaborator']" class="edit"></g:link>
-                                </div>
-                            </g:each>
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="collab-users" name="collab-users" from="${userInstanceList.others}" noSelection="${['null':'']}"/>
-                            <button class="unit right" id="add-collab" dojoType="dijit.form.Button" type="button">Add</button>
-                        </div>
-                        <div class="dialog lastUnit">
-                            <h3>Collaborators</h3>
-                            <p>
-                                some power
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div dojoType="dijit.layout.ContentPane" title="Users">
-                    <div class="line">
-                        <div class="user-box-wrap unit size1of2">
-                            <g:each var="user" in="${userInstanceList.users}">
-                                <div class="user-box">
-                                    <g:link controller="user" action="show" id="${user.username}">${user.username}</g:link>
-                                    <g:link controller="user" action="demote" id="${user.username}" params="[pid:projectInstance.label, role:'user']" class="delete"></g:link>
-                                    <g:link controller="user" action="show" id="${user.username}" params="[pid:projectInstance.label, role:'user']" class="edit"></g:link>
-                                </div>
-                            </g:each>
-                            <g:form>
-                            <g:select style="width: 80%; float:left; margin:5px 0;" dojoType="dojox.form.MultiComboBox" id="user-users" name="user-users" from="${userInstanceList.others}" noSelection="${['null':'']}"/>
-                            <button class="unit right" id="add-user" dojoType="dijit.form.Button" type="button">Add</button>
-                            </g:form>
-                        </div>
-                        <div class="dialog lastUnit">
-                            <h3>Users</h3>
-                            <p>
-                                No power
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            tabPosition="left-h" tabStrip="true" parseOnLoad="true" id="access-panel">
+                <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'owner']"/>
+                <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator']"/>
+                <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user']"/>
             </div>
         </div>
     </body>

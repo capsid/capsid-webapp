@@ -20,7 +20,8 @@ class ProjectService {
     def springSecurityService
 
     void update(Project project, Map params) {
-       project.properties = params
+        println params
+        project.properties = params
     }
 
     Project get(label) {
@@ -31,7 +32,7 @@ class ProjectService {
         if (authService.isCapsidAdmin()) {
             Project.list()
         } else {
-            Project.security(authService.getRolesWithAccess(['read','admin'])).list()
+            Project.security(authService.getRolesWithAccess(['user', 'collaborator', 'owner'])).list()
         }
     }
 
@@ -49,7 +50,7 @@ class ProjectService {
         if (project.save(flush: true)) {
             Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
             User user = springSecurityService.getCurrentUser()
-            UserRole.create user, role, ['read', 'update', 'delete', 'admin'] as Set
+            UserRole.create user, role, 'owner'
         }
 
         project
@@ -68,14 +69,14 @@ class ProjectService {
 
     Map users(Project project) {
         Map userMap = [
-                admins: []
+                owners: []
             ,   collaborators: []
             ,   users: []
             ]
 
         authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).each {
-            if ('admin' in it.access) {
-                userMap.admins.push(it.user)
+            if ('owner' in it.access) {
+                userMap.owners.push(it.user)
             } else if ('collaborator' in it.access) {
                 userMap.collaborators.push(it.user)
             } else if ('user' in it.access) {

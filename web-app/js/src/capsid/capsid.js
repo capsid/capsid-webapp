@@ -10,6 +10,8 @@
 
 dojo.provide('capsid.capsid')
 
+dojo.require("dojox.NodeList.delegate");
+
 //Form
 dojo.require("dijit.form.Form");
 dojo.require("dijit.form.Textarea");

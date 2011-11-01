@@ -19,7 +19,7 @@ class BootStrap {
             enabled: true).save(failOnError: true)
 
         if (!adminUser.authorities.id.contains(capsidRole.id)) {
-            UserRole.create adminUser, capsidRole, ['read', 'update', 'create', 'delete', 'admin'] as Set
+            UserRole.create adminUser, capsidRole, 'owner'
         }
     }
 

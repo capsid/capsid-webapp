@@ -21,12 +21,20 @@ class AuthService {
     }
 
     Map getAccessLevels() {
-        springSecurityService.currentUser.accessLevels()
+        User user = User.findByUsername(springSecurityService.principal.username)
+        if (user) {
+            user.accessLevels()
+        } else {
+            ['ROLE_CAPSID' : 'user']
+        }
     }
 
-    List getRolesWithAccess(ArrayList level) {
+    List getRolesWithAccess(List level) {
         Map accessLevels = getAccessLevels()
-        accessLevels.findAll {level.intersect(it.value)}.keySet() as List
+        accessLevels.findAll {
+            it.value in level
+            }.keySet() as List
+
     }
 
     List<UserRole> getUsersWithRole(String roleName) {
@@ -46,9 +54,7 @@ class AuthService {
 
     boolean isCapsidAdmin() {
         Map access = getAccessLevels()
-        if (access.get('ROLE_CAPSID')) {
-            !['admin'].disjoint(getAccessLevels()['ROLE_CAPSID'])
-        }
+        access.get('ROLE_CAPSID') == 'owner'
     }
 
     boolean authorize(Project project, List access) {

@@ -204,7 +204,7 @@ class UserController {
                redirect(controller: "project", action: "list")
            }
        }
-       
+
        def getRandomString(length) {
            String charset = "!0123456789abcdefghijklmnopqrstuvwxyz";
            Random rand = new Random(System.currentTimeMillis());
@@ -216,8 +216,41 @@ class UserController {
            return sb.toString();
        }
 
+        def unassigned = {
+            Role role = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+
+            List users = UserRole.findAll().user.username.minus(UserRole.findAllByRole(role).user.username).collect {
+                    [
+                        username: it
+                    ]
+            }
+
+            def ret = [
+                        'identifier': 'username'
+                    ,   'label': 'username'
+                    ,   'items': users
+                    ]
+
+            render ret as JSON
+        }
+
         def promote = {
-            println params
-            render 'yes'
+            Role role = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+            List<User> users = []
+            params.users.split(',').each {
+                User user = User.findByUsername(it)
+                if (user) {
+                    users.push(user)
+                    UserRole.create user, role, params.level
+                }
+            }
+            render template:'/layouts/userbox', model: [users:users, projectInstance: Project.findByLabel(params.id)]
+        }
+
+        def demote = {
+            Role role = Role.findByAuthority('ROLE_' + params.pid.toUpperCase())
+            User user = User.findByUsername(params.id)
+            UserRole.remove user, role
+            render 'removed user access level'
         }
 }

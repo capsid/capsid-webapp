@@ -16,27 +16,61 @@ dojo.declare("capsid.Base", null, {
 });
 })();
 
+function del() {
+  /* Remove User from access group */
+  dojo.query('.user-box').delegate('a.delete', 'onclick', function(e) {
+    var a = this;
+    dojo.anim(a.parentNode,{
+      backgroundColor: '#fb6c6c'
+    },300);
+    dojo.stopEvent(e);
+    dojo.xhr('post',{
+      content: {
+        ajax: 1
+      },
+      url: dojo.attr(a,'href'),
+      load: function() {
+        dojo.anim(a.parentNode,{
+          opacity: 0
+        },300,null,function() {
+          dojo.query(a.parentNode).orphan();
+        });
+      }
+    });
+    userStore.close();
+  });
+}
+
 dojo.ready(function() {
 	/* Create Form */
 	var ajaxForm = new capsid.form.Base('createForm');
 	ajaxForm.wireButtonDialog('createButton', 'createDialog');
 	ajaxForm.ajaxSubmit();
 
-    /* Add User to access group */
-    var form = dojo.byId('add-admin-form');
-    dojo.connect(form, "onSubmit", function(e) {
-        dojo.xhrPost({
-            form: form,
-            handle: 'html',
-            load:function(data) {
-                console.log('load');
-                console.log(data);
-            },
-            error: function(error) {
-                console.log('error');
-                console.log(error);
-            }
-        })
-        e.preventDefault();
-    });
+    /* Add User to access group  */
+    var form = dojo.query('.addform');
+    if (form) {
+        dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
+            dojo.xhrPost({
+                form: this,
+                handleAs: 'text',
+                load:function(data) {
+                    var userlist = dojo.query('#' + this.form.id + '-panel .user-box-wrap')[0];
+                    var userbox = dojo.create("span", {
+                        innerHTML: data,
+                        style: "opacity:0"
+                    }, userlist);
+                    dojo.anim(userbox, {opacity:1}, 300);
+                    del();
+                    userStore.close();
+                },
+                error: function(error) {
+                    console.log('error');
+                }
+            })
+            e.preventDefault();
+        });
+    }
+
+    del();
 });

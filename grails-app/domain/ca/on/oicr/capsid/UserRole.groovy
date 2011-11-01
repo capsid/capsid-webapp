@@ -19,7 +19,7 @@ class UserRole implements Serializable {
     ObjectId id
     User user
     Role role
-    Set<String> access
+    String access
 
     boolean equals(other) {
         if (!(other instanceof UserRole)) {
@@ -42,7 +42,7 @@ class UserRole implements Serializable {
         [userId: userId, roleId: roleId]
     }
 
-    static UserRole create(User user, Role role, Set<String> access = ['read'], boolean flush = false) {
+    static UserRole create(User user, Role role, String access = 'user', boolean flush = false) {
         new UserRole(user: user, role: role, access: access).save(flush: flush, insert: true)
     }
 

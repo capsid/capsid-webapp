@@ -184,6 +184,7 @@ a:link, a:visited, a:hover {
   border: 1px solid hsla(0, 0%, 85%, 1.0);
   padding:10px;
   margin: 3px 0;
+  list-style: none;
   -moz-border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
