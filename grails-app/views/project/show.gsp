@@ -29,9 +29,9 @@
             </auth:ifAnyGranted>
         </div>
         <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true" persist="true">
-            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_stats", id:projectInstance.name)}" rel="Statistics" title="Stats"></div>
-            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_samples", id:projectInstance.name)}" rel="Samples" title="Samples"></div>
-            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_alignments", id:projectInstance.name)}" rel="Alignments" title="Alignments"></div>
+            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_stats", id:projectInstance.label)}" rel="Statistics" title="Stats"></div>
+            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_samples", id:projectInstance.label)}" rel="Samples" title="Samples"></div>
+            <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_alignments", id:projectInstance.label)}" rel="Alignments" title="Alignments"></div>
         </div>
     </body>
 </html>

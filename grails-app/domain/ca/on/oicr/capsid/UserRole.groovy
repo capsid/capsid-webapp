@@ -52,11 +52,11 @@ class UserRole implements Serializable {
     }
 
     static void removeAll(User user) {
-        executeUpdate 'DELETE FROM UserRole WHERE user=:user', [user: user]
+        UserRole.findAllByUser(user).each { it.delete(flush: true) }
     }
 
     static void removeAll(Role role) {
-        executeUpdate 'DELETE FROM UserRole WHERE role=:role', [role: role]
+        UserRole.findAllByRole(role).each { it.delete(flush: true) }
     }
 
     static mapping = {

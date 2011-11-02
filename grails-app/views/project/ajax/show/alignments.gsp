@@ -3,7 +3,7 @@
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
         </g:if>
-        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_alignments_data", id:projectInstance.name)}" jsId="alignStore"
+        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_alignments_data", id:projectInstance.label)}" jsId="alignStore"
              query="{}"
              queryOptions="{'deep':true}">
         </div>

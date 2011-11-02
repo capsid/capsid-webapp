@@ -26,7 +26,6 @@ class ProjectController {
 
     def show = {
         Project project = findInstance()
-        authorize(project, ['user', 'collaborator', 'owner'])
         [projectInstance: project]
     }
 
@@ -64,7 +63,7 @@ class ProjectController {
 
     def delete = {
         Project project = findInstance()
-        authorize(project, ['collaborator', 'owner'])
+        authorize(project, ['owner'])
 
         try {
             projectService.delete project
@@ -182,6 +181,7 @@ class ProjectController {
 
     private Project findInstance() {
         Project projectInstance = projectService.get(params.id)
+        authorize(projectInstance, ['user', 'collaborator', 'owner'])
         if (!projectInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
             redirect action: list

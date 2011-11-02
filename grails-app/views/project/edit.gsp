@@ -11,7 +11,7 @@
         <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
         <h1>Project Details</h1>
         <div class="line">
-            <g:form action="update" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}" class="unit size1of2" style="margin-bottom: 25px;">
+            <g:form action="update" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}" class="unit size1of2">
                 <input type="hidden" name="label" id="label" value="${fieldValue(bean: projectInstance, field: 'label')}"/>
                 <table>
                     <tbody>
@@ -54,7 +54,7 @@
             </g:form>
         </div>
         <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">
-        <div class="line">
+        <div class="line" style="margin: 25px 0;">
             <h1>Access Control</h1>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
             <div dojoType="dijit.layout.TabContainer" style="width: 50%;" doLayout="false"
@@ -63,6 +63,16 @@
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator']"/>
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user']"/>
             </div>
+        </div>
+        <div class="line">
+            <h1 style="color:red">Delete Project</h1>
+            <div class="errors unit size1of3">
+            Delete the project
+            <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
+            <button type="submit" dojoType="dijit.form.Button" type="button">Delete Project</button>
+            </g:form>
+            </div>
+
         </div>
         </auth:ifAnyGranted>
     </body>

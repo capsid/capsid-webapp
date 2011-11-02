@@ -20,7 +20,6 @@ class ProjectService {
     def springSecurityService
 
     void update(Project project, Map params) {
-        println params
         if (params.private) {
             project.roles = ['ROLE_' + params.label.toUpperCase()]
         } else {
@@ -70,8 +69,12 @@ class ProjectService {
         // Delete the ACL information as well
         Role role = Role.findByAuthority(projectRole)
         role.delete()
-        User user = springSecurityService.getCurrentUser()
-        UserRole.remove user, role, true
+        UserRole.removeAll role
+
+        // TODO delete all the sample/mapped data
+        //Sample.findAllByProject(project).each {it.delete}
+        //Alignment.findAllByProject(project).each {it.delete}
+        //Mapped.findAllByProject(project).each {it.delete}
     }
 
     Map users(Project project) {

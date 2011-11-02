@@ -8,9 +8,7 @@
 *	this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package ca.on.oicr.capsid
-
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+//package ca.on.oicr.capsid
 
 /**
 * Authorization tags.
@@ -40,12 +38,11 @@ class AuthTagLib {
 
         if (user['ROLE_CAPSID'] == 'owner') {
             access = true
-            return
         } else {
+            println 'here?'
             roles.each { k,v ->
                 if (user['ROLE_' + k.toUpperCase()] in v) {
                     access = true
-                    return
                 }
             }
         }
