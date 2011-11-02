@@ -16,14 +16,17 @@
                 <div class="subheader">${projectInstance.description}</div>
                 <g:if test="${projectInstance.wikiLink}"><a href="wikisomewhere/${projectInstance.wikiLink}">Wiki Link</a></g:if>
             </div>
+
+            <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'admin']]">
             <div id="admin-nav" class="unit right">
-            <g:set var="menuItems" value="[['controller':'project', 'action':'edit', 'id': projectInstance.label, 'params': '[:]', 'name':'Edit Project'],
-                                           ['controller':'sample', 'action': 'create', 'id': '', 'params': '[project: projectInstance.label]', 'name':'Add Sample'],
-                                           ['controller':'alignment', 'action': 'create', 'id': '', 'params': '[project: projectInstance.label]', 'name':'Add Alignment']]"/>
-            <g:each var="item" in="${menuItems}">
-            <span class="item unit"><g:link controller="${item.controller}" action="${item.action}" id="${item.id}" params="${item.params}">${item.name}</g:link></span>
-            </g:each>
+                <g:set var="menuItems" value="[['controller':'project', 'action':'edit', 'id': projectInstance.label, 'params': '[:]', 'name':'Edit Project'],
+                                            ['controller':'sample', 'action': 'create', 'id': '', 'params': '[project: projectInstance.label]', 'name':'Add Sample'],
+                                            ['controller':'alignment', 'action': 'create', 'id': '', 'params': '[project: projectInstance.label]', 'name':'Add Alignment']]"/>
+                <g:each var="item" in="${menuItems}">
+                <span class="item unit"><g:link controller="${item.controller}" action="${item.action}" id="${item.id}" params="${item.params}">${item.name}</g:link></span>
+                </g:each>
             </div>
+            </auth:ifAnyGranted>
         </div>
         <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true" persist="true">
             <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_stats", id:projectInstance.name)}" rel="Statistics" title="Stats"></div>

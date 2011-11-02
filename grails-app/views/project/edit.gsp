@@ -58,8 +58,10 @@
                         </tr>
                     </tbody>
                 </table>
+                    <button type="submit" class="" dojoType="dijit.form.Button" type="button">Submit</button>
             </g:form>
         </div>
+        <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">
         <div class="line">
             <h1>Access Control</h1>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
@@ -70,5 +72,6 @@
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user']"/>
             </div>
         </div>
+        </auth:ifAnyGranted>
     </body>
 </html>

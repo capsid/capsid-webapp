@@ -12,7 +12,7 @@
         <div class="unit">
             <h1>Projects</h1>
         </div>
-        <sec:ifAnyGranted roles="ROLE_CAPSID">
+        <auth:ifAnyGranted access="['capsid': ['owner']]">
         <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Create Project</button>
         <div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Create Project" >
             <g:form action="save" method="get" dojoType="dijit.form.Form" id="createForm" jsId="createForm">
@@ -64,7 +64,7 @@
                 <button dojoType="dijit.form.Button" name="createSubmit" type="submit">Create</button>
             </g:form>
         </div>
-        </sec:ifAnyGranted>
+        </auth:ifAnyGranted>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
