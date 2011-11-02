@@ -4,16 +4,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />        
+        <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
-        <input type="hidden" id="id" value="${fieldValue(bean: projectInstance, field: "id")}"/>
-        <input type="hidden" id="label" value="${fieldValue(bean: projectInstance, field: "label")}"/>
         <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
         <h1>Project Details</h1>
         <div class="line">
-            <g:form action="save" method="post" dojoType="dijit.form.Form" id="createForm" jsId="createForm" class="unit size1of2" style="margin-bottom: 25px;">
+            <g:form action="update" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}" class="unit size1of2" style="margin-bottom: 25px;">
+                <input type="hidden" name="label" id="label" value="${fieldValue(bean: projectInstance, field: 'label')}"/>
                 <table>
                     <tbody>
                         <tr class="prop">
@@ -24,13 +23,6 @@
                                 <g:textField name="name" value="${projectInstance?.name}" dojoType="dijit.form.ValidationTextBox" required="true"/>
                             </td>
                         </tr>
-                        <tr class="prop">
-                            <td valign="top" class="name">
-                                <label for="label"><g:message code="project.label.label" default="Label" /></label>
-                            </td>
-                            <td valign="top" class="value">
-                                <g:textField name="label" value="${projectInstance?.label}"  dojoType="dijit.form.ValidationTextBox" regExp='[\\w]+' required="true" invalidMessage="Invalid Symbol or Space."/>
-                            </td>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name">
@@ -53,12 +45,12 @@
                                 <label for="private"><g:message code="project.private.label" default="Private" /></label>
                             </td>
                             <td valign="top" class="value">
-                                <g:checkBox name="private" value="${!'ROLE_CAPSID' in projectInstance.roles}"/>
+                                <g:checkBox name="private" value="${!('ROLE_CAPSID' in projectInstance.roles)}"/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                    <button type="submit" class="" dojoType="dijit.form.Button" type="button">Submit</button>
+                <button type="submit" dojoType="dijit.form.Button" type="button">Submit</button>
             </g:form>
         </div>
         <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">

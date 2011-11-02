@@ -41,17 +41,7 @@ class AuthService {
         Role role = Role.findByAuthority(roleName)
         List<UserRole> users = UserRole.findAllByRole(role)
     }
-/*
-    boolean hasAccess(Map requiredAccess) {
-        Map accessLevels = getAccessLevels()
 
-        requiredAccess.find { k,v ->
-            if (accessLevels.get(k) && v.intersect(accessLevels[k])) {
-                return true
-            }
-        }
-    }
-*/
     boolean isCapsidAdmin() {
         Map access = getAccessLevels()
         access.get('ROLE_CAPSID') == 'owner'

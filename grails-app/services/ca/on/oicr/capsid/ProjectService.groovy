@@ -21,7 +21,14 @@ class ProjectService {
 
     void update(Project project, Map params) {
         println params
+        if (params.private) {
+            project.roles = ['ROLE_' + params.label.toUpperCase()]
+        } else {
+            project.roles = ['ROLE_CAPSID', 'ROLE_' + params.label.toUpperCase()]
+        }
+
         project.properties = params
+        project.save()
     }
 
     Project get(label) {

@@ -31,12 +31,12 @@ class ProjectController {
     }
 
     def create = {
-        authorize(['ROLE_CAPSID'], ['collaborator', 'owner'])
+        authorize(['ROLE_CAPSID'], ['owner'])
         [projectInstance: new Project(params)]
     }
 
     def save = {
-        authorize(['ROLE_CAPSID'], ['collaborator', 'owner'])
+        authorize(['ROLE_CAPSID'], ['owner'])
         Project project = projectService.save(params)
 
         if (!renderWithErrors('create', project)) {
