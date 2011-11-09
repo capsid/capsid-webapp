@@ -3,12 +3,12 @@
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
         </g:if>
-        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_samples_data", id:projectInstance.label)}" jsId="sampleStore"
+        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:'show_samples_data', id:projectInstance.label)}" jsId="sampleStore" clearOnClose="true"
              query="{}"
              queryOptions="{'deep':true}">
         </div>
         <div class="list">
-            <div dojoType="dojox.grid.EnhancedGrid" id="samplesGrid" jsId="samplesGrid" style="height:450px" store="sampleStore" rowsPerPage="25"
+            <div dojoType="dojox.grid.EnhancedGrid" id="sampleGrid" jsId="sampleGrid" style="height:450px" store="sampleStore" rowsPerPage="25"
                  sortInfo="1"
                  plugins="{
                      pagination: true,

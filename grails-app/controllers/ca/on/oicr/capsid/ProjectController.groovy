@@ -36,11 +36,9 @@ class ProjectController {
 
     def save = {
         authorize(['ROLE_CAPSID'], ['owner'])
-        Project project = projectService.save(params)
+        projectService.save params
 
-        if (!renderWithErrors('create', project)) {
-            redirectShow "${message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), project.label])}", project.label
-        }
+        render 'created'
     }
 
     def edit = {
@@ -202,13 +200,8 @@ class ProjectController {
         false
     }
 
-    private boolean authorize(Project project, List access) {
-        if (!authService.authorize(project, access)) {
-            render view: '../login/denied'
-        }
-    }
-    private boolean authorize(List roles, List access) {
-        if (!authService.authorize(roles, access)) {
+    private boolean authorize(def auth, List access) {
+        if (!authService.authorize(auth, access)) {
             render view: '../login/denied'
         }
     }

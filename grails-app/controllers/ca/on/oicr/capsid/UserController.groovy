@@ -41,7 +41,7 @@ class UserController {
                    ,    roles: it.authorities.authority.sort().toString()
                    ]
                }
-           
+
            def ret = [
                   'identifier': 'id',
                   'label': 'username',
@@ -216,7 +216,7 @@ class UserController {
            return sb.toString();
        }
 
-        def unassigned = {
+       def unassigned = {
             Role role = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
 
             List users = UserRole.findAll().user.username.minus(UserRole.findAllByRole(role).user.username).collect {

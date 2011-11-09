@@ -24,7 +24,7 @@ class Sample {
 	String project
 	
     static constraints = {
-		name nullable:false, blank:false
+		name unique:true, nullable:false, blank:false
 		description nullable:false, blank:true
 		cancer nullable:false, blank:false
 		role nullable:false, blank:true
@@ -34,5 +34,5 @@ class Sample {
 	
 	static mapping = { cache true }
 	
-	static namedQueries = { security { ids -> 'in'("project", ids) } }
+	static namedQueries = { security { label -> 'in'("project", label) } }
 }

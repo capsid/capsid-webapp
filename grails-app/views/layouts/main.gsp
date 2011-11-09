@@ -20,16 +20,16 @@
 <body class="claro">
 <div id="wrap">
 <header>
-    <div class="line"> 
+    <div class="line">
         <span id="title" class="unit size3of5">CaPSID<span id="version">v${grailsApplication.metadata.'app.version'}</span></span>
-		<span class="unit lastUnit" id="account-links"> 
+		<span class="unit lastUnit" id="account-links">
 	        <sec:ifLoggedIn><span id="account-name"><a href="${createLink(controller:'user', action:'show')}/<sec:username/>"><sec:username/></a></span>
 	        <span id="account-tabs">
-		        <a href="${createLink(controller:"logout")}">Logout</a> 
+		        <a href="${createLink(controller:"logout")}">Logout</a>
 	        </span>
             </sec:ifLoggedIn>
 		</span>
-    </div> 
+    </div>
 </header>
 <div id="container">
 <g:render template="/layouts/navigation"/>
@@ -41,9 +41,9 @@
 <g:if test="${Environment.current==Environment.DEVELOPMENT}">
 <script>var dojoConfig = {modulePaths : {'capsid': '../../capsid'}};</script>
 </g:if>
-<script type="text/javascript" src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dojo/',file:'dojo.js')}' djConfig="parseOnLoad:true"></script>
-<script type="text/javascript" src='${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dijit/',file:'dijit.js')}' djConfig="parseOnLoad:true"></script>
-<script src='${resource(dir:'js/' + grailsApplication.config.js.path + '/capsid/',file:'capsid.js')}'></script>
+<script type="text/javascript" src="${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dojo/',file:'dojo.js')}" data-dojo-config="parseOnLoad:true"></script>
+<script type="text/javascript" src="${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dijit/',file:'dijit.js')}"></script>
+<script src="${resource(dir:'js/' + grailsApplication.config.js.path + '/capsid/',file:'capsid.js')}"></script>
 <p:renderDependantJavascript />
 </footer>
 </body>

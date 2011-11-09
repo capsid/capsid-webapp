@@ -27,7 +27,7 @@ class Alignment {
 	String project
 	
     static constraints = {
-		name nullable:false, blank: false
+		name unique:true, nullable:false, blank: false
 		aligner nullable:false, blank: false
 		platform nullable:false, blank: false
 		infile nullable:false, blank: false

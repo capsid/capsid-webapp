@@ -33,7 +33,7 @@ class AuthService {
         Map accessLevels = getAccessLevels()
         accessLevels.findAll {
             it.value in level
-            }.keySet() as List
+        }.keySet() as List
 
     }
 

@@ -43,6 +43,10 @@ class ProjectService {
     }
 
     Project save(Map params) {
+        if (get(params.label)) {
+            return false
+        }
+
         Project project = new Project(params)
         String projectRole = 'ROLE_' + project.label.toUpperCase()
         List roles = [projectRole]

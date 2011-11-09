@@ -1,5 +1,4 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
-<%@ page import="ca.on.oicr.capsid.User" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -22,7 +21,6 @@
                             <td valign="top" class="value">
                                 <g:textField name="name" value="${projectInstance?.name}" dojoType="dijit.form.ValidationTextBox" required="true"/>
                             </td>
-                        </tr>
                         </tr>
                         <tr class="prop">
                             <td valign="top" class="name">
@@ -50,7 +48,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="submit" dojoType="dijit.form.Button" type="button">Submit</button>
+                <button type="submit" dojoType="dijit.form.Button">Submit</button>
             </g:form>
         </div>
         <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">
@@ -58,7 +56,7 @@
             <h1>Access Control</h1>
             <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
             <div dojoType="dijit.layout.TabContainer" style="width: 50%;" doLayout="false"
-            tabPosition="left-h" tabStrip="true" parseOnLoad="true" id="access-panel">
+            tabStrip="true" parseOnLoad="true" id="access-panel">
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'owner']"/>
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator']"/>
                 <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user']"/>
@@ -67,12 +65,15 @@
         <div class="line">
             <h1 style="color:red">Delete Project</h1>
             <div class="errors unit size1of3">
-            Delete the project
-            <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
-            <button type="submit" dojoType="dijit.form.Button" type="button">Delete Project</button>
-            </g:form>
+              <div class="unit size1of2">
+                Delete the project
+              </div>
+              <div class="unit size1of2">
+                <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
+                  <button type="submit" dojoType="dijit.form.Button">Delete Project</button>
+                </g:form>
+              </div>
             </div>
-
         </div>
         </auth:ifAnyGranted>
     </body>

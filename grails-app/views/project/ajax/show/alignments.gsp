@@ -3,12 +3,12 @@
         <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
         </g:if>
-        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_alignments_data", id:projectInstance.label)}" jsId="alignStore"
+        <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_alignments_data", id:projectInstance.label)}" jsId="alignStore" clearOnClose="true"
              query="{}"
              queryOptions="{'deep':true}">
         </div>
         <div class="list">
-            <div dojoType="dojox.grid.EnhancedGrid" id="alignsGrid" jsId="alignsGrid" style="height:450px" store="alignStore" rowsPerPage="25"
+            <div dojoType="dojox.grid.EnhancedGrid" id="alignGrid" jsId="alignGrid" style="height:450px" store="alignStore" rowsPerPage="25" clearOnClose="true"
                  sortInfo="1"
                  plugins="{
                      pagination: true,
@@ -16,7 +16,9 @@
                              itemsName : 'alignments'
                              }
                      }"
-                 selectable="true"
+                 selectable="true">
+              
+            </div>
                  structure='[{cells:[
                              {field: "name", name:"Read Name", datatype: "string", autoComplete: true, width: "auto" }
                         ,    {field: "aligner", name:"Aligner", datatype: "string", autoComplete: true, width: "150px" }

@@ -42,34 +42,110 @@ function del() {
 }
 
 dojo.ready(function() {
-	/* Create Form */
-	var ajaxForm = new capsid.form.Base('createForm');
-	ajaxForm.wireButtonDialog('createButton', 'createDialog');
-	ajaxForm.ajaxSubmit();
-
-    /* Add User to access group  */
-    var form = dojo.query('.addform');
-    if (form) {
-        dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
+    /* Create */
+    if (dojo.byId('createButton')) {
+        dojo.connect(dijit.byId('createButton'), "onClick", createDialog, "show");
+        dojo.query('#createDialog').delegate('form', "onsubmit", function(e) {
+            e.preventDefault();
             dojo.xhrPost({
-                form: this,
-                handleAs: 'text',
-                load:function(data) {
-                    var userlist = dojo.query('#' + this.form.id + '-panel .user-box-wrap')[0];
-                    var userbox = dojo.create("span", {
-                        innerHTML: data,
-                        style: "opacity:0"
-                    }, userlist);
-                    dojo.anim(userbox, {opacity:1}, 300);
-                    del();
-                    userStore.close();
+                form: dojo.byId('createForm'),
+                handle: 'html',
+                load: function(msg) {
+                  if (!msg === 'created') {
+                      createDialog.setContent(msg);
+                  } else {
+                    createDialog.hide();
+                    store.close();
+                    grid._refresh();
+                  }
                 },
                 error: function(error) {
-                    console.log('error');
+                  var emsg = dojo.query('#createDialog .error')[0];
+                  emsg.innerHTML = 'Project Label already taken.';
                 }
-            })
-            e.preventDefault();
+            });
         });
+    }
+
+   /* Add Sample */
+   if (dojo.byId('addSampleButton')) {
+     dojo.connect(dijit.byId('addSampleButton'), "onClick", function(){
+         addSampleDialog.show();
+         tabs.selectChild(sampleTab);
+     });
+     dojo.query('#addSampleDialog').delegate('form', "onsubmit", function(e) {
+         e.preventDefault();
+            dojo.xhrPost({
+                form: dojo.byId('addSampleForm'),
+                handle: 'html',
+                load: function(msg) {
+                  if (!msg === 'created') {
+                      addSampleDialog.setContent(msg);
+                  } else {
+                    dojo.query('#alignhide').style('display','inline');
+                    addSampleDialog.hide();
+                    sampleStore.close();
+                    sampleGrid._refresh();
+                  }
+                },
+                error: function(error) {
+                  var emsg = dojo.query('#addSampleDialog .error')[0];
+                  emsg.innerHTML = 'Sample name already used.';
+                }
+            });
+        });
+   }
+
+   /* Add Alignment */
+   if (dojo.byId('addAlignButton')) {
+     dojo.connect(dijit.byId('addAlignButton'), "onClick", function() {
+         addAlignDialog.show();
+         tabs.selectChild(alignTab);
+     });
+     dojo.query('#addAlignDialog').delegate('form', "onsubmit", function(e) {
+         e.preventDefault();
+            dojo.xhrPost({
+                form: dojo.byId('addAlignForm'),
+                handle: 'html',
+                load: function(msg) {
+                  if (!msg === 'created') {
+                      addAlignDialog.setContent(msg);
+                  } else {
+                    addAlignDialog.hide();
+                    alignStore.close();
+                    alignGrid._refresh();
+                  }
+                },
+                error: function(error) {
+                  var emsg = dojo.query('#addAlignDialog .error')[0];
+                  emsg.innerHTML = 'Alignment name already used.';
+                }
+            });
+        });
+   }
+
+    /* Add User to access group  */
+    if (dojo.byId('access-panel')) {
+        dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
+                dojo.xhrPost({
+                    form: this,
+                    handle: 'text',
+                    load:function(data) {
+                        var userlist = dojo.query('#' + this.form.id + '-panel .user-box-wrap')[0],
+                            userbox = dojo.create("span", {
+                                innerHTML: data,
+                                style: "opacity:0"
+                            }, userlist);
+                        dojo.anim(userbox, {opacity:1}, 300);
+                        del();
+                        userStore.close();
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+                e.preventDefault();
+            });
     }
 
     del();
