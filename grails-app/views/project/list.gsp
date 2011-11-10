@@ -1,36 +1,37 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
-        <title><g:message code="default.list.label" args="[entityName]" /></title>
-    </head>
-    <body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="layout" content="main" />
+    <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
+    <title><g:message code="default.list.label" args="[entityName]" /></title>
+  </head>
+  <body>
     <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
     <div class="line">
-        <div class="unit">
-            <h1>Projects</h1>
-        </div>
-        <auth:ifAnyGranted access="['capsid': ['owner']]">
-          <button dojoType="dijit.form.Button" jsId="createButton" id="createButton" class="unit right">Create Project</button>
+      <div class="unit">
+        <h1>Projects</h1>
+      </div>
+      <auth:ifAnyGranted access="['capsid': ['owner']]">
+        <button dojoType="dijit.form.Button" jsId="createButton" id="createButton" class="unit right">Create Project</button>
         <div style="display:none" href="${createLink(action:'create')}" id="createDialog" jsId="createDialog" dojoType="dijit.Dialog" title="Create New Project" refreshOnShow="true"></div>
-        </auth:ifAnyGranted>
+      </auth:ifAnyGranted>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}" clearOnClose="true"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
-                  sortInfo="1"
-                  plugins="{
-                     pagination: true,
-                     filter: { itemsName : 'projects' },
-                     cookie: true
-                     }"
-                 selectable="true"
-                 structure='[{cells:[
-                        {fields: ["label", "name"], name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
-                        {field: "description", name: "Description", datatype: "string", filterable: false, width: "auto"},
-                        {field: "links",  name: "Links", datatype: "string", filterable: false, width: "auto"}
-                        ]}]'>
+         sortInfo="1"
+         plugins="{
+                  pagination: true,
+                  filter: { itemsName : 'projects' },
+                  cookie: true
+                  }"
+         selectable="true"
+         editable="true"
+         structure='[{cells:[
+                    {fields: ["label", "name"], name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
+                    {field: "description", name: "Description", datatype: "string", editable:true, filterable: false, width: "auto"},
+                    {field: "links",  name: "Links", datatype: "string", filterable: false, width: "auto"}
+                    ]}]'>
     </div>
-    </body>
+  </body>
 </html>

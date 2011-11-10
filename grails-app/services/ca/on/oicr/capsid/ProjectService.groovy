@@ -72,8 +72,8 @@ class ProjectService {
 
         // Delete the ACL information as well
         Role role = Role.findByAuthority(projectRole)
-        role.delete()
         UserRole.removeAll role
+        role.delete()
 
         // TODO delete all the sample/mapped data
         //Sample.findAllByProject(project).each {it.delete}

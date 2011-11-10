@@ -31,7 +31,6 @@ class SampleController {
     }
 
     def create = {
-        println params
         authorize(['ROLE_' + params.id.toUpperCase()], ['collaborator', 'owner'])
         Sample sample = new Sample(params)
         sample.project = params.id
@@ -39,7 +38,6 @@ class SampleController {
     }
 
     def save = {
-        println params
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
         sampleService.save params
 
@@ -48,13 +46,13 @@ class SampleController {
 
     def edit = {
         Sample sample = findInstance()
-        //authorize(, ['collaborator', 'owner'])
+        authorize(['ROLE_' + sample.project.toUpperCase()], ['collaborator', 'owner'])
         [sampleInstance: sample]
     }
 
     def update = {
         Sample sample = findInstance()
-        //authorize(, ['collaborator', 'owner'])
+        authorize(['ROLE_' + sample.project.toUpperCase()], ['collaborator', 'owner'])
         sampleService.update sample, params
 
         if (!renderWithErrors('edit', sample)) {
@@ -64,7 +62,7 @@ class SampleController {
 
     def delete = {
         Sample sample = findInstance()
-        //authorize(, ['owner'])
+        authorize(['ROLE_' + params.id.toUpperCase()], ['collaborator', 'owner'])
 
         try {
             sampleService.delete project
@@ -121,7 +119,7 @@ class SampleController {
                    'identifier': 'name'
               ,    'label': 'name'
               ,    'items': alignments
-                   ]
+        ]
 
         render ret as JSON
 

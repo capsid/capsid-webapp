@@ -20,8 +20,18 @@ class AuthService {
         springSecurityService.principal.authorities.toString().replaceAll(~"[\\[\\] ]", "").tokenize(',')
     }
 
-    Map getAccessLevels() {
-        User user = User.findByUsername(springSecurityService.principal.username)
+    User getCurrentUser() {
+        User.findByUsername(springSecurityService.principal.username)
+    }
+
+    void reauthenticate(User user) {
+        if (springSecurityService.isLoggedIn() &&
+            springSecurityService.principal.username == user.username) {
+              springSecurityService.reauthenticate user.username
+        }
+    }
+
+    Map getAccessLevels(User user = getCurrentUser()) {
         if (user) {
             user.accessLevels()
         } else {
@@ -42,8 +52,8 @@ class AuthService {
         List<UserRole> users = UserRole.findAllByRole(role)
     }
 
-    boolean isCapsidAdmin() {
-        Map access = getAccessLevels()
+    boolean isCapsidAdmin(User user = getCurrentUser()) {
+        Map access = getAccessLevels(user)
         access.get('ROLE_CAPSID') == 'owner'
     }
 
@@ -52,5 +62,8 @@ class AuthService {
     }
     boolean authorize(List roles, List access) {
         isCapsidAdmin() || !roles?.disjoint(getRolesWithAccess(access))
+    }
+    boolean authorize(User user) {
+        isCapsidAdmin() || user.username == springSecurityService.principal.username
     }
 }

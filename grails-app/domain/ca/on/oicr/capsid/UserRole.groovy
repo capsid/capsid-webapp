@@ -51,6 +51,12 @@ class UserRole implements Serializable {
         instance ? instance.delete(flush: flush) : false
     }
 
+    static boolean update(User user, Role role, String access, boolean flush = false) {
+        UserRole instance = UserRole.findByUserAndRole(user, role)
+        instance?.access = access
+        instance ? instance.save(flush: flush) : false
+    }
+
     static void removeAll(User user) {
         UserRole.findAllByUser(user).each { it.delete(flush: true) }
     }

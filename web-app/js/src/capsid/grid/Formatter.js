@@ -31,8 +31,8 @@ dojo.declare("capsid.grid.Formatter", null, {
             return '<a href="' + baseUrl + '/jbrowse/show/' + value[0] + '?track=' + value[1] + '">Map with JBrowse</a>';
         },
         user: function(value) {
-            return '<a href="' + baseUrl + '/user/show/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
-        },
+            return '<a href="' + baseUrl + '/user/edit/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
+        }
     },
     math: {
         percent: function(value) {

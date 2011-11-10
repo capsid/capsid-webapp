@@ -16,7 +16,7 @@
         <g:if test="${projectInstance.wikiLink}"><a href="${projectInstance.wikiLink}">Wiki Link</a></g:if>
       </div>
 
-      <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'admin']]">
+      <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
         <div class="unit right">
           <a href="${createLink(action:'edit', id:projectInstance.label)}" style="font-weight:normal;color:#333;"><button data-dojo-type="dijit.form.Button" id="editButton" jsId="editButton">Edit Project</button></a>
           <button data-dojo-type="dijit.form.Button" id="addSampleButton" jsId="addSampleButton">Add Sample</button>

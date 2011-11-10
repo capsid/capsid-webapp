@@ -30,12 +30,12 @@ class ProjectController {
     }
 
     def create = {
-        authorize(['ROLE_CAPSID'], ['owner'])
+        isCapsidAdmin()
         [projectInstance: new Project(params)]
     }
 
     def save = {
-        authorize(['ROLE_CAPSID'], ['owner'])
+        isCapsidAdmin()
         projectService.save params
 
         render 'created'
@@ -202,6 +202,12 @@ class ProjectController {
 
     private boolean authorize(def auth, List access) {
         if (!authService.authorize(auth, access)) {
+            render view: '../login/denied'
+        }
+    }
+
+    private boolean isCapsidAdmin() {
+        if (!authService.isCapsidAdmin()) {
             render view: '../login/denied'
         }
     }

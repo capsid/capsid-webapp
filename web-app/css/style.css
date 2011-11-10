@@ -236,6 +236,7 @@ a:link, a:visited, a:hover {
     padding: 5px;
 }
 .prop .name {
+    font-weight: bold;
     text-align: left;
     width: 15%;
     white-space: nowrap;

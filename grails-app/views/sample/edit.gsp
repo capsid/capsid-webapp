@@ -11,7 +11,7 @@
     <h1>${sampleInstance.name} Details</h1>
     <div class="line">
       <g:form action="update" method="post" id="${sampleInstance.name}" dojoType="dijit.form.Form" class="unit size1of2">
-        <input type="hidden" name="name" value="${sampleInstance.name}"/>
+        <g:hiddenField name="name" value="${sampleInstance.name}"/>
         <table>
           <tbody>
             <tr class="prop">

@@ -15,6 +15,8 @@ class BootStrap {
             username: "admin",
             userRealName: "CaPSID Administrator",
             email: "admin@company.com",
+            institute: '',
+            location: '',
             password: springSecurityService.encodePassword('admin'),
             enabled: true).save(failOnError: true)
 
