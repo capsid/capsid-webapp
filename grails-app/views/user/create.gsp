@@ -9,7 +9,7 @@
         </td>
         <td valign="top" class="value">
           <g:textField name="username" value="${userInstance?.username}" dojoType="dijit.form.TextBox"/>
-       </td>
+        </td>
       </tr>
       <tr class="prop">
         <td valign="top" class="name">
@@ -17,7 +17,7 @@
         </td>
         <td valign="top" class="value">
           <g:textField name="userRealName" value="${userInstance?.userRealName}" dojoType="dijit.form.TextBox"/>
-       </td>
+        </td>
       </tr>
       <tr class="prop">
         <td valign="top" class="name">

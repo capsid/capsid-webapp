@@ -28,11 +28,11 @@ class Alignment {
 	
     static constraints = {
 		name unique:true, nullable:false, blank: false
-		aligner nullable:false, blank: false
-		platform nullable:false, blank: false
-		infile nullable:false, blank: false
-		outfile nullable:false, blank: false
-		type nullable:false, blank: false
+		aligner nullable:false, blank: true
+		platform nullable:false, blank: true
+		infile nullable:false, blank: true
+		outfile nullable:false, blank: true
+		type nullable:false, blank: true
 		sample nullable:false, blank: false
 		project nullable:false, blank: false
     }

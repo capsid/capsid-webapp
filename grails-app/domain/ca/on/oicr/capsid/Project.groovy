@@ -26,7 +26,7 @@ class Project {
         name unique: true, nullable:false, blank:false
         label unique:true, nullable:false, blank:false, matches:/[\w]+/
         description nullable:false, blank:true
-        wikiLink nullable:true, blank:true
+        wikiLink nullable:false, blank:true
         roles nullable:false, blank:false
     }
 

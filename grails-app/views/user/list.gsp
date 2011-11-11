@@ -13,11 +13,11 @@
         <h1>Users</h1>
       </div>
       <auth:ifAnyGranted access="['capsid': ['owner']]">
-        <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Add User</button>
-        <div style="display:none" href="${createLink(action:'create')}" id="createDialog" jsID="createDialog" dojoType="dijit.Dialog" title="Add New User" refreshOnShow="true"></div>
+        <button class="unit right" id="addUserButton" dojoType="dijit.form.Button" type="button">Add User</button>
+        <div style="display:none" href="${createLink(action:'create')}" id="addUserDialog" jsID="addUserDialog" dojoType="dijit.Dialog" title="Add New User" refreshOnShow="true"></div>
       </auth:ifAnyGranted>
     </div>
-    <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
+    <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}" clearOnClose="true"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:465px"
          store="store"
          sortInfo="1"
@@ -32,8 +32,8 @@
                     ,	{field: "email", name: "Email", datatype: "string", width: "auto"}
                     ,	{field: "institute", name: "Institute", datatype: "string", width: "auto"}
                     ,	{field: "location", name: "Location", datatype: "string", width: "auto"}
-                    ,	{field: "enabled", name: "Enabled", styles:"text-align: center;", width: "50px"}
-                    ,	{field: "admin", name: "Admin", styles:"text-align: center;", width: "50px"}
+                    ,	{field: "enabled", name: "Enabled", styles:"text-align: center;", width: "75px", formatter:capsid.grid.Formatter.prototype.access}
+                    ,	{field: "admin", name: "Admin", styles:"text-align: center;", width: "75px", formatter:capsid.grid.Formatter.prototype.access}
                     ]}]'>
     </div>
   </body>

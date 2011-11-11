@@ -26,7 +26,7 @@ class Sample {
     static constraints = {
 		name unique:true, nullable:false, blank:false
 		description nullable:false, blank:true
-		cancer nullable:false, blank:false
+		cancer nullable:false, blank:true
 		role nullable:false, blank:true
 		source nullable:false, blank:true
 		project nullable:false, blank:false

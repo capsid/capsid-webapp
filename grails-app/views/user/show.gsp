@@ -41,11 +41,13 @@
             <auth:ifAnyGranted access="[('capsid'):['owner']]">
               <tr class="prop">
                 <td valign="top" class="name">Enabled</td>
-                <td valign="top" class="value">${userInstance.enabled}</td>
+                <g:set var="enabled" value="${userInstance.enabled?'bullet_green.png':'bullet_red.png'}"/>
+                <td valign="top" class="value"><img src="${createLinkTo(dir:'images', file:enabled)}"/></td>
               </tr>
               <tr class="prop">
                 <td valign="top" class="name">Admin</td>
-                <td valign="top" class="value">${admin}</td>
+                <g:set var="enabled" value="${admin?'bullet_green.png':'bullet_red.png'}"/>
+                <td valign="top" class="value"><img src="${createLinkTo(dir:'images', file:enabled)}"/></td>
               </tr>
             </auth:ifAnyGranted>
           </tbody>

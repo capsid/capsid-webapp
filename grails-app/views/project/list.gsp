@@ -26,10 +26,9 @@
                   cookie: true
                   }"
          selectable="true"
-         editable="true"
          structure='[{cells:[
                     {fields: ["label", "name"], name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
-                    {field: "description", name: "Description", datatype: "string", editable:true, filterable: false, width: "auto"},
+                    {field: "description", name: "Description", datatype: "string", filterable: false, width: "auto"},
                     {field: "links",  name: "Links", datatype: "string", filterable: false, width: "auto"}
                     ]}]'>
     </div>

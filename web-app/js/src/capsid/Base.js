@@ -42,7 +42,8 @@ function del() {
 }
 
 dojo.ready(function() {
-    /* Create */
+// These can probably be refactored */
+    /* Create Project */
     if (dojo.byId('createButton')) {
         dojo.connect(dijit.byId('createButton'), "onClick", createDialog, "show");
         dojo.query('#createDialog').delegate('form', "onsubmit", function(e) {
@@ -62,6 +63,31 @@ dojo.ready(function() {
                 error: function(error) {
                   var emsg = dojo.query('#createDialog .error')[0];
                   emsg.innerHTML = 'Project Label already taken.';
+                }
+            });
+        });
+    }
+
+    /* Create User */
+    if (dojo.byId('addUserButton')) {
+        dojo.connect(dijit.byId('addUserButton'), "onClick", addUserDialog, "show");
+        dojo.query('#addUserDialog').delegate('form', "onsubmit", function(e) {
+            e.preventDefault();
+            dojo.xhrPost({
+                form: dojo.byId('addUserForm'),
+                handle: 'html',
+                load: function(msg) {
+                  if (!msg === 'created') {
+                      addUserDialog.setContent(msg);
+                  } else {
+                      addUserDialog.hide();
+                      store.close();
+                      grid._refresh();
+                  }
+                },
+                error: function(error) {
+                  var emsg = dojo.query('#addUserDialog .error')[0];
+                  emsg.innerHTML = 'Username already taken.';
                 }
             });
         });

@@ -60,7 +60,7 @@
     </div>
     <auth:ifAnyGranted access="[('capsid'):['owner']]">
       <div class="line">
-        <h1 style="color:red">Delete User</h1>
+        <h1 style="margin-top:20px;color:red">Delete User</h1>
         <div class="errors unit size1of3">
           <div class="unit size1of2">
             Delete the user

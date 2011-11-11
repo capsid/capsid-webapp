@@ -17,16 +17,16 @@ class UserService {
     static transactional = false
 
     def authService
+    def springSecurityService
 
     void update(User user, Map params) {
         user.properties = params
 
         if (authService.isCapsidAdmin()) {
+            Role role = Role.findByAuthority('ROLE_CAPSID')
             if (params.admin) {
-                Role role = Role.findByAuthority('ROLE_CAPSID')
                 UserRole.update user, role, 'owner', true
             } else {
-                Role role = Role.findByAuthority('ROLE_CAPSID')
                 UserRole.update user, role, 'user', true
             }
         }
@@ -41,13 +41,26 @@ class UserService {
     }
 
     User save(Map params) {
-        if (get(params.name)) {
+        if (get(params.username)) {
             return false
         }
-        // Generate password
+
         User user = new User(params)
-        user.save(flush:true)
+
+        // Generate password
+        user.password = springSecurityService.encodePassword('admin')
+
+        user.enabled = "true"
         // Give capsid:user role:access
+        Role role = Role.findByAuthority('ROLE_CAPSID')
+        if (params.admin) {
+            UserRole.create user, role, 'owner'
+        } else {
+            UserRole.create user, role, 'user'
+        }
+
+        user.save(flush:true)
+
         // In LDAP or Email
     }
 
