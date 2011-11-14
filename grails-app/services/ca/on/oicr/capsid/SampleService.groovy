@@ -46,6 +46,9 @@ class SampleService {
     }
 
     void delete(Sample sample) {
+        String name = sample.name
         sample.delete()
+        Alignment.findAllBySample(name).each { it.delete(flush: true) }
+        Mapped.findAllBySample(name).each { it.delete(flush: true) }
     }
 }

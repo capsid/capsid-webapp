@@ -46,13 +46,13 @@ class SampleController {
 
     def edit = {
         Sample sample = findInstance()
-        authorize(['ROLE_' + sample.project.toUpperCase()], ['collaborator', 'owner'])
+        authorize(sample, ['collaborator', 'owner'])
         [sampleInstance: sample]
     }
 
     def update = {
         Sample sample = findInstance()
-        authorize(['ROLE_' + sample.project.toUpperCase()], ['collaborator', 'owner'])
+        authorize(sample, ['collaborator', 'owner'])
         sampleService.update sample, params
 
         if (!renderWithErrors('edit', sample)) {
@@ -62,12 +62,13 @@ class SampleController {
 
     def delete = {
         Sample sample = findInstance()
-        authorize(['ROLE_' + params.id.toUpperCase()], ['collaborator', 'owner'])
+        authorize(sample, ['collaborator', 'owner'])
 
         try {
-            sampleService.delete project
+            String project = sample.project
+            sampleService.delete sample
             flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect action: list
+            redirect controller: 'project', action: 'show', id:project
         } catch (DataIntegrityViolationException e) {
             redirectShow "Sample $sample.name could not be deleted", sample.name
         }
@@ -158,7 +159,7 @@ class SampleController {
 
     private Sample findInstance() {
         Sample sampleInstance = sampleService.get(params.id)
-        authorize(['ROLE_' + sampleInstance.project.toUpperCase()], ['user', 'collaborator', 'owner'])
+        authorize(sampleInstance, ['user', 'collaborator', 'owner'])
         if (!sampleInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
             redirect action: list

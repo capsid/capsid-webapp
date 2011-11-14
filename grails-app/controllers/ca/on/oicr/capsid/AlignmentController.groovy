@@ -26,7 +26,7 @@ class AlignmentController {
     def list = {}
 
     def show = {
-        Alignment alignmentInstace = findInstance()
+        Alignment alignmentInstance = findInstance()
         [alignmentInstance: alignmentInstance]
     }
 
@@ -57,13 +57,13 @@ class AlignmentController {
 
     def edit = {
         Alignment alignment = findInstance()
-        //authorize(, ['collaborator', 'owner'])
+        authorize(alignment, ['collaborator', 'owner'])
         [alignmentInstance: alignment]
     }
 
     def update = {
         Alignment alignment = findInstance()
-        //authorize(, ['collaborator', 'owner'])
+        authorize(alignment, ['collaborator', 'owner'])
         alignmentService.update alignment, params
 
         if (!renderWithErrors('edit', alignment)) {
@@ -73,12 +73,13 @@ class AlignmentController {
 
     def delete = {
         Alignment alignment = findInstance()
-        //authorize(, ['owner'])
+        authorize(alignment, ['owner'])
 
         try {
-            alignmentService.delete project
+            String sample = alignment.sample
+            alignmentService.delete alignment
             flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'alignment.name', default: 'Alignment'), params.id])}"
-            redirect action: list
+            redirect controller: 'sample', action: 'show', id:sample
         } catch (DataIntegrityViolationException e) {
             redirectShow "Alignment $alignment.name could not be deleted", alignment.name
         }

@@ -67,7 +67,9 @@ class ProjectService {
     }
 
     void delete(Project project) {
-        String projectRole = 'ROLE_' + project.label.toUpperCase()
+        String label = project.label
+        String projectRole = 'ROLE_' + label.toUpperCase()
+
         project.delete()
 
         // Delete the ACL information as well
@@ -75,10 +77,10 @@ class ProjectService {
         UserRole.removeAll role
         role.delete()
 
-        // TODO delete all the sample/mapped data
-        //Sample.findAllByProject(project).each {it.delete}
-        //Alignment.findAllByProject(project).each {it.delete}
-        //Mapped.findAllByProject(project).each {it.delete}
+        // Remove elements associated with the project
+        Sample.findAllByProject(label).each { it.delete(flush: true) }
+        Alignment.findAllByProject(label).each { it.delete(flush: true) }
+        Mapped.findAllByProject(label).each { it.delete(flush: true) }
     }
 
     Map users(Project project) {

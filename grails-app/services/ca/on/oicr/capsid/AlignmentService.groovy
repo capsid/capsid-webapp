@@ -45,6 +45,8 @@ class AlignmentService {
     }
 
     void delete(Alignment alignment) {
+        String name = alignment.name
         alignment.delete()
+        Mapped.findAllByAlignment(name).each { it.delete(flush: true) }
     }
 }

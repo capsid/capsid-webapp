@@ -65,13 +65,20 @@
       <div class="line">
         <h1 style="color:red">Delete Project</h1>
         <div class="errors unit size1of3">
-          <div class="unit size1of2">
-            Delete the project
+          <div class="unit size3of4">
+            <p>Deleting a project is permanent.<br/>Please be certain before continuing.</p>
           </div>
-          <div class="unit size1of2">
-            <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
-              <button type="submit" dojoType="dijit.form.Button">Delete Project</button>
-            </g:form>
+          <div class="">
+            <button type="submit" style="color:#333;" class="right" id="deleteButton" jsID="deleteButton" dojoType="dijit.form.Button">Delete Project</button>
+            <div style="display:none" style="width:400px;" id="deleteDialog" jsId="deleteDialog" dojoType="dijit.Dialog" title="Delete Project">
+              <g:form action="delete" id="deleteForm" jsId="deleteForm" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
+Deleting this project will also delete all samples, alignments and mapped reads associated with it. <br/><br/>Are you sure you want to continue?
+              <br/><br/>
+
+                <button type="submit" id="deleteConfirm" jsID="deleteConfirm" dojoType="dijit.form.Button">Delete Project</button>
+                <button id="deleteCancel" jsID="deleteCancel" dojoType="dijit.form.Button">Cancel</button>
+              </g:form>
+            </div>
           </div>
         </div>
       </div>

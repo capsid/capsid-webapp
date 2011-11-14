@@ -51,5 +51,25 @@
         <button dojoType="dijit.form.Button" type="submit">Update Sample</button>
       </g:form>
     </div>
+      <div class="line">
+        <h1 style="color:red">Delete Sample</h1>
+        <div class="errors unit size1of3">
+          <div class="unit size3of4">
+            <p>Deleting a sample is permanent.<br/>Please be certain before continuing.</p>
+          </div>
+          <div class="">
+            <button type="submit" style="color:#333;" class="right" id="deleteButton" jsID="deleteButton" dojoType="dijit.form.Button">Delete Sample</button>
+            <div style="display:none" style="width:400px;" id="deleteDialog" jsId="deleteDialog" dojoType="dijit.Dialog" title="Delete Sample">
+              <g:form action="delete" id="deleteForm" jsId="deleteForm" method="post" dojoType="dijit.form.Form" id="${sampleInstance.name}">
+Deleting this sample will also delete all alignments and mapped reads associated with it. <br/><br/>Are you sure you want to continue?
+              <br/><br/>
+
+                <button type="submit" id="deleteConfirm" jsID="deleteConfirm" dojoType="dijit.form.Button">Delete Sample</button>
+                <button id="deleteCancel" jsID="deleteCancel" dojoType="dijit.form.Button">Cancel</button>
+              </g:form>
+            </div>
+          </div>
+        </div>
+      </div>
   </body>
 </html>

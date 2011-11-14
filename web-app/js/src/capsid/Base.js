@@ -9,7 +9,6 @@
  */
 
 dojo.provide("capsid.Base");
-
 (function(){
 dojo.declare("capsid.Base", null, {
 	constructor : function() {}
@@ -172,6 +171,11 @@ dojo.ready(function() {
                 });
                 e.preventDefault();
             });
+    }
+
+    if (dojo.byId('deleteButton')) {
+        dojo.connect(deleteButton, "onClick", deleteDialog, "show");
+        dojo.connect(deleteCancel, "onClick", deleteDialog, "hide");
     }
 
     del();
