@@ -32,7 +32,7 @@ dojo.declare("capsid.grid.Formatter", null, {
         },
         user: function(value) {
             return '<a href="' + baseUrl + '/user/show/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
-        },
+        }
     },
     math: {
         percent: function(value) {
@@ -43,6 +43,10 @@ dojo.declare("capsid.grid.Formatter", null, {
         human: function(value) {
             return value.replace(/[_-]/g, " ");
         }
+    },
+    access: function(bool) {
+        var img = bool ? 'bullet_green.png' : 'bullet_red.png';
+        return '<img src="' + baseUrl + '/images/' + img + '" alt="' + bool + '"/>';
     }
 });
 })();

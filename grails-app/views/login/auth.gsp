@@ -44,15 +44,15 @@ background: url("../images/gradient.jpg") repeat-x scroll 0 0 transparent;
 		<div style="width:450px; margin:0 auto 15px;" class="message errors">${flash.message}</div>
 		</g:if>
 		<h1>Please Login</h1>
-		<form action='${postUrl}' method='POST' id='loginForm' autocomplete='off' class="line">
+		<form action='${postUrl}' method='POST' id='loginForm' jsId='loginForm' dojoType="dijit.form.Form" autocomplete='off' class="line">
 			<div class='line'>
 				<div class="unit size1of2">
 					<label for='username'>Login ID</label>
-					<input type='text' class='text_' name='j_username' id='username' />
+					<input type='text' class='text_' name='j_username' id='username' dojoType="dijit.form.ValidationTextBox" required="true"/>
 				</div>
 				<div class="unit size1of2">
 					<label for='password'>Password</label>
-					<input type='password' class='text_' name='j_password' id='password' />
+					<input type='password' class='text_' name='j_password' id='password' dojoType="dijit.form.ValidationTextBox" required="true"/>
 				</div>
 			</div>
 			<p class='line'>

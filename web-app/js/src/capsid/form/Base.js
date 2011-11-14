@@ -11,32 +11,38 @@
 dojo.provide("capsid.form.Base");
 
 (function(){
-dojo.declare("capsid.form.Base", null, {
-	form: '',
-	constructor : function(form) {
-		this.form = form;
-	},
-	wireButtonDialog: function(button, dialog) {
-		dojo.connect(dijit.byId(button), "onClick", function() {
-	    	dijit.byId(dialog).show();
-		});
-	},
-	ajaxSubmit: function() {
-		dojo.connect(dojo.byId(this.form), "onSubmit", function(e) {
-			if (this.validate()) {
-				dojo.xhrPost({
-				      form: dojo.byId(this.form),
-				      handle: 'html',
-				      load: function(error) {
-				    	  if (error === '') {
-				    	  	window.location.reload();
-				    	  }
-				          dojo.byId("formError").innerHTML = error;
-				      }
-				    }) // xhrPost()
-			}
-			e.preventDefault();
-		}); // connect()	
-	}
-});
-})();
+   dojo.declare("capsid.form.Base", null, {
+	          form: null,
+                  dialog: null,
+	          constructor : function(form) {
+		    base.form = form;
+	          },
+	          wireButtonDialog: function(button, dialog) {
+                    base.dialog = dialog;
+		    dojo.connect(button, "onClick", function() {
+	                           dialog.show();
+		                 });
+	          },
+	          ajaxSubmit: function() {
+		    dojo.connect(this.form, "onSubmit", function(e) {
+			           if (this.validate()) {
+				     dojo.xhrPost({
+				                    form: this.form,
+				                    handle: 'html',
+				                    load: function(error) {
+				    	              /*
+                                                       if (error === '') {
+				    	  	       window.location.reload();
+				    	               }
+				                       dojo.byId("formError").innerHTML = error;
+                                                       */
+				                      base.dialog.hide();
+                                                      store.close();
+                                                    }
+				                  }); // xhrPost()
+			           }
+			           e.preventDefault();
+		                 }); // connect()
+	          }
+                });
+ })();

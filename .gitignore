@@ -1,5 +1,6 @@
 stacktrace.log
 build/
 target/
+build/
 web-app/js/src/dojo-sdk
 web-app/js/release
