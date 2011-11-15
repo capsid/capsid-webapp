@@ -134,7 +134,7 @@ class JbrowseController {
 			type: 'FeatureTrack',
 			sublistIndex:ncIndex,
 			onFeatureClick:"",//"Browse.onClickFeature(event, fields);",
-			clientConfig:[/*featureCallback:"if(feature[fields[\"isHuman\"]]) { \$(featDiv).addClass(\"human\")}"*/],
+                        clientConfig:[featureCallback:"function(feature,fields,featDiv){if(feature[fields['isHuman']]) {dojo.addClass(featDiv, 'human')}}"],
 			featureNCList: hits
 		]
 		
