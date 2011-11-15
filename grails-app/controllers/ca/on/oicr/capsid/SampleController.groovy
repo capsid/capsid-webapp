@@ -132,10 +132,9 @@ class SampleController {
     }
     def show_stats_data = {
         Sample sampleInstance = findInstance()
-        ArrayList stats = Statistics.collection.find(sname:sampleInstance.name).collect{
+        ArrayList stats = Statistics.collection.find(sampleName:sampleInstance.name).collect{
                 [
-                    id: it._id.toString()
-                ,   accession: it.genomeAccession
+                    accession: it.genomeAccession
                 ,   gname: it.genomeName
                 ,   hits: it.hits
                 ,   geneHits: it.geneHits
@@ -147,8 +146,8 @@ class SampleController {
         }
 
         def ret = [
-               'identifier': 'id'
-           ,   'label': 'name'
+               'identifier': 'accession'
+           ,   'label': 'gname'
            ,   'items': stats
            ]
 

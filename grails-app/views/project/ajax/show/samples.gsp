@@ -7,7 +7,6 @@
              query="{}"
              queryOptions="{'deep':true}">
         </div>
-        <div class="list">
             <div dojoType="dojox.grid.EnhancedGrid" id="sampleGrid" jsId="sampleGrid" style="height:450px" store="sampleStore" rowsPerPage="25"
                  sortInfo="1"
                  plugins="{
@@ -25,6 +24,5 @@
                         {field: "role", name: "Role", datatype: "string", autoComplete: true, width: "150px"}
                         ]}]'>
             </div>
-           </div>
     </div>
 </div>

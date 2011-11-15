@@ -155,7 +155,7 @@ class ProjectController {
     }
     def show_stats_data = {
         Project projectInstance = findInstance()
-        ArrayList stats = Statistics.collection.find(threshold:20, projectId:projectInstance.id, sampleId:0).collect {
+        ArrayList stats = Statistics.collection.find(projectLabel:projectInstance.label, sampleId:0).collect {
             [
                 id: it._id.toString()
             ,   accession: it.genomeAccession

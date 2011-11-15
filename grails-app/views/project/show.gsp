@@ -8,6 +8,7 @@
     <title><g:message code="default.show.label" args="[entityName]" /></title>
   </head>
   <body>
+    <g:hiddenField name="label" value="${projectInstance.label}"/>
     <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
     <div class="line">
       <div class="unit">

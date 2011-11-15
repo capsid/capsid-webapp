@@ -15,9 +15,9 @@ import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class GenomeController {
-		
+
 	def AuthService
-	
+	def projectService
     def index = {
         redirect(action: "list", params: params)
     }
@@ -150,7 +150,7 @@ class GenomeController {
 									threshold:20 
 								,	genomeId: genomeInstance.id 
 								,	sampleId: [$ne:0]
-								,	projectId: [$in:AuthService.getAllowedProjects().id])
+								,	projectId: [$in:projectService.getAllowedProjects().id])
 								.collect {
 									[
 										id: it._id.toString()
