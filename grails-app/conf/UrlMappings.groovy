@@ -7,7 +7,7 @@ class UrlMappings {
             }
         }
 
-        "/genome/project/$gid/$pid" (
+        "/genome/project/$id/$pid" (
             controller:"genome",
             action: "project"
         )

@@ -1,12 +1,12 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
-*
-*   This program and the accompanying materials are made available under the
-*   terms of the GNU Public License v3.0.
-*
-*   You should have received a copy of the GNU General Public License along with
-*   this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+ *
+ *   This program and the accompanying materials are made available under the
+ *   terms of the GNU Public License v3.0.
+ *
+ *   You should have received a copy of the GNU General Public License along with
+ *   this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package ca.on.oicr.capsid
 
@@ -14,92 +14,92 @@ import grails.plugins.springsecurity.Secured
 
 class ProjectService {
 
-    static transactional = false
+  static transactional = false
 
-    def authService
-    def springSecurityService
+  def authService
+  def springSecurityService
 
-    void update(Project project, Map params) {
-        if (params.private) {
-            project.roles = ['ROLE_' + params.label.toUpperCase()]
-        } else {
-            project.roles = ['ROLE_CAPSID', 'ROLE_' + params.label.toUpperCase()]
-        }
-
-        project.properties = params
-        project.save()
+  void update(Project project, Map params) {
+    if (params.private) {
+      project.roles = ['ROLE_' + params.label.toUpperCase()]
+    } else {
+      project.roles = ['ROLE_CAPSID', 'ROLE_' + params.label.toUpperCase()]
     }
 
-    Project get(label) {
-        Project.findByLabel label
+    project.properties = params
+    project.save()
+  }
+
+  Project get(label) {
+    Project.findByLabel label
+  }
+
+  List<Project> getAllowedProjects() {
+    if (authService.isCapsidAdmin()) {
+      Project.list()
+    } else {
+      Project.security(authService.getRolesWithAccess(['user', 'collaborator', 'owner'])).list()
+    }
+  }
+
+  Project save(Map params) {
+    if (get(params.label)) {
+      return false
     }
 
-    List<Project> getAllowedProjects() {
-        if (authService.isCapsidAdmin()) {
-            Project.list()
-        } else {
-            Project.security(authService.getRolesWithAccess(['user', 'collaborator', 'owner'])).list()
-        }
+    Project project = new Project(params)
+    String projectRole = 'ROLE_' + project.label.toUpperCase()
+    List roles = [projectRole]
+
+    if (!params.private) {
+      roles.push("ROLE_CAPSID")
     }
 
-    Project save(Map params) {
-        if (get(params.label)) {
-            return false
-        }
+    project.roles = roles
 
-        Project project = new Project(params)
-        String projectRole = 'ROLE_' + project.label.toUpperCase()
-        List roles = [projectRole]
-
-        if (!params.private) {
-            roles.push("ROLE_CAPSID")
-        }
-
-        project.roles = roles
-
-        if (project.save(flush: true)) {
-            Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
-            User user = springSecurityService.getCurrentUser()
-            UserRole.create user, role, 'owner'
-        }
-
-        project
+    if (project.save(flush: true)) {
+      Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
+      User user = springSecurityService.getCurrentUser()
+      UserRole.create user, role, 'owner'
     }
 
-    void delete(Project project) {
-        String label = project.label
-        String projectRole = 'ROLE_' + label.toUpperCase()
+    project
+  }
 
-        project.delete()
+  void delete(Project project) {
+    String label = project.label
+    String projectRole = 'ROLE_' + label.toUpperCase()
 
-        // Delete the ACL information as well
-        Role role = Role.findByAuthority(projectRole)
-        UserRole.removeAll role
-        role.delete()
+    project.delete()
 
-        // Remove elements associated with the project
-        Sample.findAllByProject(label).each { it.delete(flush: true) }
-        Alignment.findAllByProject(label).each { it.delete(flush: true) }
-        Mapped.findAllByProject(label).each { it.delete(flush: true) }
+    // Delete the ACL information as well
+    Role role = Role.findByAuthority(projectRole)
+    UserRole.removeAll role
+    role.delete()
+
+    // Remove elements associated with the project
+    Sample.findAllByProject(label).each { it.delete(flush: true) }
+    Alignment.findAllByProject(label).each { it.delete(flush: true) }
+    Mapped.findAllByProject(label).each { it.delete(flush: true) }
+  }
+
+  Map users(Project project) {
+    Map userMap = [
+      owners: []
+      ,   collaborators: []
+      ,   users: []
+    ]
+
+    authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).each {
+      if ('owner' in it.access) {
+        userMap.owners.push(it.user)
+      } else if ('collaborator' in it.access) {
+        userMap.collaborators.push(it.user)
+      } else if ('user' in it.access) {
+        userMap.users.push(it.user)
+      }
     }
 
-    Map users(Project project) {
-        Map userMap = [
-                owners: []
-            ,   collaborators: []
-            ,   users: []
-            ]
-
-        authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).each {
-            if ('owner' in it.access) {
-                userMap.owners.push(it.user)
-            } else if ('collaborator' in it.access) {
-                userMap.collaborators.push(it.user)
-            } else if ('user' in it.access) {
-                userMap.users.push(it.user)
-            }
-        }
-
-        userMap
-    }
+    userMap
+  }
 }
