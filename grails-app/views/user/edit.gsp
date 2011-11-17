@@ -30,7 +30,8 @@
             </tr>
             <tr class="prop">
               <td valign="top" class="name">
-              <label for="institute"><g:message code="user.institute.label" default="Institute" /></label></td>
+                <label for="institute"><g:message code="user.institute.label" default="Institute" /></label>
+              </td>
               <td valign="top" class="value">
               <g:textField name="institute" dojoType="dijit.form.TextBox" value="${userInstance.institute}"/></td>
             </tr>
@@ -58,16 +59,49 @@
         <button dojoType="dijit.form.Button" type="submit">Update User</button>
       </g:form>
     </div>
+    <div style="margin:20px 0" class="line">
+      <h1>Password</h1>
+      <g:form action="changePassword" method="post" id="${userInstance.username}" dojoType="dijit.form.Form" class="unit size1of2" jsId="changepassForm">
+        <table>
+          <tr class="prop">
+            <td valing="top" class="name">
+              <label for="old">Password</label>
+            </td>
+            <td valign="top" class="value">
+              <g:passwordField name="old" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" invalidMessage="Password must be at least 5 characters" value=""/>
+            </td>
+          </tr>
+          <tr class="prop">
+            <td valing="top" class="name">
+              <label for="password">New Password</label>
+            </td>
+            <td valign="top" class="value">
+              <g:passwordField name="password" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" jsId="password" invalidMessage="Password must be at least 5 characters" value=""/>
+            </td>
+          </tr>
+          <tr class="prop">
+            <td valing="top" class="name">
+              <label for="confirm">Confirm</label>
+            </td>
+            <td valign="top" class="value">
+              <g:passwordField name="confirm" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" jsId="confirm" invalidMessage="Password must be at least 5 characters" value=""/>
+            </td>
+          </tr>
+        </table>
+        <button dojoType="dijit.form.Button" type="submit">Change Password</button>
+      </g:form>
+    </div>
+
     <auth:ifAnyGranted access="[('capsid'):['owner']]">
       <div class="line">
-        <h1 style="margin-top:20px;color:red">Delete User</h1>
+        <h1 style="color:red">Delete User</h1>
         <div class="errors unit size1of3">
           <div class="unit size1of2">
             Delete the user
           </div>
           <div class="unit size1of2">
             <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${userInstance.username}">
-              <button type="submit" dojoType="dijit.form.Button">Delete User</button>
+              <button type="submit" style="color: #333;" dojoType="dijit.form.Button">Delete User</button>
             </g:form>
           </div>
         </div>

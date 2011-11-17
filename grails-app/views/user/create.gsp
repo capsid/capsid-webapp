@@ -8,7 +8,7 @@
           <label for="username"><g:message code="user.username.label" default="Username" /></label>
         </td>
         <td valign="top" class="value">
-          <g:textField name="username" value="${userInstance?.username}" dojoType="dijit.form.TextBox"/>
+          <g:textField name="username" value="${userInstance?.username}" dojoType="dijit.form.ValidationTextBox" required="true"/>
         </td>
       </tr>
       <tr class="prop">
@@ -52,6 +52,18 @@
         </td>
       </tr>
     </tbody>
+  </table>
+  <table>
+  <tbody>
+      <tr class="prop">
+        <td valign="top" class="name">
+          <label for="ldap">Use LDAP for authorization</label>
+        </td>
+        <td valign="top" class="value">
+          <g:checkBox name="ldap"/>
+        </td>
+      </tr>
+  </tbody>
   </table>
   <button dojoType="dijit.form.Button" type="submit">Add User</button>
 </form>

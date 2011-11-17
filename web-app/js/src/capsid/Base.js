@@ -178,5 +178,14 @@ dojo.ready(function() {
         dojo.connect(deleteCancel, "onClick", deleteDialog, "hide");
     }
 
+    dojo.connect(changepassForm, "onSubmit", function(e) {
+        if (password.get('value') != confirm.get('value')) {
+            confirm.set( "state", "Error" );
+            // used to change the style of the control to represent a error
+            confirm._setStateClass();
+            e.preventDefault();
+        }
+    });
+
     del();
 });
