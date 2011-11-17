@@ -59,7 +59,7 @@ class ProjectService {
 
     if (project.save(flush: true)) {
       Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
-      User user = springSecurityService.getCurrentUser()
+      User user = authService.getCurrentUser()
       UserRole.create user, role, 'owner'
     }
 

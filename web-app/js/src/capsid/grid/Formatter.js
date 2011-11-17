@@ -27,6 +27,9 @@ dojo.declare("capsid.grid.Formatter", null, {
         sample: function(value) {
             return '<a href="' + baseUrl + '/sample/show/' + value + '">' + value.replace(/_/g, " ") +'</a>';
         },
+        alignment: function(value) {
+            return '<a href="' + baseUrl + '/alignment/show/' + value + '">' + value.replace(/_/g, " ") +'</a>';
+        },
         jbrowse: function(value) {
             return '<a href="' + baseUrl + '/jbrowse/show/' + value[0] + '?track=' + value[1] + '">Map with JBrowse</a>';
         },

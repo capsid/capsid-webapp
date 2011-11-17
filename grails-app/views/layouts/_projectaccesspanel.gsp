@@ -11,15 +11,14 @@
                         store="userStore"
                         value=""
                         searchAttr="username"
-                        name="users" />
-                    <button type="submit" class="unit right" dojoType="dijit.form.Button" type="button">Add</button>
+                        name="users"
+                        />
+                    <button type="submit" class="unit right" dojoType="dijit.form.Button">Add</button>
                 </form>
         </div>
         <div class="dialog lastUnit">
             <h3>${level.capitalize()}s</h3>
-            <p>
-                ${description}
-            </p>
+            <p>${description}</p>
         </div>
     </div>
 </div>

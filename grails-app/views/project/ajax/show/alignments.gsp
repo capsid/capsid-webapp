@@ -3,7 +3,7 @@
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
-    <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_alignments_data", id:projectInstance.label)}" jsId="alignStore" clearOnClose="true"
+    <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:'show_alignments_data', id:projectInstance.label)}" jsId="alignStore" clearOnClose="true"
          query="{}"
          queryOptions="{'deep':true}">
     </div>
@@ -18,8 +18,8 @@
                     }"
            selectable="true"
            structure='[{cells:[
-                      {field: "name", name:"Read Name", datatype: "string", autoComplete: true, width: "auto" }
-                      ,    {field: "aligner", name:"Aligner", datatype: "string", autoComplete: true, width: "150px" }
+                      {field: "name", name:"Read Name", datatype: "string", autoComplete: true, width: "auto", formatter: capsid.grid.Formatter.prototype.links.alignment}
+                      ,    {field: "aligner", name:"Aligner", datatype: "string", autoComplete: true, width: "150px"}
                       ,    {field: "platform", name:"Platform", datatype: "string", width: "150px"}
                       ,    {field: "sample", name:"Sample", datatype: "string", autoComplete: true, width: "150px", formatter: capsid.grid.Formatter.prototype.links.sample}
                       ,    {field: "type", name:"Type", datatype: "string", width: "100px"}
