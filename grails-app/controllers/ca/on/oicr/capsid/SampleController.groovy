@@ -68,7 +68,7 @@ class SampleController {
             String project = sample.project
             sampleService.delete sample
             flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect controller: 'project', action: 'show', id:project
+            redirect(controller: 'project', action: 'show', id:project)
         } catch (DataIntegrityViolationException e) {
             redirectShow "Sample $sample.name could not be deleted", sample.name
         }
@@ -161,14 +161,14 @@ class SampleController {
         authorize(sampleInstance, ['user', 'collaborator', 'owner'])
         if (!sampleInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect action: list
+            redirect(action: 'list')
         }
         sampleInstance
     }
 
     private void redirectShow(message, id) {
         flash.message = message
-        redirect action: show, id: id
+        redirect(action: 'show', id: id)
     }
 
     private boolean renderWithErrors(String view, Sample sampleInstance) {

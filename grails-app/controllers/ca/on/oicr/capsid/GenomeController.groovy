@@ -166,7 +166,7 @@ class GenomeController {
     Genome genomeInstance = genomeService.get(params.id)
     if (!genomeInstance) {
       flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'genome.label', default: 'Genome'), params.id])}"
-      redirect action: list
+      redirect(action: 'list')
     }
     genomeInstance
   }
@@ -176,7 +176,7 @@ class GenomeController {
     authorize(projectInstance, ['user', 'collaborator', 'owner'])
     if (!projectInstance) {
       flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.pid])}"
-      redirect action: list
+      redirect(action: 'list')
     }
     projectInstance
   }

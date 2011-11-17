@@ -40,118 +40,9 @@ function del() {
   });
 }
 
-dojo.ready(function() {
-// These can probably be refactored */
-    /* Create Project */
-    if (dojo.byId('createButton')) {
-        dojo.connect(dijit.byId('createButton'), "onClick", createDialog, "show");
-        dojo.query('#createDialog').delegate('form', "onsubmit", function(e) {
-            e.preventDefault();
-            dojo.xhrPost({
-                form: dojo.byId('createForm'),
-                handle: 'html',
-                load: function(msg) {
-                  if (!msg === 'created') {
-                      createDialog.setContent(msg);
-                  } else {
-                    createDialog.hide();
-                    store.close();
-                    grid._refresh();
-                  }
-                },
-                error: function(error) {
-                  var emsg = dojo.query('#createDialog .error')[0];
-                  emsg.innerHTML = 'Project Label already taken.';
-                }
-            });
-        });
-    }
-
-    /* Create User */
-    if (dojo.byId('addUserButton')) {
-        dojo.connect(dijit.byId('addUserButton'), "onClick", addUserDialog, "show");
-        dojo.query('#addUserDialog').delegate('form', "onsubmit", function(e) {
-            e.preventDefault();
-            dojo.xhrPost({
-                form: dojo.byId('addUserForm'),
-                handle: 'html',
-                load: function(msg) {
-                  if (!msg === 'created') {
-                      addUserDialog.setContent(msg);
-                  } else {
-                      addUserDialog.hide();
-                      store.close();
-                      grid._refresh();
-                  }
-                },
-                error: function(error) {
-                  var emsg = dojo.query('#addUserDialog .error')[0];
-                  emsg.innerHTML = 'Username already taken.';
-                }
-            });
-        });
-    }
-
-   /* Add Sample */
-   if (dojo.byId('addSampleButton')) {
-     dojo.connect(dijit.byId('addSampleButton'), "onClick", function(){
-         addSampleDialog.show();
-         tabs.selectChild(sampleTab);
-     });
-     dojo.query('#addSampleDialog').delegate('form', "onsubmit", function(e) {
-         e.preventDefault();
-            dojo.xhrPost({
-                form: dojo.byId('addSampleForm'),
-                handle: 'html',
-                load: function(msg) {
-                  if (!msg === 'created') {
-                      addSampleDialog.setContent(msg);
-                  } else {
-                    dojo.query('#alignhide').style('display','inline');
-                    addSampleDialog.hide();
-                    sampleStore.close();
-                    sampleGrid._refresh();
-                  }
-                },
-                error: function(error) {
-                  var emsg = dojo.query('#addSampleDialog .error')[0];
-                  emsg.innerHTML = 'Sample name already used.';
-                }
-            });
-        });
-   }
-
-   /* Add Alignment */
-   if (dojo.byId('addAlignButton')) {
-     dojo.connect(dijit.byId('addAlignButton'), "onClick", function() {
-         addAlignDialog.show();
-         tabs.selectChild(alignTab);
-     });
-     dojo.query('#addAlignDialog').delegate('form', "onsubmit", function(e) {
-         e.preventDefault();
-            dojo.xhrPost({
-                form: dojo.byId('addAlignForm'),
-                handle: 'html',
-                load: function(msg) {
-                  if (!msg === 'created') {
-                      addAlignDialog.setContent(msg);
-                  } else {
-                    addAlignDialog.hide();
-                    alignStore.close();
-                    alignGrid._refresh();
-                  }
-                },
-                error: function(error) {
-                  var emsg = dojo.query('#addAlignDialog .error')[0];
-                  emsg.innerHTML = 'Alignment name already used.';
-                }
-            });
-        });
-   }
-
-    /* Add User to access group  */
-    if (dojo.byId('access-panel')) {
-        dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
+function accessPanel() {
+    del();
+    dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
                 dojo.xhrPost({
                     form: this,
                     handle: 'text',
@@ -171,22 +62,33 @@ dojo.ready(function() {
                 });
                 e.preventDefault();
             });
-    }
+}
 
+dojo.ready(function() {
+    capsid.form.Ajax.prototype.project();
+    capsid.form.Ajax.prototype.sample();
+    capsid.form.Ajax.prototype.alignment();
+    capsid.form.Ajax.prototype.user();
+
+    /* Add User to access group  */
+    if (dojo.byId('access-panel')) { accessPanel(); }
+
+    /* Delete Stuff */
     if (dojo.byId('deleteButton')) {
         dojo.connect(deleteButton, "onClick", deleteDialog, "show");
         dojo.connect(deleteCancel, "onClick", deleteDialog, "hide");
     }
 
+    /* User Edit Change Password Form */
     if (dojo.byId('changepassButton')) {
-    dojo.connect(changepassForm, "onSubmit", function(e) {
+      dojo.connect(changepassForm, "onSubmit", function(e) {
         if (password.get('value') != confirm.get('value')) {
             confirm.set( "state", "Error" );
             // used to change the style of the control to represent a error
             confirm._setStateClass();
             e.preventDefault();
         }
-    });
+      });
     }
-    del();
+
 });

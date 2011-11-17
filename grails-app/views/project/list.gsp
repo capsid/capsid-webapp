@@ -13,8 +13,8 @@
         <h1>Projects</h1>
       </div>
       <auth:ifAnyGranted access="['capsid': ['owner']]">
-        <button dojoType="dijit.form.Button" jsId="createButton" id="createButton" class="unit right">Create Project</button>
-        <div style="display:none" href="${createLink(action:'create')}" id="createDialog" jsId="createDialog" dojoType="dijit.Dialog" title="Create New Project" refreshOnShow="true"></div>
+        <button dojoType="dijit.form.Button" jsId="addProjectButton" id="addProjectButton" class="unit right">Create Project</button>
+        <div style="display:none" href="${createLink(action:'create')}" id="addProjectDialog" jsId="addProjectDialog" dojoType="dijit.Dialog" title="Create New Project" refreshOnShow="true"></div>
       </auth:ifAnyGranted>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}" clearOnClose="true"></div>

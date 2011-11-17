@@ -1,5 +1,5 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
-<form action="save" method="post" dojoType="dijit.form.Form" id="createForm" jsId="createForm">
+<form action="save" method="post" dojoType="dijit.form.Form" id="addProjectForm" jsId="addProjectForm">
   <div class="error">${flash.message}</div>
   <table>
     <tbody>

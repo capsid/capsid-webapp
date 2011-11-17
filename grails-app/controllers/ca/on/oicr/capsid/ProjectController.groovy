@@ -182,14 +182,14 @@ class ProjectController {
     authorize(projectInstance, ['user', 'collaborator', 'owner'])
     if (!projectInstance) {
       flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-      redirect action: list
+      redirect(action: 'list')
     }
     projectInstance
   }
 
   private void redirectShow(message, id) {
     flash.message = message
-    redirect action: show, id: id
+    redirect(action: 'show', id: id)
   }
 
   private boolean renderWithErrors(String view, Project projectInstance) {

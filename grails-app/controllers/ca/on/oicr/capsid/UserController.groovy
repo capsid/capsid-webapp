@@ -49,90 +49,7 @@ class UserController {
 
     render ret as JSON
   }
-  /*
-    def save = {
-    if (!User.findByUsername(params.username)) {
-    User userInstance = new User(
-    username: params.username,
-    userRealName: '',
-    email: params.email,
-    enabled: true)
 
-    String password = getRandomString(8)
-    userInstance.password = springSecurityService.encodePassword(password)
-
-    if (userInstance.save(flush: true)) {
-    Role roleInstance = Role.findByAuthority('ROLE_CAPSID')
-    if (!userInstance.authorities.id.contains(roleInstance.id)) {
-    UserRole.create userInstance, roleInstance
-    }
-
-    sendMail {
-    to userInstance.email
-    subject "[capsid] CaPSID User Created"
-    body 'New user created for CaPSID.\n\nUsername:\t' + userInstance.username + '\nPassword:\t' + password + '\n\n CaPSID - ' + CH.config.grails.serverURL + '\nPlease do not respond to this email'
-    }
-
-    flash.message = "The user was created"
-    redirect action: 'show', id: userInstance.username
-    } else {
-    render 'Error while trying to save'
-    }
-    } else {
-    render 'Username taken'
-    }
-    }
-
-
-    def changePassword = {
-    User userInstance = User.findByUsername(params.username)
-
-    if (springSecurityService.isLoggedIn() &&
-    springSecurityService.principal.username == userInstance.username ||
-    'ROLE_CAPSID_ADMIN' in springSecurityService.principal.authorities.authority) {
-
-    if (springSecurityService.encodePassword(params.oldPassword) == userInstance.password) {
-    params.password = springSecurityService.encodePassword(params.newPassword)
-    userInstance.properties = params
-    if (userInstance.save(flush: true)) {
-    if (springSecurityService.isLoggedIn() &&
-    springSecurityService.principal.username == userInstance.username) {
-    springSecurityService.reauthenticate userInstance.username
-    }
-
-    flash.message = "The user was updated"
-    redirect action: 'show', id: userInstance.username
-    }
-    } else {
-    flash.message = "Error while updating"
-    redirect action: 'show', id: userInstance.username
-    return
-    }
-    }
-    }
-
-    @Secured(['ROLE_CAPSID_ADMIN'])
-    def resetPassword = {
-    User userInstance = User.findByUsername(params.username)
-
-    params.password = springSecurityService.encodePassword(params.newPassword)
-    userInstance.properties = params
-    if (userInstance.save(flush: true)) {
-    if (springSecurityService.isLoggedIn() &&
-    springSecurityService.principal.username == userInstance.username) {
-    springSecurityService.reauthenticate userInstance.username
-    }
-
-    flash.message = "The user was updated"
-    redirect action: 'show', id: userInstance.username
-
-    } else {
-    flash.message = "Error while updating"
-    redirect action: 'show', id: userInstance.username
-    return
-    }
-    }
-  */
   def show = {
     User user = findInstance()
     [userInstance: user, admin: authService.isCapsidAdmin(user)]
@@ -172,7 +89,7 @@ class UserController {
     try {
       userService.delete user
       flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-      redirect action: list
+      redirect(action: 'list')
     } catch (DataIntegrityViolationException e) {
       redirectShow "User $user.username could not be deleted", user.username
     }
@@ -188,7 +105,7 @@ class UserController {
       }
     } else {
       flash.message = 'Incorrect password'
-      redirect action: edit, id: user.username
+      redirect(action: 'edit', id: user.username)
     }
   }
 
@@ -235,14 +152,14 @@ class UserController {
     authorize(userInstance)
     if (!userInstance) {
       flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-      redirect action: list
+      redirect(action: 'list')
     }
     userInstance
   }
 
   private void redirectShow(message, id) {
     flash.message = message
-    redirect action: show, id: id
+    redirect(action: 'show', id: id)
   }
 
   private boolean renderWithErrors(String view, User userInstance) {

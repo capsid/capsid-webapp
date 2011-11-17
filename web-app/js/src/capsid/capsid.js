@@ -41,5 +41,6 @@ dojo.require("dojox.data.AndOrReadStore");
 // capsid
 dojo.require("capsid.Base");
 dojo.require("capsid.form.Base");
-dojo.require("capsid.form.Inline");
+dojo.require("capsid.form.Ajax");
+dojo.require("capsid.grid.Base");
 dojo.require("capsid.grid.Formatter");

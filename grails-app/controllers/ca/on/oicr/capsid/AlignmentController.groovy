@@ -79,7 +79,7 @@ class AlignmentController {
             String sample = alignment.sample
             alignmentService.delete alignment
             flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'alignment.name', default: 'Alignment'), params.id])}"
-            redirect controller: 'sample', action: 'show', id:sample
+            redirect(controller: 'sample', action: 'show', id:sample)
         } catch (DataIntegrityViolationException e) {
             redirectShow "Alignment $alignment.name could not be deleted", alignment.name
         }
@@ -89,15 +89,15 @@ class AlignmentController {
         Alignment alignmentInstance = alignmentService.get(params.id)
         authorize(alignmentInstance, ['user', 'collaborator', 'owner'])
         if (!alignmentInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect action: list
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alignment.name', default: 'Alignment'), params.id])}"
+            redirect(controller:'project', action: 'list')
         }
         alignmentInstance
     }
 
     private void redirectShow(message, id) {
         flash.message = message
-        redirect action: show, id: id
+        redirect(action: 'show', id: id)
     }
 
     private boolean renderWithErrors(String view, Alignment alignmentInstance) {
