@@ -41,11 +41,9 @@ class UserService {
     String old = springSecurityService.encodePassword(params.old)
     String password = springSecurityService.encodePassword(params.password)
     String confirm = springSecurityService.encodePassword(params.confirm)
-    println old == user.password
     if (old == user.password) {
       user.password = password
       if (user.save(flush: true)) {
-        println 'in'
         authService.reauthenticate user
         return true
       }

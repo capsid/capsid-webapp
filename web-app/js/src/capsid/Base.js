@@ -178,6 +178,7 @@ dojo.ready(function() {
         dojo.connect(deleteCancel, "onClick", deleteDialog, "hide");
     }
 
+    if (dojo.byId('changepassButton')) {
     dojo.connect(changepassForm, "onSubmit", function(e) {
         if (password.get('value') != confirm.get('value')) {
             confirm.set( "state", "Error" );
@@ -186,6 +187,6 @@ dojo.ready(function() {
             e.preventDefault();
         }
     });
-
+    }
     del();
 });

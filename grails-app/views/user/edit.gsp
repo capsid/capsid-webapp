@@ -68,7 +68,7 @@
               <label for="old">Password</label>
             </td>
             <td valign="top" class="value">
-              <g:passwordField name="old" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" invalidMessage="Password must be at least 5 characters" value=""/>
+              <g:passwordField name="old" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{8,}" invalidMessage="Password must be at least 8 characters" value=""/>
             </td>
           </tr>
           <tr class="prop">
@@ -76,7 +76,7 @@
               <label for="password">New Password</label>
             </td>
             <td valign="top" class="value">
-              <g:passwordField name="password" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" jsId="password" invalidMessage="Password must be at least 5 characters" value=""/>
+              <g:passwordField name="password" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{8,}" jsId="password" invalidMessage="Password must be at least 8 characters" value=""/>
             </td>
           </tr>
           <tr class="prop">
@@ -84,11 +84,11 @@
               <label for="confirm">Confirm</label>
             </td>
             <td valign="top" class="value">
-              <g:passwordField name="confirm" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{5,}" jsId="confirm" invalidMessage="Password must be at least 5 characters" value=""/>
+              <g:passwordField name="confirm" dojoType="dijit.form.ValidationTextBox" required="true" regExp=".{8,}" jsId="confirm" invalidMessage="Password must be at least 8 characters" value=""/>
             </td>
           </tr>
         </table>
-        <button dojoType="dijit.form.Button" type="submit">Change Password</button>
+        <button id="changepassButton" dojoType="dijit.form.Button" type="submit">Change Password</button>
       </g:form>
     </div>
 

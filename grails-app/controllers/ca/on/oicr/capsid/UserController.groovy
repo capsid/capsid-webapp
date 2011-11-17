@@ -161,9 +161,8 @@ class UserController {
     authorize(user)
     userService.update user, params
 
-    if (!renderWithErrors('edit', user)) {
-      redirectShow "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.username])}", user.username
-    }
+    flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.username])}"
+    redirect action:edit, id:user.username
   }
 
   def delete = {
