@@ -66,7 +66,7 @@ class ProjectController {
     try {
       projectService.delete project
       flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])}"
-      redirect action: list
+      redirect(action: "list")
     } catch (DataIntegrityViolationException e) {
       redirectShow "Project $project.label could not be deleted", project.label
     }
