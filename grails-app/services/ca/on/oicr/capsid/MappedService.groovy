@@ -19,8 +19,8 @@ class MappedService {
     def authService
     def projectService
 
-    Mapped get(String name) {
-        Mapped.findByName name
+    Mapped get(String id) {
+        Mapped.get id
     }
 
     List<Mapped> getAllowedMappeds() {

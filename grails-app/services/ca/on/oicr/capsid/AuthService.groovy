@@ -64,6 +64,10 @@ class AuthService {
     Project project = Project.findByLabel(sample.project)
     authorize(project, access)
   }
+  boolean authorize(Mapped mapped, List access) {
+    Project project = Project.findByLabel(mapped.project)
+    authorize(project, access)
+  }
   boolean authorize(Alignment align, List access) {
     Project project = Project.findByLabel(align.project)
     authorize(project, access)

@@ -1,25 +1,17 @@
-<%@ page import="ca.on.oicr.capsid.Alignment" %>
-<%@ page import="ca.on.oicr.capsid.Sample" %>
+<%@ page import="ca.on.oicr.capsid.Mapped" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.Genome" %>
+<g:set var="genome" value="${Genome.get(mappedInstance.genomeId)}"/>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'alignment.label', default: 'Alignment')}" />
+    <g:set var="entityName" value="${message(code: 'mapped.label', default: 'Mapped')}" />
     <title><g:message code="default.show.label" args="[entityName]" /></title>
   </head>
   <body>
     <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <div class="line">
-      <div class="unit">
-        <h1>${alignmentInstance.name}</h1>
-      </div>
-      <auth:ifAnyGranted access="[(alignmentInstance.project):['collaborator', 'admin']]">
-        <div class="unit right">
-          <a href="${createLink(action:'edit', id:alignmentInstance.name)}" style="font-weight:normal;color:#333;"><button data-dojo-type="dijit.form.Button" id="editButton" jsId="editButton">Edit Alignment</button></a>
-        </div>
-      </auth:ifAnyGranted>
-    </div>
+    <h1>${mappedInstance.readId}</h1>
     <div class="line">
       <div class="dialog unit size1of3">
         <table>
@@ -27,34 +19,22 @@
             <tr class="prop">
               <td valign="top" class="name">Project</td>
               <td valign="top" class="value">
-                <g:link controller="project" action="show" id="${alignmentInstance.project}">${Project.findByLabel(alignmentInstance.project).name}</g:link>
+                <g:link controller="project" action="show" id="${mappedInstance.project}">${Project.findByLabel(mappedInstance.project).name}</g:link>
               </td>
             </tr>
             <tr class="prop">
               <td valign="top" class="name">Sample</td>
               <td valign="top" class="value">
-                <g:link controller="sample" action="show" id="${alignmentInstance.sample}">${alignmentInstance.sample}</g:link>
+                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample}</g:link>
               </td>
             </tr>
             <tr class="prop">
-              <td valign="top" class="name">Aligner</td>
-              <td valign="top" class="value">${alignmentInstance.aligner}</td>
+              <td valign="top" class="name">Genome</td>
+              <td valign="top" class="value"><g:link controller="genome" action="show" id="${genome.accession}">${genome.name}</g:link></td>
             </tr>
             <tr class="prop">
-              <td valign="top" class="name">Platform</td>
-              <td valign="top" class="value">${alignmentInstance.platform}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Input File Location</td>
-              <td valign="top" class="value">${alignmentInstance.infile}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Output File Location</td>
-              <td valign="top" class="value">${alignmentInstance.outfile}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Type</td>
-              <td valign="top" class="value">${alignmentInstance.type}</td>
+              <td valign="top" class="name">Accession</td>
+              <td valign="top" class="value"><g:link controller="genome" action="show" id="${genome.accession}">${genome.accession.replace("_"," ")}</g:link></td>
             </tr>
           </tbody>
         </table>

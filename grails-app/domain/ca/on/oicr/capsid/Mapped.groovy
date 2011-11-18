@@ -30,7 +30,7 @@ class Mapped {
         String sequencingType
         String platform
 
-	Integer genomeId
+	String genomeId
 	String alignment
 	String project
 	String sample
