@@ -36,9 +36,71 @@
               <td valign="top" class="name">Accession</td>
               <td valign="top" class="value"><g:link controller="genome" action="show" id="${genome.accession}">${genome.accession.replace("_"," ")}</g:link></td>
             </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Score</td>
+              <td valign="top" class="value">${mappedInstance.mapq}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Min Quality</td>
+              <td valign="top" class="value">${mappedInstance.minQual}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Avg Quality</td>
+              <td valign="top" class="value">${mappedInstance.avgQual}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Mismatch</td>
+              <td valign="top" class="value">${mappedInstance.mismatch}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Miscalls</td>
+              <td valign="top" class="value">${mappedInstance.miscalls}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Ref Strand</td>
+              <td valign="top" class="value">${mappedInstance.refStrand}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Ref Start</td>
+              <td valign="top" class="value">${mappedInstance.refStart}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Ref End</td>
+              <td valign="top" class="value">${mappedInstance.refEnd}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Read Length</td>
+              <td valign="top" class="value">${mappedInstance.readLength}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Alignment Length</td>
+              <td valign="top" class="value">${mappedInstance.alignLength}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Sequencing Type</td>
+              <td valign="top" class="value">${mappedInstance.sequencingType}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Platform</td>
+              <td valign="top" class="value">${mappedInstance.platform}</td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Maps to a Gene</td>
+              <td valign="top" class="value">${mappedInstance.mapsGene?'True':'False'}</td>
+            </tr>
           </tbody>
         </table>
       </div>
+      <div class="unit size1of3">
+        <h2>Analysis</h2>
+        <ul class="links">
+          <li>BLAST</li>
+          <li>Contig</li>
+        </ul>
+      </div>
     </div>
+    <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
+   </div>
   </body>
 </html>

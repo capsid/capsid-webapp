@@ -10,6 +10,7 @@
 
 package ca.on.oicr.capsid
 
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
@@ -34,6 +35,38 @@ class MappedController {
       redirect(controller:'project', action: 'list')
     }
     mappedInstance
+  }
+
+  /* ************************************************************************
+   * AJAX Tabs
+   *********************************************************************** */
+  /* ** Show  ** */
+  def show_reads = {
+    Mapped mappedInstance = findInstance()
+    render(view: 'ajax/show/reads', model: [mappedInstance: mappedInstance])
+  }
+  def show_reads_data = {
+    Mapped mappedInstance = findInstance()
+    ArrayList reads = Mapped.collection.find(
+      "readId": mappedInstance.readId
+      ,  "_id": [$ne: new ObjectId(mappedInstance.id)])
+    .collect {
+      [
+        id: it._id.toString()
+        ,  accession: Genome.get(it.genomeId).accession
+        ,  gname: Genome.get(it.genomeId).name
+        ,  refStart: it.refStart
+        ,  refEnd: it.refEnd
+      ]
+    }
+
+    Map ret = [
+      'identifier': 'id',
+      'label': 'gname',
+      'items': reads
+    ]
+
+    render ret as JSON
   }
 
   private boolean authorize(def auth, List access) {

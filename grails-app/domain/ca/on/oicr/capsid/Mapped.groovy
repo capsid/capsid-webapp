@@ -17,18 +17,19 @@ class Mapped {
 
 	Object id
 	String readId
-        Integer alignLength
         Float avgQual
         Float minQual
         Integer mapq
         Integer miscalls
         Integer mismatch
         Integer refStrand
-        Integer refLength
+        Integer readLength
+        Integer alignLength
         Integer refStart
         Integer refEnd
         String sequencingType
         String platform
+        Integer mapsGene
 
 	String genomeId
 	String alignment
