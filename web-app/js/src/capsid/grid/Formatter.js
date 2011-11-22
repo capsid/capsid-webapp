@@ -37,7 +37,7 @@ dojo.declare("capsid.grid.Formatter", null, {
             return '<a href="' + baseUrl + '/user/show/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
         },
         mapped: function(value) {
-            return '<a href="' + baseUrl + '/mapped/show/' + value + '">' + value + '</a>';
+            return '<a href="' + baseUrl + '/mapped/show/' + value + '">Read Details</a>';
         }
     },
     math: {

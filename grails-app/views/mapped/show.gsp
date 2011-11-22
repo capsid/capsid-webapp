@@ -25,7 +25,7 @@
             <tr class="prop">
               <td valign="top" class="name">Sample</td>
               <td valign="top" class="value">
-                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample}</g:link>
+                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample.replace("_"," ")}</g:link>
               </td>
             </tr>
             <tr class="prop">

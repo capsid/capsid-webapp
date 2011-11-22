@@ -27,6 +27,21 @@ class MappedController {
     [mappedInstance: mappedInstance]
   }
 
+  def contig = {
+    Mapped mapped = findInstance()
+    ArrayList contig = Mapped.collection.find(
+      sample: mapped.sample
+      ,  genomeId: new ObjectId(mapped.genomeId)
+      ,  refStrand: mapped.refStrand
+    ).collect {
+      [
+        id: it._id.toString()
+      ]
+    }
+
+    render contig.size()
+  }
+
   private Mapped findInstance() {
     Mapped mappedInstance = mappedService.get(params.id)
     authorize(mappedInstance, ['user', 'collaborator', 'owner'])
