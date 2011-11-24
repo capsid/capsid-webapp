@@ -24,7 +24,19 @@ class MappedController {
 
   def show = {
     Mapped mappedInstance = findInstance()
-    [mappedInstance: mappedInstance]
+    Sequence sequence = Sequence.get(new ObjectId(Genome.get(mappedInstance.genomeId).seqId))
+
+    Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGC", sequence.seq.getAt(mappedInstance.refStart..mappedInstance.refEnd))
+
+    for (i in 0..<alignment.query.seq.size()) {
+      int qc = alignment.query.seq[i].findAll {it ==~ /\w/}.size()
+      int rc = alignment.ref.seq[i].findAll {it ==~ /\w/}.size()
+      alignment.query.pos[i] = i==0?qc:rc+alignment.query.pos[i-1]
+      alignment.ref.pos[i] = i==0?rc:rc+alignment.ref.pos[i-1]
+    }
+    alignment.ref.pos.each {val -> val + mappedInstance.refStart}
+
+    [mappedInstance: mappedInstance, alignment: alignment]
   }
 
   def contig = {
@@ -40,16 +52,6 @@ class MappedController {
     }
 
     render contig.size()
-  }
-
-  private Mapped findInstance() {
-    Mapped mappedInstance = mappedService.get(params.id)
-    authorize(mappedInstance, ['user', 'collaborator', 'owner'])
-    if (!mappedInstance) {
-      flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'mapped.name', default: 'Mapped'), params.id])}"
-      redirect(controller:'project', action: 'list')
-    }
-    mappedInstance
   }
 
   /* ************************************************************************
@@ -82,6 +84,16 @@ class MappedController {
     ]
 
     render ret as JSON
+  }
+
+  private Mapped findInstance() {
+    Mapped mappedInstance = mappedService.get(params.id)
+    authorize(mappedInstance, ['user', 'collaborator', 'owner'])
+    if (!mappedInstance) {
+      flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'mapped.name', default: 'Mapped'), params.id])}"
+      redirect(controller:'project', action: 'list')
+    }
+    mappedInstance
   }
 
   private boolean authorize(def auth, List access) {

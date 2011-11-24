@@ -76,7 +76,7 @@ class AuthService {
     isCapsidAdmin() || !roles?.disjoint(getRolesWithAccess(access))
   }
   boolean authorize(User user) {
-    isCapsidAdmin() || user.username == springSecurityService.principal.username
+    isCapsidAdmin() || user?.username == springSecurityService.principal.username
   }
 
   String getRandomString(length) {

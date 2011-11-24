@@ -12,6 +12,13 @@ package ca.on.oicr.capsid
 
 import grails.plugins.springsecurity.Secured
 
+import jaligner.Alignment as jAlignment
+import jaligner.Sequence as jSequence
+import jaligner.SmithWatermanGotoh
+import jaligner.formats.*
+import jaligner.matrix.MatrixLoader
+import jaligner.util.SequenceParser
+
 class MappedService {
 
     static transactional = false
@@ -30,4 +37,27 @@ class MappedService {
             Mapped.security(projectService.getAllowedProjects()?.label)?.list()
         }
     }
+
+  Map getSplitAlignment(String query, String ref) {
+    /* Sequence and Alignment from jAligner */
+    jaligner.Sequence s1 = SequenceParser.parse(query)
+    jaligner.Sequence s2 = SequenceParser.parse(ref)
+    jaligner.Alignment alignment = SmithWatermanGotoh.align(s1, s2, MatrixLoader.load("BLOSUM62"), 10f, 0.5f)
+
+    Map formatted = [
+      query: [ seq: [], pos: [] ],
+      ref: [ seq: [], pos: [] ],
+      markup: []
+    ]
+
+    formatted.query.seq = bucket(alignment.getSequence1().toString())
+    formatted.ref.seq = bucket(alignment.getSequence2().toString())
+    formatted.markup = bucket(alignment.getMarkupLine().toString())
+
+    formatted
+  }
+
+  List bucket(String string) {
+    string.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+  }
 }

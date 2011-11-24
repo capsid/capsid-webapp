@@ -72,7 +72,7 @@ input:focus, select:focus, textarea:focus {
 
 /* -----------------------------------------------------------------------------
  *  $__tables
- ----------------------------------------------------------------------------- */ 
+ ----------------------------------------------------------------------------- */
 table {
     border: 1px solid #ccc;
     width: 100%
@@ -172,7 +172,7 @@ body {background: url("../images/gradient.jpg") repeat-x scroll 0 0 transparent;
 }
 
 #container {
-    background: url('../images/background-white.png') no-repeat transparent; 
+    background: url('../images/background-white.png') no-repeat transparent;
     background-size: 100%;
     padding: 20px 20px 150px;
     overflow:auto;
@@ -314,4 +314,40 @@ ul.links {
 }
 ul.links li{
     padding-bottom: 5px;
+}
+
+/*** Alignment ***/
+#alignment {
+    /*width: 1100px;*/
+}
+.seqrow {
+    margin: 20px 10px;
+}
+.query {color: #666}
+.markup {color: #111;}
+.ref {color: #333}
+.seqlabel {
+    display: inline-block;
+    width: 100px;
+    height: 15px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.seqpos {
+    display: inline-block;
+    width: 50px;
+    height: 15px;
+    vertical-align: middle;
+    font-weight: bold;
+}
+.seqstr {
+    display: inline-block;
+    width: 1075px;
+}
+.base {
+    display: inline-block;
+    width: 13px;
+    height: 15px;
+    vertical-align: middle;
+    text-align: center;
 }

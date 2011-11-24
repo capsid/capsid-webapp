@@ -10,19 +10,17 @@
 
 package ca.on.oicr.capsid
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import grails.plugins.springsecurity.Secured
 import grails.converters.JSON
 import org.bson.types.ObjectId
 import org.springframework.dao.DataIntegrityViolationException
-
-import java.util.Random
 
 @Secured(['ROLE_CAPSID'])
 class UserController {
 
   def authService
   def userService
+  def springSecurityService
 
   def index = {redirect(action: "list", params: params)}
   def list = {isCapsidAdmin()}
@@ -51,8 +49,13 @@ class UserController {
   }
 
   def show = {
-    User user = findInstance()
-    [userInstance: user, admin: authService.isCapsidAdmin(user)]
+    if (!userService.get(params.id) &&
+        params.id == springSecurityService.principal.username) {
+      render view: 'ldap'
+    } else {
+      User user = findInstance()
+      [userInstance: user, admin: authService.isCapsidAdmin(user)]
+    }
   }
 
   def create = {
