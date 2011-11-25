@@ -26,14 +26,8 @@ class MappedController {
     Mapped mappedInstance = findInstance()
     Sequence sequence = Sequence.get(new ObjectId(Genome.get(mappedInstance.genomeId).seqId))
 
-    Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGC", sequence.seq.getAt(mappedInstance.refStart..mappedInstance.refEnd))
+    Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATGCCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGCGGACG", sequence.seq.getAt(mappedInstance.refStart..mappedInstance.refEnd-1))
 
-    for (i in 0..<alignment.query.seq.size()) {
-      int qc = alignment.query.seq[i].findAll {it ==~ /\w/}.size()
-      int rc = alignment.ref.seq[i].findAll {it ==~ /\w/}.size()
-      alignment.query.pos[i] = i==0?qc:rc+alignment.query.pos[i-1]
-      alignment.ref.pos[i] = i==0?rc:rc+alignment.ref.pos[i-1]
-    }
     alignment.ref.pos.each {val -> val + mappedInstance.refStart}
 
     [mappedInstance: mappedInstance, alignment: alignment]

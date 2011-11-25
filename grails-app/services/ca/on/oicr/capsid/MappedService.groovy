@@ -54,10 +54,17 @@ class MappedService {
     formatted.ref.seq = bucket(alignment.getSequence2().toString())
     formatted.markup = bucket(alignment.getMarkupLine().toString())
 
+    for (i in 0..<formatted.query.seq.size()) {
+      int qc = formatted.query.seq[i].findAll {it ==~ /\w/}.size()
+      int rc = formatted.ref.seq[i].findAll {it ==~ /\w/}.size()
+      formatted.query.pos[i] = i==0?qc:rc+formatted.query.pos[i-1]
+      formatted.ref.pos[i] = i==0?rc:rc+formatted.ref.pos[i-1]
+    }
+
     formatted
   }
 
   List bucket(String string) {
-    string.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+    string.replaceAll(/.{55}/){all -> all + ';'}.split(';')
   }
 }
