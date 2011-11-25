@@ -1,7 +1,7 @@
 <%@ page import="ca.on.oicr.capsid.Genome" %>
 <html>
 <head>
-  <meta name="layout" content="main">
+  <meta name="layout" content="main"/>
 	<link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse/jslib/dijit/themes/tundra',file:'tundra.css')}"></link>
     <link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse', file:'genome.css')}"></link>
 	<p:dependantJavascript>
@@ -12,7 +12,6 @@
     <script type="text/javascript">
     /* <![CDATA[ */
 			var queryParams = dojo.queryToObject(window.location.search.slice(1));
-            console.log(queryParams);
             dojo.ready(function() {
         	    dojo.xhrGet({
 	   	            url: "${createLink(controller:'jbrowse', action:'setup', id:params.id)}",
@@ -33,12 +32,7 @@
 		                ,   browserRoot: "${resource(dir:'js/jbrowse')}/"
 			            ,   conf : {'flags': {'trackCustomizationOff': true, 'facetedOff': true,}}
 	   	                });
-	   	                 
-		   	            /* var gb=document.getElementById("browser").genomeBrowser;
-			   	        b.removeAllTracks();
-		                b.showTracks("DNA,genes," + queryParams.track);
-                        */
-	   	         	}
+     	         	}
         	    });
            });
     /* ]]> */

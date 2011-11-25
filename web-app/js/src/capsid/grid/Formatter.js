@@ -27,12 +27,15 @@ dojo.declare("capsid.grid.Formatter", null, {
         sample: function(value) {
             return '<a href="' + baseUrl + '/sample/show/' + value + '">' + value.replace(/_/g, " ") +'</a>';
         },
+        alignment: function(value) {
+            return '<a href="' + baseUrl + '/alignment/show/' + value + '">' + value.replace(/_/g, " ") +'</a>';
+        },
         jbrowse: function(value) {
             return '<a href="' + baseUrl + '/jbrowse/show/' + value[0] + '?track=' + value[1] + '">Map with JBrowse</a>';
         },
         user: function(value) {
             return '<a href="' + baseUrl + '/user/show/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
-        },
+        }
     },
     math: {
         percent: function(value) {
@@ -43,6 +46,10 @@ dojo.declare("capsid.grid.Formatter", null, {
         human: function(value) {
             return value.replace(/[_-]/g, " ");
         }
+    },
+    access: function(bool) {
+        var img = bool ? 'bullet_green.png' : 'bullet_red.png';
+        return '<img src="' + baseUrl + '/images/' + img + '" alt="' + bool + '"/>';
     }
 });
 })();

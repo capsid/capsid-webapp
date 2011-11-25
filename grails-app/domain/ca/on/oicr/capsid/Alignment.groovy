@@ -14,7 +14,7 @@ import org.bson.types.ObjectId
 
 class Alignment {
 	static mapWith = 'mongo'
-	
+
 	ObjectId id
 	String name
 	String aligner
@@ -22,22 +22,22 @@ class Alignment {
 	String infile
 	String outfile
 	String type
-	
+
 	String sample
 	String project
-	
+
     static constraints = {
-		name nullable:false, blank: false
-		aligner nullable:false, blank: false
-		platform nullable:false, blank: false
-		infile nullable:false, blank: false
-		outfile nullable:false, blank: false
-		type nullable:false, blank: false
+		name unique:true, nullable:false, blank: false
+		aligner nullable:false, blank: true
+		platform nullable:false, blank: true
+		infile nullable:false, blank: true
+		outfile nullable:false, blank: true
+		type nullable:false, blank: true
 		sample nullable:false, blank: false
 		project nullable:false, blank: false
     }
-	
+
 	static mapping = { cache true }
-	
+
 	static namedQueries = {}
 }

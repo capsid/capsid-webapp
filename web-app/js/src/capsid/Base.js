@@ -9,16 +9,86 @@
  */
 
 dojo.provide("capsid.Base");
-
 (function(){
 dojo.declare("capsid.Base", null, {
 	constructor : function() {}
 });
 })();
 
+function del() {
+  /* Remove User from access group */
+  dojo.query('.user-box').delegate('a.delete', 'onclick', function(e) {
+    var a = this;
+    dojo.anim(a.parentNode,{
+      backgroundColor: '#fb6c6c'
+    },300);
+    dojo.stopEvent(e);
+    dojo.xhr('post',{
+      content: {
+        ajax: 1
+      },
+      url: dojo.attr(a,'href'),
+      load: function() {
+        dojo.anim(a.parentNode,{
+          opacity: 0
+        },300,null,function() {
+          dojo.query(a.parentNode).orphan();
+        });
+      }
+    });
+    userStore.close();
+  });
+}
+
+function accessPanel() {
+    del();
+    dojo.query('#access-panel').delegate('form', "onsubmit", function(e) {
+                dojo.xhrPost({
+                    form: this,
+                    handle: 'text',
+                    load:function(data) {
+                        var userlist = dojo.query('#' + this.form.id + '-panel .user-box-wrap')[0],
+                            userbox = dojo.create("span", {
+                                innerHTML: data,
+                                style: "opacity:0"
+                            }, userlist);
+                        dojo.anim(userbox, {opacity:1}, 300);
+                        del();
+                        userStore.close();
+                    },
+                    error: function(error) {
+                        console.log('error');
+                    }
+                });
+                e.preventDefault();
+            });
+}
+
 dojo.ready(function() {
-	/* Create Form */
-	var ajaxForm = new capsid.form.Base('createForm');
-	ajaxForm.wireButtonDialog('createButton', 'createDialog');
-	ajaxForm.ajaxSubmit();
+    capsid.form.Ajax.prototype.project();
+    capsid.form.Ajax.prototype.sample();
+    capsid.form.Ajax.prototype.alignment();
+    capsid.form.Ajax.prototype.user();
+
+    /* Add User to access group  */
+    if (dojo.byId('access-panel')) { accessPanel(); }
+
+    /* Delete Stuff */
+    if (dojo.byId('deleteButton')) {
+        dojo.connect(deleteButton, "onClick", deleteDialog, "show");
+        dojo.connect(deleteCancel, "onClick", deleteDialog, "hide");
+    }
+
+    /* User Edit Change Password Form */
+    if (dojo.byId('changepassButton')) {
+      dojo.connect(changepassForm, "onSubmit", function(e) {
+        if (password.get('value') != confirm.get('value')) {
+            confirm.set( "state", "Error" );
+            // used to change the style of the control to represent a error
+            confirm._setStateClass();
+            e.preventDefault();
+        }
+      });
+    }
+
 });
