@@ -1,3 +1,5 @@
+capsid-config.groovy
+capsid-datasource.groovy
 stacktrace.log
 build/
 target/

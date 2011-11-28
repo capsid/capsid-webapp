@@ -79,11 +79,12 @@ uiperformance.bundles = [
  * - config location set path by system variable '<APP_NAME>_CONFIG_LOCATION'
  * - dataSource location set path by system environment variable '<APP_NAME>_DATASOURCE_LOCATION'
  */
-grails.config.locations = []
+grails.config.locations = ["classpath:${appName}-config.groovy",
+                           "classpath:${appName}-datasource.groovy",
 def defaultConfigFiles = ["${userHome}/.grails/${appName}Config/Config.groovy",
                           "${userHome}/.grails/${appName}Config/DataSource.groovy",
-                          "capsid-config.groovy",
-                          "capsid-datasource.groovy"]
+                          "${appName}-config.groovy",
+                          "${appName}-datasource.groovy"]
 
 defaultConfigFiles.each { filePath ->
   def f = new File(filePath)
