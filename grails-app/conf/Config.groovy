@@ -80,7 +80,7 @@ uiperformance.bundles = [
  * - dataSource location set path by system environment variable '<APP_NAME>_DATASOURCE_LOCATION'
  */
 grails.config.locations = ["classpath:${appName}-config.groovy",
-                           "classpath:${appName}-datasource.groovy",
+                           "classpath:${appName}-datasource.groovy"]
 def defaultConfigFiles = ["${userHome}/.grails/${appName}Config/Config.groovy",
                           "${userHome}/.grails/${appName}Config/DataSource.groovy",
                           "${appName}-config.groovy",
