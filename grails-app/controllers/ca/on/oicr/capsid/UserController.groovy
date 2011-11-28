@@ -82,7 +82,7 @@ class UserController {
     userService.update user, params
 
     flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.username])}"
-    redirect action:edit, id:user.username
+    redirect action:'editi', id:user.username
   }
 
   def delete = {
@@ -92,7 +92,7 @@ class UserController {
     try {
       userService.delete user
       flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-      redirect(action: 'list')
+      redirect action: 'list'
     } catch (DataIntegrityViolationException e) {
       redirectShow "User $user.username could not be deleted", user.username
     }
@@ -155,19 +155,19 @@ class UserController {
     authorize(userInstance)
     if (!userInstance) {
       flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])}"
-      redirect(action: 'list')
+      redirect action: 'list'
     }
     userInstance
   }
 
   private void redirectShow(message, id) {
     flash.message = message
-    redirect(action: 'show', id: id)
+    redirect action: 'show', id: id
   }
 
   private boolean renderWithErrors(String view, User userInstance) {
     if (userInstance.hasErrors()) {
-      render view: view, model: [userInstance: userInstance]
+      render view: 'view', model: [userInstance: userInstance]
       return true
     }
     false
