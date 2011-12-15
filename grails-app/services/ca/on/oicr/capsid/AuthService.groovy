@@ -64,6 +64,10 @@ class AuthService {
     Project project = Project.findByLabel(sample.project)
     authorize(project, access)
   }
+  boolean authorize(Mapped mapped, List access) {
+    Project project = Project.findByLabel(mapped.project)
+    authorize(project, access)
+  }
   boolean authorize(Alignment align, List access) {
     Project project = Project.findByLabel(align.project)
     authorize(project, access)
@@ -72,7 +76,7 @@ class AuthService {
     isCapsidAdmin() || !roles?.disjoint(getRolesWithAccess(access))
   }
   boolean authorize(User user) {
-    isCapsidAdmin() || user.username == springSecurityService.principal.username
+    isCapsidAdmin() || user?.username == springSecurityService.principal.username
   }
 
   String getRandomString(length) {

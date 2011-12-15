@@ -23,11 +23,11 @@
           <button data-dojo-type="dijit.form.Button" id="addSampleButton" jsId="addSampleButton">Add Sample</button>
           <div style="display:none" href="${createLink(controller:'sample', action:'create', id:projectInstance.label)}" id="addSampleDialog" jsId="addSampleDialog" dojoType="dijit.Dialog" title="Add Sample" refreshOnShow="true"></div>
           <span id="alignhide" style="display:${Sample.countByProject(projectInstance.label)?'inline':'none'}">
-          <button data-dojo-type="dijit.form.Button" id="addAlignButton" jsId="addAlignButton">Add Alignment</button>
+            <button data-dojo-type="dijit.form.Button" id="addAlignButton" jsId="addAlignButton">Add Alignment</button>
           </span>
           <div style="display:none" href="${createLink(controller:'alignment', action:'create', id:projectInstance.label)}" id="addAlignDialog" jsId="addAlignDialog" dojoType="dijit.Dialog" title="Add Alignment" refreshOnShow="true"></div>
         </div>
-    </auth:ifAnyGranted>
+      </auth:ifAnyGranted>
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true" persist="true" jsID="tabs">
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_stats', id:projectInstance.label)}" rel="Statistics" title="Stats"></div>
