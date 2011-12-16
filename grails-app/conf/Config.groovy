@@ -1,3 +1,8 @@
+import java.security.ProtectionDomain;
+import java.net.URL;
+import java.io.File;
+import ca.on.oicr.ferv.Start;
+
 appName = 'capsid'
 
 grails.project.groupId = capsid // change this to alter the default package name and Maven publishing destination
@@ -72,23 +77,61 @@ uiperformance.bundles = [
 	 files: ['main']]
 ]
 
+// set per-environment serverURL stem for creating absolute links
+environments {
+    development {
+        grails.serverURL = "http://localhost:8080/${appName}"
+        js.path = "src"
+        js.dojo.path = js.path + "/dojo-sdk"
+    }
+    test {
+        grails.serverURL = "http://localhost:8080/${appName}"
+        js.dojo.path = "release"
+        js.path = js.dojo.path
+    }
+    production {
+        grails.serverURL = "http://localhost:8080/${appName}"
+        js.dojo.path = "release"
+        js.path = js.dojo.path
+    }
+}
+
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
+grails.plugins.springsecurity.authority.claretrieveGroupRolesssName = 'ca.on.oicr.capsid.Role'
+
+// Added by the Spring Security LDAP plugin:
+grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
+grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
+grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
+
+
 /**
  * Running externalized configuration
  * Assuming the following configuration files
- * - config location set path by system variable '<APP_NAME>_CONFIGURATION_LOCATION'
+ * - config location set path by system variable '<APP_NAME>_CONFIG_LOCATION'
  */
-grails.config.locations = ["classpath:${appName}-configuration.groovy"]
-def defaultConfigFiles = ["${appName}-configuration.groovy"]
+
+// Find the absolute path of of the war
+ProtectionDomain protectionDomain = Start.class.getProtectionDomain();
+URL location = protectionDomain.getCodeSource().getLocation();
+File file = new File(location.toURI().getPath());
+String war_location = file.toString()
+
+grails.config.locations = ["classpath:${appName}-config.groovy"]
+def defaultConfigFiles = ["${appName}-config.groovy"
+                          , war_location]
 
 defaultConfigFiles.each { filePath ->
   def f = new File(filePath)
   if (f.exists()) {
     grails.config.locations << "file:${filePath}"
-  } else {
   }
 }
 
-def externalConfig = System.getenv("CAPSID_CONFIGURATION_LOCATION")
+def externalConfig = System.getenv("CAPSID_CONFIG_LOCATION")
 if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }
