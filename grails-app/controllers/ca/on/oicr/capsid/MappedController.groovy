@@ -14,19 +14,38 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
+import com.mongodb.gridfs.GridFS
+import com.mongodb.gridfs.GridFSFile
+import com.mongodb.gridfs.GridFSDBFile
+import com.mongodb.DB
+
 @Secured(['ROLE_CAPSID'])
 class MappedController {
 
   def mappedService
   def authService
+  def fileService
+  def mongo
 
   def index = {redirect(controller: "project", action: "list")}
 
   def show = {
     Mapped mappedInstance = findInstance()
-    Sequence sequence = Sequence.get(new ObjectId(Genome.get(mappedInstance.genomeId).seqId))
 
-    Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATGCCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGCGGACG", sequence.seq.getAt(mappedInstance.refStart..mappedInstance.refEnd-1))
+    DB db = mongo.mongo.getDB('capsid')
+    GridFS gfs = new GridFS(db)
+    GridFSDBFile file = gfs.findOne(mappedInstance.genome)
+
+    int count = 1
+    file.getInputStream().each {
+      if (count >= mappedInstance.refStart && count <= mappedInstance.refEnd) {
+        print new String(it)
+      }
+      count++
+    }
+
+    //Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATGCCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGCGGACG", file.getInputStream().getAt(mappedInstance.refStart..mappedInstance.refEnd-1))
+    Map alignment = mappedService.getSplitAlignment("ACGTACTGATCGATCGATGCATCGATCGATCGATCGACTGATCGACTGACTAGCTACGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGTACGTACGATCGATCGATCGATCGATCGATCGATCATCGA", "ACGTACTGATCGATCGATGCATCGATCGATCGATCGACTGATCGACTGACTAGCTACGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGTACGTACGATCGATCGATCGATCGATCGATCGATCATCGA")
 
     alignment.ref.pos.each {val -> val + mappedInstance.refStart}
 
@@ -60,12 +79,12 @@ class MappedController {
     Mapped mappedInstance = findInstance()
     ArrayList reads = Mapped.collection.find(
       "readId": mappedInstance.readId
-      ,  "_id": [$ne: new ObjectId(mappedInstance.id)])
+      ,  "_id": [$ne: mappedInstance.id])
     .collect {
       [
         id: it._id.toString()
-        ,  accession: Genome.get(it.genomeId).accession
-        ,  gname: Genome.get(it.genomeId).name
+        ,  accession: Genome.findByGi(it.genome).accession
+        ,  gname: Genome.findByGi(it.genome).name
         ,  refStart: it.refStart
         ,  refEnd: it.refEnd
       ]

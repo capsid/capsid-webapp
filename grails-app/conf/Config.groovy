@@ -118,11 +118,11 @@ grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
 ProtectionDomain protectionDomain = Start.class.getProtectionDomain();
 URL location = protectionDomain.getCodeSource().getLocation();
 File file = new File(location.toURI().getPath());
-String war_location = file.toString()
+String war_location = file.getParentFile().toString()
 
 grails.config.locations = ["classpath:${appName}-config.groovy"]
 def defaultConfigFiles = ["${appName}-config.groovy"
-                          , war_location]
+                          , war_location + "/${appName}-config.groovy"]
 
 defaultConfigFiles.each { filePath ->
   def f = new File(filePath)

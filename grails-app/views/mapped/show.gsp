@@ -1,7 +1,7 @@
 <%@ page import="ca.on.oicr.capsid.Mapped" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Genome" %>
-<g:set var="genome" value="${Genome.get(mappedInstance.genomeId)}"/>
+<g:set var="genome" value="${Genome.findByGi(mappedInstance.genome as int)}"/>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

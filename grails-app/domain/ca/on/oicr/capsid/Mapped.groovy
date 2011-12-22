@@ -15,7 +15,7 @@ import org.bson.types.ObjectId
 class Mapped {
 	static mapWith = 'mongo'
 
-	Object id
+	ObjectId id
 	String readId
         Float avgQual
         Float minQual
@@ -31,7 +31,7 @@ class Mapped {
         String platform
         Integer mapsGene
 
-	String genomeId
+	String genome
 	String alignment
 	String project
 	String sample
