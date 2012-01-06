@@ -16,7 +16,6 @@
         <div class="subheader">${projectInstance.description}</div>
         <g:if test="${projectInstance.wikiLink}"><a href="${projectInstance.wikiLink}">Wiki Link</a></g:if>
       </div>
-
       <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
         <div class="unit right">
           <a href="${createLink(action:'edit', id:projectInstance.label)}" style="font-weight:normal;color:#333;"><button data-dojo-type="dijit.form.Button" id="editButton" jsId="editButton">Edit Project</button></a>
@@ -31,8 +30,8 @@
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true" persist="true" jsID="tabs">
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_stats', id:projectInstance.label)}" rel="Statistics" title="Stats"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_samples', id:projectInstance.label)}" jsID="sampleTab" rel="Samples" title="Samples"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignments', id:projectInstance.label)}" jsID="alignTab" rel="Alignments" title="Alignments"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_samples', id:projectInstance.label)}" rel="Samples" title="Samples"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignments', id:projectInstance.label)}" rel="Alignments" title="Alignments"></div>
     </div>
   </body>
 </html>

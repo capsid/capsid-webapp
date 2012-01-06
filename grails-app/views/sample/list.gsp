@@ -22,10 +22,7 @@
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
          sortInfo="1"
          plugins="{
-                  pagination: true,
-                  filter: {
-                  itemsName : 'samples'
-                  }
+                  filter: {itemsName : 'samples'}
                   }"
          selectable="true"
          structure='[{cells:[

@@ -9,9 +9,8 @@
     </div>
     <div class="list">
       <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:450px" store="statsStore" rowsPerPage="25"
-           sortInfo="-6"
+           sortInfo="-7"
            plugins="{
-                    pagination: true,
                     filter: {
                     itemsName : 'samples'
                     }

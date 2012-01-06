@@ -4,14 +4,13 @@
       <div class="message">${flash.message}</div>
     </g:if>
     <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_stats_data", id:genomeInstance.accession)}" jsId="statsStore"
-         query="{}" 
+         query="{}"
          queryOptions="{'deep':true}">
     </div>
     <div class="list">
       <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:450px" store="statsStore" rowsPerPage="25"
-           sortInfo="-6"
+           sortInfo="-7"
            plugins="{
-                    pagination: true, 
                     filter: {
                     itemsName : 'samples'
                     }

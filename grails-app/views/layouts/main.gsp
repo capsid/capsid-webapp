@@ -45,6 +45,13 @@
                     <script type="text/javascript" src="${resource(dir:'js/' + grailsApplication.config.js.dojo.path + '/dijit/',file:'dijit.js')}"></script>
                     <script src="${resource(dir:'js/' + grailsApplication.config.js.path + '/capsid/',file:'capsid.js')}"></script>
                     <p:renderDependantJavascript />
+                    <script>
+                      function onClickFeature(e, f) {
+                      alert('in');
+                      alert(e);
+                      alert(f);
+                      }
+                    </script>
                   </footer>
                 </body>
               </html>

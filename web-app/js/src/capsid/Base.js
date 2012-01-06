@@ -9,9 +9,13 @@
  */
 
 dojo.provide("capsid.Base");
+
 (function(){
 dojo.declare("capsid.Base", null, {
-	constructor : function() {}
+       constructor : function() {},
+       onFeatureClick : function() {
+         alert('a');
+       }
 });
 })();
 
@@ -90,5 +94,4 @@ dojo.ready(function() {
         }
       });
     }
-
 });

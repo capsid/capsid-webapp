@@ -32,10 +32,10 @@ class JbrowseController {
 		// jbrowse breaks when refseq name contains spaces or commas. So we use accession.
 		List seqs = [[
 				name:genomeInstance.accession,
-				length:genomeInstance.length, 
-				start:1, 
-				end:genomeInstance.length, 
-				seqChunkSize:20000, 
+				length:genomeInstance.length,
+				start:1,
+				end:genomeInstance.length,
+				seqChunkSize:20000,
 				seqDir:'genome/'+genomeInstance.accession+'/sequence'
 			]]
 
@@ -100,31 +100,31 @@ class JbrowseController {
 				tracks[0]['children'].add("_reference" : it.value['label'])
 			}
 		}
-		
+
 		tracks.addAll(samples);
 
 		def s = [refseqs:seqs, trackInfo:tracks]
 		render s as JSON
 	}
-	
+
 	def track = {
 		Genome genomeInstance = Genome.findByAccession(params.id)
 		Sample sampleInstance = Sample.findByName(params.track)
 
 		List headers = ['start', 'end', 'strand', 'id', 'isHuman', 'label'];
-		int ncIndex = headers.size();		
-		
+		int ncIndex = headers.size();
+
 		List histograms = [new Histogram(1000)]
 		List hits = []
 
 		def mapped = Mapped.collection.find(genomeId: genomeInstance.id, sample: sampleInstance.name).sort([refStart: 1])
-		mapped.each { 
+		mapped.each {
 			List hit = [it.refStart, it.refEnd, it.refStrand, it._id.toString(), it.isHuman, ""]
-			addToNcList(hits, ncIndex, hit)	
+			addToNcList(hits, ncIndex, hit)
 			histograms*.count(it.refStart)
 		}
 
-		Map trackInfo = 
+		Map trackInfo =
 		[
 			className:'feature',
 			featureCount: hits.size,
@@ -133,11 +133,11 @@ class JbrowseController {
 			label: sampleInstance.name,
 			type: 'FeatureTrack',
 			sublistIndex:ncIndex,
-			onFeatureClick:"",//"Browse.onClickFeature(event, fields);",
+			onFeatureClick:"onClickFeature(event, fields);",
                         clientConfig:[featureCallback:"function(feature,fields,featDiv){if(feature[fields['isHuman']]) {dojo.addClass(featDiv, 'human')}}"],
 			featureNCList: hits
 		]
-		
+
 		trackInfo.putAll(hist(histograms, "../sample-hist/"+params.id+"?sample="+sampleInstance.name+"&chunk={chunk}"))
 		render trackInfo as JSON
 	}
@@ -145,7 +145,7 @@ class JbrowseController {
 	def sequence = {
 		Genome genomeInstance = Genome.findByAccession(params.id)
 		Sequence seq = Sequence.get(genomeInstance.seqId)
-		
+
 		// TODO: hook this to the Sequence table when available
 		// Sequence table available - but what does this do?
 
@@ -154,23 +154,23 @@ class JbrowseController {
 		def sequence = (1..20000).collect{ chars[random.nextInt(chars.size())] }.join()
 		render seq
 	}
-	
+
 	def genes = {
 		Genome genomeInstance = Genome.findByAccession(params.id)
-		
+
 		List headers = ['start', 'end', 'strand', 'name', 'id', 'subfeatures'];
 		int ncIndex = headers.size();
-		
-		List histograms = [new Histogram(1000)]	
+
+		List histograms = [new Histogram(1000)]
 		List hits = []
-		
+
 		Feature.collection.find(genomeId:genomeInstance.id, type: 'gene').sort([start: 1]).collect { val ->
 			def hit = [val.start, val.end, val.strand, val.name, val.name, []]
 			addToNcList(hits, ncIndex, hit)
 			histograms*.count(val.start)
 			null;
 		}
-		
+
 		int cdsIndex = 0;
 		int lastHit = 0;
 
@@ -181,7 +181,7 @@ class JbrowseController {
 			}
 			hits[lastHit][ncIndex-1] << cdsIndex++
 		}
-		
+
 
 		Map trackInfo =
 		[
@@ -202,10 +202,10 @@ class JbrowseController {
 		trackInfo.putAll(hist(histograms, "../gene-hist/"+params.id+"?chunk={chunk}"))
 		render trackInfo as JSON
 	}
-	
+
 	def cds = {
 		Genome genomeInstance = Genome.findByAccession(params.id)
-		
+
 		List cds = Feature.collection.find(genomeId:genomeInstance.id, type: 'cds').sort([start: 1]).collect { val ->
 				[val.start, val.stop, val.strand, 'CDS']
 		}

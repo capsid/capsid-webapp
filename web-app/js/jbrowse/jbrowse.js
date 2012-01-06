@@ -2806,7 +2806,7 @@ FeatureTrack.prototype.loadSuccess = function(trackInfo) {
     var fields = this.fields;
     var featureTrack = this;
     if (! trackInfo.urlTemplate) {
-        this.onFeatureClick = function(event) {
+          this.onFeatureClick = function(event) {
             event = event || window.event;
 	    if (event.shiftKey) return;
 	    var elem = (event.currentTarget || event.srcElement);
@@ -2815,13 +2815,13 @@ FeatureTrack.prototype.loadSuccess = function(trackInfo) {
             if (!elem.feature) elem = elem.parentElement;
             if (!elem.feature) return; //shouldn't happen; just bail if it does
             var feat = elem.feature;
+            // dojo dialog here
 	    alert("clicked on feature\nstart: " + feat[fields["start"]] +
 	          ", end: " + feat[fields["end"]] +
 	          ", strand: " + feat[fields["strand"]] +
 	          ", label: " + feat[fields["name"]] +
 	          ", ID: " + feat[fields["id"]]);
         };
-
         var track = this;
 
         this.onFeatureRightClick = function(event) {
