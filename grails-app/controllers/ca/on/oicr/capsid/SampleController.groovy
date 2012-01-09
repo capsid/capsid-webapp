@@ -132,16 +132,16 @@ class SampleController {
     }
     def show_stats_data = {
         Sample sampleInstance = findInstance()
-        ArrayList stats = Statistics.collection.find(sampleName:sampleInstance.name).collect{
+        ArrayList stats = Statistics.collection.find(sample:sampleInstance.name).collect{
                 [
-                    accession: it.genomeAccession
-                ,   gname: it.genomeName
-                ,   hits: it.hits
+                    accession: it.accession
+                ,   genome: it.genome
+                ,   genomeHits: it.genomeHits
                 ,   geneHits: it.geneHits
-                ,   totalCoverage: it.totalCoverage
-                ,   geneCoverage: it.geneCoverage
-                ,   maxCoverage: it.maxCoverage
-                ,   sname: it.sampleName
+                ,   genomeCoverage: it.genomeCoverage
+                ,   geneCoverageAvg: it.geneCoverageAvg
+                ,   geneCoverageMax: it.geneCoverageMax
+                ,   sample: it.sample
                 ]
         }
 

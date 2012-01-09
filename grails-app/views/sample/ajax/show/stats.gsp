@@ -16,13 +16,13 @@
            selectable="true"
            structure='[{cells:[
                       {field: "accession", name: "Accession", datatype: "string", width: "100px", formatter: capsid.grid.Formatter.prototype.links.genome},
-                      {field: "gname", name: "Genome", datatype: "string", width: "auto"},
-                      {field: "hits", name:"Hits on Genomes", datatype: "number", width: "100px"},
+                      {field: "genome", name: "Genome", datatype: "string", width: "auto"},
+                      {field: "genomeHits", name:"Hits on Genomes", datatype: "number", width: "100px"},
                       {field: "geneHits", name:"Hits on Genes", datatype: "number", width: "100px"},
-                      {field: "totalCoverage", name:"Genome Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {field: "geneCoverage", name:"Average Gene Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {field: "maxCoverage", name:"Max Gene Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {fields: ["accession", "sname"], name:"Links", datatype: "string", width: "150px", formatter: capsid.grid.Formatter.prototype.links.jbrowse}
+                      {field: "genomeCoverage", name:"Genome Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {field: "geneCoverageAvg", name:"Average Gene Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {field: "geneCoverageMax", name:"Max Gene Coverage", datatype: "number", width: "100px", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {fields: ["accession", "sample"], name:"Links", datatype: "string", width: "150px", formatter: capsid.grid.Formatter.prototype.links.jbrowse}
                       ]}]'>
       </div>
     </div>
