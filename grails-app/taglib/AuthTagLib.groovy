@@ -37,7 +37,6 @@ class AuthTagLib {
         if (user['ROLE_CAPSID'] == 'owner') {
             access = true
         } else {
-            println 'here?'
             roles.each { k,v ->
                 if (user['ROLE_' + k.toUpperCase()] in v) {
                     access = true
