@@ -4,14 +4,13 @@
       <div class="message">${flash.message}</div>
     </g:if>
     <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_features_data", id:genomeInstance.accession)}" jsId="featureStore"
-         query="{}" 
+         query="{}"
          queryOptions="{'deep':true}">
     </div>
     <div class="list">
-      <div dojoType="dojox.grid.EnhancedGrid" id="featuresGrid" jsId="featuresGrid" style="height:450px" store="featureStore" rowsPerPage="25"
+      <div dojoType="dojox.grid.EnhancedGrid" id="featuresGrid" jsId="featuresGrid" style="height:550px" store="featureStore" rowsPerPage="25"
            sortInfo="1"
            plugins="{
-                    pagination: true, 
                     filter: {
                     itemsName : 'features'
                     }

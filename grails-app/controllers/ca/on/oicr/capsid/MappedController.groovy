@@ -31,8 +31,7 @@ class MappedController {
 
   def show = {
     Mapped mappedInstance = findInstance()
-
-    DB db = mongo.mongo.getDB('capsid')
+    DB db = mongo.mongo.getDB('capsid2')
     GridFS gfs = new GridFS(db)
     GridFSDBFile file = gfs.findOne(mappedInstance.genome)
 

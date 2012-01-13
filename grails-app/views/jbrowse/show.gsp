@@ -8,7 +8,7 @@
     <script type="text/javascript" src="${resource(dir:'js/jbrowse/jslib/dojo', file:'jbrowse_dojo.js')}" ></script>
     <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'prototype.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'jbrowse.js')}"></script>
-    
+
     <script type="text/javascript">
     /* <![CDATA[ */
 			var queryParams = dojo.queryToObject(window.location.search.slice(1));
@@ -45,6 +45,6 @@
 </g:if>
 <h1 style="display:inline">${genomeInstance?.name.replaceAll("_"," ")} (${genomeInstance?.accession.replaceAll("_"," ")}), ${genomeInstance?.length}bp</h1> [<a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank" style="color:#444">Link to NCBI Nucleotide DB</a>]
 <div id="setup-loader"><span>Setting Up jBrowse...</span></div>
-<div id="browser" style="height:500px;width:100%"></div>
+<div id="browser" style="border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; height:750px;width:100%"></div>
 </body>
 </html>

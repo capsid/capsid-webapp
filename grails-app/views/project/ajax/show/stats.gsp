@@ -7,7 +7,7 @@
          query="{}"
          queryOptions="{'deep':true}">
     </div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:450px" store="statStore" rowsPerPage="25"
+    <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:650px" store="statStore" rowsPerPage="25"
          sortInfo="-7"
          plugins="{
                   filter: true

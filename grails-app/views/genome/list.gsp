@@ -14,10 +14,9 @@
       </div>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="genomeGrid" jsId="genomeGrid" style="height:450px" store="store"
+    <div dojoType="dojox.grid.EnhancedGrid" id="genomeGrid" jsId="genomeGrid" style="height:700px" store="store"
          sortInfo="-6"
          plugins="{
-                  pagination: true,
                   filter: {
                   itemsName : 'genomes'
                   }
