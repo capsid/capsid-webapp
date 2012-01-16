@@ -30,6 +30,7 @@ class Mapped {
         String sequencingType
         String platform
         Integer mapsGene
+        String sequence
 
 	String genome
 	String alignment

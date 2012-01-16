@@ -31,24 +31,9 @@ class MappedController {
 
   def show = {
     Mapped mappedInstance = findInstance()
-    DB db = mongo.mongo.getDB('capsid2')
-    GridFS gfs = new GridFS(db)
-    GridFSDBFile file = gfs.findOne(mappedInstance.genome)
+    
 
-    int count = 1
-    file.getInputStream().each {
-      if (count >= mappedInstance.refStart && count <= mappedInstance.refEnd) {
-        print new String(it)
-      }
-      count++
-    }
-
-    //Map alignment = mappedService.getSplitAlignment("ACCAGGGAATATTGGTACCCTGCCAGTATCCCTGGATTTAAACATATCTACTACTACTCATCATCATCAATGCCATCTCAATCTCATACTACTACTCATAGGGCGCCGCGGGGCATAATCGATCATGTCGATGCGATCGAGTCAACAAGCGGGTGGAGCGGACG", file.getInputStream().getAt(mappedInstance.refStart..mappedInstance.refEnd-1))
-    Map alignment = mappedService.getSplitAlignment("ACGTACTGATCGATCGATGCATCGATCGATCGATCGACTGATCGACTGACTAGCTACGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGTACGTACGATCGATCGATCGATCGATCGATCGATCATCGA", "ACGTACTGATCGATCGATGCATCGATCGATCGATCGACTGATCGACTGACTAGCTACGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGTACGTACGATCGATCGATCGATCGATCGATCGATCATCGA")
-
-    alignment.ref.pos.each {val -> val + mappedInstance.refStart}
-
-    [mappedInstance: mappedInstance, alignment: alignment]
+    [mappedInstance: mappedInstance]
   }
 
   def contig = {
@@ -70,6 +55,38 @@ class MappedController {
    * AJAX Tabs
    *********************************************************************** */
   /* ** Show  ** */
+  def show_fasta = {
+    Mapped mappedInstance = findInstance()
+    String sequence = mappedInstance.sequence.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+
+    render(view: 'ajax/show/fasta', model: [mappedInstance: mappedInstance, sequence: sequence])
+  }
+
+  def show_alignment = {
+    Mapped mappedInstance = findInstance()
+    Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
+
+    DB db = mongo.mongo.getDB('capsid2')
+    GridFS gfs = new GridFS(db)
+    GridFSDBFile file = gfs.findOne(mappedInstance.genome)
+
+    String genomeSeq = new String()
+    
+    int count = 1
+    file.getInputStream().each {
+      if (count >= mappedInstance.refStart && count <= mappedInstance.refEnd) {
+        genomeSeq = genomeSeq + new String(it)
+      }
+      count++
+    }
+    
+    Map alignment = mappedService.getSplitAlignment(mappedInstance.sequence, genomeSeq)
+
+    alignment.ref.pos.each {val -> val + mappedInstance.refStart}
+
+    render(view: 'ajax/show/align', model: [mappedInstance: mappedInstance, alignment: alignment, genomeInstance: genomeInstance])
+  }
+
   def show_reads = {
     Mapped mappedInstance = findInstance()
     render(view: 'ajax/show/reads', model: [mappedInstance: mappedInstance])
