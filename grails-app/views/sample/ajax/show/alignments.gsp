@@ -6,9 +6,8 @@
     <div dojoType="dojox.data.AndOrReadStore" url='${createLink(action:"show_alignments_data", id:sampleInstance.name)}' jsId="alignStore" clearOnClose="true" query="{}" queryOptions="{'deep':true}">
     </div>
     <div class="list">
-      <div dojoType="dojox.grid.EnhancedGrid" id="alignGrid" jsId="alignGrid" style="height:450px" store="alignStore" rowsPerPage="25" sortInfo="1"
+      <div dojoType="dojox.grid.EnhancedGrid" id="alignGrid" jsId="alignGrid" style="height:550px" store="alignStore" sortInfo="1"
            plugins="{
-                    pagination: true,
                     filter: {
                     itemsName : 'alignments'
                     }

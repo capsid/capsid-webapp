@@ -19,7 +19,7 @@
       </auth:ifAnyGranted>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
+    <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"
          sortInfo="1"
          plugins="{
                   filter: {itemsName : 'samples'}
