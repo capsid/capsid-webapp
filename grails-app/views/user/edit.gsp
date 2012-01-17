@@ -97,7 +97,7 @@
         <h1 style="color:red">Delete User</h1>
         <div class="errors unit size1of3">
           <div class="unit size1of2">
-            Deleting a project is permanent. <br>
+            Deleting a user is permanent. <br>
             Please be certain before continuing.
           </div>
           <div class="unit size1of2">
