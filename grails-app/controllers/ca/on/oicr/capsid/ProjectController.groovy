@@ -155,7 +155,7 @@ class ProjectController {
   }
   def show_stats_data = {
     Project projectInstance = findInstance()
-    ArrayList stats = Statistics.collection.find(label:projectInstance.label).collect {
+    ArrayList stats = Statistics.collection.find(label:projectInstance.label, sample: [$exists: false]).collect {
       [
         id: it._id.toString()
         ,   accession: it.accession
