@@ -82,7 +82,7 @@ class UserController {
     userService.update user, params
 
     flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.username])}"
-    redirect action:'edit', id:user.username
+    redirect action:'show', id:user.username
   }
 
   def delete = {
