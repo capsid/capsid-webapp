@@ -10,6 +10,8 @@
 
 package ca.on.oicr.capsid
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
@@ -32,7 +34,8 @@ class MappedController {
   def show = {
     Mapped mappedInstance = findInstance()
     
-
+    println CH.config.grails.mail.host
+    println CH.config.dataSource
     [mappedInstance: mappedInstance]
   }
 

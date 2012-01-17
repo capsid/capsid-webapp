@@ -101,7 +101,7 @@
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Genomes" title="FASTA Sequence"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Genomes" title="Alignment"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Genomes" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Genome Sequence not found in Database.</span>"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
    </div>
   </body>
