@@ -57,7 +57,7 @@ class MappedController {
   /* ** Show  ** */
   def show_fasta = {
     Mapped mappedInstance = findInstance()
-    String sequence = mappedInstance.sequence.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+    List sequence = mappedInstance.sequence.replaceAll(/.{80}/){all -> all + ';'}.split(';')
 
     render(view: 'ajax/show/fasta', model: [mappedInstance: mappedInstance, sequence: sequence])
   }

@@ -1,3 +1,5 @@
 <b>>${mappedInstance.id}</b><br>
-${mappedInstance.sequence}
+<g:each var="i" in="${mappedInstance.sequence}">
+${i}<br>
+</g:each>
     
