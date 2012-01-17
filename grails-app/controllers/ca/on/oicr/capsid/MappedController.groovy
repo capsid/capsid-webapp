@@ -34,8 +34,6 @@ class MappedController {
   def show = {
     Mapped mappedInstance = findInstance()
     
-    println CH.config.grails.mail.host
-    println CH.config.dataSource
     [mappedInstance: mappedInstance]
   }
 
@@ -69,7 +67,7 @@ class MappedController {
     Mapped mappedInstance = findInstance()
     Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
-    DB db = mongo.mongo.getDB('capsid2')
+    DB db = mongo.mongo.getDB(CH.config.grails.gridfs)
     GridFS gfs = new GridFS(db)
     GridFSDBFile file = gfs.findOne(mappedInstance.genome)
 
