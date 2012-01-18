@@ -13,9 +13,7 @@
         <h1>${userInstance.username}</h1>
       </div>
       <div class="unit right">
-        <a href="${createLink(action:'edit', id:userInstance.username)}" style="font-weight:normal;color:#333;">
-          <button data-dojo-type="dijit.form.Button" id="editButton" jsId="editButton">Edit User</button>
-        </a>
+          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/user/edit/${userInstance.username}">Edit Project</button>
       </div>
     </div>
     <div class="line">

@@ -15,11 +15,9 @@ dojo.require("capsid.form.Base");
 dojo.declare("capsid.form.Ajax", null, {
     constructor: function() {},
     project: function() {
-      console.log('in capsid.form.Ajax.project');
       if (dojo.byId('addProjectButton')) {
         dojo.connect(dijit.byId('addProjectButton'), "onClick", addProjectDialog, "show");
-        dojo.query('#addProjectDialog')
-.delegate('form', "onsubmit", function(e) {
+        dojo.query('#addProjectDialog').delegate('form', "onsubmit", function(e) {
             e.preventDefault();
             dojo.xhrPost({
                 form: dojo.byId('addProjectForm'),

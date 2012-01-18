@@ -16,7 +16,7 @@
       </div>
       <auth:ifAnyGranted access="[(alignmentInstance.project):['collaborator', 'admin']]">
         <div class="unit right">
-          <a href="${createLink(action:'edit', id:alignmentInstance.name)}" style="font-weight:normal;color:#333;"><button data-dojo-type="dijit.form.Button" id="editButton" jsId="editButton">Edit Alignment</button></a>
+          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/alignment/edit/${alignmentInstance.name}">Edit Project</button>
         </div>
       </auth:ifAnyGranted>
     </div>
