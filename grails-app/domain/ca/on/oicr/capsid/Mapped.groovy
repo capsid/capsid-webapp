@@ -29,7 +29,7 @@ class Mapped {
         Integer refEnd
         String sequencingType
         String platform
-        Integer mapsGene
+        List mapsGene
         String sequence
 
 	String genome

@@ -85,8 +85,8 @@
               <td valign="top" class="value">${mappedInstance.platform}</td>
             </tr>
             <tr class="prop">
-              <td valign="top" class="name">Maps to a Gene</td>
-              <td valign="top" class="value">${mappedInstance.mapsGene?'True':'False'}</td>
+              <td valign="top" class="name">Maps to Gene(s)</td>
+              <td valign="top" class="value">${mappedInstance.mapsGene.join(', ')}</td>
             </tr>
           </tbody>
         </table>
