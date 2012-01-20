@@ -1,5 +1,22 @@
 # Change Log
 
+## 1.2
+
+*Release date: 20 Jan 2012*
+
+**FEATURES**
+
+* Simplified installation
+* Added embedded Jetty server
+* Mapped read details page
+* Display read alignment against genome sequence
+
+**FIXES**
+
+* UserRoles not being deleted with User
+* Edit button works in FF 3.6
+* Statistics tables sorted by max coverage
+
 ## 1.1
 
 *Release date: 25 Nov 2011*
@@ -14,7 +31,7 @@
 * Reads that map to both pathogen and reference genomes are highlighted
 
 
-**FIXES**  
+**FIXES**
 * Popups populated through ajax calls
 * Grids refreshed rather than forcing page reload
 * Moved Admin link to nav bar
