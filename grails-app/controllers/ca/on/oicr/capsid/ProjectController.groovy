@@ -155,16 +155,16 @@ class ProjectController {
   }
   def show_stats_data = {
     Project projectInstance = findInstance()
-    ArrayList stats = Statistics.collection.find(projectLabel:projectInstance.label, sampleId:0).collect {
+    ArrayList stats = Statistics.collection.find(label:projectInstance.label, sample: [$exists: false]).collect {
       [
         id: it._id.toString()
-        ,   accession: it.genomeAccession
-        ,   gname: it.genomeName
-        ,   hits: it.hits
+        ,   accession: it.accession
+        ,   genome: it.genome
+        ,   genomeHits: it.genomeHits
         ,   geneHits: it.geneHits
-        ,   totalCoverage: it.totalCoverage
-        ,   geneCoverage: it.geneCoverage
-        ,   maxCoverage: it.maxCoverage
+        ,   genomeCoverage: it.genomeCoverage
+        ,   geneCoverageAvg: it.geneCoverageAvg
+        ,   geneCoverageMax: it.geneCoverageMax
       ]
     }
 

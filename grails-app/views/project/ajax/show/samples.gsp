@@ -7,10 +7,9 @@
              query="{}"
              queryOptions="{'deep':true}">
         </div>
-            <div dojoType="dojox.grid.EnhancedGrid" id="sampleGrid" jsId="sampleGrid" style="height:450px" store="sampleStore" rowsPerPage="25"
+            <div dojoType="dojox.grid.EnhancedGrid" id="sampleGrid" jsId="sampleGrid" style="height:650px" store="sampleStore" rowsPerPage="25"
                  sortInfo="1"
                  plugins="{
-                     pagination: true,
                      filter: {
                              itemsName : 'samples'
                              }

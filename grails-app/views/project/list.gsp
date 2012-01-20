@@ -18,12 +18,10 @@
       </auth:ifAnyGranted>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}" clearOnClose="true"></div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:450px" store="store"
+    <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"
          sortInfo="1"
          plugins="{
-                  pagination: true,
                   filter: { itemsName : 'projects' },
-                  cookie: true
                   }"
          selectable="true"
          structure='[{cells:[

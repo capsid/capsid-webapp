@@ -90,5 +90,6 @@ class UserService {
 
   void delete(User user) {
     user.delete()
+    UserRole.removeAll user
   }
 }

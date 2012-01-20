@@ -12,6 +12,9 @@ dojo.provide("capsid.grid.Base");
 
 (function(){
 dojo.declare("capsid.grid.Base", null, {
-	constructor : function() {}
+	       constructor : function() {},
+               onRowContextMenu: function(e) {
+                 alert('here');
+               }
 });
 })();

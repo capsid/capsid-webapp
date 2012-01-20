@@ -72,21 +72,21 @@ class GenomeController {
     Project projectInstance = findProject()
     Genome genomeInstance = findInstance()
     ArrayList samples = Statistics.collection.find(
-      projectId:projectInstance.id
-      ,	genomeId:genomeInstance.id
-      ,	sampleId: [$ne:0])
+      label:projectInstance.label
+      ,	accession:genomeInstance.accession
+      ,	sample: [$exists: 1])
     .collect{
       [
         id: it._id.toString()
-        ,	sname: it.sampleName
-        ,	plabel:it.projectLabel
-        ,	pname:it.projectName
-        ,	hits:it.hits
+        ,	sample: it.sample
+        ,	label:it.label
+        ,	project:it.project
+        ,	genomeHits:it.genomeHits
         ,	geneHits:it.geneHits
-        ,	totalCoverage:it.totalCoverage
-        ,	geneCoverage:it.geneCoverage
-        ,	maxCoverage:it.maxCoverage
-        ,	accession: it.genomeAccession
+        ,	genomeCoverage:it.genomeCoverage
+        ,	geneCoverageAvg:it.geneCoverageAvg
+        ,	geneCoverageMax:it.geneCoverageMax
+        ,	accession: it.accession
       ]
     }
 
@@ -108,27 +108,27 @@ class GenomeController {
   def show_stats_data = {
     Genome genomeInstance = findInstance()
     ArrayList samples = Statistics.collection.find(
-      genomeId: genomeInstance.id
-      ,	sampleId: [$ne:0]
-      ,	projectId: [$in:projectService.getAllowedProjects().id])
+      accession: genomeInstance.accession
+      ,	sample: [$exists: 1]
+      ,	label: [$in:projectService.getAllowedProjects().label])
     .collect {
       [
-        id: it._id.toString()
-        ,	sname: it.sampleName
-        ,	plabel: it.projectLabel
-        ,	pname: it.projectName
-        ,	hits: it.hits
+        id : it._id.toString()
+        ,	sample: it.sample
+        ,	label: it.label
+        ,	project: it.project
+        ,	genomeHits: it.genomeHits
         ,	geneHits: it.geneHits
-        ,	totalCoverage: it.totalCoverage
-        ,	geneCoverage: it.geneCoverage
-        ,	maxCoverage: it.maxCoverage,
-        ,	accession: it.genomeAccession
+        ,	genomeCoverage: it.genomeCoverage
+        ,	geneCoverageAvg: it.geneCoverageAvg
+        ,	geneCoverageMax: it.geneCoverageMax
+        ,	accession: it.accession
       ]
     }
 
     def ret = [
       'identifier': 'id',
-      'label': 'sname',
+      'label': 'sample',
       'items': samples
     ]
 

@@ -97,7 +97,8 @@
         <h1 style="color:red">Delete User</h1>
         <div class="errors unit size1of3">
           <div class="unit size1of2">
-            Delete the user
+            Deleting a user is permanent. <br>
+            Please be certain before continuing.
           </div>
           <div class="unit size1of2">
             <g:form action="delete" method="post" dojoType="dijit.form.Form" id="${userInstance.username}">

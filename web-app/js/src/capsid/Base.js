@@ -9,10 +9,14 @@
  */
 
 dojo.provide("capsid.Base");
+
 (function(){
-dojo.declare("capsid.Base", null, {
-	constructor : function() {}
-});
+  dojo.declare("capsid.Base", null, {
+       constructor : function() {},
+       onFeatureClick : function() {
+         alert('a');
+       }
+  });
 })();
 
 function del() {
@@ -70,6 +74,12 @@ dojo.ready(function() {
     capsid.form.Ajax.prototype.alignment();
     capsid.form.Ajax.prototype.user();
 
+    if (editButton) {
+        dojo.connect(editButton, "onClick", function(){
+          window.location = baseUrl + this.id;
+        });
+    }
+
     /* Add User to access group  */
     if (dojo.byId('access-panel')) { accessPanel(); }
 
@@ -90,5 +100,4 @@ dojo.ready(function() {
         }
       });
     }
-
 });

@@ -8,24 +8,23 @@
          queryOptions="{'deep':true}">
     </div>
     <div class="list">
-      <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:450px" store="statsStore" rowsPerPage="25"
-           sortInfo="-6"
+      <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:550px" store="statsStore"
+           sortInfo="-7"
            plugins="{
-                    pagination: true,
                     filter: {
                     itemsName : 'samples'
                     }
                     }"
            selectable="true"
            structure='[{cells:[
-                      {field: "sname", name: "Sample", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.sample},
-                      {fields: ["plabel", "pname"], name: "Project", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
-                      {field: "hits", name:"Hits on Genomes", datatype: "number", width: "auto"},
+                      {field: "sample", name: "Sample", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.sample},
+                      {fields: ["label", "project"], name: "Project", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
+                      {field: "genomeHits", name:"Hits on Genomes", datatype: "number", width: "auto"},
                       {field: "geneHits", name:"Hits on Genes", datatype: "number", width: "auto"},
-                      {field: "totalCoverage", name:"Genome Coverage", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {field: "geneCoverage", name:"Coverage Over Genes", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {field: "maxCoverage", name:"Max Coverage", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
-                      {fields: ["accession", "sname"], name:"Links", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.jbrowse}
+                      {field: "genomeCoverage", name:"Genome Coverage", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {field: "geneCoverageAvg", name:"Coverage Over Genes", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {field: "geneCoverageMax", name:"Max Coverage", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
+                      {fields: ["accession", "sample"], name:"Links", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.jbrowse}
                       ]}]'>
       </div>
     </div>
