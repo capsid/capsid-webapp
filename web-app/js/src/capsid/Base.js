@@ -74,7 +74,7 @@ dojo.ready(function() {
     capsid.form.Ajax.prototype.alignment();
     capsid.form.Ajax.prototype.user();
 
-    if (editButton) {
+    if (dojo.byId('edit-wrap')) {
         dojo.connect(editButton, "onClick", function(){
           window.location = baseUrl + this.id;
         });

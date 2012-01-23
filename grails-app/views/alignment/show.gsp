@@ -16,7 +16,7 @@
       </div>
       <auth:ifAnyGranted access="[(alignmentInstance.project):['collaborator', 'admin']]">
         <div class="unit right">
-          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/alignment/edit/${alignmentInstance.name}">Edit Project</button>
+          <span id="alignment"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/alignment/edit/${alignmentInstance.name}">Edit Alignment</button></span>
         </div>
       </auth:ifAnyGranted>
     </div>

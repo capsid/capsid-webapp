@@ -16,7 +16,7 @@
       </div>
       <auth:ifAnyGranted access="[(sampleInstance.project):['collaborator', 'admin']]">
         <div class="unit right">
-          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/sample/edit/${sampleInstance.name}">Edit Project</button>
+          <span id="edit-wrap"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/sample/edit/${sampleInstance.name}">Edit Sample</button></span>
           <button data-dojo-type="dijit.form.Button" id="addAlignButton" jsId="addAlignButton">Add Alignment</button>
           <div style="display:none" href="${createLink(controller:'alignment', action:'create', id:sampleInstance.name)}" id="addAlignDialog" jsId="addAlignDialog" dojoType="dijit.Dialog" title="Add Alignment" refreshOnShow="true"></div>
         </div>

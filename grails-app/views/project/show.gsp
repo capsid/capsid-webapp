@@ -18,7 +18,7 @@
       </div>
       <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
         <div class="unit right">
-          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/project/edit/${projectInstance.label}">Edit Project</button>
+          <span id="edit-wrap"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/project/edit/${projectInstance.label}">Edit Project</button></span>
           <button data-dojo-type="dijit.form.Button" id="addSampleButton" jsId="addSampleButton">Add Sample</button>
           <div style="display:none" href="${createLink(controller:'sample', action:'create', id:projectInstance.label)}" id="addSampleDialog" jsId="addSampleDialog" dojoType="dijit.Dialog" title="Add Sample" refreshOnShow="true"></div>
           <span id="alignhide" style="display:${Sample.countByProject(projectInstance.label)?'inline':'none'}">
