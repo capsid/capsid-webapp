@@ -111,7 +111,7 @@ grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
 /**
  * Running externalized configuration
  * Assuming the following configuration files
- * - config location set path by system variable '<APP_NAME>_CONFIG_LOCATION'
+ * - config location set path by system variable '<APP_NAME>_CONFIG_PATH'
  */
 
 // Find the absolute path of of the war
@@ -131,7 +131,7 @@ defaultConfigFiles.each { filePath ->
   }
 }
 
-def externalConfig = System.getenv("CAPSID_CONFIG_LOCATION")
+def externalConfig = System.getenv("CAPSID_CONFIG_PATH")
 if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }
