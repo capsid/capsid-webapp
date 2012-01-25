@@ -140,6 +140,11 @@ if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }
 
+externalConfig = System.getProperty("CAPSID_CONFIG_PATH")
+if (externalConfig) {
+  grails.config.locations << "file:" + externalConfig
+}
+
 grails.config.locations.each {
   println "[INFO] Including configuration file [${it}] in configuration building."
 }
