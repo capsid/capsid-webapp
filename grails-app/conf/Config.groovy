@@ -5,7 +5,7 @@ import ca.on.oicr.ferv.Start;
 
 appName = 'capsid'
 
-grails.project.groupId = capsid // change this to alter the default package name and Maven publishing destination
+grails.project.groupId = 'capsid' // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [html: ['text/html', 'application/xhtml+xml'],
@@ -67,6 +67,8 @@ log4j = {
 
     warn 'org.mortbay.log'
     //debug  'org.springframework.security'
+	
+	debug 'groovy.util.ConfigSlurper'
 }
 
 // UI Performance
