@@ -16,4 +16,7 @@
 "keywords": ["JavaScript", "CaPSID"],
 "homepage": "http://github.com/capsid/capsid/wiki/",
 "dojoBuild": "layers.profile.js"
+"dependencies": {
+  "dojo": "1.6.1"
+}
 }
