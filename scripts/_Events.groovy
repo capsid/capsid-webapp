@@ -31,12 +31,29 @@ eventCreateWarStart = {warName, stagingDir ->
 
 
 eventCreateWarEnd = {warName, stagingDir ->
-    def libPath =""
-    File f = new File("$stagingDir/WEB-INF/lib")
-    if(f.exists()){
-        f.eachFile{ libPath += "WEB-INF/lib/${it.name} " }
-    }
     ant.jar(destfile:warName, update:true) {
         manifest { attribute(name: "Main-Class", value: "ca.on.oicr.ferv.Start")}
     }
+}
+
+eventCompileEnd = { 
+  ant.uptodate(property:"jsBuild.notRequired", targetfile:"${basedir}/web-app/js/release") {
+    ant.srcfiles(dir:"${basedir}/web-app/js/src/capsid", includes:"*/**")
+  }
+  noJsBuild =  ant.project.properties.get("jsBuild.notRequired");
+  if(!noJsBuild) {
+    ant.exec(dir:"${basedir}/web-app/js/src/dojo-sdk/util/buildscripts", executable:"./build.sh") {
+      ant.arg(value:"profileFile=../../../capsid/layers.profile.js")
+      ant.arg(value:"action=release")
+      ant.arg(value:"optimize=shrinksafe")
+      ant.arg(value:"layerOptimize=shrinksafe")
+      ant.arg(value:"version=1.0")
+      ant.arg(value:"releaseName=release")
+      ant.arg(value:"releaseDir=../../../../")
+    }
+  }
+}
+
+eventCleanEnd = {
+  ant.delete(dir:"${basedir}/web-app/js/release")
 }
