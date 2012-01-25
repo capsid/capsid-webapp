@@ -119,7 +119,7 @@ def defaultConfigFiles = ["${appName}-config.groovy"]
 // Find the absolute path of of the war
 try {
   Class startClass = Class.forName("ca.on.oicr.ferv.Start");
-  ProtectionDomain protectionDomain = Start.class.getProtectionDomain();
+  ProtectionDomain protectionDomain = startClass.getProtectionDomain();
   URL location = protectionDomain.getCodeSource().getLocation();
   File file = new File(location.toURI().getPath());
   String war_location = file.getParentFile().toString()
