@@ -5,4 +5,3 @@ datasource {
 	grails.mongo.port = 27017
 	grails.gridfs = grails.mongo.databaseName
 }
-
