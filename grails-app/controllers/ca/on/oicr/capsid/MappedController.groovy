@@ -67,7 +67,7 @@ class MappedController {
     Mapped mappedInstance = findInstance()
     Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
-    DB db = mongo.mongo.getDB(CH.config.grails.gridfs)
+    DB db = mongo.mongo.getDB(CH.config.datasource.grails.gridfs)
     GridFS gfs = new GridFS(db)
     GridFSDBFile file = gfs.findOne(mappedInstance.genome)
 

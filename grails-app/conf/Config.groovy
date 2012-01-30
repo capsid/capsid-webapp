@@ -66,6 +66,8 @@ log4j = {
 
     warn 'org.mortbay.log'
     //debug  'org.springframework.security'
+	
+	debug 'groovy.util.ConfigSlurper'
 }
 
 // UI Performance
