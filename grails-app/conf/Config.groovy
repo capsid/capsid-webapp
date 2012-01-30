@@ -1,7 +1,6 @@
 import java.security.ProtectionDomain;
 import java.net.URL;
 import java.io.File;
-import ca.on.oicr.ferv.Start;
 
 appName = 'capsid'
 
@@ -116,16 +115,21 @@ grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
  * - config location set path by system variable '<APP_NAME>_CONFIG_PATH'
  */
 
-// Find the absolute path of of the war
-ProtectionDomain protectionDomain = Start.class.getProtectionDomain();
-URL location = protectionDomain.getCodeSource().getLocation();
-File file = new File(location.toURI().getPath());
-String war_location = file.getParentFile().toString()
-
 grails.config.locations = ["classpath:${appName}-config.groovy"]
-def defaultConfigFiles = ["${appName}-config.groovy"
-                          , war_location + "/${appName}-config.groovy"]
+def defaultConfigFiles = ["${appName}-config.groovy"]
 
+// Find the absolute path of of the war
+try {
+  Class startClass = Class.forName("ca.on.oicr.ferv.Start");
+  ProtectionDomain protectionDomain = startClass.getProtectionDomain();
+  URL location = protectionDomain.getCodeSource().getLocation();
+  File file = new File(location.toURI().getPath());
+  String war_location = file.getParentFile().toString()
+
+  defaultConfigFiles << war_location + "/${appName}-config.groovy"
+} catch(ClassNotFoundException e) {
+  // embedded
+}
 defaultConfigFiles.each { filePath ->
   def f = new File(filePath)
   if (f.exists()) {
@@ -134,6 +138,11 @@ defaultConfigFiles.each { filePath ->
 }
 
 def externalConfig = System.getenv("CAPSID_CONFIG_PATH")
+if (externalConfig) {
+  grails.config.locations << "file:" + externalConfig
+}
+
+externalConfig = System.getProperty("CAPSID_CONFIG_PATH")
 if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }

@@ -16,3 +16,8 @@ License and Copyright
 Licensed under the GNU General Public License, Version 3.0. See LICENSE for more details.
 
 Copyright 2011 The Ontario Institute for Cancer Research.
+
+Acknowledgement
+---------------
+This project is supported by the Ontario Institute for Cancer Research
+(OICR) through funding provided by the government of Ontario, Canada.
