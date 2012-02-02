@@ -1,5 +1,14 @@
 # Change Log
 
+## 1.2.4
+
+*Release date: 2 Feb 2012*
+
+**FIXES**
+
+* Updated README.md
+* Corrected JavaScript issues which broke adding users
+
 ## 1.2
 
 *Release date: 20 Jan 2012*
