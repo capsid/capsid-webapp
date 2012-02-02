@@ -31,6 +31,7 @@ dojo.require('dijit.layout.ContentPane');
 dojo.require("dojox.grid.EnhancedGrid");
 dojo.require("dojox.grid.enhanced.plugins.Filter");
 dojo.require("dojox.grid.enhanced.plugins.Menu");
+dojo.require("dojox.grid.enhanced.plugins.Pagination");
 
 // Data Stores
 dojo.require("dojox.data.AndOrReadStore");
