@@ -114,7 +114,7 @@ class JbrowseController {
     Genome genomeInstance = Genome.findByAccession(params.id)
     Sample sampleInstance = Sample.findByName(params.track)
 
-    List headers = ['start', 'end', 'strand', 'id', 'isHuman', 'label'];
+    List headers = ['start', 'end', 'strand', 'id', 'isRef', 'label'];
     int ncIndex = headers.size();
 
     List histograms = [new Histogram(1000)]
@@ -122,7 +122,7 @@ class JbrowseController {
 
     def mapped = Mapped.collection.find(genome: genomeInstance.gi, sample: sampleInstance.name).sort([refStart: 1])
     mapped.each {
-      List hit = [it.refStart, it.refEnd, it.refStrand, it._id.toString(), it.isHuman, ""]
+      List hit = [it.refStart, it.refEnd, it.refStrand, it._id.toString(), it.isRef, ""]
       addToNcList(hits, ncIndex, hit)
       histograms*.count(it.refStart)
     }
@@ -137,7 +137,7 @@ class JbrowseController {
         type: 'FeatureTrack',
         sublistIndex:ncIndex,
         onFeatureClick:"onClickFeature(event, fields);",
-        clientConfig:[featureCallback:"function(feature,fields,featDiv){if(feature[fields['isHuman']]) {dojo.addClass(featDiv, 'human')}}"],
+        clientConfig:[featureCallback:"function(feature,fields,featDiv){if(feature[fields['isRef']]) {dojo.addClass(featDiv, 'human')}}"],
         featureNCList: hits
       ]
 
