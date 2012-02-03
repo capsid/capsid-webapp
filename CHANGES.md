@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.2.5
+
+*Release date: 3 Feb 2012*
+
+**FIXES**
+
+* Show reads that map to both reference sets in red
+
 ## 1.2.4
 
 *Release date: 2 Feb 2012*
