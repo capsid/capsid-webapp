@@ -2823,7 +2823,7 @@ FeatureTrack.prototype.loadSuccess = function(trackInfo) {
                   ", label: " + feat[fields["name"]] +
                   ", ID: " + feat[fields["id"]]);
             */
-            window.location = baseUrl + "/mapped/show/" + feat[fields['id']];
+            window.open(baseUrl + "/mapped/show/" + feat[fields['id']], '_newtab');
         };
         var track = this;
 
