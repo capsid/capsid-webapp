@@ -43,6 +43,8 @@ class UserRole implements Serializable {
     }
 
     static UserRole create(User user, Role role, String access = 'user', boolean flush = false) {
+        println user
+        println role
         new UserRole(user: user, role: role, access: access).save(flush: flush, insert: true)
     }
 

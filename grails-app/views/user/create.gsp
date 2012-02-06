@@ -54,7 +54,7 @@
     </tbody>
   </table>
   <table>
-  <tbody>
+    <tbody>
       <tr class="prop">
         <td valign="top" class="name">
           <label for="ldap">Use LDAP for authorization</label>
@@ -63,7 +63,7 @@
           <g:checkBox name="ldap"/>
         </td>
       </tr>
-  </tbody>
+    </tbody>
   </table>
   <button dojoType="dijit.form.Button" type="submit">Add User</button>
 </form>

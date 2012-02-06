@@ -61,15 +61,21 @@ class UserService {
       return false
     }
 
-    User user = new User(params)
-
     // Generate password
     String password = authService.getRandomString(8)
-    user.password = springSecurityService.encodePassword(password)
-    user.enabled = "true"
+
+    User user = new User(
+        username: params.username,
+        userRealName: params.userRealName,
+        email: params.email,
+        institute:params.institute,
+        location: params.location,
+        password: springSecurityService.encodePassword(password),
+        enabled: true).save(failOnError: true)
 
     // Give capsid:user role:access
     Role role = Role.findByAuthority('ROLE_CAPSID')
+
     if (params.admin) {
       UserRole.create user, role, 'owner'
     } else {
