@@ -33,6 +33,10 @@
             </td>
           </tr>
           <tr class="prop">
+            <td valign="top" class="name" >Cancer</td>
+            <td valign="top" class="value">${sampleInstance.cancer}</td>
+          </tr>
+          <tr class="prop">
             <td valign="top" class="name" >Role</td>
             <td valign="top" class="value">${sampleInstance.role}</td>
           </tr>
