@@ -13,7 +13,7 @@
         <h1>${userInstance.username}</h1>
       </div>
       <div class="unit right">
-          <button data-dojo-type="dijit.form.Button" jsId="editButton" id="/user/edit/${userInstance.username}">Edit Project</button>
+          <span id="edit-wrap"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/user/edit/${userInstance.username}">Edit User</button></span>
       </div>
     </div>
     <div class="line">
