@@ -1,5 +1,18 @@
 # Change Log
 
+## 1.2.6
+
+*Release date: 6 Feb 2012*
+
+**FIXES**
+
+* Mapped alignemnt positions line up properly with genome positions
+* Open new tab when clicking on read in JBrowse
+* Adds link to show all samples from genome details page
+* Edit User button properly labelled and working
+* Added cancer type to sample page
+* Users and UserRoles save properly
+
 ## 1.2.5
 
 *Release date: 3 Feb 2012*
@@ -16,6 +29,36 @@
 
 * Updated README.md
 * Corrected JavaScript issues which broke adding users
+
+## 1.2.3
+
+*Release date: *
+
+**FIXES**
+
+* Corrected Config Access issues
+
+## 1.2.2
+
+*Release date: 25 Jan 2012*
+
+**FEATURES**
+
+* Config file can be specified through Java System Property
+
+**FIXES**
+
+* Deploying under Tomcat or Jetty works against
+* OpenJDK compatible (No longer requires Oracle JDK)
+* 404 issue for reads that didn't map to any gene
+
+## 1.2.1
+
+*Release date: 23 Jan 2012*
+
+**FIXES**
+
+* Errors on JBrowse page
 
 ## 1.2
 

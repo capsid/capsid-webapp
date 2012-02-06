@@ -44,7 +44,6 @@ class AuthService {
     accessLevels.findAll {
       it.value in level
     }.keySet() as List
-
   }
 
   List<UserRole> getUsersWithRole(String roleName) {

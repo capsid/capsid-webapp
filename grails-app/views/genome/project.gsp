@@ -46,9 +46,14 @@
           </g:if>
           <li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
           <li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}">Map with jBrowse</g:link></li>
+          <li><g:link action="show" id="${genomeInstance.accession}">View All Samples</g:link></li>
         </ul>
       </div>
     </div>
+
+    
+      
+
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true">
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'project_stats', id:genomeInstance.accession, params:[pid:projectInstance.label])}" title="Samples from ${projectInstance.name.replaceAll('_',' ')}"></div>
     </div>
