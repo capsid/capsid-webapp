@@ -42,12 +42,12 @@ class GenomeController {
   def list_data = {
     List genomes = Genome.withCriteria({ne('organism', "Homo sapiens")}).collect {
       [
-                gi: it.gi
+          gi: it.gi
         ,	accession: it.accession
         ,	name: it.name
         ,	taxonomy: it.taxonomy?.join(", ")
-        ,       length: it.length
-        ,       samples: it.samples?.size()
+        , length: it.length
+        , samples: it.samples?.size()
       ]
     }
 
@@ -141,7 +141,7 @@ class GenomeController {
   }
   def show_features_data = {
     Genome genomeInstance = findInstance()
-    ArrayList features = Feature.collection.find(genomeId: genomeInstance.id).collect {
+    ArrayList features = Feature.collection.find(genome: genomeInstance.gi).collect {
       [
         id: it._id.toString()
         ,	name: it.name
