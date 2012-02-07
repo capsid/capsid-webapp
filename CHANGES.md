@@ -32,7 +32,7 @@
 
 ## 1.2.3
 
-*Release date: *
+*Release date: 30 Jan 2012*
 
 **FIXES**
 
