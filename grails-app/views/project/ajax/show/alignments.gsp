@@ -11,6 +11,9 @@
       <div dojoType="dojox.grid.EnhancedGrid" id="alignGrid" jsId="alignGrid" style="height:650px" store="alignStore" rowsPerPage="25" clearOnClose="true"
            sortInfo="1"
            plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                     filter: {
                     itemsName : 'alignments'
                     }

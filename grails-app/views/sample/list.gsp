@@ -24,9 +24,12 @@
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"
          sortInfo="1"
-         plugins="{
-                  filter: {itemsName : 'samples'}
-                  }"
+         plugins='{
+                    pagination: {
+                      pageSizes: ["25", "50", "100", "250"]
+                    },
+                    filter: {itemsName : "samples"}
+                  }'
          selectable="true"
          structure='[{cells:[
                     {field: "name", name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.sample}

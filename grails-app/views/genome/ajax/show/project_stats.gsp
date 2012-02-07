@@ -11,6 +11,9 @@
       <div dojoType="dojox.grid.EnhancedGrid" id="pstatsGrid" jsId="pstatsGrid" style="height:550px" store="pstatsStore" rowsPerPage="25"
            sortInfo="-7"
            plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                     filter: {
                     itemsName : 'projects'
                     }

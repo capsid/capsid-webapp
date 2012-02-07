@@ -11,6 +11,9 @@
       <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:550px" store="statStore"
            sortInfo="-7"
            plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                     filter: true
                     }"
            selectable="true"
