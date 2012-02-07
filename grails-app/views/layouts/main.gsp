@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title><g:layoutTitle default="OICR"/>::CaPSID</title>
+        <title><g:layoutTitle default="OICR"/> :: CaPSID</title>
         <link rel="shortcut icon" href="${resource(dir:'images', file:'favicon.ico')}">
           <link href='http://fonts.googleapis.com/css?family=Syncopate' rel='stylesheet' type='text/css'>
             <link href='http://fonts.googleapis.com/css?family=Gruppo' rel='stylesheet' type='text/css'>
