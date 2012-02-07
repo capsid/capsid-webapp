@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
-    <title><g:message code="default.show.label" args="[entityName]" /></title>
+    <title>Editing ${sampleInstance.name}</title>
   </head>
   <body>
     <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
@@ -49,6 +49,7 @@
           </tbody>
         </table>
         <button dojoType="dijit.form.Button" type="submit">Update Sample</button>
+        <g:link action="show" id="${sampleInstance?.name}">Cancel Edit</g:link>
       </g:form>
     </div>
       <div class="line">

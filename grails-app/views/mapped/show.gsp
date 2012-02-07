@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="layout" content="main" />
     <g:set var="entityName" value="${message(code: 'mapped.label', default: 'Mapped')}" />
-    <title><g:message code="default.show.label" args="[entityName]" /></title>
+    <title>${mappedInstance.readId}</title>
   </head>
   <body>
     <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
@@ -100,8 +100,8 @@
       </div>
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Genomes" title="FASTA Sequence"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Genomes" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Genome Sequence not found in Database.</span>"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Genomes" title="FASTA Sequence"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
    </div>
   </body>

@@ -13,17 +13,23 @@
       <div class="unit">
         <h1>Samples</h1>
       </div>
+      <!--
       <auth:ifAnyGranted access="['capsid': ['owner']]">
         <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Add Sample</button>
         <div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Add Sample" ></div>
       </auth:ifAnyGranted>
+      -->
     </div>
+
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"
          sortInfo="1"
-         plugins="{
-                  filter: {itemsName : 'samples'}
-                  }"
+         plugins='{
+                    pagination: {
+                      pageSizes: ["25", "50", "100", "250"]
+                    },
+                    filter: {itemsName : "samples"}
+                  }'
          selectable="true"
          structure='[{cells:[
                     {field: "name", name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.sample}

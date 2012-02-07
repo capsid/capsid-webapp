@@ -21,10 +21,12 @@
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:465px"
          store="store"
          sortInfo="1"
-         plugins="{
-                  pagination: true,
-                  filter: {itemsName : 'users'}
-                  }"
+         plugins='{
+                    pagination: {
+                      pageSizes: ["25", "50", "100", "250"]
+                    },
+                    filter: {itemsName : "users"}
+                  }'
          selectable="true"
          structure='[{cells:[
                     {field: "username", name: "Username", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.user}

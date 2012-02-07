@@ -10,6 +10,9 @@
     <div dojoType="dojox.grid.EnhancedGrid" id="statsGrid" jsId="statsGrid" style="height:650px" store="statStore" rowsPerPage="25"
          sortInfo="-7"
          plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                   filter: true
                 }"
          selectable="true"
@@ -21,7 +24,7 @@
                     {field: "genomeCoverage", name:"Genome Coverage", datatype: "number", width: "150px", formatter: capsid.grid.Formatter.prototype.math.percent},
                     {field: "geneCoverageAvg", name:"Average Gene Coverage", datatype: "number", width: "175px", formatter: capsid.grid.Formatter.prototype.math.percent},
                     {field: "geneCoverageMax", name:"Max Gene Coverage", datatype: "number", width: "150px", formatter: capsid.grid.Formatter.prototype.math.percent},
-                    {field: "accession", name:"Links", datatype: "string", width: "150px", formatter: capsid.grid.Formatter.prototype.links.genomeDetails}
+                    {field: "accession", name:"Links", datatype: "string", width: "150px", formatter: capsid.grid.Formatter.prototype.links.projectGenomeDetails}
                     ]}]'>
     </div>
   </div>

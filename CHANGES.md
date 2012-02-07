@@ -1,5 +1,25 @@
 # Change Log
 
+## 1.2.7
+
+*Release date: 7 Feb 2012*
+
+**FEATURES**
+
+* Tab for Project level statistics to the genome page
+* Total number of samples displayed in the project list view
+* Cancel Edit link to return to main view without saving
+* More descriptive page titles
+* Pagination addeed to tables
+* Default Mapped tab changed to Alignment
+
+**FIXES**
+
+* Remove broken Add Sample button on Sample list page
+* Broken Edit Alignment button
+* Genomes features not displaying even when features existed
+* Formatting for Add User popup
+
 ## 1.2.6
 
 *Release date: 6 Feb 2012*
@@ -32,7 +52,7 @@
 
 ## 1.2.3
 
-*Release date: *
+*Release date: 30 Jan 2012*
 
 **FIXES**
 

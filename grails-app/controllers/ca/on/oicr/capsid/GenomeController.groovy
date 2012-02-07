@@ -42,12 +42,12 @@ class GenomeController {
   def list_data = {
     List genomes = Genome.withCriteria({ne('organism', "Homo sapiens")}).collect {
       [
-                gi: it.gi
+          gi: it.gi
         ,	accession: it.accession
         ,	name: it.name
         ,	taxonomy: it.taxonomy?.join(", ")
-        ,       length: it.length
-        ,       samples: it.samples?.size()
+        , length: it.length
+        , samples: it.samples?.size()
       ]
     }
 
@@ -101,11 +101,44 @@ class GenomeController {
   }
 
   /*** Show ***/
-  def show_stats = {
+  def show_project_stats = {
     Genome genomeInstance = findInstance()
-    render(view: 'ajax/show/stats', model: [genomeInstance: genomeInstance])
+    render(view: 'ajax/show/project_stats', model: [genomeInstance: genomeInstance])
   }
-  def show_stats_data = {
+  def show_project_stats_data = {
+    Genome genomeInstance = findInstance()
+    ArrayList projects = Statistics.collection.find(
+      accession: genomeInstance.accession
+      , sample: [$exists: 0]
+      , label: [$in:projectService.getAllowedProjects().label])
+    .collect {
+      [
+        id : it._id.toString()
+        , label: it.label
+        , project: it.project
+        , genomeHits: it.genomeHits
+        , geneHits: it.geneHits
+        , genomeCoverage: it.genomeCoverage
+        , geneCoverageAvg: it.geneCoverageAvg
+        , geneCoverageMax: it.geneCoverageMax
+        , accession: it.accession
+      ]
+    }
+
+    def ret = [
+      'identifier': 'id',
+      'label': 'project',
+      'items': projects
+    ]
+
+    render ret as JSON
+  }
+
+  def show_sample_stats = {
+    Genome genomeInstance = findInstance()
+    render(view: 'ajax/show/sample_stats', model: [genomeInstance: genomeInstance])
+  }
+  def show_sample_stats_data = {
     Genome genomeInstance = findInstance()
     ArrayList samples = Statistics.collection.find(
       accession: genomeInstance.accession
@@ -141,7 +174,7 @@ class GenomeController {
   }
   def show_features_data = {
     Genome genomeInstance = findInstance()
-    ArrayList features = Feature.collection.find(genomeId: genomeInstance.id).collect {
+    ArrayList features = Feature.collection.find(genome: genomeInstance.gi).collect {
       [
         id: it._id.toString()
         ,	name: it.name

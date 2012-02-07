@@ -57,10 +57,10 @@
     <tbody>
       <tr class="prop">
         <td valign="top" class="name">
-          <label for="ldap">Use LDAP for authorization</label>
+          <label for="ldap">Use LDAP for<br>authorization</label>
         </td>
         <td valign="top" class="value">
-          <g:checkBox name="ldap"/>
+          <g:checkBox name="ldap" value=""/>
         </td>
       </tr>
     </tbody>

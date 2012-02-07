@@ -8,6 +8,9 @@
     <div class="list">
       <div dojoType="dojox.grid.EnhancedGrid" id="alignGrid" jsId="alignGrid" style="height:550px" store="alignStore" sortInfo="1"
            plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                     filter: {
                     itemsName : 'alignments'
                     }

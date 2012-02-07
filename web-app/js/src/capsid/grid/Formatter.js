@@ -22,6 +22,9 @@ dojo.declare("capsid.grid.Formatter", null, {
             return '<a href="' + baseUrl + '/genome/show/' + value + '">' + value.replace(/_/g, " ")  + '</a>';
         },
         genomeDetails: function(value) {
+            return '<a href="' + baseUrl + '/genome/project/' + value[0] + '/' + value[1] + '">Genome details</a>';
+        },
+        projectGenomeDetails: function(value) {
             return '<a href="' + baseUrl + '/genome/project/' + value + '/' + dojo.byId("label").value + '">Genome details</a>';
         },
         sample: function(value) {

@@ -81,9 +81,10 @@ class ProjectController {
     List projects = projectService.getAllowedProjects().collect {
       [
         label: it.label
-        ,   name: it.name
-        ,   description: it.description
-        ,   wikiLink: it.wikiLink
+        , name: it.name
+        , description: it.description
+        , samples: Sample.findAllByProject(it.label).size()
+        , wikiLink: it.wikiLink
       ]
     }
 

@@ -11,6 +11,9 @@
       <div dojoType="dojox.grid.EnhancedGrid" id="featuresGrid" jsId="featuresGrid" style="height:550px" store="featureStore" rowsPerPage="25"
            sortInfo="1"
            plugins="{
+                    pagination: {
+                      pageSizes: ['25', '50', '100', '250']
+                    },
                     filter: {
                     itemsName : 'features'
                     }

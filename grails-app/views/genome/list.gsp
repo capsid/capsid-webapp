@@ -16,11 +16,12 @@
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="genomeGrid" jsId="genomeGrid" style="height:700px" store="store"
          sortInfo="-6"
-         plugins="{
-                  filter: {
-                  itemsName : 'genomes'
-                  }
-                  }"
+         plugins='{
+                    pagination: {
+                      pageSizes: ["25", "50", "100", "250"]
+                    },
+                    filter: { itemsName : "genomes" }
+                  }'
          selectable="true"
          structure='[{cells:[
                     {field: "accession", name: "Accession", datatype: "string", width: "100px", formatter: capsid.grid.Formatter.prototype.links.genome}
