@@ -50,7 +50,8 @@
       </div>
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_stats', id:genomeInstance.accession)}" rel="Statistics" title="Stats"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_project_stats', id:genomeInstance.accession)}" rel="PStatistics" title="Project Statistics"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_sample_stats', id:genomeInstance.accession)}" rel="SStatistics" title="Sample Statistics"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_features', id:genomeInstance.accession)}" rel="Features" title="Features"></div>
    </div>
   </body>

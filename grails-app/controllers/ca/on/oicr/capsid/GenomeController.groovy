@@ -101,11 +101,44 @@ class GenomeController {
   }
 
   /*** Show ***/
-  def show_stats = {
+  def show_project_stats = {
     Genome genomeInstance = findInstance()
-    render(view: 'ajax/show/stats', model: [genomeInstance: genomeInstance])
+    render(view: 'ajax/show/project_stats', model: [genomeInstance: genomeInstance])
   }
-  def show_stats_data = {
+  def show_project_stats_data = {
+    Genome genomeInstance = findInstance()
+    ArrayList projects = Statistics.collection.find(
+      accession: genomeInstance.accession
+      , sample: [$exists: 0]
+      , label: [$in:projectService.getAllowedProjects().label])
+    .collect {
+      [
+        id : it._id.toString()
+        , label: it.label
+        , project: it.project
+        , genomeHits: it.genomeHits
+        , geneHits: it.geneHits
+        , genomeCoverage: it.genomeCoverage
+        , geneCoverageAvg: it.geneCoverageAvg
+        , geneCoverageMax: it.geneCoverageMax
+        , accession: it.accession
+      ]
+    }
+
+    def ret = [
+      'identifier': 'id',
+      'label': 'project',
+      'items': projects
+    ]
+
+    render ret as JSON
+  }
+
+  def show_sample_stats = {
+    Genome genomeInstance = findInstance()
+    render(view: 'ajax/show/sample_stats', model: [genomeInstance: genomeInstance])
+  }
+  def show_sample_stats_data = {
     Genome genomeInstance = findInstance()
     ArrayList samples = Statistics.collection.find(
       accession: genomeInstance.accession

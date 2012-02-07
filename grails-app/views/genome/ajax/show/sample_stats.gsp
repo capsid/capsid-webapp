@@ -3,7 +3,7 @@
     <g:if test="${flash.message}">
       <div class="message">${flash.message}</div>
     </g:if>
-    <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_stats_data", id:genomeInstance.accession)}" jsId="statsStore"
+    <div dojoType="dojox.data.AndOrReadStore" url="${createLink(action:"show_sample_stats_data", id:genomeInstance.accession)}" jsId="statsStore"
          query="{}"
          queryOptions="{'deep':true}">
     </div>
@@ -18,7 +18,7 @@
            selectable="true"
            structure='[{cells:[
                       {field: "sample", name: "Sample", datatype: "string", width: "200px", formatter: capsid.grid.Formatter.prototype.links.sample},
-                      {fields: ["label", "project"], name: "Project", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
+                      {field: "project", name: "Project", datatype: "string", width: "auto"},
                       {field: "genomeHits", name:"Hits on Genomes", datatype: "number", width: "auto"},
                       {field: "geneHits", name:"Hits on Genes", datatype: "number", width: "auto"},
                       {field: "genomeCoverage", name:"Genome Coverage", datatype: "number", width: "auto", formatter: capsid.grid.Formatter.prototype.math.percent},
