@@ -25,9 +25,9 @@
                   }"
          selectable="true"
          structure='[{cells:[
-                    {fields: ["label", "name"], name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project},
+                    {fields: ["label", "name"], name: "Name", datatype: "string", width: "300px", formatter: capsid.grid.Formatter.prototype.links.project},
                     {field: "description", name: "Description", datatype: "string", filterable: false, width: "auto"},
-                    {field: "links",  name: "Links", datatype: "string", filterable: false, width: "auto"}
+                    {field: "samples", name: "Samples", datatype: "string", width: "150px"}
                     ]}]'>
     </div>
   </body>
