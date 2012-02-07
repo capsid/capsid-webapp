@@ -49,6 +49,7 @@
           </tbody>
         </table>
         <button dojoType="dijit.form.Button" type="submit">Update Sample</button>
+        <g:link action="show" id="${sampleInstance?.name}">Cancel Edit</g:link>
       </g:form>
     </div>
       <div class="line">

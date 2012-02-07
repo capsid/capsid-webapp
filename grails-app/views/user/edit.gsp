@@ -57,6 +57,7 @@
           </tbody>
         </table>
         <button dojoType="dijit.form.Button" type="submit">Update User</button>
+        <g:link action="show" id="${userInstance.username}">Cancel Edit</g:link>
       </g:form>
     </div>
     <div style="margin:20px 0" class="line">

@@ -57,6 +57,7 @@
           </tbody>
         </table>
         <button dojoType="dijit.form.Button" type="submit">Update Alignment</button>
+        <g:link action="show" id="${alignmentInstance.name}">Cancel Edit</g:link>
       </g:form>
     </div>
       <div class="line">

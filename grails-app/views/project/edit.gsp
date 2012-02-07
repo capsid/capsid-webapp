@@ -49,6 +49,7 @@
           </tbody>
         </table>
         <button type="submit" dojoType="dijit.form.Button">Update Project</button>
+        <g:link action="show" id="${projectInstance.label}">Cancel Edit</g:link>
       </g:form>
     </div>
     <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">
