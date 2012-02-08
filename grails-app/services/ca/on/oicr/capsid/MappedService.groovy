@@ -12,13 +12,6 @@ package ca.on.oicr.capsid
 
 import grails.plugins.springsecurity.Secured
 
-import jaligner.Alignment as jAlignment
-import jaligner.Sequence as jSequence
-import jaligner.SmithWatermanGotoh
-import jaligner.formats.*
-import jaligner.matrix.MatrixLoader
-import jaligner.util.SequenceParser
-
 class MappedService {
 
     static transactional = false
@@ -38,11 +31,28 @@ class MappedService {
         }
     }
 
-  Map getSplitAlignment(String query, String ref) {
-    /* Sequence and Alignment from jAligner */
-    jaligner.Sequence s1 = SequenceParser.parse(query)
-    jaligner.Sequence s2 = SequenceParser.parse(ref)
-    jaligner.Alignment alignment = SmithWatermanGotoh.align(s1, s2, MatrixLoader.load("BLOSUM62"), 10f, 0.5f)
+  Map getSplitAlignment(Mapped mappedInstance) {
+    
+    String markUp = new String()
+    String genome = new String()
+    int placeholder = 0
+
+    def m = mappedInstance.MD.findAll(/([A-Z]+|\d+)/)
+
+    m.each {
+      if (it.isNumber()) {
+        it = it as int
+        if (it > 0) {
+          genome = genome + mappedInstance.sequence[placeholder..placeholder + (it - 1)]
+          markUp = markUp + '|'*it
+          placeholder = placeholder + it
+        }
+      } else {
+        placeholder++
+        markUp = markUp + '.'
+        genome = genome + it        
+      }
+    }
 
     Map formatted = [
       query: [ seq: [], pos: [] ],
@@ -50,9 +60,9 @@ class MappedService {
       markup: []
     ]
 
-    formatted.query.seq = bucket(alignment.getSequence1().toString())
-    formatted.ref.seq = bucket(alignment.getSequence2().toString())
-    formatted.markup = bucket(alignment.getMarkupLine().toString())
+    formatted.query.seq = bucket(mappedInstance.sequence)
+    formatted.ref.seq = bucket(genome)
+    formatted.markup = bucket(markUp)
 
     for (i in 0..<formatted.query.seq.size()) {
       int qc = formatted.query.seq[i].findAll {it ==~ /\w/}.size()

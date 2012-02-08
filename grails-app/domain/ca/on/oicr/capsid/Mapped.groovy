@@ -31,6 +31,7 @@ class Mapped {
         String platform
         List mapsGene
         String sequence
+        String MD
 
 	String genome
 	String alignment

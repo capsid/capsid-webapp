@@ -90,7 +90,7 @@
               <td valign="top" class="value">
               <g:each in="${mappedInstance.mapsGene}">
                 <a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${it}">
-                  ${Feature.collection.findOne('type': 'gene', 'geneId': it).name}
+                  ${Feature.collection.findOne('type': 'gene', 'geneId': it)?.name}
                 </a>
               </g:each>
               </td>

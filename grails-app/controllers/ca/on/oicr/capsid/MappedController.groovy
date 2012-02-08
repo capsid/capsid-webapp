@@ -16,10 +16,6 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
-import com.mongodb.gridfs.GridFS
-import com.mongodb.gridfs.GridFSFile
-import com.mongodb.gridfs.GridFSDBFile
-import com.mongodb.DB
 
 @Secured(['ROLE_CAPSID'])
 class MappedController {
@@ -27,7 +23,6 @@ class MappedController {
   def mappedService
   def authService
   def fileService
-  def mongo
 
   def index = {redirect(controller: "project", action: "list")}
 
@@ -64,24 +59,10 @@ class MappedController {
   }
 
   def show_alignment = {
-    Mapped mappedInstance = findInstance()
+    Mapped mappedInstance = findInstance()    
     Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
-    DB db = mongo.mongo.getDB(CH.config.datasource.grails.gridfs)
-    GridFS gfs = new GridFS(db)
-    GridFSDBFile file = gfs.findOne(mappedInstance.genome)
-
-    String genomeSeq = new String()
-    
-    int count = 1
-    file.getInputStream().each {
-      if (count >= mappedInstance.refStart && count <= mappedInstance.refEnd) {
-        genomeSeq = genomeSeq + new String(it)
-      }
-      count++
-    }
-    
-    Map alignment = mappedService.getSplitAlignment(mappedInstance.sequence, genomeSeq)
+    Map alignment = mappedService.getSplitAlignment(mappedInstance)
 
     alignment.ref.pos.each {val -> val + mappedInstance.refStart}
 
