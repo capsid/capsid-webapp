@@ -1,6 +1,7 @@
 <%@ page import="ca.on.oicr.capsid.Mapped" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Genome" %>
+<%@ page import="ca.on.oicr.capsid.Feature" %>
 <g:set var="genome" value="${Genome.findByGi(mappedInstance.genome as int)}"/>
 <html>
   <head>
@@ -86,7 +87,13 @@
             </tr>
             <tr class="prop">
               <td valign="top" class="name">Maps to Gene(s)</td>
-              <td valign="top" class="value">${mappedInstance.mapsGene?.join(', ')}</td>
+              <td valign="top" class="value">
+              <g:each in="${mappedInstance.mapsGene}">
+                <a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${it}">
+                  ${Feature.collection.findOne('type': 'gene', 'geneId': it).name}
+                </a>
+              </g:each>
+              </td>
             </tr>
           </tbody>
         </table>

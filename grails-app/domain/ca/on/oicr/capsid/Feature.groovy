@@ -24,8 +24,7 @@ class Feature {
     Integer end
     Integer geneId
     String type
-    String genomeId
-    String seqId
+    Integer genome
 
     static constraints = {
     }
