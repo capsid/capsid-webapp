@@ -10,7 +10,7 @@
 * Total number of samples displayed in the project list view
 * Cancel Edit link to return to main view without saving
 * More descriptive page titles
-* Pagination addeed to tables
+* Pagination added to tables
 * Default Mapped tab changed to Alignment
 
 **FIXES**
