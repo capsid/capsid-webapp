@@ -37,7 +37,7 @@ class MappedService {
     String genome = new String()
     int placeholder = 0
 
-    def m = mappedInstance.MD.findAll(/([A-Z]+|\d+)/)
+    def m = mappedInstance.md.findAll(/([A-Z]+|\d+)/)
 
     m.each {
       if (it.isNumber()) {
