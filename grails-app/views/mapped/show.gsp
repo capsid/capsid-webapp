@@ -119,9 +119,10 @@
       </div>
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Genomes" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Alignment data for this read not found in database.</span>"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Genomes" title="FASTA Sequence"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Alignment" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Alignment data for this read not found in database.</span>"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Fasta" title="FASTA Sequence"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_contig', id:mappedInstance.id)}" rel="Contig" title="Contig Sequence"></div>
    </div>
   </body>
 </html>

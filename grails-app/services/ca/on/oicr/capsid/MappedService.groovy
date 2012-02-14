@@ -75,6 +75,59 @@ class MappedService {
   }
 
   List bucket(String string) {
-    string.replaceAll(/.{55}/){all -> all + ';'}.split(';')
+    string.replaceAll(/.{80}/){all -> all + ';'}.split(';')
   }
+
+  ArrayList getOverlappingReads(Mapped mappedInstance) {
+    ArrayList reads = []
+    int start = mappedInstance.refStart
+    int end = mappedInstance.refEnd
+
+    while (true) {
+      reads = Mapped.collection.find(
+        alignment: mappedInstance.alignment
+        , genome: mappedInstance.genome as int
+        , refStrand: mappedInstance.refStrand
+        , refStart: ['$lt': end]
+        , refEnd: ['$gt': start]
+      ).collect {
+        [
+          refStart: it.refStart
+          , refEnd: it.refEnd
+          , sequence: it.sequence
+        ]
+      }
+
+      if (start == reads.refStart.min() && end == reads.refEnd.max() ) { 
+        break
+      }
+
+      start = reads.refStart.min()
+      end = reads.refEnd.max()
+    }
+
+    reads.sort{it.refStart}
+  }
+
+  String getContig(ArrayList reads) {
+    
+    Map seq_array = [:]
+
+    reads.each { read ->
+      int pos = read.refStart
+      read.sequence.each { base ->
+        if (seq_array != 'N') {
+          if (seq_array.containsKey(pos) && seq_array[pos] != base) {
+            seq_array[pos] = 'N'  
+          } else {
+            seq_array[pos] = base
+          }
+        }
+        pos++
+      }
+    }
+
+    seq_array.collect { it.value }.join('')
+  }
+
 }

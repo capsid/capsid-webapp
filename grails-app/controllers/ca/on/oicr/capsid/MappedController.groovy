@@ -32,20 +32,7 @@ class MappedController {
     [mappedInstance: mappedInstance]
   }
 
-  def contig = {
-    Mapped mapped = findInstance()
-    ArrayList contig = Mapped.collection.find(
-      sample: mapped.sample
-      ,  genomeId: new ObjectId(mapped.genomeId)
-      ,  refStrand: mapped.refStrand
-    ).collect {
-      [
-        id: it._id.toString()
-      ]
-    }
-
-    render contig.size()
-  }
+  
 
   /* ************************************************************************
    * AJAX Tabs
@@ -53,7 +40,7 @@ class MappedController {
   /* ** Show  ** */
   def show_fasta = {
     Mapped mappedInstance = findInstance()
-    List sequence = mappedInstance.sequence.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+    List sequence = mappedService.bucket(mappedInstance.sequence)
 
     render(view: 'ajax/show/fasta', model: [mappedInstance: mappedInstance, sequence: sequence])
   }
@@ -95,6 +82,28 @@ class MappedController {
     ]
 
     render ret as JSON
+  }
+
+  
+  def show_contig = {
+    Mapped mappedInstance = findInstance() 
+    ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
+    /*
+    ArrayList reads = [
+      ['refStart': 11,
+       'refEnd': 30,
+       'sequence': 'ABCDEFGHIJKLMNOPQRST'],
+      ['refStart': 16,
+       'refEnd': 35,
+       'sequence': 'FGHIJKLMNOPQRST43210'],
+      ['refStart': 21,
+       'refEnd': 40,
+       'sequence': '!@#$%^&*())(*&^%$#@!']
+    ]
+    */
+    List contig = mappedService.bucket(mappedService.getContig(reads))
+
+    render(view: 'ajax/show/contig', model: [mappedInstance: mappedInstance, sequence: contig])
   }
 
   private Mapped findInstance() {
