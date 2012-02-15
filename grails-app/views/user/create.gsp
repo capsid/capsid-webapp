@@ -24,7 +24,7 @@
           <label for="email"><g:message code="user.email.label" default="Email Address" /></label>
         </td>
         <td valign="top" class="value">
-          <g:textField name="email" value="${userInstance?.email}" dojoType="dijit.form.TextBox"/>
+          <g:textField name="email" value="${userInstance?.email}" dojoType="dijit.form.ValidationTextBox" required="true"/>
         </td>
       </tr>
       <tr class="prop">
@@ -60,7 +60,7 @@
           <label for="ldap">Use LDAP for<br>authorization</label>
         </td>
         <td valign="top" class="value">
-          <g:checkBox name="ldap" value=""/>
+          <g:checkBox name="ldap" value="${ldap}"/>
         </td>
       </tr>
     </tbody>
