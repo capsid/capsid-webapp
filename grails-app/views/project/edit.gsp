@@ -58,9 +58,9 @@
         <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
         <div dojoType="dijit.layout.TabContainer" style="width: 50%;" doLayout="false"
              tabStrip="true" parseOnLoad="true" id="access-panel">
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'owner']"/>
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator']"/>
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user']"/>
+          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'owner', description: 'Owners have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.']"/>
+          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator', description: 'Collaborators have permission to add, edit and remove samples']"/>
+          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user', description: 'Users have read-only access to projects']"/>
         </div>
       </div>
       <div class="line">
