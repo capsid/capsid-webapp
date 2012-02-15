@@ -93,7 +93,7 @@
       </g:form>
     </div>
 
-    <auth:ifAnyGranted access="[('capsid'):['owner']]">
+    <auth:ifCapsidAdmin>
       <div class="line">
         <h1 style="color:red">Delete User</h1>
         <div class="errors unit size1of3">
@@ -108,6 +108,6 @@
           </div>
         </div>
       </div>
-    </auth:ifAnyGranted>
+    </auth:ifCapsidAdmin>
   </body>
 </html>

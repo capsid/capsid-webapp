@@ -34,7 +34,7 @@ class AuthTagLib {
         Map roles = assertAttribute('access', attrs, 'ifAnyGranted')
         Map user = authService.getAccessLevels()
 
-        if (user['ROLE_CAPSID'] == 'owner') {
+        if (authService.isCapsidAdmin()) {
             access = true
         } else {
             roles.each { k,v ->
@@ -47,6 +47,12 @@ class AuthTagLib {
         if (access) {
             out << body()
         }
+    }
+
+    def ifCapsidAdmin = { attrs, body ->
+        if (authService.isCapsidAdmin()) {
+            out << body()
+        }   
     }
 
     protected assertAttribute(String name, attrs, String tag) {
