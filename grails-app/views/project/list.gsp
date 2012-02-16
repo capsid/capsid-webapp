@@ -12,7 +12,7 @@
       <div class="unit">
         <h1>Projects</h1>
       </div>
-      <auth:ifCapsidAdmin">
+      <auth:ifCapsidAdmin>
         <button dojoType="dijit.form.Button" jsId="addProjectButton" id="addProjectButton" class="unit right">Create Project</button>
         <div style="display:none" href="${createLink(action:'create')}" id="addProjectDialog" jsId="addProjectDialog" dojoType="dijit.Dialog" title="Create New Project" refreshOnShow="true"></div>
       </auth:ifCapsidAdmin>

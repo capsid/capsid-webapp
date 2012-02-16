@@ -32,7 +32,7 @@ class User {
     static constraints = {
         username blank: false, unique: true
         userRealName blank: true, null: true
-        email blank: true, unique: true
+        email blank: false
         password blank: false
         institute blank: true, null: true
         location blank: true, null: true
