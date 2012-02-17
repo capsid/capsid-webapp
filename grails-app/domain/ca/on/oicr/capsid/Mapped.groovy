@@ -33,7 +33,7 @@ class Mapped {
         String sequence
         Integer alignScore
         String MD
-        String pg
+        String PG
 
 	String genome
 	String alignment
