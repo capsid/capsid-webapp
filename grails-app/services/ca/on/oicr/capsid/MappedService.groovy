@@ -32,12 +32,12 @@ class MappedService {
     }
 
   Map getSplitAlignment(Mapped mappedInstance) {
-    
+
     String markUp = new String()
     String genome = new String()
     int placeholder = 0
 
-    def m = mappedInstance.md.findAll(/([A-Z]+|\d+)/)
+    def m = mappedInstance.MD.findAll(/([A-Z]+|\d+)/)
 
     m.each {
       if (it.isNumber()) {
@@ -50,7 +50,7 @@ class MappedService {
       } else {
         placeholder++
         markUp = markUp + '.'
-        genome = genome + it        
+        genome = genome + it
       }
     }
 
@@ -98,7 +98,7 @@ class MappedService {
         ]
       }
 
-      if (start == reads.refStart.min() && end == reads.refEnd.max() ) { 
+      if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break
       }
 
@@ -110,7 +110,7 @@ class MappedService {
   }
 
   String getContig(ArrayList reads) {
-    
+
     Map seq_array = [:]
 
     reads.each { read ->
@@ -118,7 +118,7 @@ class MappedService {
       read.sequence.each { base ->
         if (seq_array != 'N') {
           if (seq_array.containsKey(pos) && seq_array[pos] != base) {
-            seq_array[pos] = 'N'  
+            seq_array[pos] = 'N'
           } else {
             seq_array[pos] = base
           }
