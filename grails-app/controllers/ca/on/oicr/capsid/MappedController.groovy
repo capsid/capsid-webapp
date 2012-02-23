@@ -17,6 +17,9 @@ import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
 
+import groovy.time.*
+
+
 @Secured(['ROLE_CAPSID'])
 class MappedController {
 
@@ -28,11 +31,11 @@ class MappedController {
 
   def show = {
     Mapped mappedInstance = findInstance()
-    
+
     [mappedInstance: mappedInstance]
   }
 
-  
+
 
   /* ************************************************************************
    * AJAX Tabs
@@ -46,7 +49,7 @@ class MappedController {
   }
 
   def show_alignment = {
-    Mapped mappedInstance = findInstance()    
+    Mapped mappedInstance = findInstance()
     Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
     Map alignment = mappedService.getSplitAlignment(mappedInstance)
@@ -84,10 +87,16 @@ class MappedController {
     render ret as JSON
   }
 
-  
+
   def show_contig = {
-    Mapped mappedInstance = findInstance() 
+    Mapped mappedInstance = findInstance()
+
+    Date start = new Date()
     ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
+    Date stop = new Date()
+    TimeDuration td = TimeCategory.minus( stop, start )
+    println td
+
     /*
     ArrayList reads = [
       ['refStart': 11,
@@ -101,7 +110,13 @@ class MappedController {
        'sequence': '!@#$%^&*())(*&^%$#@!']
     ]
     */
-    List contig = mappedService.bucket(mappedService.getContig(reads))
+
+    start = new Date()
+    //List contig = mappedService.bucket(mappedService.getContig(reads, mappedInstance))
+    List contig = mappedService.getContig(reads, mappedInstance)
+    stop = new Date()
+    td = TimeCategory.minus( stop, start )
+    println td
 
     render(view: 'ajax/show/contig', model: [mappedInstance: mappedInstance, sequence: contig])
   }

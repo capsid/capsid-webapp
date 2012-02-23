@@ -10,6 +10,7 @@
 
 package ca.on.oicr.capsid
 
+import groovy.time.*
 import grails.plugins.springsecurity.Secured
 
 class MappedService {
@@ -82,22 +83,32 @@ class MappedService {
     ArrayList reads = []
     int start = mappedInstance.refStart
     int end = mappedInstance.refEnd
-
-    while (true) {
-      reads = Mapped.collection.find(
+    print 'q: '
+    Date s1 = new Date()
+    ArrayList readsQuery = Mapped.collection.find(
+        [
         alignment: mappedInstance.alignment
         , genome: mappedInstance.genome as int
         , refStrand: mappedInstance.refStrand
-        , refStart: ['$lt': end]
-        , refEnd: ['$gt': start]
+        ]
       ).collect {
         [
           refStart: it.refStart
           , refEnd: it.refEnd
           , sequence: it.sequence
         ]
-      }
-
+      } 
+    Date s2 = new Date()
+    TimeDuration t = TimeCategory.minus( s2, s1 )
+    println t
+    while (true) {
+      print 'f: '
+      Date begin = new Date()
+      reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
+      Date stop = new Date()
+      TimeDuration td = TimeCategory.minus( stop, begin )
+      println td
+        
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break
       }
@@ -109,14 +120,14 @@ class MappedService {
     reads.sort{it.refStart}
   }
 
-  String getContig(ArrayList reads) {
+  List getContig(ArrayList reads, Mapped mappedInstance) {
 
     Map seq_array = [:]
 
     reads.each { read ->
       int pos = read.refStart
       read.sequence.each { base ->
-        if (seq_array != 'N') {
+        if (seq_array[pos] != 'N') {
           if (seq_array.containsKey(pos) && seq_array[pos] != base) {
             seq_array[pos] = 'N'
           } else {
@@ -127,7 +138,10 @@ class MappedService {
       }
     }
 
-    seq_array.collect { it.value }.join('')
+    seq_array[mappedInstance.refStart] = '<b>' + seq_array[mappedInstance.refStart]
+    seq_array[mappedInstance.refEnd] = seq_array[mappedInstance.refEnd] + '</b>'
+    
+    seq_array.collect { it.value }
   }
 
 }
