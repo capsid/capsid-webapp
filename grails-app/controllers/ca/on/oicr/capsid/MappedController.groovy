@@ -1,5 +1,5 @@
 /*
- *  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+ *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
  *
  *    This program and the accompanying materials are made available under the
  *    terms of the GNU Public License v3.0.
@@ -16,10 +16,9 @@ import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
-import com.mongodb.gridfs.GridFS
-import com.mongodb.gridfs.GridFSFile
-import com.mongodb.gridfs.GridFSDBFile
-import com.mongodb.DB
+
+import groovy.time.*
+
 
 @Secured(['ROLE_CAPSID'])
 class MappedController {
@@ -27,30 +26,16 @@ class MappedController {
   def mappedService
   def authService
   def fileService
-  def mongo
 
   def index = {redirect(controller: "project", action: "list")}
 
   def show = {
     Mapped mappedInstance = findInstance()
-    
+
     [mappedInstance: mappedInstance]
   }
 
-  def contig = {
-    Mapped mapped = findInstance()
-    ArrayList contig = Mapped.collection.find(
-      sample: mapped.sample
-      ,  genomeId: new ObjectId(mapped.genomeId)
-      ,  refStrand: mapped.refStrand
-    ).collect {
-      [
-        id: it._id.toString()
-      ]
-    }
 
-    render contig.size()
-  }
 
   /* ************************************************************************
    * AJAX Tabs
@@ -58,7 +43,7 @@ class MappedController {
   /* ** Show  ** */
   def show_fasta = {
     Mapped mappedInstance = findInstance()
-    List sequence = mappedInstance.sequence.replaceAll(/.{80}/){all -> all + ';'}.split(';')
+    List sequence = mappedService.bucket(mappedInstance.sequence)
 
     render(view: 'ajax/show/fasta', model: [mappedInstance: mappedInstance, sequence: sequence])
   }
@@ -67,21 +52,7 @@ class MappedController {
     Mapped mappedInstance = findInstance()
     Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
-    DB db = mongo.mongo.getDB(CH.config.datasource.grails.gridfs)
-    GridFS gfs = new GridFS(db)
-    GridFSDBFile file = gfs.findOne(mappedInstance.genome)
-
-    String genomeSeq = new String()
-    
-    int count = 1
-    file.getInputStream().each {
-      if (count >= mappedInstance.refStart && count <= mappedInstance.refEnd) {
-        genomeSeq = genomeSeq + new String(it)
-      }
-      count++
-    }
-    
-    Map alignment = mappedService.getSplitAlignment(mappedInstance.sequence, genomeSeq)
+    Map alignment = mappedService.getSplitAlignment(mappedInstance)
 
     alignment.ref.pos.each {val -> val + mappedInstance.refStart}
 
@@ -114,6 +85,40 @@ class MappedController {
     ]
 
     render ret as JSON
+  }
+
+
+  def show_contig = {
+    Mapped mappedInstance = findInstance()
+
+    Date start = new Date()
+    ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
+    Date stop = new Date()
+    TimeDuration td = TimeCategory.minus( stop, start )
+    println td
+
+    /*
+    ArrayList reads = [
+      ['refStart': 11,
+       'refEnd': 30,
+       'sequence': 'ABCDEFGHIJKLMNOPQRST'],
+      ['refStart': 16,
+       'refEnd': 35,
+       'sequence': 'FGHIJKLMNOPQRST43210'],
+      ['refStart': 21,
+       'refEnd': 40,
+       'sequence': '!@#$%^&*())(*&^%$#@!']
+    ]
+    */
+
+    start = new Date()
+    //List contig = mappedService.bucket(mappedService.getContig(reads, mappedInstance))
+    List contig = mappedService.getContig(reads, mappedInstance)
+    stop = new Date()
+    td = TimeCategory.minus( stop, start )
+    println td
+
+    render(view: 'ajax/show/contig', model: [mappedInstance: mappedInstance, sequence: contig])
   }
 
   private Mapped findInstance() {

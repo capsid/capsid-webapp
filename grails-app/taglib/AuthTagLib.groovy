@@ -1,5 +1,5 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
 *
 *	This program and the accompanying materials are made available under the
 *	terms of the GNU Public License v3.0.
@@ -34,7 +34,7 @@ class AuthTagLib {
         Map roles = assertAttribute('access', attrs, 'ifAnyGranted')
         Map user = authService.getAccessLevels()
 
-        if (user['ROLE_CAPSID'] == 'owner') {
+        if (authService.isCapsidAdmin()) {
             access = true
         } else {
             roles.each { k,v ->
@@ -47,6 +47,12 @@ class AuthTagLib {
         if (access) {
             out << body()
         }
+    }
+
+    def ifCapsidAdmin = { attrs, body ->
+        if (authService.isCapsidAdmin()) {
+            out << body()
+        }   
     }
 
     protected assertAttribute(String name, attrs, String tag) {

@@ -1,5 +1,21 @@
 # Change Log
 
+## 1.3.0
+
+*Release date: 28 Feb 2012*
+
+**FEATURES**
+
+* Link mapped genes to NCBI pages
+* Use MD data from read rather than using JAligner to find Alignment
+* Generates contig sequence for a mapped read
+* Highlights selected read sequence in contig
+
+**FIXES**
+
+* Trying to send to email to new user when 'use LDAP' selected
+* Sample nav item had rounded corners when logged in as non-admin
+
 ## 1.2.7
 
 *Release date: 7 Feb 2012*
@@ -10,7 +26,7 @@
 * Total number of samples displayed in the project list view
 * Cancel Edit link to return to main view without saving
 * More descriptive page titles
-* Pagination addeed to tables
+* Pagination added to tables
 * Default Mapped tab changed to Alignment
 
 **FIXES**
@@ -26,7 +42,7 @@
 
 **FIXES**
 
-* Mapped alignemnt positions line up properly with genome positions
+* Mapped alignment positions line up properly with genome positions
 * Open new tab when clicking on read in JBrowse
 * Adds link to show all samples from genome details page
 * Edit User button properly labelled and working
@@ -107,7 +123,7 @@
 * LDAP option when creating a new user to stop credentials from being sent to keep login control with the LDAP server
 * Project owners can control the visibility of their project and user access levels
 * Create Alignments from Project page
-* Project/Samples/Alignemnts and Users can all be edited and delete
+* Project/Samples/Alignments and Users can all be edited and delete
 * Reads that map to both pathogen and reference genomes are highlighted
 
 

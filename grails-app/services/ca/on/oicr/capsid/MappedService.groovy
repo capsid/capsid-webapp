@@ -1,5 +1,5 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
 *
 *   This program and the accompanying materials are made available under the
 *   terms of the GNU Public License v3.0.
@@ -10,14 +10,8 @@
 
 package ca.on.oicr.capsid
 
+import groovy.time.*
 import grails.plugins.springsecurity.Secured
-
-import jaligner.Alignment as jAlignment
-import jaligner.Sequence as jSequence
-import jaligner.SmithWatermanGotoh
-import jaligner.formats.*
-import jaligner.matrix.MatrixLoader
-import jaligner.util.SequenceParser
 
 class MappedService {
 
@@ -38,11 +32,28 @@ class MappedService {
         }
     }
 
-  Map getSplitAlignment(String query, String ref) {
-    /* Sequence and Alignment from jAligner */
-    jaligner.Sequence s1 = SequenceParser.parse(query)
-    jaligner.Sequence s2 = SequenceParser.parse(ref)
-    jaligner.Alignment alignment = SmithWatermanGotoh.align(s1, s2, MatrixLoader.load("BLOSUM62"), 10f, 0.5f)
+  Map getSplitAlignment(Mapped mappedInstance) {
+
+    String markUp = new String()
+    String genome = new String()
+    int placeholder = 0
+
+    def m = mappedInstance.MD.findAll(/([A-Z]+|\d+)/)
+
+    m.each {
+      if (it.isNumber()) {
+        it = it as int
+        if (it > 0) {
+          genome = genome + mappedInstance.sequence[placeholder..placeholder + (it - 1)]
+          markUp = markUp + '|'*it
+          placeholder = placeholder + it
+        }
+      } else {
+        placeholder++
+        markUp = markUp + '.'
+        genome = genome + it
+      }
+    }
 
     Map formatted = [
       query: [ seq: [], pos: [] ],
@@ -50,9 +61,9 @@ class MappedService {
       markup: []
     ]
 
-    formatted.query.seq = bucket(alignment.getSequence1().toString())
-    formatted.ref.seq = bucket(alignment.getSequence2().toString())
-    formatted.markup = bucket(alignment.getMarkupLine().toString())
+    formatted.query.seq = bucket(mappedInstance.sequence)
+    formatted.ref.seq = bucket(genome)
+    formatted.markup = bucket(markUp)
 
     for (i in 0..<formatted.query.seq.size()) {
       int qc = formatted.query.seq[i].findAll {it ==~ /\w/}.size()
@@ -65,6 +76,72 @@ class MappedService {
   }
 
   List bucket(String string) {
-    string.replaceAll(/.{55}/){all -> all + ';'}.split(';')
+    string.replaceAll(/.{80}/){all -> all + ';'}.split(';')
   }
+
+  ArrayList getOverlappingReads(Mapped mappedInstance) {
+    ArrayList reads = []
+    int start = mappedInstance.refStart
+    int end = mappedInstance.refEnd
+    print 'q: '
+    Date s1 = new Date()
+    ArrayList readsQuery = Mapped.collection.find(
+        [
+        alignment: mappedInstance.alignment
+        , genome: mappedInstance.genome as int
+        , refStrand: mappedInstance.refStrand
+        ]
+      ).collect {
+        [
+          refStart: it.refStart
+          , refEnd: it.refEnd
+          , sequence: it.sequence
+        ]
+      } 
+    Date s2 = new Date()
+    TimeDuration t = TimeCategory.minus( s2, s1 )
+    println t
+    while (true) {
+      print 'f: '
+      Date begin = new Date()
+      reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
+      Date stop = new Date()
+      TimeDuration td = TimeCategory.minus( stop, begin )
+      println td
+        
+      if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
+        break
+      }
+
+      start = reads.refStart.min()
+      end = reads.refEnd.max()
+    }
+
+    reads.sort{it.refStart}
+  }
+
+  List getContig(ArrayList reads, Mapped mappedInstance) {
+
+    Map seq_array = [:]
+
+    reads.each { read ->
+      int pos = read.refStart
+      read.sequence.each { base ->
+        if (seq_array[pos] != 'N') {
+          if (seq_array.containsKey(pos) && seq_array[pos] != base) {
+            seq_array[pos] = 'N'
+          } else {
+            seq_array[pos] = base
+          }
+        }
+        pos++
+      }
+    }
+
+    seq_array[mappedInstance.refStart] = '<b>' + seq_array[mappedInstance.refStart]
+    seq_array[mappedInstance.refEnd] = seq_array[mappedInstance.refEnd] + '</b>'
+    
+    seq_array.collect { it.value }
+  }
+
 }

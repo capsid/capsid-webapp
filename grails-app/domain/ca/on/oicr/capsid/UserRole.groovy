@@ -1,5 +1,5 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
 *
 *    This program and the accompanying materials are made available under the
 *    terms of the GNU Public License v3.0.
@@ -43,8 +43,6 @@ class UserRole implements Serializable {
     }
 
     static UserRole create(User user, Role role, String access = 'user', boolean flush = false) {
-        println user
-        println role
         new UserRole(user: user, role: role, access: access).save(flush: flush, insert: true)
     }
 

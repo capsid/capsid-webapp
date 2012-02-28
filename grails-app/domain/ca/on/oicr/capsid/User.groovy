@@ -1,5 +1,5 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Reserach. All rights reserved.
+*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
 *
 *    This program and the accompanying materials are made available under the
 *    terms of the GNU Public License v3.0.
@@ -32,7 +32,7 @@ class User {
     static constraints = {
         username blank: false, unique: true
         userRealName blank: true, null: true
-        email blank: true, unique: true
+        email blank: false
         password blank: false
         institute blank: true, null: true
         location blank: true, null: true

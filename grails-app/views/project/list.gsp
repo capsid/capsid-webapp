@@ -12,10 +12,10 @@
       <div class="unit">
         <h1>Projects</h1>
       </div>
-      <auth:ifAnyGranted access="['capsid': ['owner']]">
+      <auth:ifCapsidAdmin>
         <button dojoType="dijit.form.Button" jsId="addProjectButton" id="addProjectButton" class="unit right">Create Project</button>
         <div style="display:none" href="${createLink(action:'create')}" id="addProjectDialog" jsId="addProjectDialog" dojoType="dijit.Dialog" title="Create New Project" refreshOnShow="true"></div>
-      </auth:ifAnyGranted>
+      </auth:ifCapsidAdmin>
     </div>
     <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}" clearOnClose="true"></div>
     <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"

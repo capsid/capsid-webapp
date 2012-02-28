@@ -1,6 +1,7 @@
 <%@ page import="ca.on.oicr.capsid.Mapped" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Genome" %>
+<%@ page import="ca.on.oicr.capsid.Feature" %>
 <g:set var="genome" value="${Genome.findByGi(mappedInstance.genome as int)}"/>
 <html>
   <head>
@@ -25,7 +26,13 @@
             <tr class="prop">
               <td valign="top" class="name">Sample</td>
               <td valign="top" class="value">
-                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample.replace("_"," ")}</g:link>
+                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample}</g:link>
+              </td>
+            </tr>
+            <tr class="prop">
+              <td valign="top" class="name">Alignment</td>
+              <td valign="top" class="value">
+                <g:link controller="alignment" action="show" id="${mappedInstance.alignment}">${mappedInstance.alignment}</g:link>
               </td>
             </tr>
             <tr class="prop">
@@ -40,6 +47,12 @@
               <td valign="top" class="name">Score</td>
               <td valign="top" class="value">${mappedInstance.mapq}</td>
             </tr>
+            <g:if test="${mappedInstance.alignScore}">
+            <tr class="prop">
+              <td valign="top" class="name">Alignment Score</td>
+              <td valign="top" class="value">${mappedInstance.alignScore}</td>
+            </tr>
+            </g:if>
             <tr class="prop">
               <td valign="top" class="name">Min Quality</td>
               <td valign="top" class="value">${mappedInstance.minQual}</td>
@@ -86,7 +99,13 @@
             </tr>
             <tr class="prop">
               <td valign="top" class="name">Maps to Gene(s)</td>
-              <td valign="top" class="value">${mappedInstance.mapsGene?.join(', ')}</td>
+              <td valign="top" class="value">
+              <g:each in="${mappedInstance.mapsGene}">
+                <a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${it}">
+                  ${Feature.collection.findOne('type': 'gene', 'geneId': it)?.name}
+                </a>
+              </g:each>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -100,9 +119,10 @@
       </div>
     </div>
     <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Genomes" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Genome Sequence not found in Database.</span>"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Genomes" title="FASTA Sequence"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Alignment" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Alignment data for this read not found in database.</span>"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Fasta" title="FASTA Sequence"></div>
       <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
+      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_contig', id:mappedInstance.id)}" rel="Contig" title="Contig Sequence"></div>
    </div>
   </body>
 </html>
