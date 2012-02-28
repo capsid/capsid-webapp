@@ -16,7 +16,7 @@ class ChannelConfig {
 		requestMap.put new RequestKey("/favicon.ico"), [new SecurityConfig("ANY_CHANNEL")]
 
 		// resources that must be served over https
-		requestMap.put new RequestKey("/**"), [new SecurityConfig("REQUIRES_SECURE_CHANNEL")]
+		requestMap.put new RequestKey("/**"), [new SecurityConfig("ANY_CHANNEL")]
 		
 		// resources that must be served over http (basically everything else not already listed above)
 		//requestMap.put new RequestKey("/**"), [new SecurityConfig("REQUIRES_INSECURE_CHANNEL")] // all other pages should be served over http
