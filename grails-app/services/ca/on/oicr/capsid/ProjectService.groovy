@@ -19,7 +19,7 @@ class ProjectService {
   def authService
   def springSecurityService
 
-  void update(Project project, Map params) {
+  Boolean update(Project project, Map params) {
     if (params.private) {
       project.roles = ['ROLE_' + params.label.toUpperCase()]
     } else {
@@ -27,7 +27,8 @@ class ProjectService {
     }
 
     project.properties = params
-    project.save()
+    if (!project.save(flush: true)) { return false }
+    true
   }
 
   Project get(label) {
@@ -42,28 +43,20 @@ class ProjectService {
     }
   }
 
-  Project save(Map params) {
-    if (get(params.label)) {
-      return false
-    }
-
+  Boolean save(Map params) {
     Project project = new Project(params)
+
     String projectRole = 'ROLE_' + project.label.toUpperCase()
     List roles = [projectRole]
-
-    if (!params.private) {
-      roles.push("ROLE_CAPSID")
-    }
-
+    if (!params.private) { roles.push("ROLE_CAPSID") }
     project.roles = roles
 
-    if (project.save(flush: true)) {
-      Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
-      User user = authService.getCurrentUser()
-      UserRole.create user, role, 'owner'
-    }
-
-    project
+    if (!project.save(flush: true)) { return false }
+    
+    Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
+    User user = authService.getCurrentUser()
+    UserRole.create user, role, 'owner'
+    true
   }
 
   void delete(Project project) {

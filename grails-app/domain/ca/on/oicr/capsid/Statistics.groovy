@@ -13,28 +13,21 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Statistics {
-	static mapWith = 'mongo'
 	
 	ObjectId id
-	Integer threshold
-	Integer hits
+	String project
+	String label
+	String sample
+	String genome
+	String accession
+	Integer genomeHits
 	Integer geneHits
-	Float totalCoverage
-	Float geneCoverage
-	Float maxCoverage
-	String projectId
-	String projectLabel
-	String projectName
-	String genomeId
-	String genomeAccession
-	String genomeName
-	String sampleId
-	String sampleName
-	
+	Float genomeCoverage
+	Float geneCoveragene
+	Float geneCoverageMax
+
     static constraints = { }
-	
-    static mapping = { cache true }
-	
+    static mapping = { version false }
 	static namedQueries = {	}
 }
 

@@ -12,14 +12,14 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
-import ca.on.oicr.ferv.jbrowser.Histogram
+import ca.on.oicr.capsid.jbrowse.Histogram
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class JbrowseController {
 
-  def AuthService
+  def authService
 
   def index = {redirect(action: "show", params: params)}
   def show = {

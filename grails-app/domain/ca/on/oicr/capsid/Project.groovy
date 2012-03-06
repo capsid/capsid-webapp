@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Project {
-    static mapWith = 'mongo'
 
     ObjectId id
     String name
@@ -23,18 +22,13 @@ class Project {
     Set roles
 
     static constraints = {
-        name unique: true, nullable:false, blank:false
-        label unique:true, nullable:false, blank:false, matches:/[\w]+/
-        description nullable:false, blank:true
-        wikiLink nullable:false, blank:true
-        roles nullable:false, blank:false
+        name unique: true, blank:false
+        label unique:true, blank:false, matches:/[\w]+/
+        description blank:true
+        wikiLink blank:true
+        roles blank:false, display:false, editable: false
     }
 
-    static mapping = { cache true }
-
-    static namedQueries = {
-        security { roles ->
-            'in'("roles", roles)
-        }
-    }
+    static mapping = {}
+    static namedQueries = { security { roles -> 'in'("roles", roles) } }
 }

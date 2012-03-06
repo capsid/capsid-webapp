@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Sample {
-	static mapWith = 'mongo'
 	
 	ObjectId id
 	String name
@@ -24,15 +23,15 @@ class Sample {
 	String project
 	
     static constraints = {
-		name unique:true, nullable:false, blank:false
-		description nullable:false, blank:true
-		cancer nullable:false, blank:true
-		role nullable:false, blank:true
-		source nullable:false, blank:true
-		project nullable:false, blank:false
+		name unique:true, blank:false
+		description blank:true
+		cancer blank:true
+		role blank:true
+		source blank:true
+		project blank:false, display: false, editable: false, validator: { val -> val in Project.list().label }, widget: 'list'
     }
 	
-	static mapping = { cache true }
+	static mapping = {}
 	
 	static namedQueries = { security { label -> 'in'("project", label) } }
 }

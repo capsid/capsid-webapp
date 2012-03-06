@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class User {
-    static mapWith = 'mongo'
 
     ObjectId id
     String username

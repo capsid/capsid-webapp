@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Alignment {
-	static mapWith = 'mongo'
 
 	ObjectId id
 	String name
@@ -27,14 +26,14 @@ class Alignment {
 	String project
 
     static constraints = {
-		name unique:true, nullable:false, blank: false
-		aligner nullable:false, blank: true
-		platform nullable:false, blank: true
-		infile nullable:false, blank: true
-		outfile nullable:false, blank: true
-		type nullable:false, blank: true
-		sample nullable:false, blank: false
-		project nullable:false, blank: false
+		name unique:true, blank: false
+		aligner blank: true
+		platform blank: true
+		infile blank: true
+		outfile blank: true
+		type blank: true
+		sample blank: false, display: false, editable: false, validator: { val -> val in Sample.list().name }
+		project blank: false, display: false, editable: false, validator: { val -> val in Project.list().label }
     }
 
 	static mapping = { cache true }

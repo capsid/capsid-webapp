@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Feature {
-	static mapWith = 'mongo'
 	
 	ObjectId id
     String locusTag
@@ -24,12 +23,8 @@ class Feature {
     Integer end
     Integer geneId
     String type
-    Integer genome
+    Long genome
 
-    static constraints = {
-    }
-	
-	static mapping = {
-		cache true
-	}
+    static constraints = {}
+	static mapping = {version false}
 }

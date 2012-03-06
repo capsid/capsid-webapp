@@ -14,7 +14,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder
 import org.bson.types.ObjectId
 
 class UserRole implements Serializable {
-    static mapWith = 'mongo'
 
     ObjectId id
     User user

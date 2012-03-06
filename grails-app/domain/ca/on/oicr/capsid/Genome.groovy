@@ -13,26 +13,19 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Genome {
-	static mapWith = 'mongo'
 
     ObjectId id
-	List<String> taxonomy
-	List<String> samples
+    List<String> taxonomy
+    List<String> samples
+    Integer sampleCount
     String accession
     String version
     String name
     String strand
     Long length
-	Long gi
-	String organism
-	String seqId
-	
+    Long gi
+    String organism
+
     static constraints = {}
-	
-    static mapping = {
-        cache true
-        version false
-    }
-	
-    static namedQueries = {}
+    static mapping = {version false}
 }

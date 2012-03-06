@@ -1,58 +1,101 @@
 <%@ page import="ca.on.oicr.capsid.Sample" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
-    <title>${sampleInstance.name}</title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <div class="line">
-      <div class="unit">
-        <h1>${sampleInstance.name}</h1>
-        <div class="subheader">${fieldValue(bean: sampleInstance, field: "description")}</div>
-      </div>
-      <auth:ifAnyGranted access="[(sampleInstance.project):['collaborator', 'admin']]">
-        <div class="unit right">
-          <span id="edit-wrap"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/sample/edit/${sampleInstance.name}">Edit Sample</button></span>
-          <button data-dojo-type="dijit.form.Button" id="addAlignButton" jsId="addAlignButton">Add Alignment</button>
-          <div style="display:none" href="${createLink(controller:'alignment', action:'create', id:sampleInstance.name)}" id="addAlignDialog" jsId="addAlignDialog" dojoType="dijit.Dialog" title="Add Alignment" refreshOnShow="true"></div>
-        </div>
-      </auth:ifAnyGranted>
-    </div>
-  <div class="line">
-    <div class="dialog unit size1of3">
-      <table>
-        <tbody>
-          <tr class="prop">
-            <td valign="top" class="name">Project</td>
-            <td valign="top" class="value">
-              <g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link>
-            </td>
-          </tr>
-          <tr class="prop">
-            <td valign="top" class="name" >Cancer</td>
-            <td valign="top" class="value">${sampleInstance.cancer}</td>
-          </tr>
-          <tr class="prop">
-            <td valign="top" class="name" >Role</td>
-            <td valign="top" class="value">${sampleInstance.role}</td>
-          </tr>
-          <tr class="prop">
-            <td valign="top" class="name">Source</td>
-            <td valign="top" class="value">${sampleInstance.source}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-    <div class="line">
-      <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="true" persist="true">
-        <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_stats", id:sampleInstance.name)}" rel="Statistics" title="Stats"></div>
-        <div dojoType="dijit.layout.ContentPane" href="${createLink(action:"show_alignments", id:sampleInstance.name)}" rel="Alignments" title="Alignments"></div>
-      </div>
-    </div>
-  </body>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
+		<g:set var="project" value="${Project.findByLabel(sampleInstance.project)}" />
+		
+		<title><g:message code="default.show.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well">
+					<ul class="nav nav-list">
+						<li class="nav-header">${entityName}</li>
+						<li>
+							<g:link class="list" action="list">
+								<i class="icon-list"></i>
+								<g:message code="default.list.label" args="[entityName]" />
+							</g:link>
+						</li>
+						<li>
+							<g:link class="create" action="create">
+								<i class="icon-plus"></i>
+								<g:message code="default.create.label" args="[entityName]" />
+							</g:link>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="span9">
+			    <ul class="breadcrumb">
+					<li><g:link controller="project" action="show" id="${sampleInstance.project}">${project.name}</g:link> <span class="divider">/</span></li>
+					<li class="active"><g:fieldValue bean="${sampleInstance}" field="name"/> <span class="divider">/</span></li>
+					<li class="active">Summary</li>
+				</ul>	
+				<div class="row-fluid page-header">
+					<div class="span9">
+						<h1><g:fieldValue bean="${sampleInstance}" field="name"/></h1>
+					</div>
+					<g:form style="float:right">
+						<g:hiddenField name="id" value="${sampleInstance?.name}" />
+						<div>
+							<g:link class="btn" action="edit" id="${sampleInstance?.name}">
+								<i class="icon-pencil"></i>
+								<g:message code="default.button.edit.label" default="Edit" />
+							</g:link>
+							<button class="btn btn-danger" type="submit" name="_action_delete">
+								<i class="icon-trash icon-white"></i>
+								<g:message code="default.button.delete.label" default="Delete" />
+							</button>
+						</div>
+					</g:form>
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+				<dl>
+					<g:if test="${sampleInstance?.cancer}">
+						<dt><g:message code="sample.cancer.label" default="Cancer" /></dt>
+						
+							<dd><g:fieldValue bean="${sampleInstance}" field="cancer"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${sampleInstance?.description}">
+						<dt><g:message code="sample.description.label" default="Description" /></dt>
+						
+							<dd><g:fieldValue bean="${sampleInstance}" field="description"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${sampleInstance?.project}">
+						<dt><g:message code="sample.project.label" default="Project" /></dt>
+						
+							<dd><g:fieldValue bean="${sampleInstance}" field="project"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${sampleInstance?.role}">
+						<dt><g:message code="sample.role.label" default="Role" /></dt>
+						
+							<dd><g:fieldValue bean="${sampleInstance}" field="role"/></dd>
+						
+					</g:if>
+				
+					<g:if test="${sampleInstance?.source}">
+						<dt><g:message code="sample.source.label" default="Source" /></dt>
+						
+							<dd><g:fieldValue bean="${sampleInstance}" field="source"/></dd>
+						
+					</g:if>
+				</dl>
+			</div>
+		</div>
+	</body>
 </html>

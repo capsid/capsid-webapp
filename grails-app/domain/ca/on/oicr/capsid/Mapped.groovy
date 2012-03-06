@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Mapped {
-	static mapWith = 'mongo'
 
 	ObjectId id
 	String readId
@@ -41,6 +40,9 @@ class Mapped {
 	String sample
 
 	static constraints = {}
-	static mapping = {}
+	static mapping = {
+                cache true
+                version false
+        }
 	static namedQueries = {}
 }
