@@ -33,7 +33,7 @@ class ${className}Controller {
         }
 
 		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        redirect action: 'show', id: ${propertyName}.name
+        redirect action: 'show', id: ${propertyName}.label
     }
 
     def edit() {
@@ -44,17 +44,8 @@ class ${className}Controller {
     def update() {
         ${className} ${propertyName} = findInstance()
 
-        if (params.version) {
-            Long version = params.version.toLong()
-            if (${propertyName}.version > version) {<% def lowerCaseName = grails.util.GrailsNameUtils.getPropertyName(className) %>
-                ${propertyName}.errors.rejectValue('version', 'default.optimistic.locking.failure',
-                          [message(code: '${domainClass.propertyName}.label', default: '${className}')] as Object[],
-                          "Another user has updated this ${className} while you were editing")
-                render view: 'edit', model: [${propertyName}: ${propertyName}]
-                return
-            }
-        }
-
+        checkVersion(${propertyName}, params)
+        
         ${propertyName}.properties = params
 
         if (!${propertyName}.save(flush: true)) {
@@ -63,7 +54,7 @@ class ${className}Controller {
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        redirect action: 'show', id: ${propertyName}.name
+        redirect action: 'show', id: ${propertyName}.label
 	}
 
     def delete() {
@@ -90,11 +81,24 @@ class ${className}Controller {
 		${propertyName}
 	}
 
-	private boolean authorize(def auth, List access) {
+	private void authorize(def auth, List access) {
 		if (!authService.authorize(auth, access)) {
 		  render view: '../login/denied'
 		}
 	}
+
+    private void checkVersion(${className} ${propertyName}, def params) {
+        if (params.version) {
+            Long version = params.version.toLong()
+            if (${propertyName}.version > version) {<% def lowerCaseName = grails.util.GrailsNameUtils.getPropertyName(className) %>
+                ${propertyName}.errors.rejectValue('version', 'default.optimistic.locking.failure',
+                          [message(code: '${domainClass.propertyName}.label', default: '${className}')] as Object[],
+                          "Another user has updated this ${className} while you were editing")
+                render view: 'edit', model: [${propertyName}: ${propertyName}]
+                return
+            }
+        }
+    } 
 
 	private boolean isCapsidAdmin() {
 		if (!authService.isCapsidAdmin()) {
