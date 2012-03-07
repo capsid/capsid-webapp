@@ -14,7 +14,8 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<r:require modules="scaffolding"/>
+		<r:require modules="style"/>
+		<r:require modules="coffee"/>
 
 		<!-- Le fav and touch icons -->
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
@@ -39,30 +40,47 @@
 					<a class="brand" href="${createLink(uri: '/')}">CaPSIDv${grailsApplication.metadata.'app.version'}</a>
 					<sec:ifLoggedIn>
 					<div class="nav-collapse">
-						<ul class="nav">							
+						<ul class="nav">		
+							<li class="divider-vertical"></li>					
 							<nav:eachItem var="item" group="project">
 								<li class="${item.active?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
-						</ul>
-						<ul class="nav">							
 							<li class="divider-vertical"></li>
+						</ul>
+						<ul class="nav">					
 							<nav:eachItem var="item" group="genome">
 								<li class="${item.active?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
 						</ul>
+						<ul class="nav">	
+							<li class="divider-vertical"></li>						
+							<nav:eachItem var="item" group="statistics">
+								<li class="${item.active?'active':''}">
+									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
+								</li>
+							</nav:eachItem>
+							<li class="divider-vertical"></li>
+						</ul>
+						<form action="" class="navbar-search">
+				            <input type="text" placeholder="Search" class="search-query span2">
+				        </form>
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><sec:username/> <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
-					                <li><a href="#">Dashboard</a></li>
-					                <li><g:link controller="user" action="edit">Edit Account</g:link></li>
+					                <li><a href="#"><i class="icon-home"></i> Dashboard</a></li>
+					                <li><g:link controller="user" action="edit"><i class="icon-pencil"></i> Edit Account</g:link></li>
+					                <auth:ifCapsidAdmin>
 					                <li class="divider"></li>
-					                <li><g:link controller="logout" action="index">Logout</g:link></li>
+					                <li><g:link controller="user" action="list"><i class="icon-cog"></i> Administration</g:link></li>
+					                </auth:ifCapsidAdmin>
+					                <li class="divider"></li>
+					                <li><g:link controller="logout" action="index"><i class="icon-off"></i> Logout</g:link></li>
 					            </ul>
 							</li>
 						</ul>
@@ -84,7 +102,7 @@
 			<hr>
 
 			<footer>
-				<p>&copy; Company 2011</p>
+				<p>&copy; The Ontario Institute for Cancer Research. 2011-2012</p>
 			</footer>
 		</div>
 

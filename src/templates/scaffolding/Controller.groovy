@@ -10,7 +10,7 @@ class ${className}Controller {
     def index() { redirect action: 'list', params: params }
 
     def list() {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
         [${propertyName}List: ${className}.list(params), ${propertyName}Total: ${className}.count()]
     }
 
