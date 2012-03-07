@@ -1,4 +1,5 @@
 package ca.on.oicr.capsid
+
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
@@ -11,4 +12,5 @@ class SampleController {
 		title:'Samples', 
 		action:'list'
 	]
+
 }

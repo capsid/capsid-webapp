@@ -40,8 +40,6 @@
 				<bootstrap:alert class="alert-info">\${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<filterpane:filterPane domain="\${${className}}" style="display:block" />
-
 				<table class="table table-striped">
 					<thead>
 						<tr>

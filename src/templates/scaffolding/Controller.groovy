@@ -7,9 +7,7 @@ class ${className}Controller {
     def authService
     def ${domainClass.propertyName}Service
 
-    def index() {
-        redirect action: 'list', params: params
-    }
+    def index() { redirect action: 'list', params: params }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -21,16 +19,10 @@ class ${className}Controller {
         [${propertyName}: ${propertyName}]
     }
 
-    def create() {
-		[${propertyName}: new ${className}(params)]
-	}
+    def create() { [${propertyName}: new ${className}(params)] }
 
 	def save() {
-	    ${className} ${propertyName} = new ${className}(params)
-        if (!${propertyName}.save(flush: true)) {
-            render view: 'create', model: [${propertyName}: ${propertyName}]
-            return
-        }
+	    ${className} ${propertyName} = findInstance()
 
 		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
         redirect action: 'show', id: ${propertyName}.label
@@ -105,5 +97,4 @@ class ${className}Controller {
 		  render view: '../login/denied'
 		}
 	}
-
 }
