@@ -29,10 +29,10 @@ class User {
     static transients = ['authorities']
 
     static constraints = {
-        username blank: false, unique: true
+        username blank: false, unique: true, display: false, editable:false
         userRealName blank: true, null: true
         email blank: false
-        password blank: false
+        password blank: false, display: false, editable:false
         institute blank: true, null: true
         location blank: true, null: true
     }

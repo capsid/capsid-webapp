@@ -102,7 +102,7 @@
 			<hr>
 
 			<footer>
-				<p>&copy; The Ontario Institute for Cancer Research. 2011-2012</p>
+				<p>&copy; The Ontario Institute for Cancer Research. 2011</p>
 			</footer>
 		</div>
 
