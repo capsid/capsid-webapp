@@ -1,6 +1,6 @@
 grails {
     mongo {
-        host = "127.0.0.1"	
+        host = "localhost"
         port = 27017
         databaseName = "capsid"
     }
