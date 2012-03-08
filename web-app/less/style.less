@@ -15,11 +15,18 @@ body {
 	background: -ms-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* IE10+ */
 	background: linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* W3C */
 
-	font-family: "Arimo","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
+	background: green;
 }
 
 .navbar {
 	margin-bottom: 11px;
+
+	.brand {
+		font-family: "Poiret One","Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
+		font-weight: 800;
+		text-shadow: 0px -1px 0px rgba(0,0,0,.5);
+	}
 }
 .content {
 	background: none repeat scroll 0 0 #FEFEFE;
@@ -101,11 +108,15 @@ pre.snippet {
 	body { 
 		padding: 10px 20px;
 		-webkit-text-size-adjust: none;
+		background: blue;
 	}
 }
 
 @media (max-width: 768px) {
 	/* prevent the brand name wrapping or overlapping the menu toggle */
+	body {
+		background: red;
+	}
 	.navbar .brand {
 		max-width: 75%;
 		overflow: hidden;

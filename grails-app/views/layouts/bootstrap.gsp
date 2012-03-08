@@ -13,8 +13,7 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-
+		
 		<r:require module="modernizr"/>
 		<r:require modules="style"/>
 		<r:require modules="coffee"/>
