@@ -8,12 +8,14 @@
 		<meta name="author" content="">
 
 		<meta name="viewport" content="initial-scale = 1.0">
-
 		<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
+		<link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+
+		<r:require module="modernizr"/>
 		<r:require modules="style"/>
 		<r:require modules="coffee"/>
 
