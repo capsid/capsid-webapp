@@ -43,7 +43,7 @@
 						<ul class="nav">		
 							<li class="divider-vertical"></li>					
 							<nav:eachItem var="item" group="project">
-								<li class="${item.active?'active':''}">
+								<li class="${controllerName==item.controller?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
@@ -51,7 +51,7 @@
 						</ul>
 						<ul class="nav">					
 							<nav:eachItem var="item" group="genome">
-								<li class="${item.active?'active':''}">
+								<li class="${controllerName==item.controller?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
@@ -59,7 +59,7 @@
 						<ul class="nav">	
 							<li class="divider-vertical"></li>						
 							<nav:eachItem var="item" group="statistics">
-								<li class="${item.active?'active':''}">
+								<li class="${controllerName==item.controller?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
@@ -95,18 +95,9 @@
 				</div>
 			</div>
 		</nav>
-
 		<div class="content container-fluid">
 			<g:layoutBody/>
-
-			<hr>
-
-			<footer>
-				<p>&copy; The Ontario Institute for Cancer Research. 2011</p>
-			</footer>
 		</div>
-
 		<r:layoutResources/>
-
 	</body>
 </html>
