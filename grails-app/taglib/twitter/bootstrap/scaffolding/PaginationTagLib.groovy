@@ -114,9 +114,9 @@ class PaginationTagLib {
 
         // display position and total items
         writer << '<div class="pull-right" style="line-height:34px">Showing <strong>'
-        writer << offset + 1
+        writer << Math.min(offset + 1, total)
         writer << '</strong> to <strong>'
-        writer << offset + max
+        writer << Math.min(offset + max, total)
         writer << '</strong> of <strong>'
         writer << total
         writer << '</strong> </div>'
