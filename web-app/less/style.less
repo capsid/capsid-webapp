@@ -8,6 +8,8 @@
  *  this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+html {height: 100%;}
+
 body {
 	height: 100%;
     margin: 0;
@@ -123,14 +125,18 @@ pre.snippet {
 	}
 }
 
-@media (min-width: 775px) and (max-width: 1124px) {
+@media (min-width: 800px) and (max-width: 1124px) {
 	body { 
 		padding: 10px 10px;
 		-webkit-text-size-adjust: none;
+
+	}
+	.table td.link .dropdown-menu {
+		min-width: 110px;
 	}
 }
 
-@media (max-width: 774px) {
+@media (max-width: 799px) {
 	/* prevent the brand name wrapping or overlapping the menu toggle */
 	.navbar .brand {
 		max-width: 75%;
