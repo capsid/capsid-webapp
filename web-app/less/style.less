@@ -25,21 +25,21 @@ body {
 	background: -o-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* IE10+ */
 	background: linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* W3C */
-
-	font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+/* Nav */
 .navbar {
+
 	margin-bottom: 11px;
 
-	.brand {
-		font-family: "Poiret One","Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
-		font-weight: 800;
-		text-shadow: 0px -1px 0px rgba(0,0,0,.5);
-		padding: 8px 10px 12px;
+	.navbar-inner {
+		.brand {
+			font-weight: 800;
+			text-shadow: 0px -1px 0px rgba(91,192,222,.5);
+			padding: 8px 10px 12px;
+		}
+		.dropdown-toggle.active {color: #fff;}
 	}
-
-	.dropdown-toggle.active {color: #fff;}
 }
 .content {
 	background: none repeat scroll 0 0 #FEFEFE;
@@ -63,6 +63,11 @@ body {
 	td, th {
 		border: none;
 		vertical-align: middle;
+		
+	}
+	td {
+		padding: 2px;
+		font-size: 10px;
 	}
 
 	td.link {
