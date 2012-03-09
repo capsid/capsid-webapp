@@ -81,6 +81,7 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+    warn   'grails.plugins.twitterbootstrap'
 }
 
 // Added by the Spring Security Core plugin:
@@ -93,6 +94,9 @@ grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
 grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
 grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
+
+// Twitter Bootstrap
+grails.plugins.twitterbootstrap.customDir = 'less'
 
 /**
  * Running externalized configuration

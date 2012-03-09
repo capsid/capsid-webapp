@@ -16,7 +16,6 @@ body {
 	background: linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* W3C */
 
 	font-family: "Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
-	background: green;
 }
 
 .navbar {
@@ -26,7 +25,10 @@ body {
 		font-family: "Poiret One","Ubuntu","Helvetica Neue",Helvetica,Arial,sans-serif;
 		font-weight: 800;
 		text-shadow: 0px -1px 0px rgba(0,0,0,.5);
+		padding: 8px 10px 12px;
 	}
+
+	.dropdown-toggle.active {color: #fff;}
 }
 .content {
 	background: none repeat scroll 0 0 #FEFEFE;
@@ -104,19 +106,23 @@ pre.snippet {
 }
 
 /* @media */
-@media (min-width:980px) {
+/* Full Screen */
+@media (min-width:1125px) {
 	body { 
 		padding: 10px 20px;
 		-webkit-text-size-adjust: none;
-		background: blue;
 	}
 }
 
-@media (max-width: 768px) {
-	/* prevent the brand name wrapping or overlapping the menu toggle */
-	body {
-		background: red;
+@media (min-width: 775px) and (max-width: 1124px) {
+	body { 
+		padding: 10px 10px;
+		-webkit-text-size-adjust: none;
 	}
+}
+
+@media (max-width: 774px) {
+	/* prevent the brand name wrapping or overlapping the menu toggle */
 	.navbar .brand {
 		max-width: 75%;
 		overflow: hidden;
@@ -134,7 +140,6 @@ pre.snippet {
 }
 
 /* optimized display for small devices */
-
 @media (max-width:480px) {
 	table thead, table td { 
 		display: none;
@@ -153,3 +158,4 @@ pre.snippet {
 		text-align: right;
 	}
 }
+
