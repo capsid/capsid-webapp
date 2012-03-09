@@ -9,7 +9,9 @@
 */
 
 <%=packageName ? "package ${packageName}\n\n" : ''%>import org.springframework.dao.DataIntegrityViolationException
+import grails.plugins.springsecurity.Secured
 
+@Secured(['ROLE_CAPSID'])
 class ${className}Controller {
 
     static allowedMethods = [create: 'POST', edit: 'POST', delete: 'POST']
