@@ -4,6 +4,7 @@
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
+		<r:require module="visualsearch"/>
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -17,6 +18,8 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+
+				<div class="visual_search"></div>
 
 				<table class="table table-striped table-condensed">
 					<thead>
@@ -35,10 +38,6 @@
 							<g:sortableColumn class="compress" property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
 						
 							<g:sortableColumn property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />
-						
-							<th width="75">
-								<div class="btn btn-info btn-small pull-right">Fitler &raquo;</div>
-							</th>
 						</tr>
 					</thead>
 					<tbody>

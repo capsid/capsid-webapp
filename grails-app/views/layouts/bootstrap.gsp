@@ -14,15 +14,15 @@
 		<![endif]-->
 
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-		<r:require module="modernizr"/>
-		<r:require modules="style"/>
-		<r:require modules="coffee"/>
+
+		<r:require modules="capsid"/>
 
 		<!-- Le fav and touch icons -->
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" sizes="72x72" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-114x114.png')}">
 		<nav:resources override="true"/>
+		
 		<g:layoutHead/> 
 		<r:layoutResources/>
 	</head>
@@ -121,6 +121,7 @@
 				</div>
 			</div>
 		</nav>
+
 		<div class="content container-fluid">
 			<g:layoutBody/>
 		</div>
