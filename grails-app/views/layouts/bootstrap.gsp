@@ -13,7 +13,7 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 		<r:require module="modernizr"/>
 		<r:require modules="style"/>
 		<r:require modules="coffee"/>
@@ -66,12 +66,6 @@
 								</ul>    
 							</li>
 							<li class="divider-vertical"></li>
-							<nav:eachItem var="item" group="statistics">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>				
-							<li class="divider-vertical"></li>
 						</ul>
 					</div>
 
@@ -85,12 +79,6 @@
 							</nav:eachItem>
 							<li class="divider-vertical"></li>
 							<nav:eachItem var="item" group="genome">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
-							<li class="divider-vertical"></li>						
-							<nav:eachItem var="item" group="statistics">
 								<li class="${controllerName==item.controller?'active':''}">
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>

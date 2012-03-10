@@ -23,7 +23,7 @@ class Statistics {
 	Integer genomeHits
 	Integer geneHits
 	Float genomeCoverage
-	Float geneCoveragene
+	Float geneCoverageAvg
 	Float geneCoverageMax
 
     static constraints = { }

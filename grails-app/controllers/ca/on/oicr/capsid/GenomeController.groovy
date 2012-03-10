@@ -17,6 +17,12 @@ import grails.plugins.springsecurity.Secured
 class GenomeController {
 
     static allowedMethods = [create: 'POST', edit: 'POST', delete: 'POST']
+    static navigation = [
+        group:'genome', 
+        order:10, 
+        title:'Genomes', 
+        action:'list'
+    ]
 
     def authService
     def genomeService

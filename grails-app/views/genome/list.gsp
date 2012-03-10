@@ -8,21 +8,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="span3">
-				<div class="well">
-					<ul class="nav nav-list">
-						<li class="nav-header">${entityName}</li>
-						<li>
-							<g:link class="list" action="list">
-								<i class="icon-list"></i>
-								<g:message code="default.list.label" args="[entityName]" />
-							</g:link>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="span9">
+			<div class="">
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -37,14 +23,16 @@
 						<tr>
 						
 							<g:sortableColumn property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />
+							
+							<g:sortableColumn property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
 						
 							<g:sortableColumn property="gi" title="${message(code: 'genome.gi.label', default: 'Gi')}" />
 						
-							<g:sortableColumn property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
+							<g:sortableColumn property="taxonomy" title="${message(code: 'genome.taxonomy.label', default: 'Taxonomy')}" />	
+							
+							<g:sortableColumn class="compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
 						
-							<g:sortableColumn property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
-						
-							<g:sortableColumn class="nav-compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
+							<g:sortableColumn class="compress" property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
 						
 							<g:sortableColumn property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />
 						
@@ -58,14 +46,16 @@
 						<tr>
 						
 							<td>${fieldValue(bean: genomeInstance, field: "accession")}</td>
-						
-							<td>${genomeInstance.gi}</td>
-						
-							<td>${fieldValue(bean: genomeInstance, field: "length")}</td>
-						
+							
 							<td>${fieldValue(bean: genomeInstance, field: "name")}</td>
-						
-							<td>${fieldValue(bean: genomeInstance, field: "organism")}</td>
+							
+							<td>${genomeInstance.gi}</td>
+
+							<td>${genomeInstance.taxonomy.join(', ')}</td>
+							
+							<td class="compress">${fieldValue(bean: genomeInstance, field: "organism")}</td>
+
+							<td class="compress">${fieldValue(bean: genomeInstance, field: "length")}</td>				
 						
 							<td>${fieldValue(bean: genomeInstance, field: "sampleCount")}</td>
 						
