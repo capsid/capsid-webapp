@@ -1,7 +1,7 @@
 modules = {
 
     capsid {
-    	dependsOn 'modernizr, bootstrap, jquery'
+    	dependsOn 'bootstrap, jquery'
     	resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_style'
     	resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_style'
     }
@@ -25,11 +25,11 @@ modules = {
 
     overrides {
         jquery {
-            resource id:'js', url:'plugins/jquery-1.7.1/js/jquery/jquery-1.7.1.min.js', disposition:'defer'    
+            resource id:'js', disposition:'defer'    
         }
         'jquery-ui' {
             dependsOn 'jquery'
-            resource id:'js', url:'plugins/jquery-ui-1.8.15/jquery-ui/js/jquery-ui-1.8.15.custom.min.js',disposition: 'defer'
+            resource id:'js', disposition: 'defer'
         }
     }
 }

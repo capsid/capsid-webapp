@@ -38,16 +38,33 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        //compile ":jquery:1.7.1"
-        //compile ":resources:1.1.6"
-        //compile ':twitter-bootstrap:2.0.1.18'
-        //compile ':fields:1.0.4'
+        
+        compile ":resources:latest.integration"
+        
+        complie ':modernizr:latest.integration'
 
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.4"
+        compile ":jquery:latest.integration"
+        compile ":jquery-ui:latest.integration"
+        
+        compile ':twitter-bootstrap:latest.integration'
+        compile ':fields:latest.integration'
 
+        compile ':navigation:latest.integration'
+        compile ':mail:latest.integration'
+        compile ':spring-security-core:latest.integration'
+        compile ':spring-security-ldap:latest.integration'
+
+        runtime ':lesscss-resources:latest.integration'
+        runtime ':coffeescript-resources:latest.integration'
+
+        runtime ":mongodb:latest.integration"
+        
+        runtime ":zipped-resources:latest.integration"
+        runtime ":cached-resources:latest.integration"
+        runtime ":cache-headers:latest.integration"
+        //runtime ":yui-minify-resources:latest.integration"
+        
         build ":tomcat:$grailsVersion"
+        
     }
 }

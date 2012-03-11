@@ -19,7 +19,7 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<div class="visual_search"></div>
+				<div class="visual_search" style="height:32px;"></div>
 
 				<table class="table table-striped table-condensed">
 					<thead>
