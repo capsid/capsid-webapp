@@ -31,7 +31,6 @@ class ProjectController {
     def index() { redirect action: 'list', params: params }
 
     def list() {
-        println params
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 		List results = projectService.list params
 		
@@ -51,8 +50,30 @@ class ProjectController {
     def create() { [projectInstance: new Project(params)] }
 
 	def save() {
-	    Project projectInstance = projectService.save params
+	    Project projectInstance = new Project(params)
 		
+        String projectRole = 'ROLE_' + projectInstance.label.toUpperCase()
+        List roles = [projectRole]
+        if (!params.private) { roles.push("ROLE_CAPSID") }
+        projectInstance.roles = roles
+    
+        // Role saved first because a project with no role is worse than a role with no project
+        Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
+
+        if (!projectInstance.save(flush: true)) {
+            render view: 'create', model: [projectInstance: projectInstance]
+            return
+        }
+
+        User user = authService.getCurrentUser()    
+
+        /* 
+        *  If this step fails it doesn't matter that much since only Admins can create projects
+        *  and Admins can already access any project. The user would be able to get in and add permission
+        *  and probably wouldn't even notice. The owner role is more for adding non-Admins to the project
+        */
+        UserRole.create user, role, 'owner'
+        
 		flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.label])
         redirect action: 'show', id: projectInstance.label
     }

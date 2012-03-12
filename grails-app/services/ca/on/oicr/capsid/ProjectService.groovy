@@ -75,22 +75,6 @@ class ProjectService {
     }
   }
 
-  Project save(Map params) {
-    Project project = new Project(params)
-
-    String projectRole = 'ROLE_' + project.label.toUpperCase()
-    List roles = [projectRole]
-    if (!params.private) { roles.push("ROLE_CAPSID") }
-    project.roles = roles
-
-    if (!project.save(flush: true)) { return false }
-    
-    Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
-    User user = authService.getCurrentUser()
-    UserRole.create user, role, 'owner'
-    project
-  }
-
   void delete(Project project) {
     String label = project.label
     String projectRole = 'ROLE_' + label.toUpperCase()
