@@ -6,9 +6,9 @@ $(function() {
     query: '',
     unquotable : ['name'],
     callbacks: {
-      search: function(query, searchCollection) {
-    	  var params = [], unq = visualSearch.options.unquotable;
-    	  
+      search: function(query, searchCollection, noPush) {
+    	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
+    	  console.log(noPush);
     	  // Fade out on s
     	  $("#results").css({ opacity: 0.5 });
     	  
@@ -24,8 +24,10 @@ $(function() {
     	  
     	  // Load results and fade in
     	  $('#results').load('list #table', params.join('&'), function() {
-    		  window.history.pushState({pathname: 'lala'}, '', window.location.pathname + '?' + query);
-    		  $("#results").css({ opacity: 1.0 });
+          if (!noPush) {
+    		    window.history.pushState(null, '', window.location.pathname + '?' + params.join('&'));
+    		  }
+          $("#results").css({ opacity: 1.0 });
     	  });
       },
       facetMatches: function(callback) {
@@ -53,17 +55,13 @@ $(function() {
     }
   });
   
-  q = window.location.search.replace(/\?/, '').replace(/\%20/g, ' ');
-  if (q) {
-	  visualSearch.searchBox.value(q);
-	  visualSearch.options.callbacks.search(q);
-  }
+  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ');
+  visualSearch.searchBox.value(q);
+
   window.addEventListener("popstate", function(e) {
-	  q = window.location.search.replace(/\?/, '').replace(/\%20/g, ' ');
-	  if (q) {
-		  visualSearch.searchBox.value(q);
-		  visualSearch.options.callbacks.search(q);
-	  }
+	  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ');
+    visualSearch.searchBox.value(q);
+	  visualSearch.options.callbacks.search(q, '', true);
   });
   s = $('#search');
   s.fadeIn();
