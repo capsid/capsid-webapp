@@ -23,9 +23,9 @@ class Project {
 
     static constraints = {
         name unique: true, blank:false
-        label unique:true, blank:false, matches:/[\w]+/
+        label unique:true, blank:false, matches:/[\w\d\-]+/
         description blank:true
-        wikiLink blank:true
+        wikiLink blank:true, url: true
         roles blank:false, display:false, editable: false
     }
 

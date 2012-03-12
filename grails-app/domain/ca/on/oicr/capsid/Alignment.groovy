@@ -26,7 +26,7 @@ class Alignment {
 	String project
 
     static constraints = {
-		name unique:true, blank: false
+		name unique:true, blank: false, matches: /[\w\d\-]+/
 		aligner blank: true
 		platform blank: true
 		infile blank: true
