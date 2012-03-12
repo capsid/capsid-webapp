@@ -14,7 +14,7 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_CAPSID'])
 class ${className}Controller {
 
-    static allowedMethods = [create: 'POST', edit: 'POST', delete: 'POST']
+    static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
 
     def authService
     def ${domainClass.propertyName}Service
@@ -23,7 +23,12 @@ class ${className}Controller {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        [${propertyName}List: ${className}.list(params), ${propertyName}Total: ${className}.count()]
+        List results = ${domainClass.propertyName}Service.list(params)
+        
+        withFormat {
+            html ${propertyName}List: results, ${propertyName}Total: results.totalCount
+            json { render results as JSON  }
+        }
     }
 
     def show() {
@@ -34,9 +39,9 @@ class ${className}Controller {
     def create() { [${propertyName}: new ${className}(params)] }
 
 	def save() {
-	    ${className} ${propertyName} = findInstance()
+	    ${className} ${propertyName} = ${domainClass.propertyName}Service.save params
 
-		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
+		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.name])
         redirect action: 'show', id: ${propertyName}.label
     }
 
@@ -57,7 +62,7 @@ class ${className}Controller {
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.name])
         redirect action: 'show', id: ${propertyName}.label
 	}
 

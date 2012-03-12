@@ -28,7 +28,7 @@ class Sample {
 		cancer blank:true
 		role blank:true
 		source blank:true
-		project blank:false, display: false, editable: false, validator: { val -> val in Project.list().label }, widget: 'list'
+		project blank:false, /*display: false, editable: false,*/ validator: { val -> val in Project.list().label }, widget: 'list'
     }
 	
 	static mapping = {}

@@ -32,7 +32,7 @@ class ProjectController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-		def results = projectService.list(params)
+		List results = projectService.list params
 		
 		withFormat {
 			html projectInstanceList: results, projectInstanceTotal: results.totalCount
@@ -42,6 +42,8 @@ class ProjectController {
 
     def show() {
         Project projectInstance = findInstance()
+        projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)
+
         [projectInstance: projectInstance]
     }
 
@@ -71,7 +73,7 @@ class ProjectController {
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.label])
         redirect action: 'show', id: projectInstance.label
 	}
 

@@ -2,15 +2,15 @@ modules = {
 
     capsid {
     	dependsOn 'bootstrap, jquery'
-    	resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_style'
-    	resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_style'
+    	resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
+    	resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
+        resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
     }
 
     visualsearch {
         dependsOn 'jquery, jquery-ui, backbone'
         resource url:'css/visualsearch-datauri.css', bundle: 'bundle_vsjs'
         resource url:'js/lib/visualsearch.js', bundle: 'bundle_vsjs'
-        //resource url:'cs/capsid.coffee', bundle: 'bundle_vsjs'
 		resource url:'js/visualsearch/visualsearch.project.list.js', bundle: 'bundle_vsjs'
     }
     backbone {

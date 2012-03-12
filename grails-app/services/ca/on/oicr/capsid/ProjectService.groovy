@@ -38,7 +38,7 @@ class ProjectService {
   List list(Map params) {
 	  def criteria = Project.createCriteria()
 	  
-	  return criteria.list(params) {
+	  List results = criteria.list(params) {
 		  and {
 			  // Security Check
 			  if (!authService.isCapsidAdmin()) {
@@ -65,6 +65,12 @@ class ProjectService {
 			  }
 		  }
 	  }
+
+    results.each {
+      it['sampleCount'] = Sample.countByProject(it.label)
+    }
+
+    return results
   }
   
   List<Project> getAllowedProjects() {
