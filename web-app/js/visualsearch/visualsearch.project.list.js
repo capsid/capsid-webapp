@@ -21,7 +21,7 @@ $(function() {
     			  else {params.push(key + '="' + item[key] + '"');}
     		  }
     	  });
-    	  
+    	  console.log(window.location);
     	  // Load results and fade in
     	  $('#results').load('list #table', params.join('&'), function() {
           if (!noPush) {
@@ -31,9 +31,9 @@ $(function() {
     	  });
       },
       facetMatches: function(callback) {
-        callback(['name', 'description', 'samples']);
+        callback(['name']);
       },
-      valueMatches: function(facet, serachTerm, callback) {
+      valueMatches: function(facet, searchTerm, callback) {
         switch (facet) {
           case 'name':
         	var list = [];
@@ -43,23 +43,16 @@ $(function() {
         		});
         		return callback(list);
         	});
-            
-          case 'gi':
-        	return callback(['published', 'unpublished', 'draft']);
-          case 'taxonomy':
-            return callback(['Pentagon Papers', 'CoffeeScript Manual', 'Laboratory for Object Oriented Thinking', 'A Repository Grows in Brooklyn']);
-          case 'organism':
-            return callback(['orga', 'nism']);
         }
       }
     }
   });
   
-  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ');
+  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ').replace(/\%22/g, '');
   visualSearch.searchBox.value(q);
 
   window.addEventListener("popstate", function(e) {
-	  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ');
+	  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ').replace(/\%22/g, '');
     visualSearch.searchBox.value(q);
 	  visualSearch.options.callbacks.search(q, '', true);
   });

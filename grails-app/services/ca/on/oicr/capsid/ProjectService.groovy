@@ -54,14 +54,8 @@ class ProjectService {
 					  'in'("label", params.name)
 				  }
 			  }
-			  if (params.description) {
-				  if (params.description instanceof String) {
-					  like("description", params.description.replaceAll (/\"/, '%'))
-				  }
-				  else if (params.description instanceof String[]) {
-					  // Just takes the first one
-					  like("description", params.description[0].replaceAll (/\"/, '%'))
-				  }
+			  if (params.text) {
+			    like("description", params.text.replaceAll (/\"/, '%'))
 			  }
 		  }
 	  }
