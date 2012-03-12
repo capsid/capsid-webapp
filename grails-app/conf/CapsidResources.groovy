@@ -8,9 +8,10 @@ modules = {
 
     visualsearch {
         dependsOn 'jquery, jquery-ui, backbone'
-        resource url:'css/visualsearch-datauri.css'
+        resource url:'css/visualsearch-datauri.css', bundle: 'bundle_vsjs'
         resource url:'js/lib/visualsearch.js', bundle: 'bundle_vsjs'
-        resource url:'cs/capsid.coffee', bundle: 'bundle_vsjs'
+        //resource url:'cs/capsid.coffee', bundle: 'bundle_vsjs'
+		resource url:'js/visualsearch/visualsearch.project.list.js', bundle: 'bundle_vsjs'
     }
     backbone {
         dependsOn 'underscore, json2'

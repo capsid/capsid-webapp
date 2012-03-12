@@ -23,12 +23,12 @@ class Project {
 
     static constraints = {
         name unique: true, blank:false
-        label unique:true, blank:false, display: false, editable: false, matches:/[\w]+/
+        label unique:true, blank:false, matches:/[\w]+/
         description blank:true
         wikiLink blank:true
         roles blank:false, display:false, editable: false
     }
 
     static mapping = {}
-    static namedQueries = { security { roles -> 'in'("roles", roles) } }
+    static namedQueries = {}
 }

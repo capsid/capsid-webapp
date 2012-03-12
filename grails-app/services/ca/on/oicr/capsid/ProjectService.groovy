@@ -19,6 +19,10 @@ class ProjectService {
   def authService
   def springSecurityService
 
+  Project get(label) {
+	  Project.findByLabel label
+	}
+  
   Boolean update(Project project, Map params) {
     if (params.private) {
       project.roles = ['ROLE_' + params.label.toUpperCase()]
@@ -31,10 +35,38 @@ class ProjectService {
     true
   }
 
-  Project get(label) {
-    Project.findByLabel label
+  List list(Map params) {
+	  def criteria = Project.createCriteria()
+	  
+	  return criteria.list(params) {
+		  and {
+			  // Security Check
+			  if (!authService.isCapsidAdmin()) {
+				  'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
+			  }
+			  // Filters by label, using project name on client side
+			  if (params.name) {
+				  // Single name param being passed
+				  if (params.name instanceof String) {
+					  eq("label", params.name)
+				  }
+				  else if (params.name instanceof String[]) {
+					  'in'("label", params.name)
+				  }
+			  }
+			  if (params.description) {
+				  if (params.description instanceof String) {
+					  like("description", params.description.replaceAll (/\"/, '%'))
+				  }
+				  else if (params.description instanceof String[]) {
+					  // Just takes the first one
+					  like("description", params.description[0].replaceAll (/\"/, '%'))
+				  }
+			  }
+		  }
+	  }
   }
-
+  
   List<Project> getAllowedProjects() {
     if (authService.isCapsidAdmin()) {
       Project.list()
@@ -43,7 +75,7 @@ class ProjectService {
     }
   }
 
-  Boolean save(Map params) {
+  Project save(Map params) {
     Project project = new Project(params)
 
     String projectRole = 'ROLE_' + project.label.toUpperCase()
@@ -56,7 +88,7 @@ class ProjectService {
     Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
     User user = authService.getCurrentUser()
     UserRole.create user, role, 'owner'
-    true
+    project
   }
 
   void delete(Project project) {
