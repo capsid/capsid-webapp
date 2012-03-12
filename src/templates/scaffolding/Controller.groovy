@@ -108,10 +108,4 @@ class ${className}Controller {
             }
         }
     } 
-
-	private boolean isCapsidAdmin() {
-		if (!authService.isCapsidAdmin()) {
-		  render view: '../login/denied'
-		}
-	}
 }

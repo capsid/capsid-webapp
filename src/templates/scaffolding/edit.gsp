@@ -10,7 +10,12 @@
 		<div class="row-fluid">
 			<div>
 				<ul class="breadcrumb">
-					<li class="active"><g:fieldValue bean="\${${propertyName}}" field="name"/> <span class="divider">/</span></li>
+					<li>
+						<g:link action="show" id="${${propertyName}.label}">
+							<g:fieldValue bean="\${${propertyName}}" field="name"/>
+						</g:link> 
+					<span class="divider">/</span></li>
+					<li class="active">Edit</li>
 				</ul>
 				<div class="page-header">
 					<h1>Edit \${${propertyName}.name}</h1>

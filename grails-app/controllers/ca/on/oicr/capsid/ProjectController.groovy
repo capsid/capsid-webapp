@@ -31,6 +31,7 @@ class ProjectController {
     def index() { redirect action: 'list', params: params }
 
     def list() {
+        println params
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 		List results = projectService.list params
 		

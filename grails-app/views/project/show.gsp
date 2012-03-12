@@ -31,6 +31,7 @@
 						<h4><g:fieldValue bean="${projectInstance}" field="description"/></h4>
 						<a href="${projectInstance.wikiLink}" target="_blank">${projectInstance.wikiLink}</a>
 					</div>
+					<auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${projectInstance?.label}" />
 						<div>
@@ -40,6 +41,7 @@
 							</g:link>
 						</div>
 					</g:form>
+					</auth:ifAnyGranted>
 				</div>
 
 				<g:if test="${flash.message}">
