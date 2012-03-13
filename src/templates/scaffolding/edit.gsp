@@ -51,8 +51,8 @@
 					<h1>Delete ${className}</h1>
 				</div>
 				<fieldset>
-					<g:form class="form-horizontal" action="update" id="${${propertyName}?.name}" >
-						<g:hiddenField name="version" value="${${propertyName}?.version}" />
+					<g:form class="form-horizontal" action="update" id="\${${propertyName}?.name}" >
+						<g:hiddenField name="version" value="\${${propertyName}?.version}" />
 						<fieldset>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
