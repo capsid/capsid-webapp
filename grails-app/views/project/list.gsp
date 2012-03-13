@@ -45,24 +45,9 @@
 							<tbody>
 							<g:each in="${projectInstanceList}" var="projectInstance">
 								<tr>
-									<td><strong>${fieldValue(bean: projectInstance, field: "name")}</strong></td>
+									<td><g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
 									<td>${fieldValue(bean: projectInstance, field: "description")}</td>
 									<td>${projectInstance["sampleCount"]}</td>
-								
-									<td class="link">
-										    <div class="btn-group pull-right">
-											    <g:link action="show" id="${projectInstance.label}" class="btn btn-small"><i class="icon-chevron-right"></i> Show</g:link>
-											    <auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
-											    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-											    <span class="caret"></span>
-											    </a>
-											    <ul class="dropdown-menu">
-											    	<li><g:link action="show" id="${projectInstance.label}"><i class="icon-chevron-right"></i> Show</g:link></li>
-											    	<li><g:link action="edit" id="${projectInstance.label}"><i class="icon-pencil"></i> Edit</g:link></li>
-												</ul>
-												</auth:ifAnyGranted>
-										    </div>
-									</td>
 								</tr>
 							</g:each>
 							</tbody>

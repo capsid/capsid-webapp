@@ -8,17 +8,9 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
-				<ul class="breadcrumb">
-					<li>
-						<g:link action="show" id="${projectInstance.label}">
-							<g:fieldValue bean="${projectInstance}" field="name"/>
-						</g:link> 
-					<span class="divider">/</span></li>
-					<li class="active">Edit</li>
-				</ul>
+			<section>
 				<div class="page-header">
-					<h1>Edit ${projectInstance.name}</h1>
+					<h1>Edit ${projectInstance.name} <small>Project Attributes</small></h1>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -40,11 +32,31 @@
 						<g:hiddenField name="version" value="${projectInstance?.version}" />
 						<fieldset>
 							<f:all bean="projectInstance"/>
-							<div class="form-actions">
+							<div class="form-actions" style="border-radius:0; border:none;">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
+								<g:link action="show" id="${projectInstance.label}" class="btn btn-danger">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Edit Permissions <small>User Access Levels</small></h1>
+				</div>
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Delete Project</h1>
+				</div>
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="${projectInstance?.label}" >
+						<g:hiddenField name="version" value="${projectInstance?.version}" />
+						<fieldset>
+							<div class="form-actions">
 								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 									<i class="icon-trash icon-white"></i>
 									<g:message code="default.button.delete.label" default="Delete" />
@@ -53,8 +65,8 @@
 						</fieldset>
 					</g:form>
 				</fieldset>
-
-			</div>
+			
+			</section>
 
 		</div>
 	</body>

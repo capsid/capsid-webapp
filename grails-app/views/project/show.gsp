@@ -11,6 +11,12 @@
 			<div class="span3">
 				<div class="well">
 					<ul class="nav nav-list">
+						<li>
+							<g:link controller="sample" action="create">
+								<i class="icon-plus"></i>
+								Create Sample
+							</g:link>
+						</li>
 						<li class="nav-header">Samples</li>
 						<input class="search-query span2" placeholder="Filter Samples" type="text" id="sample_filter">
 						<g:each in="${projectInstance['samples']}" var="sampleInstance">
@@ -27,8 +33,9 @@
 			<div class="span9">
 				<div class="row-fluid page-header">
 					<div class="span9">
-						<h1><g:fieldValue bean="${projectInstance}" field="name"/></h1>
-						<h4><g:fieldValue bean="${projectInstance}" field="description"/></h4>
+						<h1><g:fieldValue bean="${projectInstance}" field="name"/><br>
+						<small><g:fieldValue bean="${projectInstance}" field="description"/></small>
+						</h1>
 						<a href="${projectInstance.wikiLink}" target="_blank">${projectInstance.wikiLink}</a>
 					</div>
 					<auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
