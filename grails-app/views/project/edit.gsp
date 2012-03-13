@@ -10,7 +10,7 @@
 		<div class="row-fluid">
 			<section>
 				<div class="page-header">
-					<h1>Edit ${projectInstance.name} <small>Project Attributes</small></h1>
+					<h1>Edit ${projectInstance.name} <small>Edit Project Attributes</small></h1>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -45,7 +45,7 @@
 			</section>
 			<section>
 				<div class="page-header">
-					<h1>Edit Permissions <small>User Access Levels</small></h1>
+					<h1>Edit Permissions <small>Change User Access Levels</small></h1>
 				</div>
 			</section>
 			<section>
@@ -65,9 +65,7 @@
 						</fieldset>
 					</g:form>
 				</fieldset>
-			
 			</section>
-
 		</div>
 	</body>
 </html>

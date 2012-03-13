@@ -36,6 +36,7 @@
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
+								<g:link action="list" class="btn btn-danger">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>

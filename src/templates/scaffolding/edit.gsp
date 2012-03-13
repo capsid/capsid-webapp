@@ -8,17 +8,9 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
-				<ul class="breadcrumb">
-					<li>
-						<g:link action="show" id="\${${propertyName}.label}">
-							<g:fieldValue bean="\${${propertyName}}" field="name"/>
-						</g:link> 
-					<span class="divider">/</span></li>
-					<li class="active">Edit</li>
-				</ul>
+			<section>
 				<div class="page-header">
-					<h1>Edit \${${propertyName}.name}</h1>
+					<h1>Edit \${${propertyName}.name} <small>Edit ${className} Attributes</small></h1>
 				</div>
 
 				<g:if test="\${flash.message}">
@@ -40,7 +32,7 @@
 						<g:hiddenField name="version" value="\${${propertyName}?.version}" />
 						<fieldset>
 							<f:all bean="${propertyName}"/>
-							<div class="form-actions">
+							<div class="form-actions" style="border-radius:0; border:none;">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
@@ -53,9 +45,25 @@
 						</fieldset>
 					</g:form>
 				</fieldset>
-
-			</div>
-
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Delete ${className}</h1>
+				</div>
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="${${propertyName}?.name}" >
+						<g:hiddenField name="version" value="${${propertyName}?.version}" />
+						<fieldset>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+									<i class="icon-trash icon-white"></i>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
 		</div>
 	</body>
 </html>

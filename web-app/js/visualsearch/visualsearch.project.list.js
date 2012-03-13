@@ -56,5 +56,5 @@ $(function() {
     visualSearch.searchBox.value(q);
 	  visualSearch.options.callbacks.search(q, '', true);
   });
-  //$('#search').fadeIn();
+  $('.visual_search').fadeIn();
 });

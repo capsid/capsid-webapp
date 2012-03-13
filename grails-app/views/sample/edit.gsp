@@ -9,9 +9,9 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
+			<section>
 				<div class="page-header">
-					<h1>Edit ${sampleInstance.name}<br><small>&lt; BACK</small></h1>
+					<h1>Edit ${sampleInstance.name} <small>Edit Sample Attributes</small></h1>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -33,11 +33,26 @@
 						<g:hiddenField name="version" value="${sampleInstance?.version}" />
 						<fieldset>
 							<f:all bean="sampleInstance"/>
-							<div class="form-actions">
+							<div class="form-actions" style="border-radius:0; border:none;">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
+								<g:link action="show" id="${sampleInstance.name}" class="btn btn-danger">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Delete Sample</h1>
+				</div>
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="${sampleInstance?.name}" >
+						<g:hiddenField name="version" value="${sampleInstance?.version}" />
+						<fieldset>
+							<div class="form-actions">
 								<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 									<i class="icon-trash icon-white"></i>
 									<g:message code="default.button.delete.label" default="Delete" />
@@ -46,9 +61,7 @@
 						</fieldset>
 					</g:form>
 				</fieldset>
-
-			</div>
-
+			</section>
 		</div>
 	</body>
 </html>

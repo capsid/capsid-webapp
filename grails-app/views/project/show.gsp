@@ -1,3 +1,4 @@
+
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <!doctype html>
 <html>
@@ -14,7 +15,7 @@
 						<li>
 							<g:link controller="sample" action="create">
 								<i class="icon-plus"></i>
-								Create Sample
+								Add Sample
 							</g:link>
 						</li>
 						<li class="nav-header">Samples</li>

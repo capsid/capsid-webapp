@@ -1,3 +1,4 @@
+<%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Sample" %>
 <!doctype html>
 <html>
@@ -45,26 +46,12 @@
 							<g:each in="${sampleInstanceList}" var="sampleInstance">
 								<tr>
 								
-									<td>${fieldValue(bean: sampleInstance, field: "name")}</td>
-									<td>${fieldValue(bean: sampleInstance, field: "project")}</td>
+									<td><g:link action="show" id="${sampleInstance.name}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
+									<td><g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link></td>
 									<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
 									<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
 									<td>${fieldValue(bean: sampleInstance, field: "role")}</td>
 									<td>${fieldValue(bean: sampleInstance, field: "source")}</td>
-									<td class="link">
-										    <div class="btn-group pull-right">
-											    <g:link action="show" id="${sampleInstance.name}" class="btn btn-small"><i class="icon-chevron-right"></i> Show</g:link>
-											    <auth:ifAnyGranted access="[(sampleInstance.project):['collaborator', 'owner']]">
-											    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-											    <span class="caret"></span>
-											    </a>
-											    <ul class="dropdown-menu">
-											    	<li><g:link action="show" id="${sampleInstance.name}"><i class="icon-chevron-right"></i> Show</g:link></li>
-											    	<li><g:link action="edit" id="${sampleInstance.name}"><i class="icon-pencil"></i> Edit</g:link></li>
-												</ul>
-												</auth:ifAnyGranted>
-										    </div>
-									</td>
 								</tr>
 							</g:each>
 							</tbody>

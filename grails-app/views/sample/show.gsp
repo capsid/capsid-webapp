@@ -12,19 +12,51 @@
 			<div class="span3">
 				<div class="well">
 					<ul class="nav nav-list">
-						<li class="nav-header">${entityName}</li>
+						<li class="nav-header">Summary</li>
+						<table class="table">
+							<tbody>
+							<g:if test="${sampleInstance?.cancer}">
+							<tr>
+								<td><g:message code="sample.cancer.label" default="Cancer" /></td>
+								<td><g:fieldValue bean="${sampleInstance}" field="cancer"/></td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${sampleInstance?.role}">
+							<tr>
+								<td><g:message code="sample.role.label" default="Role" /></td>						
+								<td><g:fieldValue bean="${sampleInstance}" field="role"/></td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${sampleInstance?.source}">
+							<tr>
+								<td><g:message code="sample.source.label" default="Source" /></td>
+								<td><g:fieldValue bean="${sampleInstance}" field="source"/></td>
+							</tr>
+							</g:if>
+							</tbody>
+						</table>
+					</ul>
+				</div>
+				<div class="well">
+					<ul class="nav nav-list">
 						<li>
-							<g:link class="list" action="list">
-								<i class="icon-list"></i>
-								<g:message code="default.list.label" args="[entityName]" />
-							</g:link>
-						</li>
-						<li>
-							<g:link class="create" action="create">
+							<g:link controller="alignment" action="create">
 								<i class="icon-plus"></i>
-								<g:message code="default.create.label" args="[entityName]" />
+								Add Alignment
 							</g:link>
 						</li>
+						<li class="nav-header">Alignments</li>
+						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="alignment_filter">
+						<g:each in="${sampleInstance['alignments']}" var="alignmentInstance">
+						<li class="popover_item" rel="popover" data-placement="right" data-content="<strong>Aligner: </strong>${alignmentInstance.aligner}<br><strong>Platform: </strong>${alignmentInstance.platform}<br><strong>Type: </strong>${alignmentInstance.type}" data-title="${alignmentInstance.name}">
+							<g:link controller="alignment" action="show" id="${alignmentInstance.name}">
+								<i class="icon-folder-open"></i>
+								${alignmentInstance.name}
+							</g:link>
+						</li>
+						</g:each>
 					</ul>
 				</div>
 			</div>
@@ -35,7 +67,6 @@
 						<g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link> 
 						<span class="divider">/</span>
 					</li>
-					<li class="active"><g:fieldValue bean="${sampleInstance}" field="name"/></li>
 				</ul>
 				<div class="row-fluid page-header">
 					<div class="span9">
@@ -58,38 +89,6 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-
-				<dl>
-				
-					<g:if test="${sampleInstance?.cancer}">
-						<dt><g:message code="sample.cancer.label" default="Cancer" /></dt>
-						
-							<dd><g:fieldValue bean="${sampleInstance}" field="cancer"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${sampleInstance?.project}">
-						<dt><g:message code="sample.project.label" default="Project" /></dt>
-						
-							<dd><g:fieldValue bean="${sampleInstance}" field="project"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${sampleInstance?.role}">
-						<dt><g:message code="sample.role.label" default="Role" /></dt>
-						
-							<dd><g:fieldValue bean="${sampleInstance}" field="role"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${sampleInstance?.source}">
-						<dt><g:message code="sample.source.label" default="Source" /></dt>
-						
-							<dd><g:fieldValue bean="${sampleInstance}" field="source"/></dd>
-						
-					</g:if>
-				
-				</dl>
 			</div>
 		</div>
 	</body>
