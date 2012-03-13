@@ -13,7 +13,7 @@
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
-		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+		<link href='hhttp://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 		
 		<r:require modules="capsid"/>
 
