@@ -24,7 +24,7 @@ class ${className}Controller {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        List results = ${domainClass.propertyName}Service.list(params)
+        List results = ${domainClass.propertyName}Service.list params
         
         withFormat {
             html ${propertyName}List: results, ${propertyName}Total: results.totalCount
@@ -40,8 +40,13 @@ class ${className}Controller {
     def create() { [${propertyName}: new ${className}(params)] }
 
 	def save() {
-	    ${className} ${propertyName} = ${domainClass.propertyName}Service.save params
-
+	    ${className} ${propertyName} = new ${className}(params)
+		
+		if (!${propertyName}.save(flush: true)) {
+			render view: 'create', model: [${propertyName}: ${propertyName}]
+			return
+		}
+		
 		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.name])
         redirect action: 'show', id: ${propertyName}.label
     }
