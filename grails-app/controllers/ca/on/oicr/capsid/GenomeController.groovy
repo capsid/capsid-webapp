@@ -11,27 +11,24 @@
 package ca.on.oicr.capsid
 
 import org.springframework.dao.DataIntegrityViolationException
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class GenomeController {
 
-    static allowedMethods = [create: 'POST', edit: 'POST', delete: 'POST']
-    static navigation = [
-        group:'genome', 
-        order:10, 
-        title:'Genomes', 
-        action:'list'
-    ]
-
-    def authService
     def genomeService
 
     def index() { redirect action: 'list', params: params }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        [genomeInstanceList: Genome.list(params), genomeInstanceTotal: Genome.count()]
+        List results = genomeService.list params
+        
+        withFormat {
+            html genomeInstanceList: results, genomeInstanceTotal: results.totalCount
+            json { render results as JSON  }
+        }
     }
 
     def show() {
@@ -42,7 +39,7 @@ class GenomeController {
 	private Genome findInstance() {
 		Genome genomeInstance = genomeService.get(params.id)
 		if (!genomeInstance) {
-		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'genome.label', default: 'Genome'), params.accession])
+		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'genome.label', default: 'Genome'), params.id])
 		  redirect action: 'list'
 		}
 		genomeInstance

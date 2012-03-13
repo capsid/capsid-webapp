@@ -9,7 +9,6 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			
 			<div class="span3">
 				<div class="well">
 					<ul class="nav nav-list">
@@ -31,13 +30,11 @@
 			</div>
 			
 			<div class="span9">
-				<ul class="breadcrumb">
-					<li class="active"><g:fieldValue bean="${genomeInstance}" field="name"/> <span class="divider">/</span></li>
-				</ul>
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 					</div>
+					<auth:ifAnyGranted access="[(genomeInstance.label):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${genomeInstance?.name}" />
 						<div>
@@ -45,12 +42,9 @@
 								<i class="icon-pencil"></i>
 								<g:message code="default.button.edit.label" default="Edit" />
 							</g:link>
-							<button class="btn btn-danger" type="submit" name="_action_delete">
-								<i class="icon-trash icon-white"></i>
-								<g:message code="default.button.delete.label" default="Delete" />
-							</button>
 						</div>
 					</g:form>
+					</auth:ifAnyGranted>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -110,7 +104,6 @@
 				
 				</dl>
 			</div>
-
 		</div>
 	</body>
 </html>
