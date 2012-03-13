@@ -31,6 +31,7 @@
 					<g:form class="form-horizontal" action="save" >
 						<fieldset>
 							<f:all bean="projectInstance"/>
+							<f:field bean="projectInstance" property="label"/>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
