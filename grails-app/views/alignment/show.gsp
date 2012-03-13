@@ -34,7 +34,7 @@
 					<div class="span9">
 						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifAnyGranted access="[(alignmentInstance.label):['collaborator', 'owner']]">
+					<auth:ifAnyGranted access="[(alignmentInstance.project):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${alignmentInstance?.name}" />
 						<div>

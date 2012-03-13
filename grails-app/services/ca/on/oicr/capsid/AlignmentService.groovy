@@ -19,13 +19,21 @@ class AlignmentService {
     def authService
     def springSecurityService
 
+    Alignment get(String name) {
+        Alignment.findByName name
+    }
+
+    List list(Map params) {
+        def criteria = Alignment.createCriteria()
+        
+        List results = criteria.list(params) {}
+  
+        return results
+    }
+
     void update(Alignment alignment, Map params) {
         alignment.properties = params
         alignment.save()
-    }
-
-    Alignment get(String name) {
-        Alignment.findByName name
     }
 
     List<Alignment> getAllowedAlignments() {

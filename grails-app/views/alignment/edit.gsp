@@ -28,7 +28,7 @@
 				</g:hasErrors>
 
 				<fieldset>
-					<g:form class="form-horizontal" action="update" id="${alignmentInstance?.label}" >
+					<g:form class="form-horizontal" action="update" id="${alignmentInstance?.name}" >
 						<g:hiddenField name="version" value="${alignmentInstance?.version}" />
 						<fieldset>
 							<f:all bean="alignmentInstance"/>

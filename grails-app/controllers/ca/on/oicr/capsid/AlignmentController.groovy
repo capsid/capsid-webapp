@@ -50,7 +50,7 @@ class AlignmentController {
 		}
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.label
+        redirect action: 'show', id: alignmentInstance.name
     }
 
     def edit() {
@@ -71,7 +71,7 @@ class AlignmentController {
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.label
+        redirect action: 'show', id: alignmentInstance.name
 	}
 
     def delete() {

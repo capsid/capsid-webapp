@@ -15,14 +15,6 @@
 					<div class="span9">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifCapsidAdmin>
-					<div class="pull-right">
-						<g:link class="btn btn-primary" action="create">
-							<i class="icon-plus icon-white"></i>
-							<g:message code="default.button.create.label" default="Create" />
-						</g:link>
-					</div>
-					</auth:ifCapsidAdmin>
 				</div>
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
@@ -34,51 +26,23 @@
 						<table class="table table-striped table-condensed">
 							<thead>
 								<tr>
-								
-									<g:sortableColumn property="aligner" title="${message(code: 'alignment.aligner.label', default: 'Aligner')}" />
-								
-									<g:sortableColumn property="infile" title="${message(code: 'alignment.infile.label', default: 'Infile')}" />
-								
 									<g:sortableColumn property="name" title="${message(code: 'alignment.name.label', default: 'Name')}" />
-								
-									<g:sortableColumn property="outfile" title="${message(code: 'alignment.outfile.label', default: 'Outfile')}" />
-								
-									<g:sortableColumn property="platform" title="${message(code: 'alignment.platform.label', default: 'Platform')}" />
-								
+									<g:sortableColumn property="sample" title="${message(code: 'alignment.sample.label', default: 'Sample')}" />
 									<g:sortableColumn property="project" title="${message(code: 'alignment.project.label', default: 'Project')}" />
-								
+									<g:sortableColumn property="aligner" title="${message(code: 'alignment.aligner.label', default: 'Aligner')}" />
+									<g:sortableColumn property="platform" title="${message(code: 'alignment.platform.label', default: 'Platform')}" />
+									<g:sortableColumn property="type" title="${message(code: 'alignment.type.label', default: 'Type')}" />
 								</tr>
 							</thead>
 							<tbody>
 							<g:each in="${alignmentInstanceList}" var="alignmentInstance">
 								<tr>
-								
+									<td><g:link action="show" id="${alignmentInstance.name}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
+									<td><g:link controller="sample" action="show" id="${alignmentInstance.sample}">${fieldValue(bean: alignmentInstance, field: "sample")}</g:link></td>
+									<td><g:link controller="project" action="show" id="${alignmentInstance.project}">${fieldValue(bean: alignmentInstance, field: "project")}</g:link></td>
 									<td>${fieldValue(bean: alignmentInstance, field: "aligner")}</td>
-								
-									<td>${fieldValue(bean: alignmentInstance, field: "infile")}</td>
-								
-									<td>${fieldValue(bean: alignmentInstance, field: "name")}</td>
-								
-									<td>${fieldValue(bean: alignmentInstance, field: "outfile")}</td>
-								
 									<td>${fieldValue(bean: alignmentInstance, field: "platform")}</td>
-								
-									<td>${fieldValue(bean: alignmentInstance, field: "project")}</td>
-								
-									<td class="link">
-										    <div class="btn-group pull-right">
-											    <g:link action="show" id="${alignmentInstance.id}" class="btn btn-small"><i class="icon-chevron-right"></i> Show</g:link>
-											    <auth:ifAnyGranted access="[(alignmentInstance.label):['collaborator', 'owner']]">
-											    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-											    <span class="caret"></span>
-											    </a>
-											    <ul class="dropdown-menu">
-											    	<li><g:link action="show" id="${alignmentInstance.label}"><i class="icon-chevron-right"></i> Show</g:link></li>
-											    	<li><g:link action="edit" id="${alignmentInstance.label}"><i class="icon-pencil"></i> Edit</g:link></li>
-												</ul>
-												</auth:ifAnyGranted>
-										    </div>
-									</td>
+									<td>${fieldValue(bean: alignmentInstance, field: "type")}</td>
 								</tr>
 							</g:each>
 							</tbody>
