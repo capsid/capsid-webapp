@@ -90,13 +90,13 @@ class MappedController {
 
   def show_contig = {
     Mapped mappedInstance = findInstance()
-
-    Date start = new Date()
+    
+    //Date start = new Date()
     ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
-    Date stop = new Date()
-    TimeDuration td = TimeCategory.minus( stop, start )
-    println td
-
+    //Date stop = new Date()
+    //TimeDuration td = TimeCategory.minus( stop, start )
+    //println td
+    
     /*
     ArrayList reads = [
       ['refStart': 11,
@@ -111,12 +111,12 @@ class MappedController {
     ]
     */
 
-    start = new Date()
+    //start = new Date()
     //List contig = mappedService.bucket(mappedService.getContig(reads, mappedInstance))
     List contig = mappedService.getContig(reads, mappedInstance)
-    stop = new Date()
-    td = TimeCategory.minus( stop, start )
-    println td
+    //stop = new Date()
+    //td = TimeCategory.minus( stop, start )
+    //println td
 
     render(view: 'ajax/show/contig', model: [mappedInstance: mappedInstance, sequence: contig])
   }

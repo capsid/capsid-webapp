@@ -337,7 +337,7 @@ ul.links li{
     display: inline-block;
     width: 50px;
     height: 15px;
-    vertical-align: middle;
+    vertical-align: top;
     font-weight: bold;
 }
 .seqstr {
