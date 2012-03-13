@@ -32,6 +32,12 @@
 						<fieldset>
 							<f:all bean="projectInstance"/>
 							<f:field bean="projectInstance" property="label"/>
+							<div class="control-group ">
+								<label for="label" class="control-label">Security</label>
+								<div class="controls">
+									<button type="button" data-toggle="button" class="btn btn-primary">Public Project</button>
+								</div>
+							</div>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
