@@ -10,6 +10,9 @@
 
 package ca.on.oicr.capsid
 
+import java.util.List;
+import java.util.Map;
+
 import grails.plugins.springsecurity.Secured
 
 class SampleService {
@@ -19,6 +22,14 @@ class SampleService {
     def authService
     def projectService
 
+	List list(Map params) {
+		def criteria = Sample.createCriteria()
+		
+		List results = criteria.list(params) {}
+  
+		return results
+	}
+	
     void update(Sample sample, Map params) {
         sample.properties = params
         sample.save()
