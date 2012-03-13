@@ -12,17 +12,9 @@
 		<div class="row-fluid">
 			<div>
 				<div class="row-fluid page-header">
-					<div class="span9">
+					<div>
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifCapsidAdmin>
-					<div class="pull-right">
-						<g:link class="btn btn-primary" action="create">
-							<i class="icon-plus icon-white"></i>
-							<g:message code="default.button.create.label" default="Create" />
-						</g:link>
-					</div>
-					</auth:ifCapsidAdmin>
 				</div>
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
