@@ -26,14 +26,14 @@ class Alignment {
 	String project
 
     static constraints = {
-		name unique:true, blank: false, matches: /[\w\d\-]+/
+		name unique:true, blank: false, display: false, matches: /[\w\d\-]+/
 		aligner blank: true
 		platform blank: true
 		infile blank: true
 		outfile blank: true
 		type blank: true
-		sample blank: false, display: false, editable: false, validator: { val -> val in Sample.list().name }
-		project blank: false, display: false, editable: false, validator: { val -> val in Project.list().label }
+		sample blank: false, display: false, validator: { val -> val in Sample.list().name }
+		project blank: false, display: false, validator: { val -> val in Project.list().label }
     }
 
 	static mapping = { cache true }

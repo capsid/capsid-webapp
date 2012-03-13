@@ -23,12 +23,12 @@ class Sample {
 	String project
 	
     static constraints = {
-		name unique:true, blank:false, matches: /[\w\d\-]+/
+		name unique:true, blank:false, display: false, matches: /[\w\d\-]+/
 		description blank:true
 		cancer blank:true
 		role blank:true
 		source blank:true
-		project blank:false, display: false, editable: false, validator: { val -> val in Project.list().label }
+		project blank:false, display: false, validator: { val -> val in Project.list().label }
     }
 	
 	static mapping = {}

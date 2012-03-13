@@ -11,7 +11,7 @@
 			<div>
 				<ul class="breadcrumb">
 					<li>
-						<g:link action="show" id="${${propertyName}.label}">
+						<g:link action="show" id="\${${propertyName}.label}">
 							<g:fieldValue bean="\${${propertyName}}" field="name"/>
 						</g:link> 
 					<span class="divider">/</span></li>
