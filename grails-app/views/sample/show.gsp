@@ -10,7 +10,7 @@
 	<body>
 		<div class="row-fluid">
 			<div class="span3">
-				<div class="well">
+				<div class="well well-small">
 					<ul class="nav nav-list">
 						<li class="nav-header">Summary</li>
 						<table class="table">
@@ -39,7 +39,7 @@
 						</table>
 					</ul>
 				</div>
-				<div class="well">
+				<div class="well well-small">
 					<ul class="nav nav-list">
 						<li>
 							<g:link controller="alignment" action="create">

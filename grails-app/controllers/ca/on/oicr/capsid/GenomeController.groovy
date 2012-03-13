@@ -17,6 +17,13 @@ import grails.plugins.springsecurity.Secured
 @Secured(['ROLE_CAPSID'])
 class GenomeController {
 
+    static navigation = [
+        group:'genome', 
+        order:10, 
+        title:'Genomes', 
+        action:'list'
+    ]
+
     def genomeService
 
     def index() { redirect action: 'list', params: params }

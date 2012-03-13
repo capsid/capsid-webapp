@@ -10,99 +10,75 @@
 	<body>
 		<div class="row-fluid">
 			<div class="span3">
-				<div class="well">
+				<div class="well well-small">
 					<ul class="nav nav-list">
-						<li class="nav-header">${entityName}</li>
-						<li>
-							<g:link class="list" action="list">
-								<i class="icon-list"></i>
-								<g:message code="default.list.label" args="[entityName]" />
+						<li class="nav-header">Summary</li>
+						<table class="table">
+							<tbody>
+							<g:if test="${genomeInstance?.accession}">
+							<tr>
+								<td><g:message code="sample.accession.label" default="Accession" /></td>
+								<td><g:fieldValue bean="${genomeInstance}" field="accession"/></td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${genomeInstance?.gi}">
+							<tr>
+								<td><g:message code="sample.gi.label" default="GI" /></td>						
+								<td><g:fieldValue bean="${genomeInstance}" field="gi"/></td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${genomeInstance?.organism}">
+							<tr>
+								<td><g:message code="sample.organism.label" default="Organism" /></td>
+								<td><g:fieldValue bean="${genomeInstance}" field="organism"/></td>
+							</tr>
+							</g:if>
+
+							<g:if test="${genomeInstance?.length}">
+							<tr>
+								<td><g:message code="sample.length.label" default="Length" /></td>
+								<td><g:fieldValue bean="${genomeInstance}" field="length"/></td>
+							</tr>
+							</g:if>
+							</tbody>
+						</table>
+						<li class="nav-header">Links</li>
+			 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
+			        	<g:if test="${genomeInstance.organism == 'Homo sapiens'}">
+			            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
+			          	</g:if>
+			          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
+			          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}">View in JBrowse</g:link></li>
+					</ul>
+				</div>
+				<div class="well well-small">
+					<ul class="nav nav-list">
+						<li class="nav-header">Genes</li>
+						<input class="search-query span2" placeholder="Filter Genes" type="text" id="gene_filter">
+						<g:each in="${genomeInstance['genes']}" var="featureInstance">
+						<li class="popover_item" rel="popover" data-placement="right" data-title="${featureInstance.name}" data-content="hi">
+							<g:link controller="feature" action="show" id="${featureInstance.uid}">
+								<i class="icon-folder-open"></i>
+								${featureInstance.name}
 							</g:link>
 						</li>
-						<li>
-							<g:link class="create" action="create">
-								<i class="icon-plus"></i>
-								<g:message code="default.create.label" args="[entityName]" />
-							</g:link>
-						</li>
+						</g:each>
 					</ul>
 				</div>
 			</div>
 			
 			<div class="span9">
 				<div class="row-fluid page-header">
-					<div class="span9">
-						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+					<div>
+						<h1><g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
 					</div>
-					<auth:ifAnyGranted access="[(genomeInstance.label):['collaborator', 'owner']]">
-					<g:form class="pull-right">
-						<g:hiddenField name="id" value="${genomeInstance?.name}" />
-						<div>
-							<g:link class="btn" action="edit" id="${genomeInstance?.id}">
-								<i class="icon-pencil"></i>
-								<g:message code="default.button.edit.label" default="Edit" />
-							</g:link>
-						</div>
-					</g:form>
-					</auth:ifAnyGranted>
 				</div>
 
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-
-				<dl>
-				
-					<g:if test="${genomeInstance?.accession}">
-						<dt><g:message code="genome.accession.label" default="Accession" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="accession"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.gi}">
-						<dt><g:message code="genome.gi.label" default="Gi" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="gi"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.length}">
-						<dt><g:message code="genome.length.label" default="Length" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="length"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.name}">
-						<dt><g:message code="genome.name.label" default="Name" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="name"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.organism}">
-						<dt><g:message code="genome.organism.label" default="Organism" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="organism"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.sampleCount}">
-						<dt><g:message code="genome.sampleCount.label" default="Sample Count" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="sampleCount"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${genomeInstance?.strand}">
-						<dt><g:message code="genome.strand.label" default="Strand" /></dt>
-						
-							<dd><g:fieldValue bean="${genomeInstance}" field="strand"/></dd>
-						
-					</g:if>
-				
-				</dl>
 			</div>
 		</div>
 	</body>

@@ -15,10 +15,4 @@ import grails.plugins.springsecurity.Secured
 class MappedController {
 
 	static scaffold = true
-	static navigation = [
-		group:'project', 
-		order:40, 
-		title:'Reads', 
-		action:'list'
-	]
 }

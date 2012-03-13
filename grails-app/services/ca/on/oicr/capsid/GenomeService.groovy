@@ -17,4 +17,12 @@ class GenomeService {
     Genome get(String accession) {
         Genome.findByAccession accession
     }
+
+    List list(Map params) {
+		def criteria = Genome.createCriteria()
+		
+		List results = criteria.list(params) {}
+  
+		return results
+	}
 }
