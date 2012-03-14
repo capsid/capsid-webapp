@@ -35,7 +35,9 @@
 							<div class="control-group ">
 								<label for="label" class="control-label">Security</label>
 								<div class="controls">
-									<button type="button" data-toggle="button" class="btn btn-primary">Public Project</button>
+									<g:hiddenField name="private" id="private" value="${true}" />
+									<button id="security" type="button" data-toggle="button" class="btn btn-primary">Private Project</button>
+									<p>Project will only be visable to users that are given access</p>
 								</div>
 							</div>
 							<div class="form-actions">

@@ -54,7 +54,8 @@ class ProjectController {
 		
         String projectRole = 'ROLE_' + projectInstance.label.toUpperCase()
         List roles = [projectRole]
-        if (!params.private) { roles.push("ROLE_CAPSID") }
+
+        if (!params.private.toBoolean()) { roles.push("ROLE_CAPSID") }
         projectInstance.roles = roles
     
         // Role saved first because a project with no role is worse than a role with no project
