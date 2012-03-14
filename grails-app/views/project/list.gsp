@@ -17,7 +17,14 @@
 					</div>
 					<auth:ifCapsidAdmin>
 					<div class="pull-right">
-						<g:link class="btn btn-primary" action="create">
+						<div class="modal hide fade" id="myModal" style="display: none;">
+				            <div class="modal-header">
+				              <a data-dismiss="modal" class="close">×</a>
+				              <h3>Create Project</h3>
+				            </div>
+				            <div class="modal-body"></div>
+				        </div>
+						<g:link action="create" class="btn btn-primary" data-target="#myModal" data-toggle="modal">
 							<i class="icon-plus icon-white"></i>
 							<g:message code="default.button.create.label" default="Create" />
 						</g:link>

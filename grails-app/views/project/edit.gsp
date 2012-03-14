@@ -36,25 +36,21 @@
 							<div class="control-group ">
 								<label for="label" class="control-label">Security</label>
 								<div class="controls">
-
-									<g:set var="isPrivate" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
-									<g:hiddenField name="private" id="private" value="${isPrivate}" />
-									<g:if test="${isPrivate}">
-									<button id="security" type="button" data-toggle="button" class="btn btn-primary">Private Project</button>
-									<p>Project will only be visable to users that are given access</p>
-									</g:if>
-									<g:else>
-									<button id="security" type="button" data-toggle="button" class="btn btn-primary active">Public Project</button>
-									<p>Project will be visable to all CaPSID users</p>
-									</g:else>
+									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+									<g:hiddenField name="is_private" id="is_private" value="${is_private}" />
+									
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn"><i class="icon-eye-close"></i> Private</button>
+										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
+									</div>
 								</div>
 							</div>
 							<div class="form-actions" style="border-radius:0; border:none;">
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
-								<g:link action="show" id="${projectInstance.label}" class="btn btn-danger">Cancel</g:link>
+								<g:link action="show" id="${projectInstance.label}" class="btn">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>

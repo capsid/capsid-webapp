@@ -12,7 +12,7 @@
 				<div class="page-header">
 					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				</div>
-
+				<div id="ajax">
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
@@ -35,22 +35,26 @@
 							<div class="control-group ">
 								<label for="label" class="control-label">Security</label>
 								<div class="controls">
-									<g:hiddenField name="private" id="private" value="${true}" />
-									<button id="security" type="button" data-toggle="button" class="btn btn-primary">Private Project</button>
-									<p>Project will only be visable to users that are given access</p>
+									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+									<g:hiddenField name="is_private" id="is_private" value="${true}" />
+									
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn active"><i class="icon-eye-close"></i> Private</button>
+										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
+									</div>
 								</div>
 							</div>
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
-								<g:link action="list" class="btn btn-danger">Cancel</g:link>
+								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>
 				</fieldset>
-				
+				</div>
 			</div>
 
 		</div>
