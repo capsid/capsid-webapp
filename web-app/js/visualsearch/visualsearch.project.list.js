@@ -53,7 +53,10 @@ $(function() {
 
   window.addEventListener("popstate", function(e) {
 	  q = window.location.search.replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ').replace(/\%20/g, ' ').replace(/\%22/g, '');
-    visualSearch.searchBox.value(q);
-	  visualSearch.options.callbacks.search(q, '', true);
+	  // Don't search if reloading the page - server already sending data back
+	  if (q !== visualSearch.searchBox.currentQuery) {
+		  visualSearch.searchBox.value(q);
+		  visualSearch.options.callbacks.search(q, '', true);
+	  }
   });
 });
