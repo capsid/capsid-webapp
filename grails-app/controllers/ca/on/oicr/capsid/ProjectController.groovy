@@ -75,7 +75,7 @@ class ProjectController {
         */
         UserRole.create user, role, 'owner'
         
-		flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.label])
+		flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.name])
         redirect action: 'show', id: projectInstance.label
     }
 
@@ -91,12 +91,18 @@ class ProjectController {
         
         projectInstance.properties = params
 
+        if (params.private.toBoolean()) {
+            projectInstance.roles = ['ROLE_' + params.label.toUpperCase()]
+        } else {
+            projectInstance.roles = ['ROLE_CAPSID', 'ROLE_' + params.label.toUpperCase()]
+        }
+
         if (!projectInstance.save(flush: true)) {
             render view: 'edit', model: [projectInstance: projectInstance]
             return
         }
 
-		flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.label])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.name])
         redirect action: 'show', id: projectInstance.label
 	}
 

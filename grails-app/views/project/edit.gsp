@@ -30,8 +30,25 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="update" id="${projectInstance?.label}" >
 						<g:hiddenField name="version" value="${projectInstance?.version}" />
+						<g:hiddenField name="label" id="label" value="${projectInstance?.label}" />
 						<fieldset>
 							<f:all bean="projectInstance"/>
+							<div class="control-group ">
+								<label for="label" class="control-label">Security</label>
+								<div class="controls">
+
+									<g:set var="isPrivate" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+									<g:hiddenField name="private" id="private" value="${isPrivate}" />
+									<g:if test="${isPrivate}">
+									<button id="security" type="button" data-toggle="button" class="btn btn-primary">Private Project</button>
+									<p>Project will only be visable to users that are given access</p>
+									</g:if>
+									<g:else>
+									<button id="security" type="button" data-toggle="button" class="btn btn-primary active">Public Project</button>
+									<p>Project will be visable to all CaPSID users</p>
+									</g:else>
+								</div>
+							</div>
 							<div class="form-actions" style="border-radius:0; border:none;">
 								<button type="submit" class="btn btn-primary">
 									<i class="icon-ok icon-white"></i>
