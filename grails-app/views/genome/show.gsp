@@ -12,7 +12,7 @@
 			<div class="span3">
 				<div class="well well-small">
 					<ul class="nav nav-list">
-						<li class="nav-header">Summary</li>
+						<li class="nav-header">Details</li>
 						<table class="table">
 							<tbody>
 							<g:if test="${genomeInstance?.accession}">
@@ -44,6 +44,7 @@
 							</g:if>
 							</tbody>
 						</table>
+						<hr>
 						<li class="nav-header">Links</li>
 			 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
 			        	<g:if test="${genomeInstance.organism == 'Homo sapiens'}">
@@ -52,8 +53,7 @@
 			          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
 			          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}">View in JBrowse</g:link></li>
 					</ul>
-				</div>
-				<div class="well well-small">
+					<hr>
 					<ul class="nav nav-list">
 						<li class="nav-header">Genes</li>
 						<input class="search-query span2" placeholder="Filter Genes" type="text" id="gene_filter">

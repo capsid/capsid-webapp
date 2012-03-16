@@ -12,7 +12,7 @@
 			<div class="span3">
 				<div class="well well-small">
 					<ul class="nav nav-list">
-						<li class="nav-header">Summary</li>
+						<li class="nav-header">Details</li>
 						<table class="table">
 							<tbody>
 							<g:if test="${sampleInstance?.cancer}">

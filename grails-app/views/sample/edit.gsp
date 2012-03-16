@@ -34,11 +34,11 @@
 						<fieldset>
 							<f:all bean="sampleInstance"/>
 							<div class="form-actions" style="border-radius:0; border:none;">
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
-								<g:link action="show" id="${sampleInstance.name}" class="btn btn-danger">Cancel</g:link>
+								<g:link action="show" id="${sampleInstance.name}" class="btn">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>

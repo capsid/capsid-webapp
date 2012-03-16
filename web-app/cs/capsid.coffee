@@ -1,10 +1,10 @@
 $ ->
 	($ "[rel=popover]").popover
 		html: true,
-		delay: show:500, hide: 100
+		delay: show:400, hide: 100
 	
 	($ "[rel=tooltip]").tooltip
-		delay: show:500, hide: 100
+		delay: show:400, hide: 100
 
 	($ 'div.btn-group[data-toggle-name=*]').each ->
 		group = $(this);
@@ -31,8 +31,16 @@ $ ->
 	)
 
 	($ "a[data-toggle='modal']").click -> 
-	  target = ($ @).attr 'data-target'
-	  url = ($ @).attr 'href'
-	  ($ target + ' .modal-body').load url + ' #ajax'
+		target = ($ @).attr 'data-target'
+		url = ($ @).attr 'href'
+		($ target + ' .modal-body').load url + ' #ajax', ->
+			($ "[rel=tooltip]").tooltip
+			delay: show:500, hide: 100
+	
+	($ ".sidebar .well").css "min-height": ($ ".main").height() - 10
+	
+	($ ".sidebar .well.separator").click ->
+		($ @).parent().parent().toggleClass('use_sidebar')
+
 
 	return
