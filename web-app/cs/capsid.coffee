@@ -37,10 +37,7 @@ $ ->
 			($ "[rel=tooltip]").tooltip
 			delay: show:500, hide: 100
 	
-	($ ".sidebar .well").css "min-height": ($ ".main").height() - 10
-	
 	($ ".sidebar .well.separator").click ->
-		($ @).parent().parent().toggleClass('use_sidebar')
-
+		($ @).parent().parent().toggleClass 'use_sidebar'
 
 	return

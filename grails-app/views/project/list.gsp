@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
+			<div class="content">
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>

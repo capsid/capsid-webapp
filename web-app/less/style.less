@@ -29,6 +29,10 @@ body {
 //	background: linear-gradient(top,  rgba(238,238,238,1) 0%,rgba(251,251,251,1) 40%); /* W3C */
 }
 
+.container-fluid {
+	padding: 0;
+}
+
 h1 {
 	font-size: 24px;
 	small {
@@ -53,12 +57,18 @@ h1 {
 }
 
 /* sidebar */
-.use_sidebar {
+.has_sidebar {
+	.content {
+		margin-left: 20px;
+	    min-height: 515px;
+	}
+}
+.has_sidebar.use_sidebar {
 	.sidebar .well {
 		display: block;
 	}
-	.main {
-		padding-left: 250px;
+	.content {
+		margin-left: 250px;
 	}
 }
 
@@ -78,14 +88,14 @@ h1 {
 		padding-left: 3px;
 		padding-right: 3px;
 		width: 1px;
-		margin: 0;
+		margin: 15px 0;
+		min-height: 485px;
 	}
 	.well.separator:hover {
 		background-color: #ccc;
 		cursor: pointer;
 	}
 }
-.main {padding-left: 25px;}
 
 /* content */
 .content {
@@ -94,6 +104,7 @@ h1 {
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
     padding: 10px;
 }
+
 .page-header {
 	margin: 10px 0 14px;
 	padding-bottom: 14px;
