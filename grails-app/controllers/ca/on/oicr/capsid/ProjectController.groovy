@@ -39,6 +39,7 @@ class ProjectController {
 		withFormat {
 			html projectInstanceList: results, projectInstanceTotal: results.totalCount
 			json { render results as JSON  }
+            js projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax'
 		}
     }
 

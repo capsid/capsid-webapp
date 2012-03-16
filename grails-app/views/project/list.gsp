@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="bootstrap">
+		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
 		<r:require module="visualsearch"/>
 		<title><g:message code="default.list.label" args="[entityName]" /></title>	
