@@ -1,7 +1,7 @@
 modules = {
 
     capsid {
-    	dependsOn 'bootstrap, jquery'
+    	dependsOn 'jquery, jqueryplugins, bootstrap'
     	resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
     	resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
         resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
@@ -22,6 +22,11 @@ modules = {
     }
     json2 {
         resource url:'js/lib/json2.js', bundle: 'bundle_backbone'
+    }
+
+    jqueryplugins {
+        dependsOn 'jquery'
+        resource url:'js/lib/jquery.pjax.js', bundle: 'bundle_jquery'   
     }
 
     overrides {

@@ -49,14 +49,14 @@ class ProjectService {
 			  if (params.name) {
 				  // Single name param being passed
 				  if (params.name instanceof String) {
-					  eq("label", params.name)
+					  ilike("label", "%" + params.name + "%")
 				  }
 				  else if (params.name instanceof String[]) {
 					  'in'("label", params.name)
 				  }
 			  }
 			  if (params.text) {
-			    like("description", params.text.replaceAll (/\"/, '%'))
+			    ilike("description", params.text.replaceAll (/\"/, '%'))
 			  }
 		  }
 	  }
@@ -67,7 +67,7 @@ class ProjectService {
 
     return results
   }
-  
+
   List<Project> getAllowedProjects() {
     if (authService.isCapsidAdmin()) {
       Project.list()

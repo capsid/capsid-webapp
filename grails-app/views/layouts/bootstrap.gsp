@@ -91,7 +91,7 @@
 			</div>
 		</nav>
 
-		<div class="content container-fluid">
+		<div class="container-fluid">
 			<g:layoutBody/>
 		</div>
 		<r:layoutResources/>

@@ -31,14 +31,13 @@ $(function() {
     	  });
       },
       facetMatches: function(callback) {
-        callback(['name']);
+        callback(['project', 'accession', 'genome']);
       },
       valueMatches: function(facet, searchTerm, callback) {
         switch (facet) {
-          case 'name':
-          console.log(searchTerm);
+          case 'project':
         	var list = [];
-        	$.getJSON('list.json?name=' + searchTerm, function(data) {
+        	$.getJSON('list.json', searchTerm, function(data) {
         		$.each(data, function(i, item) {
         			list.push({'value':item.label, 'label': item.name});
         		});

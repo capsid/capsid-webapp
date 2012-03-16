@@ -27,10 +27,12 @@ class ProjectController {
 	
     def authService
     def projectService
+    def statsService
 
     def index() { redirect action: 'list', params: params }
 
     def list() {
+        println params
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 		List results = projectService.list params
 		
@@ -41,10 +43,20 @@ class ProjectController {
     }
 
     def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+        
         Project projectInstance = findInstance()
         projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)
+        
+        List results = statsService.list params 
 
-        [projectInstance: projectInstance]
+        withFormat {
+            html projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
     def create() { [projectInstance: new Project(params)] }
