@@ -102,7 +102,12 @@ class ProjectController {
 
     def edit() {
         Project projectInstance = findInstance()
-        [projectInstance: projectInstance]
+        
+        List userRoles = UserRole.findAllByRole(Role.findByAuthority('ROLE_' + projectInstance.label.toUpperCase()))
+
+        println userRoles.findAll {it.access == "owner"}
+
+        [projectInstance: projectInstance, userRoles: userRoles]
 	}
 
     def update() {

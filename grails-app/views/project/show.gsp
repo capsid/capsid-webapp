@@ -20,13 +20,15 @@
 			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Samples</li>
-						<input class="search-query span2" placeholder="Filter Samples" type="text" id="sample_filter">
+						<input class="search-query span2" placeholder="Filter Samples" type="text" id="filter">
 						<li>
-							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:10px;" data-target="#myModal" data-toggle="modal">
+							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Sample
 							</g:link>
 						</li>
+					</ul>
+					<ul id="items" class="nav nav-list">
 						<g:each in="${projectInstance['samples']}" var="sampleInstance">
 						<li rel="popover" data-placement="right" data-content="${sampleInstance.description}<br><strong>Cancer: </strong>${sampleInstance.cancer}<br><strong>Role: </strong>${sampleInstance.role}<br><strong>Source: </strong>${sampleInstance.source}" data-title="${sampleInstance.name}">
 							<g:link controller="sample" action="show" id="${sampleInstance.name}">

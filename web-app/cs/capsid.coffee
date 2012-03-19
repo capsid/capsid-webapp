@@ -1,10 +1,10 @@
 $ ->
 	($ "[rel=popover]").popover
 		html: true,
-		delay: show:400, hide: 100
+		delay: show:300, hide: 100
 	
 	($ "[rel=tooltip]").tooltip
-		delay: show:400, hide: 100
+		delay: show:200, hide: 100
 
 	($ 'div.btn-group[data-toggle-name=*]').each ->
 		group = $(this);
@@ -41,5 +41,11 @@ $ ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
 
 	$('.pagination a, th a').pjax('#results', {fragment: '#results'}).live('click')
+
+	($ '#filter').keyup ->
+		value = ($ @).val()
+		($ '#items > li:not(:contains(' + value + '))').hide() 
+		($ '#items > li:contains(' + value + ')').fadeIn('fast')
+
 
 	return

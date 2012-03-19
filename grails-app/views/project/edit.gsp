@@ -1,4 +1,5 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.User" %>
 <!doctype html>
 <html>
 	<head>
@@ -61,6 +62,92 @@
 				<div class="page-header">
 					<h1>Edit Permissions <small>Change User Access Levels</small></h1>
 				</div>
+
+
+
+<div class="row-fluid">
+	<div id="accordion" class="accordion" style="width:768px">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a href="#owners" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+              Owners Group
+            </a>
+          </div>
+          <div class="accordion-body in" id="owners" style="height: auto;">
+            <div class="accordion-inner">
+            	<div class="row-fluid">
+	            	<div class="span6">
+	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='owner'}}">
+	            		<div class="well well-small" style="margin-bottom:5px">
+	            			<g:link controller="user" action="show" id="${userRoleInstance.user.username}">${userRoleInstance.user.username}</g:link>
+	            			<g:link controller="user" action="demote" id="${userRoleInstance.user.username}" params="[project:projectInstance.label]" class="close" data-dismiss="alert" href="#">&times;</g:link>
+	            		</div>
+	            		</g:each>
+	            	</div>
+	            	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Owners</strong> have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.
+	            		</div>
+	            	</div>
+            	</div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a href="#collaborators" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+              Collaborators Group
+            </a>
+          </div>
+          <div class="accordion-body collapse" id="collaborators" style="height: 0px;">
+            <div class="accordion-inner">
+            	<div class="row-fluid">
+	            	<div class="span6">
+	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='collaborator'}}">
+	            		<div class="well well-small" style="margin-bottom:5px">
+	            			<g:link controller="user" action="show" id="${userRoleInstance.user.username}">${userRoleInstance.user.username}</g:link>
+	            			<g:link controller="user" action="demote" id="${userRoleInstance.user.username}" params="[project:projectInstance.label]" class="close" data-dismiss="alert" href="#">&times;</g:link>
+	            		</div>
+	            		</g:each>
+	            	</div>
+	            	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Collaborators</strong> have permission to add, edit and remove samples
+	            		</div>
+	            	</div>
+            	</div>            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a href="#users" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+              Users Group
+            </a>
+          </div>
+          <div class="accordion-body collapse" id="users" style="height: 0px;">
+            <div class="accordion-inner">
+            	<div class="row-fluid">
+	            	<div class="span6">
+	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='user'}}">
+	            		<div class="well well-small" style="margin-bottom:5px">
+	            			<g:link controller="user" action="show" id="${userRoleInstance.user.username}">${userRoleInstance.user.username}</g:link>
+	            			<g:link controller="user" action="demote" id="${userRoleInstance.user.username}" params="[project:projectInstance.label]" class="close" data-dismiss="alert" href="#">&times;</g:link>
+	            		</div>
+	            		</g:each>
+	            	</div>
+	            	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Users</strong> have read-only access to projects
+	            		</div>
+	            	</div>
+            	</div>            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+
 			</section>
 			<section>
 				<div class="page-header">
