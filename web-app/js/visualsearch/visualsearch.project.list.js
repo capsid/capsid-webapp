@@ -23,7 +23,7 @@ $(function() {
     	  });
     	  console.log(window.location);
     	  // Load results and fade in
-    	  $('#results').load('list #table', params.join('&'), function() {
+    	  $('#results').load('list table', params.join('&'), function() {
           if (!noPush) {
     		    window.history.pushState(null, '', window.location.pathname + '?' + params.join('&'));
     		  }
@@ -49,12 +49,12 @@ $(function() {
     }
   });
   
-  q = window.location.search.replace(/(offset|max)=\d+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
+  q = window.location.search.replace(/(offset|max|sort|order)=.+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
                               .replace(/\%20/g, ' ').replace(/\%22/g, '');
   visualSearch.searchBox.value(q);
 
   window.addEventListener("popstate", function(e) {
-	  q = window.location.search.replace(/(offset|max)=\d+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
+	  q = window.location.search.replace(/(offset|max|sort|order)=.+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
                               .replace(/\%20/g, ' ').replace(/\%22/g, '');
 	  // Don't search if reloading the page - server already sending data back
 	  if (q !== visualSearch.searchBox.currentQuery) {

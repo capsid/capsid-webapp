@@ -8,6 +8,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
+			<div class="content">
 			<section>
 				<div class="page-header">
 					<h1>Edit ${projectInstance.name} <small>Edit Project Attributes</small></h1>
@@ -79,6 +80,7 @@
 					</g:form>
 				</fieldset>
 			</section>
+			</div>
 		</div>
 	</body>
 </html>

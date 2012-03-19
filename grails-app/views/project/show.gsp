@@ -10,12 +10,19 @@
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
 			<div class="span sidebar">
-				<div class="span well well-small">	
+				<div class="span well well-small">
+					<div class="modal hide fade" id="myModal" style="display: none;">
+			            <div class="modal-header">
+			              <a data-dismiss="modal" class="close">×</a>
+			              <h3>Add Sample</h3>
+			            </div>
+			            <div class="modal-body"></div>
+			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Samples</li>
 						<input class="search-query span2" placeholder="Filter Samples" type="text" id="sample_filter">
 						<li>
-							<g:link controller="sample" action="create" style="margin-top:10px;margin-bottom:10px;">
+							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:10px;" data-target="#myModal" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Sample
 							</g:link>
@@ -56,39 +63,39 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-
-				<table class="table table-striped table-condensed">
-					<thead>
-						<tr>
-							<g:sortableColumn property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
-							<g:sortableColumn property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
-							<g:sortableColumn property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
-							<g:sortableColumn property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
-							<g:sortableColumn property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Average Gene Coverage')}" />
-							<g:sortableColumn property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Maximum Gene Coverage')}" />
-						</tr>
-					</thead>
-					<tbody>
-					<g:each in="${statisticsInstanceList}" var="statisticsInstance">
-						<tr>
-							<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
-							<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
-
-							<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
-
-							<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
-
-							<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
-
-							<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-						</tr>
-					</g:each>
-					</tbody>
-				</table>
-				<div class="pagination">
-					<bootstrap:paginate id="${projectInstance?.label}" total="${statisticsInstanceTotal}" />
+				<div id="results">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<g:sortableColumn property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
+								<g:sortableColumn property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
+								<g:sortableColumn property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
+								<g:sortableColumn property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
+								<g:sortableColumn property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Average Gene Coverage')}" />
+								<g:sortableColumn property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Maximum Gene Coverage')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${statisticsInstanceList}" var="statisticsInstance">
+							<tr>
+								<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+								<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+	
+								<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+	
+								<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate id="${projectInstance?.label}" total="${statisticsInstanceTotal}" />
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</body>

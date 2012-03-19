@@ -28,18 +28,20 @@ class ProjectController {
     def authService
     def projectService
     def statsService
-
+	
     def index() { redirect action: 'list', params: params }
 
     def list() {
-        println params
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 		List results = projectService.list params
 		
+		if (params._pjax) {
+			params.remove('_pjax')
+			return [projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax']
+		}
 		withFormat {
 			html projectInstanceList: results, projectInstanceTotal: results.totalCount
 			json { render results as JSON  }
-            ajax projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax'
 		}
     }
 
@@ -54,6 +56,11 @@ class ProjectController {
         
         List results = statsService.list params 
 
+		if (params._pjax) {
+			params.remove('_pjax')
+			return [projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+		}
+		
         withFormat {
             html projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
             json { render results as JSON }

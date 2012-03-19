@@ -37,31 +37,26 @@
 
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
-					<div id="table">
-						<table class="table table-striped table-condensed">
-							<thead>
-								<tr>
-									<g:sortableColumn property="name" title="${message(code: 'project.name.label', default: 'Name')}" />
-									
-									<g:sortableColumn property="description" title="${message(code: 'project.description.label', default: 'Description')}" />
-								
-									<th>Samples</th>
-								
-								</tr>
-							</thead>
-							<tbody>
-							<g:each in="${projectInstanceList}" var="projectInstance">
-								<tr>
-									<td><g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
-									<td>${fieldValue(bean: projectInstance, field: "description")}</td>
-									<td>${projectInstance["sampleCount"]}</td>
-								</tr>
-							</g:each>
-							</tbody>
-						</table>
-						<div class="pagination">
-							<bootstrap:paginate total="${projectInstanceTotal}" />
-						</div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<g:sortableColumn params="${params}" property="name" title="${message(code: 'project.name.label', default: 'Name')}" />						
+								<g:sortableColumn params="${params}" property="description" title="${message(code: 'project.description.label', default: 'Description')}" />							
+								<th>Samples</th>						
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${projectInstanceList}" var="projectInstance">
+							<tr>
+								<td><g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
+								<td>${fieldValue(bean: projectInstance, field: "description")}</td>
+								<td>${projectInstance["sampleCount"]}</td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate total="${projectInstanceTotal}" params="${params}"/>
 					</div>
 				</div>
 			</div>

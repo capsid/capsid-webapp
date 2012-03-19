@@ -9,7 +9,7 @@ class PaginationTagLib {
 	static namespace = "bootstrap"
 	
 	def paginate = { attrs ->
-        def writer = out
+		def writer = out
         if (attrs.total == null) {
             throwTagError("Tag [paginate] is missing required attribute [total]")
         }
