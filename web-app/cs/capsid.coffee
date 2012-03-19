@@ -40,6 +40,6 @@ $ ->
 	($ ".sidebar .well.separator").click ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
 
-	$('#results a').pjax('#results', {fragment: '#results'}).live('click')
-	
+	$('.pagination a, th a').pjax('#results', {fragment: '#results'}).live('click')
+
 	return

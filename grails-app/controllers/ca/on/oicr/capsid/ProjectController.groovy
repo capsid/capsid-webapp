@@ -39,6 +39,7 @@ class ProjectController {
 			params.remove('_pjax')
 			return [projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax']
 		}
+
 		withFormat {
 			html projectInstanceList: results, projectInstanceTotal: results.totalCount
 			json { render results as JSON  }
@@ -58,9 +59,9 @@ class ProjectController {
 
 		if (params._pjax) {
 			params.remove('_pjax')
-			return [projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+            return [projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
 		}
-		
+
         withFormat {
             html projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
             json { render results as JSON }
