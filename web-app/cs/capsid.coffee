@@ -44,8 +44,10 @@ $ ->
 
 	($ '#filter').keyup ->
 		value = ($ @).val()
-		($ '#items > li:not(:contains(' + value + '))').hide() 
-		($ '#items > li:contains(' + value + ')').fadeIn('fast')
-
+		if value
+			($ '#items > li:not(:contains(' + value + '))').hide() 
+			($ '#items > li:contains(' + value + ')').fadeIn('fast')
+		else
+			($ '#items > li').fadeIn('fast')
 
 	return
