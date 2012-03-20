@@ -1,5 +1,4 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
-<%@ page import="ca.on.oicr.capsid.User" %>
 <!doctype html>
 <html>
 	<head>
@@ -76,6 +75,11 @@
           <div class="accordion-body in" id="owners" style="height: auto;">
             <div class="accordion-inner">
             	<div class="row-fluid">
+                  	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Owners</strong> have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.
+	            		</div>
+	            	</div>
 	            	<div class="span6">
 	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='owner'}}">
 	            		<div class="well well-small" style="margin-bottom:5px">
@@ -83,11 +87,7 @@
 	            			<g:link controller="user" action="demote" id="${userRoleInstance.user.username}" params="[project:projectInstance.label]" class="close" data-dismiss="alert" href="#">&times;</g:link>
 	            		</div>
 	            		</g:each>
-	            	</div>
-	            	<div class="span6">
-	            		<div class="alert alert-info">
-	            			<strong>Owners</strong> have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.
-	            		</div>
+	            		<input type="text" name="myField" data-provide="typeahead" data-source="[${userRoles.findAll{it.access=='owner'}.user.username.join(',')}]"/>
 	            	</div>
             	</div>
             </div>
@@ -103,6 +103,11 @@
             <div class="accordion-inner">
             	<div class="row-fluid">
 	            	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Collaborators</strong> have permission to add, edit and remove samples
+	            		</div>
+	            	</div>
+	            	<div class="span6">
 	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='collaborator'}}">
 	            		<div class="well well-small" style="margin-bottom:5px">
 	            			<g:link controller="user" action="show" id="${userRoleInstance.user.username}">${userRoleInstance.user.username}</g:link>
@@ -110,12 +115,8 @@
 	            		</div>
 	            		</g:each>
 	            	</div>
-	            	<div class="span6">
-	            		<div class="alert alert-info">
-	            			<strong>Collaborators</strong> have permission to add, edit and remove samples
-	            		</div>
-	            	</div>
-            	</div>            </div>
+            	</div>
+            </div>
           </div>
         </div>
         <div class="accordion-group">
@@ -128,6 +129,11 @@
             <div class="accordion-inner">
             	<div class="row-fluid">
 	            	<div class="span6">
+	            		<div class="alert alert-info">
+	            			<strong>Users</strong> have read-only access to projects
+	            		</div>
+	            	</div>
+	            	<div class="span6">
 	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='user'}}">
 	            		<div class="well well-small" style="margin-bottom:5px">
 	            			<g:link controller="user" action="show" id="${userRoleInstance.user.username}">${userRoleInstance.user.username}</g:link>
@@ -135,12 +141,8 @@
 	            		</div>
 	            		</g:each>
 	            	</div>
-	            	<div class="span6">
-	            		<div class="alert alert-info">
-	            			<strong>Users</strong> have read-only access to projects
-	            		</div>
-	            	</div>
-            	</div>            </div>
+            	</div>
+            </div>
           </div>
         </div>
     </div>
