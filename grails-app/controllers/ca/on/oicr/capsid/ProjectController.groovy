@@ -105,7 +105,7 @@ class ProjectController {
         
         List userRoles = UserRole.findAllByRole(Role.findByAuthority('ROLE_' + projectInstance.label.toUpperCase()))
 
-       [projectInstance: projectInstance, userRoles: userRoles]
+        [projectInstance: projectInstance, userRoles: userRoles]
 	}
 
     def update() {

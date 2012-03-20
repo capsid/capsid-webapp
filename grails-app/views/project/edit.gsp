@@ -1,4 +1,5 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.User" %>
 <!doctype html>
 <html>
 	<head>
@@ -87,7 +88,11 @@
 	            			<g:link controller="user" action="demote" id="${userRoleInstance.user.username}" params="[project:projectInstance.label]" class="close" data-dismiss="alert" href="#">&times;</g:link>
 	            		</div>
 	            		</g:each>
-	            		<input type="text" name="myField" data-provide="typeahead" data-source="[${userRoles.findAll{it.access=='owner'}.user.username.join(',')}]"/>
+						<form class="well well-small form-search">
+					    	<input type="text" class="search-query" placeholder="Search for users..." name="myField" data-provide="typeahead" data-source="[&#34;${User.list().username.join('&#34;, &#34;')}&#34;]"/>
+					    	<button class="btn btn-success pull-right" type="submit">Add User</button>
+					    </form>
+
 	            	</div>
             	</div>
             </div>
