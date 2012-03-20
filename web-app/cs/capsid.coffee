@@ -7,20 +7,22 @@ $ ->
 		delay: show:200, hide: 100
 
 	($ 'div.btn-group[data-toggle-name=*]').each ->
-		group = $(this);
-		form = group.parents('form').eq(0);
-		name = group.attr('data-toggle-name');
-		hidden = $('input[name="' + name + '"]', form);
-		$('button', group).each ->
-			button = $(this);
+		group = $ @
+		form = group.parents('form').eq(0)
+		name = group.attr 'data-toggle-name'
+		hidden = ($ 'input[name="' + name + '"]', form)
+		($ 'button', group).each ->
+			button = $ @
 			button.live('click', ->
-				hidden.val $(this).val()
+				button.siblings().removeClass 'active'
+				button.addClass 'active'
+				hidden.val button.val()
 			)
 			if button.val() == hidden.val()
 				button.addClass 'active'
 		return
 
-	($ ".modal").delegate(".btn-group[data-toggle='buttons-radio'] .btn", "click", ->
+	($ ".modal").delegate ".btn-group[data-toggle='buttons-radio'] .btn", "click", ->
 		button = $ @
 		group = button.parents '.btn-group'
 		field = group.data 'toggle-name'
@@ -28,7 +30,6 @@ $ ->
 		button.siblings().removeClass 'active'
 		button.addClass 'active'
 		hidden.val button.val()
-	)
 
 	($ "a[data-toggle='modal']").click -> 
 		target = ($ @).attr 'data-target'
@@ -40,7 +41,8 @@ $ ->
 	($ ".sidebar .well.separator").click ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
 
-	$('.pagination a, th a').pjax('#results', {fragment: '#results'}).live('click')
+	if ($ '#results').length
+		($ '.pagination a, th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
 
 	($ '#filter').keyup ->
 		value = ($ @).val()
@@ -49,5 +51,22 @@ $ ->
 			($ '#items > li:contains(' + value + ')').fadeIn('fast')
 		else
 			($ '#items > li').fadeIn('fast')
+
+	($ '#uac form').submit ->
+		uri = ($ @).attr('action') + '&' + ($ @).serialize()
+		$.post uri, (data) ->
+			($ '#owners .user').last().after data
+			($ '.search-query').val('')
+			($ '.search-query').data('source').splice(s.indexOf(data.username), 1)
+		return false
+
+	($ '.user').delegate '.close', 'click', ->
+		user = ($ @).parents('.user')
+		uri = ($ @).attr('href')
+		$.post uri, (data) ->
+			user.fadeOut 'fast', -> 
+				($ @).remove()
+			($ '.search-query').data('source').push(data.username)
+		return false
 
 	return

@@ -28,6 +28,7 @@ class ProjectController {
     def authService
     def projectService
     def statsService
+    def userService
 	
     def index() { redirect action: 'list', params: params }
 
@@ -104,8 +105,9 @@ class ProjectController {
         Project projectInstance = findInstance()
         
         List userRoles = UserRole.findAllByRole(Role.findByAuthority('ROLE_' + projectInstance.label.toUpperCase()))
+        Set unassignedUsers = userService.unassigned params
 
-        [projectInstance: projectInstance, userRoles: userRoles]
+        [projectInstance: projectInstance, userRoles: userRoles, unassignedUsers: unassignedUsers as JSON]
 	}
 
     def update() {

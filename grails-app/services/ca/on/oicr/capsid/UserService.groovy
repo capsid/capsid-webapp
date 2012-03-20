@@ -98,4 +98,9 @@ class UserService {
     user.delete()
     UserRole.removeAll user
   }
+
+  Set unassigned(Map params) {
+    Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+    UserRole.findAll().user.username.minus(UserRole.findAllByRole(roleInstance).user.username)
+  }    
 }

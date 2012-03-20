@@ -88,6 +88,28 @@ class UserController {
         }
     }
 
+    def unassigned() {
+    	Set users = userService.unassigned params
+    	render users as JSON
+    }
+
+    def promote() {
+    	Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+    	User userInstance = User.findByUsername(params.username)
+    	UserRole.remove userInstance, roleInstance
+    	UserRole.create userInstance, roleInstance, params.access
+    	
+    	render template:"/project/user", model:[username:params.username, label:params.id]
+    }
+
+    def demote() {
+    	Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+    	User userInstance = User.findByUsername(params.username)
+    	UserRole.remove userInstance, roleInstance
+
+    	render userInstance as JSON
+    }
+
 	private User findInstance() {
 		User userInstance = userService.get(params.id)
 		authorize(userInstance, ['user', 'collaborator', 'owner'])
