@@ -27,6 +27,7 @@ class SampleController {
 	
     def authService
     def sampleService
+    def statsService
 
     def index() { redirect action: 'list', params: params }
 
@@ -34,6 +35,11 @@ class SampleController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = sampleService.list params
         
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [sampleInstanceList: results, sampleInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
         withFormat {
             html sampleInstanceList: results, sampleInstanceTotal: results.totalCount
             json { render results as JSON  }
@@ -41,8 +47,25 @@ class SampleController {
     }
 
     def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+        
         Sample sampleInstance = findInstance()
-        [sampleInstance: sampleInstance]
+        sampleInstance['alignments'] = Alignment.findAllBySample(sampleInstance.name)
+        
+        List results = statsService.list params 
+
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [sampleInstance: sampleInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
+        withFormat {
+            html sampleInstance: sampleInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
     def create() { [sampleInstance: new Sample(params)] }
@@ -85,8 +108,10 @@ class SampleController {
 
         try {
             sampleInstance.delete(flush: true)
+            sampleService.delete sampleInstance.name
+
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
-            redirect action: 'list'
+            redirect controller: 'project', action: 'show', id: sampleInstance.project
         }
         catch (DataIntegrityViolationException e) {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])

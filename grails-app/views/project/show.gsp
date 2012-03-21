@@ -65,16 +65,17 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>
-								<g:sortableColumn property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
-								<g:sortableColumn property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
-								<g:sortableColumn property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
-								<g:sortableColumn property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
-								<g:sortableColumn property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Average Gene Coverage')}" />
-								<g:sortableColumn property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Maximum Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
+								<g:sortableColumn params="${params}" property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
+								<g:sortableColumn params="${params}" property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
+								<g:sortableColumn params="${params}" property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Average Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Maximum Gene Coverage')}" />
 							</tr>
 						</thead>
 						<tbody>
@@ -95,7 +96,7 @@
 						</tbody>
 					</table>
 					<div class="pagination">
-						<bootstrap:paginate id="${projectInstance?.label}" total="${statisticsInstanceTotal}" />
+						<bootstrap:paginate id="${projectInstance?.label}" total="${statisticsInstanceTotal}" params="${params}" />
 					</div>
 				</div>
 			</div>

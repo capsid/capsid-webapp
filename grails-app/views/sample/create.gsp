@@ -12,7 +12,6 @@
 				<div class="page-header">
 					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				</div>
-
 				<div id="ajax">
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>

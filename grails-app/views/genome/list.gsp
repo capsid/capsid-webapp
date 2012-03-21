@@ -10,9 +10,9 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
+			<div class="content">
 				<div class="row-fluid page-header">
-					<div class="span9">
+					<div>
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 					</div>
 				</div>
@@ -22,36 +22,34 @@
 
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
-					<div id="table">
-						<table class="table table-striped table-condensed">
-							<thead>
-								<tr>								
-									<g:sortableColumn property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />
-									<g:sortableColumn property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
-									<g:sortableColumn property="gi" title="${message(code: 'genome.gi.label', default: 'Gi')}" />
-									<g:sortableColumn property="Taxonomy" title="${message(code: 'genome.taxonomy.label', default: 'Taxonomy')}" />
-									<g:sortableColumn class="compress"  property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
-									<g:sortableColumn class="compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
-									<g:sortableColumn property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />
-								</tr>
-							</thead>
-							<tbody>
-							<g:each in="${genomeInstanceList}" var="genomeInstance">
-								<tr>
-									<td><g:link action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "accession")}</g:link></td>
-									<td>${fieldValue(bean: genomeInstance, field: "name")}</td>
-									<td>${genomeInstance.gi}</td>
-									<td>${genomeInstance.taxonomy.join(', ')}</td>
-									<td class="compress">${fieldValue(bean: genomeInstance, field: "length")}</td>
-									<td class="compress">${fieldValue(bean: genomeInstance, field: "organism")}</td>
-									<td>${fieldValue(bean: genomeInstance, field: "sampleCount")}</td>
-								</tr>
-							</g:each>
-							</tbody>
-						</table>
-						<div class="pagination">
-							<bootstrap:paginate total="${genomeInstanceTotal}" />
-						</div>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>								
+								<g:sortableColumn params="${params}" property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />
+								<g:sortableColumn params="${params}" property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
+								<g:sortableColumn params="${params}" property="gi" title="${message(code: 'genome.gi.label', default: 'Gi')}" />
+								<g:sortableColumn params="${params}" property="Taxonomy" title="${message(code: 'genome.taxonomy.label', default: 'Taxonomy')}" />
+								<g:sortableColumn params="${params}" class="compress"  property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
+								<g:sortableColumn params="${params}" class="compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
+								<g:sortableColumn params="${params}" property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${genomeInstanceList}" var="genomeInstance">
+							<tr>
+								<td><g:link action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "accession")}</g:link></td>
+								<td>${fieldValue(bean: genomeInstance, field: "name")}</td>
+								<td>${genomeInstance.gi}</td>
+								<td>${genomeInstance.taxonomy.join(', ')}</td>
+								<td class="compress">${fieldValue(bean: genomeInstance, field: "length")}</td>
+								<td class="compress">${fieldValue(bean: genomeInstance, field: "organism")}</td>
+								<td>${fieldValue(bean: genomeInstance, field: "sampleCount")}</td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate total="${genomeInstanceTotal}" params="${params}" />
 					</div>
 				</div>
 			</div>

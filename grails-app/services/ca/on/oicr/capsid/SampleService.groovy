@@ -22,6 +22,10 @@ class SampleService {
     def authService
     def projectService
 
+    Sample get(String name) {
+        Sample.findByName name
+    }
+
 	List list(Map params) {
 		def criteria = Sample.createCriteria()
 		
@@ -29,15 +33,6 @@ class SampleService {
   
 		return results
 	}
-	
-    void update(Sample sample, Map params) {
-        sample.properties = params
-        sample.save()
-    }
-
-    Sample get(String name) {
-        Sample.findByName name
-    }
 
     List<Sample> getAllowedSamples() {
         if (authService.isCapsidAdmin()) {
@@ -47,19 +42,8 @@ class SampleService {
         }
     }
 
-    Sample save(Map params) {
-        if (get(params.name)) {
-            return false
-        }
-
-        Sample sample = new Sample(params)
-        sample.save(flush:true)
-    }
-
-    void delete(Sample sample) {
-        String name = sample.name
-        sample.delete()
-        Alignment.findAllBySample(name).each { it.delete(flush: true) }
-        Mapped.findAllBySample(name).each { it.delete(flush: true) }
+    void delete(String sample) {
+        Alignment.findAllBySample(sample).each { it.delete(flush: true) }
+        Mapped.findAllBySample(sample).each { it.delete(flush: true) }
     }
 }

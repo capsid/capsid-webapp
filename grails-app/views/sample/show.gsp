@@ -3,17 +3,24 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="bootstrap">
+		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<div class="row-fluid">
-			<div class="span3">
-				<div class="well well-small">
+		<div class="row-fluid has_sidebar use_sidebar">
+			<div class="span sidebar">
+				<div class="span well well-small">
+					<div class="modal hide fade" id="myModal" style="display: none;">
+			            <div class="modal-header">
+			              <a data-dismiss="modal" class="close">×</a>
+			              <h3>Add Alignment</h3>
+			            </div>
+		            	<div class="modal-body"></div>
+			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Details</li>
-						<table class="table">
+						<li><table class="table">
 							<tbody>
 							<g:if test="${sampleInstance?.cancer}">
 							<tr>
@@ -36,19 +43,18 @@
 							</tr>
 							</g:if>
 							</tbody>
-						</table>
-					</ul>
-				</div>
-				<div class="well well-small">
-					<ul class="nav nav-list">
+						</table></li>
+						<li class="divider"></li>
+						<li class="nav-header">Alignments</li>
+						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="filter">
 						<li>
-							<g:link controller="alignment" action="create">
+							<g:link controller="alignment" action="create" params="[project:sampleInstance.project, sample:sampleInstance.name]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Alignment
 							</g:link>
 						</li>
-						<li class="nav-header">Alignments</li>
-						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="alignment_filter">
+					</ul>
+					<ul id="items" class="nav nav-list">
 						<g:each in="${sampleInstance['alignments']}" var="alignmentInstance">
 						<li class="popover_item" rel="popover" data-placement="right" data-content="<strong>Aligner: </strong>${alignmentInstance.aligner}<br><strong>Platform: </strong>${alignmentInstance.platform}<br><strong>Type: </strong>${alignmentInstance.type}" data-title="${alignmentInstance.name}">
 							<g:link controller="alignment" action="show" id="${alignmentInstance.name}">
@@ -59,9 +65,10 @@
 						</g:each>
 					</ul>
 				</div>
+				<div class="span well well-small separator"></div>
 			</div>
 			
-			<div class="span9">
+			<div class="content">
 				<ul class="breadcrumb">
 					<li>
 						<g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link> 
@@ -89,6 +96,41 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+
+				<div class="visual_search" style="height:32px;"></div>
+				<div id="results">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
+								<g:sortableColumn params="${params}" property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
+								<g:sortableColumn params="${params}" property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
+								<g:sortableColumn params="${params}" property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Average Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Maximum Gene Coverage')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${statisticsInstanceList}" var="statisticsInstance">
+							<tr>
+								<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+								<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+	
+								<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+	
+								<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate id="${sampleInstance?.name}" total="${statisticsInstanceTotal}" params="${params}" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
