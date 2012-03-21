@@ -12,7 +12,7 @@
 				<div class="page-header">
 					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				</div>
-
+				<div id="ajax">
 				<g:if test="\${flash.message}">
 				<bootstrap:alert class="alert-info">\${flash.message}</bootstrap:alert>
 				</g:if>
@@ -32,16 +32,16 @@
 						<fieldset>
 							<f:all bean="${propertyName}"/>
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
-								<g:link action="list" class="btn btn-danger">Cancel</g:link>
+								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>
 				</fieldset>
-				
+				</div>
 			</div>
 
 		</div>

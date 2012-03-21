@@ -26,6 +26,11 @@ class ${className}Controller {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = ${domainClass.propertyName}Service.list params
         
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [${propertyName}List: results, ${propertyName}Total: results.totalCount, layout:'ajax']
+        }        
+        
         withFormat {
             html ${propertyName}List: results, ${propertyName}Total: results.totalCount
             json { render results as JSON  }
@@ -33,8 +38,24 @@ class ${className}Controller {
     }
 
     def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+
         ${className} ${propertyName} = findInstance()
-        [${propertyName}: ${propertyName}]
+        
+        List results = statsService.list params 
+
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [${propertyName}: ${propertyName}, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
+        withFormat {
+            html ${propertyName}: ${propertyName}, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
     def create() { [${propertyName}: new ${className}(params)] }
