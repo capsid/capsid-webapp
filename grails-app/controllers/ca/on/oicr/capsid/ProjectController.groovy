@@ -137,6 +137,8 @@ class ProjectController {
 
         try {
             projectInstance.delete(flush: true)
+            projectService.delete projectInstance.label
+            
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])
             redirect action: 'list'
         }

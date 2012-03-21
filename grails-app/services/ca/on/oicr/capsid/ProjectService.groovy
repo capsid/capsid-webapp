@@ -22,18 +22,6 @@ class ProjectService {
   Project get(label) {
 	  Project.findByLabel label
 	}
-  
-  Boolean update(Project project, Map params) {
-    if (params.private) {
-      project.roles = ['ROLE_' + params.label.toUpperCase()]
-    } else {
-      project.roles = ['ROLE_CAPSID', 'ROLE_' + params.label.toUpperCase()]
-    }
-
-    project.properties = params
-    if (!project.save(flush: true)) { return false }
-    true
-  }
 
   List list(Map params) {
 	  def criteria = Project.createCriteria()
@@ -76,14 +64,9 @@ class ProjectService {
     }
   }
 
-  void delete(Project project) {
-    String label = project.label
-    String projectRole = 'ROLE_' + label.toUpperCase()
-
-    project.delete()
-
+  void delete(String label) {
     // Delete the ACL information as well
-    Role role = Role.findByAuthority(projectRole)
+    Role role = Role.findByAuthority('ROLE_' + label.toUpperCase())
     UserRole.removeAll role
     role.delete()
 
@@ -91,25 +74,5 @@ class ProjectService {
     Sample.findAllByProject(label).each { it.delete(flush: true) }
     Alignment.findAllByProject(label).each { it.delete(flush: true) }
     Mapped.findAllByProject(label).each { it.delete(flush: true) }
-  }
-
-  Map users(Project project) {
-    Map userMap = [
-      owners: []
-      ,   collaborators: []
-      ,   users: []
-    ]
-
-    authService.getUsersWithRole('ROLE_'+project.label.toUpperCase()).each {
-      if ('owner' in it.access) {
-        userMap.owners.push(it.user)
-      } else if ('collaborator' in it.access) {
-        userMap.collaborators.push(it.user)
-      } else if ('user' in it.access) {
-        userMap.users.push(it.user)
-      }
-    }
-
-    userMap
   }
 }

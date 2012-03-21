@@ -39,7 +39,7 @@
 									<g:hiddenField name="is_private" id="is_private" value="${true}" />
 									
 									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
-										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn active"><i class="icon-eye-close"></i> Private</button>
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn active"><i class="icon-lock"></i> Private</button>
 										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
 									</div>
 								</div>
