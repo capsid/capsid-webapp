@@ -25,6 +25,7 @@ class GenomeController {
     ]
 
     def genomeService
+    def statsService
 
     def index() { redirect action: 'list', params: params }
 
@@ -32,6 +33,10 @@ class GenomeController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = genomeService.list params
         
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [genomeInstanceList: results, genomeInstanceTotal: results.totalCount, layout:'ajax']
+        }      
         withFormat {
             html genomeInstanceList: results, genomeInstanceTotal: results.totalCount
             json { render results as JSON  }
@@ -39,8 +44,26 @@ class GenomeController {
     }
 
     def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+
+
         Genome genomeInstance = findInstance()
-        [genomeInstance: genomeInstance]
+        genomeInstance['genes'] = Feature.findAllByGenomeAndType(genomeInstance.gi, 'gene')
+        
+        List results = statsService.list params 
+
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
+        withFormat {
+            html genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
 	private Genome findInstance() {

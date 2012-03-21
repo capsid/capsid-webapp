@@ -5,7 +5,6 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
-		<r:require module="visualsearch"/>
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>

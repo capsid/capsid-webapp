@@ -20,7 +20,7 @@
 			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Details</li>
-						<li><table class="table">
+						<table class="table">
 							<tbody>
 							<g:if test="${sampleInstance?.cancer}">
 							<tr>
@@ -43,8 +43,10 @@
 							</tr>
 							</g:if>
 							</tbody>
-						</table></li>
-						<li class="divider"></li>
+						</table>
+					</ul>
+					<hr>
+					<ul class="nav nav-list">
 						<li class="nav-header">Alignments</li>
 						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="filter">
 						<li>
@@ -56,7 +58,7 @@
 					</ul>
 					<ul id="items" class="nav nav-list">
 						<g:each in="${sampleInstance['alignments']}" var="alignmentInstance">
-						<li class="popover_item" rel="popover" data-placement="right" data-content="<strong>Aligner: </strong>${alignmentInstance.aligner}<br><strong>Platform: </strong>${alignmentInstance.platform}<br><strong>Type: </strong>${alignmentInstance.type}" data-title="${alignmentInstance.name}">
+						<li rel="popover" data-placement="right" data-content="<strong>Aligner: </strong>${alignmentInstance.aligner}<br><strong>Platform: </strong>${alignmentInstance.platform}<br><strong>Type: </strong>${alignmentInstance.type}" data-title="${alignmentInstance.name}">
 							<g:link controller="alignment" action="show" id="${alignmentInstance.name}">
 								<i class="icon-folder-open"></i>
 								${alignmentInstance.name}
