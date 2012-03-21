@@ -54,19 +54,28 @@ $ ->
 
 	($ '#uac form').submit ->
 		uri = ($ @).attr('action') + '&' + ($ @).serialize()
+		id = ($ @).parents('.accordion-body').attr('id')
 		$.post uri, (data) ->
-			($ '#owners .user').last().after data
-			($ '.search-query').val('')
-			($ '.search-query').data('source').splice(s.indexOf(data.username), 1)
+			console.log id
+			($ '#' + id + ' .user-list').append data
+			
+			($ '.search-query').each ->
+				($ @).val('')
+				s = ($ @).data('source')
+				i = s.indexOf(data.username)
+				s.splice(i, 1)
+				($ @).data('source', s)
+
 		return false
 
-	($ '.user').delegate '.close', 'click', ->
+	($ '.accordion-inner').delegate '.user .close', 'click', ->
 		user = ($ @).parents('.user')
 		uri = ($ @).attr('href')
 		$.post uri, (data) ->
 			user.fadeOut 'fast', -> 
 				($ @).remove()
-			($ '.search-query').data('source').push(data.username)
+			($ '.search-query').each ->
+				($ @).data('source').push(data.username)
 		return false
 
 	return

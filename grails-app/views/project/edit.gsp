@@ -82,9 +82,11 @@
 	            		</div>
 	            	</div>
 	            	<div class="span6">
-	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='owner'}}">
-		            		<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
-	            		</g:each>
+	            		<div class="user-list">
+		            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='owner'}}">
+			            		<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+		            		</g:each>
+		            	</div>
 						<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'owner']" class="well well-small form-search" >
 					    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
 					    	<button class="btn btn-success pull-right" type="submit">Add User</button>
@@ -109,10 +111,12 @@
 	            		</div>
 	            	</div>
 	            	<div class="span6">
-	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='collaborator'}}">
-	            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
-	            		</g:each>
-						<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'owner']" class="well well-small form-search" >
+	            		<div class="user-list">
+		            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='collaborator'}}">
+		            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+		            		</g:each>
+		            	</div>
+						<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'collaborator']" class="well well-small form-search" >
 					    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
 					    	<button class="btn btn-success pull-right" type="submit">Add User</button>
 					    </g:form>
@@ -136,10 +140,12 @@
 	            		</div>
 	            	</div>
 	            	<div class="span6">
-	            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='user'}}">
-	            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
-	            		</g:each>
-						<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'owner']" class="well well-small form-search" >
+	            		<div class="user-list">
+		            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='user'}}">
+		            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+		            		</g:each>
+		            	</div>
+						<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'user']" class="well well-small form-search" >
 					    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
 					    	<button class="btn btn-success pull-right" type="submit">Add User</button>
 					    </g:form>
