@@ -30,7 +30,8 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="save" >
 						<fieldset>
-							<f:all bean="${alignmentInstance}"/>
+							<f:field bean="alignmentInstance" property="name"/>
+							<f:all bean="alignmentInstance"/>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>

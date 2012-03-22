@@ -29,7 +29,7 @@
 				</g:hasErrors>
 
 				<fieldset>
-					<g:form class="form-horizontal" action="update" id="${alignmentInstance?.label}" >
+					<g:form class="form-horizontal" action="update" id="${alignmentInstance?.name}" >
 						<g:hiddenField name="version" value="${alignmentInstance?.version}" />
 						<fieldset>
 							<f:all bean="alignmentInstance"/>
@@ -72,8 +72,8 @@
 		            	<div class="alert alert-danger">Deleting this Alignment <i>(${alignmentInstance?.name})</i> will also delete all mapped reads associated with it.<br/><br/>Deleting a Alignment is permanent, please be certain before continuing.<br/></div>	
 		            </div>
 				    <div class="modal-footer">
-						<g:form action="update" id="${alignmentInstance??.name}" >
-							<g:hiddenField name="version" value="${alignmentInstance??.name}" />
+						<g:form action="update" id="${alignmentInstance?.name}" >
+							<g:hiddenField name="version" value="${alignmentInstance?.name}" />
 							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 								<i class="icon-trash icon-white"></i>
 								<g:message code="default.button.delete.label" default="Delete" />

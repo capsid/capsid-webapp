@@ -1,5 +1,7 @@
 
 <%@ page import="ca.on.oicr.capsid.Alignment" %>
+<%@ page import="ca.on.oicr.capsid.Sample" %>
+<%@ page import="ca.on.oicr.capsid.Project" %>
 <!doctype html>
 <html>
 	<head>
@@ -31,15 +33,25 @@
 			</div>
 			
 			<div class="content">
+				<ul class="breadcrumb">
+					<li>
+						<g:link controller="project" action="show" id="${alignmentInstance.project}">${Project.findByLabel(alignmentInstance.project).name}</g:link> 
+						<span class="divider">/</span>
+					</li>
+					<li>
+						<g:link controller="sample" action="show" id="${alignmentInstance.sample}">${Sample.findByName(alignmentInstance.sample).name}</g:link> 
+						<span class="divider">/</span>
+					</li>
+				</ul>
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifAnyGranted access="[(${alignmentInstance}.label):['collaborator', 'owner']]">
+					<auth:ifAnyGranted access="[(alignmentInstance?.name):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${alignmentInstance?.name}" />
 						<div>
-							<g:link class="btn" action="edit" id="${alignmentInstance?.id}">
+							<g:link class="btn" action="edit" id="${alignmentInstance?.name}">
 								<i class="icon-pencil"></i>
 								<g:message code="default.button.edit.label" default="Edit" />
 							</g:link>

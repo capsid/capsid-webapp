@@ -31,11 +31,6 @@ class AlignmentService {
         return results
     }
 
-    void update(Alignment alignment, Map params) {
-        alignment.properties = params
-        alignment.save()
-    }
-
     List<Alignment> getAllowedAlignments() {
         if (authService.isCapsidAdmin()) {
             Alignment.list()
@@ -44,17 +39,7 @@ class AlignmentService {
         }
     }
 
-    Alignment save(Map params) {
-        if (get(params.name)) {
-            return false
-        }
-        Alignment alignment = new Alignment(params)
-        alignment.save(flush:true)
-    }
-
-    void delete(Alignment alignment) {
-        String name = alignment.name
-        alignment.delete()
-        Mapped.findAllByAlignment(name).each { it.delete(flush: true) }
+    void delete(String alignment) {
+        Mapped.findAllByAlignment(alignment).each { it.delete(flush: true) }
     }
 }

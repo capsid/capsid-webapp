@@ -21,6 +21,7 @@ class AlignmentController {
 
     def authService
     def alignmentService
+	def statsService
 
     def index() { redirect action: 'list', params: params }
 
@@ -71,7 +72,7 @@ class AlignmentController {
 		}
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.label
+        redirect action: 'show', id: alignmentInstance.name
     }
 
     def edit() {
@@ -92,7 +93,7 @@ class AlignmentController {
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.label
+        redirect action: 'show', id: alignmentInstance.name
 	}
 
     def delete() {
@@ -100,6 +101,8 @@ class AlignmentController {
 
         try {
             alignmentInstance.delete(flush: true)
+			alignmentService.delete alignmentInstance.name
+			
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
             redirect action: 'list'
         }

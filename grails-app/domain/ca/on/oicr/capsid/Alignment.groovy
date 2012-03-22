@@ -32,8 +32,8 @@ class Alignment {
 		infile blank: true
 		outfile blank: true
 		type blank: true
-		sample blank: false, display: false, validator: { val -> val in Sample.list().name }
-		project blank: false, display: false, validator: { val -> val in Project.list().label }
+		sample blank: false, editable: false, validator: { val -> val in Sample.list().name }
+		project blank: false, editable: false, validator: { val -> val in Project.list().label }
     }
 
 	static mapping = { cache true }
