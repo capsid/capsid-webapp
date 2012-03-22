@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="${layout?:'bootstrap'}">
+		<meta name="layout" content="\${layout?:'bootstrap'}">
 		<g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
@@ -33,7 +33,7 @@
 										if (p.isAssociation()) { %>
 								<th class="header"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
 							<%      } else { %>
-								<g:sortableColumn params="${params}" property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
+								<g:sortableColumn params="\${params}" property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
 							<%  }   }   } %>
 							</tr>
 						</thead>
@@ -54,7 +54,7 @@
 						</tbody>
 					</table>
 					<div class="pagination">
-						<bootstrap:paginate total="\${${propertyName}Total}" params="${params}"/>
+						<bootstrap:paginate total="\${${propertyName}Total}" params="\${params}"/>
 					</div>
 				</div>
 			</div>

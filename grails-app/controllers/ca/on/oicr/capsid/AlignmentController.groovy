@@ -28,6 +28,11 @@ class AlignmentController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = alignmentService.list params
         
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount, layout:'ajax']
+        }        
+        
         withFormat {
             html alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount
             json { render results as JSON  }
@@ -35,8 +40,24 @@ class AlignmentController {
     }
 
     def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+
         Alignment alignmentInstance = findInstance()
-        [alignmentInstance: alignmentInstance]
+        
+        List results = statsService.list params 
+
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
+        withFormat {
+            html alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
     def create() { [alignmentInstance: new Alignment(params)] }
@@ -50,7 +71,7 @@ class AlignmentController {
 		}
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.name
+        redirect action: 'show', id: alignmentInstance.label
     }
 
     def edit() {
@@ -71,7 +92,7 @@ class AlignmentController {
         }
 
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
-        redirect action: 'show', id: alignmentInstance.name
+        redirect action: 'show', id: alignmentInstance.label
 	}
 
     def delete() {

@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="${layout?:'bootstrap'}">
+		<meta name="layout" content="\${layout?:'bootstrap'}">
 		<g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
@@ -35,7 +35,7 @@
 					<div class="span9">
 						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifAnyGranted access="[(${propertyName}.label):['collaborator', 'owner']]">
+					<auth:ifAnyGranted access="[(\${${propertyName}}.label):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="\${${propertyName}?.name}" />
 						<div>

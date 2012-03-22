@@ -30,7 +30,7 @@
 				<fieldset>
 					<g:form class="form-horizontal" action="save" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
 						<fieldset>
-							<f:all bean="${propertyName}"/>
+							<f:all bean="\${${propertyName}}"/>
 							<div class="form-actions">
 								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
