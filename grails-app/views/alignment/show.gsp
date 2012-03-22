@@ -14,19 +14,45 @@
 			<div class="span sidebar">
 				<div class="span well well-small">
 					<ul class="nav nav-list">
-						<li class="nav-header">${entityName}</li>
-						<li>
-							<g:link class="list" action="list">
-								<i class="icon-list"></i>
-								<g:message code="default.list.label" args="[entityName]" />
-							</g:link>
-						</li>
-						<li>
-							<g:link class="create" action="create">
-								<i class="icon-plus"></i>
-								<g:message code="default.create.label" args="[entityName]" />
-							</g:link>
-						</li>
+						<li class="nav-header">Details</li>
+						<table class="table">
+							<tbody>
+							<g:if test="${alignmentInstance?.aligner}">
+							<tr>
+								<td><g:message code="sample.aligner.label" default="Aligner" /></td>
+								<td><g:fieldValue bean="${alignmentInstance}" field="aligner"/></td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${alignmentInstance?.platform}">
+							<tr>
+								<td><g:message code="sample.platform.label" default="Platform" /></td>						
+								<td>${alignmentInstance.platform}</td>
+							</tr>
+							</g:if>
+						
+							<g:if test="${alignmentInstance?.type}">
+							<tr>
+								<td><g:message code="sample.type.label" default="Type" /></td>
+								<td><g:fieldValue bean="${alignmentInstance}" field="type"/></td>
+							</tr>
+							</g:if>
+
+							<g:if test="${alignmentInstance?.infile}">
+							<tr>
+								<td><g:message code="sample.infile.label" default="Input" /></td>
+								<td><g:fieldValue bean="${alignmentInstance}" field="infile"/></td>
+							</tr>
+							</g:if>
+
+							<g:if test="${alignmentInstance?.outfile}">
+							<tr>
+								<td><g:message code="sample.outfile.label" default="Output" /></td>
+								<td><g:fieldValue bean="${alignmentInstance}" field="outfile"/></td>
+							</tr>
+							</g:if>
+							</tbody>
+						</table>
 					</ul>
 				</div>
 				<div class="span well well-small separator"></div>
@@ -64,65 +90,40 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<dl>
-				
-					<g:if test="${alignmentInstance?.aligner}">
-						<dt><g:message code="alignment.aligner.label" default="Aligner" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="aligner"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.infile}">
-						<dt><g:message code="alignment.infile.label" default="Infile" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="infile"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.name}">
-						<dt><g:message code="alignment.name.label" default="Name" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="name"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.outfile}">
-						<dt><g:message code="alignment.outfile.label" default="Outfile" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="outfile"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.platform}">
-						<dt><g:message code="alignment.platform.label" default="Platform" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="platform"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.project}">
-						<dt><g:message code="alignment.project.label" default="Project" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="project"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.sample}">
-						<dt><g:message code="alignment.sample.label" default="Sample" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="sample"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${alignmentInstance?.type}">
-						<dt><g:message code="alignment.type.label" default="Type" /></dt>
-						
-							<dd><g:fieldValue bean="${alignmentInstance}" field="type"/></dd>
-						
-					</g:if>
-				
-				</dl>
+				<div class="visual_search" style="height:32px;"></div>
+				<div id="results">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<g:sortableColumn params="${params}" property="sample" title="${message(code: 'statistics.sample.label', default: 'Sample')}" />
+								<g:sortableColumn params="${params}" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
+								<g:sortableColumn params="${params}" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
+								<g:sortableColumn params="${params}" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Average Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Maximum Gene Coverage')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${statisticsInstanceList}" var="statisticsInstance">
+							<tr>
+								<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
+								<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+	
+								<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+	
+								<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+	
+								<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate id="${sampleInstance?.name}" total="${statisticsInstanceTotal}" params="${params}" />
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
