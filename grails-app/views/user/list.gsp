@@ -42,9 +42,8 @@
 								<g:sortableColumn params="${params}" property="userRealName" title="${message(code: 'user.userRealName.label', default: 'Full Name')}" />		
 								<g:sortableColumn params="${params}" property="institute" title="${message(code: 'user.institute.label', default: 'Institute')}" />							
 								<g:sortableColumn params="${params}" property="location" title="${message(code: 'user.location.label', default: 'Location')}" />												
-								<g:sortableColumn params="${params}" property="accountExpired" title="${message(code: 'user.accountExpired.label', default: 'Account Expired')}" />
-								<g:sortableColumn params="${params}" property="accountLocked" title="${message(code: 'user.accountLocked.label', default: 'Account Locked')}" />
-								<g:sortableColumn params="${params}" property="enabled" title="${message(code: 'user.enabled.label', default: 'Enabled')}" />						
+								<th>Status</th>	
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,9 +54,33 @@
 								<td>${fieldValue(bean: userInstance, field: "userRealName")}</td>
 								<td>${fieldValue(bean: userInstance, field: "institute")}</td>
 								<td>${fieldValue(bean: userInstance, field: "location")}</td>
-								<td><g:formatBoolean boolean="${userInstance.accountExpired}" /></td>
-								<td><g:formatBoolean boolean="${userInstance.accountLocked}" /></td>						
-								<td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
+								<td>
+									<g:if test="${userInstance?.enabled}">
+									<span class="label label-info">Enabled</span>
+									</g:if>
+									<g:else>
+									<span class="label label-danger">Disabled</span>
+									</g:else>
+									<g:if test="${userInstance?.accountExpired}">
+									<span class="label label-warning">Expired</span>
+									</g:if>
+									<g:if test="${userInstance?.accountLocked}">
+									<span class="label label-warning">Locked</span>
+									</g:if>
+									<g:if test="${userInstance['admin']}">
+									<span class="label label-success">Admin</span>
+									</g:if>
+								</td>
+								<td class="link">
+									<div class="btn-group">
+							        	<g:link action="show" id="${userInstance.username}" class="btn">Show &raquo;</g:link>
+									  	<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
+							          	<ul class="dropdown-menu">
+								            <li><g:link action="show" id="${userInstance.username}">Show</g:link></li>
+								            <li><g:link action="edit" id="${userInstance.username}">Edit</g:link></li>
+							          	</ul>
+							        </div>
+								</td>
 							</tr>
 						</g:each>
 						</tbody>

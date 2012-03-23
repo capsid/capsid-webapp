@@ -25,8 +25,8 @@ $ ->
 	($ ".modal").delegate ".btn-group[data-toggle='buttons-radio'] .btn", "click", ->
 		button = $ @
 		group = button.parents '.btn-group'
-		field = group.data 'toggle-name'
-		hidden = $ 'input[name="is_private"]'
+		name = group.data 'toggle-name'
+		hidden = $ 'input[name="' + name + '"]'
 		button.siblings().removeClass 'active'
 		button.addClass 'active'
 		hidden.val button.val()

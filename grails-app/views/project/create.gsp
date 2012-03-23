@@ -35,7 +35,6 @@
 							<div class="control-group ">
 								<label for="label" class="control-label">Security</label>
 								<div class="controls">
-									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
 									<g:hiddenField name="is_private" id="is_private" value="${true}" />
 									
 									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">

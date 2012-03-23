@@ -11,7 +11,7 @@
 			<div class="content">
 			<section>
 				<div class="page-header">
-					<h1>Edit ${userInstance.name} <small>Edit User Attributes</small></h1>
+					<h1>Edit ${userInstance.username} <small>Edit User Attributes</small></h1>
 				</div>
 
 				<g:if test="${flash.message}">
@@ -29,7 +29,7 @@
 				</g:hasErrors>
 
 				<fieldset>
-					<g:form class="form-horizontal" action="update" id="${userInstance?.label}" >
+					<g:form class="form-horizontal" action="update" id="${userInstance?.username}" >
 						<g:hiddenField name="version" value="${userInstance?.version}" />
 						<fieldset>
 							<f:all bean="userInstance"/>
@@ -38,7 +38,7 @@
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.update.label" default="Update" />
 								</button>
-								<g:link action="show" id="${userInstance?.name}" class="btn">Cancel</g:link>
+								<g:link action="show" id="${userInstance?.username}" class="btn">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>
@@ -49,7 +49,7 @@
 					<h1>Delete User</h1>
 				</div>
 				<div class="row-fluid">
-					<div class="span alert alert-danger">Deleting this User <i>(${userInstance?.name})</i> will also delete all mapped reads associated with it.</div>
+					<div class="span alert alert-danger">Deleting a User is permanent, please be certain before continuing.</div>
 				</div>
 				<fieldset>
 					<form class="form-horizontal">
@@ -69,11 +69,11 @@
 		            <h3>Delete User</h3>
 		            </div>
 		            <div class="modal-body">
-		            	<div class="alert alert-danger">Deleting this User <i>(${userInstance?.name})</i> will also delete all mapped reads associated with it.<br/><br/>Deleting a User is permanent, please be certain before continuing.<br/></div>	
+		            	<div class="alert alert-danger">Deleting a User is permanent, please be certain before continuing.</div>	
 		            </div>
 				    <div class="modal-footer">
-						<g:form action="update" id="${userInstance??.name}" >
-							<g:hiddenField name="version" value="${userInstance??.name}" />
+						<g:form action="update" id="${userInstance?.username}" >
+							<g:hiddenField name="version" value="${userInstance?.username}" />
 							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 								<i class="icon-trash icon-white"></i>
 								<g:message code="default.button.delete.label" default="Delete" />

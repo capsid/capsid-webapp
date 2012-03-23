@@ -32,6 +32,10 @@ class UserService {
 	  
 	  List results = criteria.list(params) {}
 
+    results.each {
+      it['admin'] = authService.isCapsidAdmin(it)
+    }
+
 	  return results
   }
   
@@ -65,49 +69,6 @@ class UserService {
     }
 
     false
-  }
-
-  def save(Map params) {
-    if (get(params.username)) {
-      return false
-    }
-
-    // Generate password
-    String password = authService.getRandomString(8)
-
-    User user = new User(
-        username: params.username,
-        userRealName: params.userRealName,
-        email: params.email,
-        institute:params.institute,
-        location: params.location,
-        password: springSecurityService.encodePassword(password),
-        enabled: true).save(failOnError: true)
-
-    // Give capsid:user role:access
-    Role role = Role.findByAuthority('ROLE_CAPSID')
-
-    if (params.admin) {
-      UserRole.create user, role, 'owner'
-    } else {
-      UserRole.create user, role, 'user'
-    }
-
-    if (user.save(flush:true)) {
-      // Use LDAP or Send email
-      if (!params.ldap) {
-        sendMail {
-          to user.email
-          subject "[capsid] CaPSID User Created"
-          body 'New user created for CaPSID.\n\nUsername:\t' + user.username + '\nPassword:\t' + password + '\n\nCaPSID - ' + CH.config.grails.serverURL + '\nPlease do not respond to this email'
-        }
-      }
-    }
-  }
-
-  void delete(User user) {
-    user.delete()
-    UserRole.removeAll user
   }
 
   Set unassigned(Map params) {
