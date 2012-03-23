@@ -62,10 +62,14 @@ class SampleController {
         }
     }
 
-    def create() { [sampleInstance: new Sample(params)] }
+    def create() { 
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
+        [sampleInstance: new Sample(params)] 
+    }
 
 	def save() {
-	    Sample sampleInstance = new Sample(params)
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])	
+        Sample sampleInstance = new Sample(params)
 		
 		if (!sampleInstance.save(flush: true)) {
 			render view: 'create', model: [sampleInstance: sampleInstance]
@@ -82,7 +86,7 @@ class SampleController {
 	}
 
     def update() {
-        Sample sampleInstance = findInstance()
+        Sample sampleInstance = findInstance(['collaborator', 'owner'])
 
         checkVersion(sampleInstance, params)
         
@@ -98,7 +102,7 @@ class SampleController {
 	}
 
     def delete() {
-        Sample sampleInstance = findInstance()
+        Sample sampleInstance = findInstance(['collaborator', 'owner'])
 
         try {
             sampleInstance.delete(flush: true)
@@ -113,9 +117,9 @@ class SampleController {
         }
     }
 
-	private Sample findInstance() {
+	private Sample findInstance(List roles = ['user', 'collaborator', 'owner']) {
 		Sample sampleInstance = sampleService.get(params.id)
-		authorize(sampleInstance, ['user', 'collaborator', 'owner'])
+		authorize(sampleInstance, roles)
 		if (!sampleInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
 		  redirect action: 'list'

@@ -61,11 +61,14 @@ class AlignmentController {
         }
     }
 
-    def create() { [alignmentInstance: new Alignment(params)] }
+    def create() { 
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
+        [alignmentInstance: new Alignment(params)] }
 
 	def save() {
 	    Alignment alignmentInstance = new Alignment(params)
-		
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
+
 		if (!alignmentInstance.save(flush: true)) {
 			render view: 'create', model: [alignmentInstance: alignmentInstance]
 			return
@@ -76,12 +79,12 @@ class AlignmentController {
     }
 
     def edit() {
-        Alignment alignmentInstance = findInstance()
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
         [alignmentInstance: alignmentInstance]
 	}
 
     def update() {
-        Alignment alignmentInstance = findInstance()
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
         checkVersion(alignmentInstance, params)
         
@@ -97,7 +100,7 @@ class AlignmentController {
 	}
 
     def delete() {
-        Alignment alignmentInstance = findInstance()
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
         try {
             alignmentInstance.delete(flush: true)
@@ -112,9 +115,9 @@ class AlignmentController {
         }
     }
 
-	private Alignment findInstance() {
+	private Alignment findInstance(List roles = ['user', 'collaborator', 'owner']) {
 		Alignment alignmentInstance = alignmentService.get(params.id)
-		authorize(alignmentInstance, ['user', 'collaborator', 'owner'])
+		authorize(alignmentInstance, roles)
 		if (!alignmentInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
 		  redirect action: 'list'

@@ -69,9 +69,13 @@ class ProjectController {
         }
     }
 
-    def create() { [projectInstance: new Project(params)] }
+    def create() { 
+        isCapsidAdmin()
+        [projectInstance: new Project(params)] 
+    }
 
 	def save() {
+        isCapsidAdmin()
 	    Project projectInstance = new Project(params)
 		
         String projectRole = 'ROLE_' + projectInstance.label.toUpperCase()
