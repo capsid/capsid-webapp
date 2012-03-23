@@ -58,6 +58,7 @@
 					</g:form>
 				</fieldset>
 			</section>
+			<auth:ifAnyGranted access="[(projectInstance.label):['owner']]">
 			<section id="uac">
 				<div class="page-header">
 					<h1>Edit Permissions <small>Change User Access Levels</small></h1>
@@ -193,6 +194,7 @@
 					</div>
 				</div>
 			</section>
+			</auth:ifAnyGranted>
 			</div>
 		</div>
 	</body>

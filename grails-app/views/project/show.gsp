@@ -11,22 +11,24 @@
 		<div class="row-fluid has_sidebar use_sidebar">
 			<div class="span sidebar">
 				<div class="span well well-small">
-					<div class="modal hide fade" id="myModal" style="display: none;">
-			            <div class="modal-header">
-			              <a data-dismiss="modal" class="close">×</a>
-			              <h3>Add Sample</h3>
-			            </div>
-			            <div class="modal-body"></div>
-			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Samples</li>
 						<input class="search-query span2" placeholder="Filter Samples" type="text" id="filter">
+						<auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
 						<li>
+							<div class="modal hide fade" id="myModal" style="display: none;">
+					            <div class="modal-header">
+					              <a data-dismiss="modal" class="close">×</a>
+					              <h3>Add Sample</h3>
+					            </div>
+					            <div class="modal-body"></div>
+					        </div>
 							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Sample
 							</g:link>
 						</li>
+						</auth:ifAnyGranted>
 					</ul>
 					<ul id="items" class="nav nav-list">
 						<g:each in="${projectInstance['samples']}" var="sampleInstance">

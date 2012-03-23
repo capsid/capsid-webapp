@@ -49,12 +49,16 @@
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
-							<li class="divider-vertical"></li>
-							<nav:eachItem var="item" group="genome">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
+							<li class="dropdown">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Reference DB <b class="caret"></b></a>
+					            <ul class="dropdown-menu">
+							        <nav:eachItem var="item" group="genome">
+										<li class="${controllerName==item.controller?'active':''}">
+											<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
+										</li>
+									</nav:eachItem>        
+					            </ul>
+							</li>					
 							<li class="divider-vertical"></li>
 						</ul>
 					</div>

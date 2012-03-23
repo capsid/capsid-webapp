@@ -18,12 +18,6 @@ import grails.plugins.springsecurity.Secured
 class SampleController {
 
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
-	static navigation = [
-		group:'project',
-		order:20,
-		title:'Samples',
-		action:'list'
-	]
 	
     def authService
     def sampleService

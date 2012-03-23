@@ -45,6 +45,8 @@
 					</g:form>
 				</fieldset>
 			</section>
+			
+			<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
 			<section>
 				<div class="page-header">
 					<h1>Delete Project</h1>
@@ -84,6 +86,7 @@
 					</div>
 				</div>
 			</section>
+			</auth:ifAnyGranted>
 			</div>
 		</div>
 	</body>

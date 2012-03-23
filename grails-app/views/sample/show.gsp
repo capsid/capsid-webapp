@@ -11,13 +11,6 @@
 		<div class="row-fluid has_sidebar use_sidebar">
 			<div class="span sidebar">
 				<div class="span well well-small">
-					<div class="modal hide fade" id="myModal" style="display: none;">
-			            <div class="modal-header">
-			              <a data-dismiss="modal" class="close">×</a>
-			              <h3>Add Alignment</h3>
-			            </div>
-		            	<div class="modal-body"></div>
-			        </div>
 					<ul class="nav nav-list">
 						<li class="nav-header">Details</li>
 						<table class="table">
@@ -49,12 +42,21 @@
 					<ul class="nav nav-list">
 						<li class="nav-header">Alignments</li>
 						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="filter">
+						<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
 						<li>
+							<div class="modal hide fade" id="myModal" style="display: none;">
+					            <div class="modal-header">
+					              <a data-dismiss="modal" class="close">×</a>
+					              <h3>Add Alignment</h3>
+					            </div>
+				            	<div class="modal-body"></div>
+					        </div>
 							<g:link controller="alignment" action="create" params="[project:sampleInstance.project, sample:sampleInstance.name]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Alignment
 							</g:link>
 						</li>
+						</auth:ifAnyGranted>
 					</ul>
 					<ul id="items" class="nav nav-list">
 						<g:each in="${sampleInstance['alignments']}" var="alignmentInstance">
@@ -82,7 +84,7 @@
 						<h1><g:fieldValue bean="${sampleInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${sampleInstance}" field="description"/></small></h1>
 					</div>
-					<auth:ifAnyGranted access="[(sampleInstance?.name):['collaborator', 'owner']]">
+					<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${sampleInstance?.name}" />
 						<div>
