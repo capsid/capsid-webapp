@@ -28,6 +28,11 @@ class UserController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = userService.list params
         
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [userInstanceList: results, userInstanceTotal: results.totalCount, layout:'ajax']
+        }        
+        
         withFormat {
             html userInstanceList: results, userInstanceTotal: results.totalCount
             json { render results as JSON  }
@@ -79,6 +84,8 @@ class UserController {
 
         try {
             userInstance.delete(flush: true)
+			userService.delete params
+			
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect action: 'list'
         }
@@ -88,31 +95,9 @@ class UserController {
         }
     }
 
-    def unassigned() {
-    	Set users = userService.unassigned params
-    	render users as JSON
-    }
-
-    def promote() {
-    	Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
-    	User userInstance = User.findByUsername(params.username)
-    	UserRole.remove userInstance, roleInstance
-    	UserRole.create userInstance, roleInstance, params.access
-    	
-    	render template:"/project/user", model:[username:params.username, label:params.id]
-    }
-
-    def demote() {
-    	Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
-    	User userInstance = User.findByUsername(params.username)
-    	UserRole.remove userInstance, roleInstance
-
-    	render userInstance as JSON
-    }
-
 	private User findInstance() {
 		User userInstance = userService.get(params.id)
-		authorize(userInstance, ['user', 'collaborator', 'owner'])
+		authorize(userInstance)
 		if (!userInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
 		  redirect action: 'list'
@@ -120,8 +105,8 @@ class UserController {
 		userInstance
 	}
 
-	private void authorize(def auth, List access) {
-		if (!authService.authorize(auth, access)) {
+	private void authorize(def auth) {
+		if (!authService.authorize(auth)) {
 		  render view: '../login/denied'
 		}
 	}

@@ -29,12 +29,16 @@ class User {
     static transients = ['authorities']
 
     static constraints = {
-        username blank: false, unique: true, display: false, editable:false
-        userRealName blank: true, null: true
-        email blank: false
-        password blank: false, display: false, editable:false
-        institute blank: true, null: true
-        location blank: true, null: true
+        username blank: false, unique: true, display: false
+        userRealName blank: true, nullable: true
+        email blank: false, nullable: true
+        password blank: false, display: false
+        institute blank: true, nullable: true
+        location blank: true, nullable: true    
+		enabled display: false
+	    accountExpired display: false
+	    accountLocked display: false
+	    passwordExpired display: false
     }
 
     static mapping = {

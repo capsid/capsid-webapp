@@ -10,6 +10,9 @@
 
 package ca.on.oicr.capsid
 
+import java.util.List;
+import java.util.Map;
+
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
@@ -20,6 +23,18 @@ class UserService {
   def authService
   def springSecurityService
 
+  User get(String username) {
+	  User.findByUsername username
+	}
+  
+  List list(Map params) {
+	  def criteria = User.createCriteria()
+	  
+	  List results = criteria.list(params) {}
+
+	  return results
+  }
+  
   void update(User user, Map params) {
     user.properties = params
 
@@ -50,10 +65,6 @@ class UserService {
     }
 
     false
-  }
-
-  User get(String username) {
-    User.findByUsername username
   }
 
   def save(Map params) {

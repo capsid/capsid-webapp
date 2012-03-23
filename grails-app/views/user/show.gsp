@@ -3,14 +3,14 @@
 <!doctype html>
 <html>
 	<head>
-		<meta name="layout" content="bootstrap">
+		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<div class="row-fluid">
-			<div class="span3">
-				<div class="well">
+		<div class="row-fluid has_sidebar use_sidebar">
+			<div class="span sidebar">
+				<div class="span well well-small">
 					<ul class="nav nav-list">
 						<li class="nav-header">${entityName}</li>
 						<li>
@@ -27,24 +27,23 @@
 						</li>
 					</ul>
 				</div>
+				<div class="span well well-small separator"></div>
 			</div>
 			
-			<div class="span9">
+			<div class="content">
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
 					</div>
-					<auth:ifAnyGranted access="[(userInstance.label):['collaborator', 'owner']]">
 					<g:form class="pull-right">
-						<g:hiddenField name="id" value="${userInstance?.name}" />
+						<g:hiddenField name="id" value="${userInstance?.username}" />
 						<div>
-							<g:link class="btn" action="edit" id="${userInstance?.id}">
+							<g:link class="btn" action="edit" id="${userInstance?.username}">
 								<i class="icon-pencil"></i>
 								<g:message code="default.button.edit.label" default="Edit" />
 							</g:link>
 						</div>
 					</g:form>
-					</auth:ifAnyGranted>
 				</div>
 
 				<g:if test="${flash.message}">
