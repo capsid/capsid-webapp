@@ -23,7 +23,7 @@
 				            </div>
 				            <div class="modal-body"></div>
 				        </div>
-						<g:link action="create" class="btn btn-primary" data-target="#myModal" data-toggle="modal">
+						<g:link action="create" class="btn btn-primary ajax" data-target="#myModal" data-toggle="modal">
 							<i class="icon-plus icon-white"></i>
 							<g:message code="default.button.create.label" default="Create" />
 						</g:link>

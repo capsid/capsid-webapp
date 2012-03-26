@@ -32,12 +32,12 @@
 						<fieldset>
 							<f:field bean="alignmentInstance" property="name"/>
 							<f:all bean="alignmentInstance"/>
-							<div class="form-actions">
+							<div class="form-actions modal-footer">
+								<g:link action="list" class="btn" data-dismiss="modal">Close</g:link>
 								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
-								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>

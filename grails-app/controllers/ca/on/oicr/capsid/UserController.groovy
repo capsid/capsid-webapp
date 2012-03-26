@@ -22,6 +22,7 @@ class UserController {
 
     def authService
     def userService
+	def springSecurityService
 
     def index() { redirect action: 'list', params: params }
 
@@ -43,7 +44,11 @@ class UserController {
 
     def show() {
         User userInstance = findInstance()
-        [userInstance: userInstance]
+        
+		withFormat {
+			html userInstance: userInstance
+			json { render userInstance as JSON }
+        }
     }
 
     def create() {
@@ -55,8 +60,9 @@ class UserController {
         isCapsidAdmin()
 
         // Generate password
-        String password = authService.getRandomString(8)
-        params.password = password
+        String password = 'pass' //authService.getRandomString(8)
+        
+		params.password = springSecurityService.encodePassword(password)
         params.enabled = true
 
 	    User userInstance = new User(params)

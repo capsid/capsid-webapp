@@ -17,7 +17,7 @@
 		
 		<r:require modules="capsid"/>
 		<r:require module="visualsearch"/>
-		<!-- Le fav and touch icons -->
+		<!-- fav and touch icons -->
 		<link rel="shortcut icon" href="${resource(dir: 'images', file: 'favicon.ico')}" type="image/x-icon">
 		<link rel="apple-touch-icon" sizes="72x72" href="${resource(dir: 'images', file: 'apple-touch-icon.png')}">
 		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: 'apple-touch-icon-114x114.png')}">
@@ -27,6 +27,34 @@
 	</head>
 
 	<body>
+		<div class="modal hide fade" id="bookmark" style="display: none;">
+	        <div class="modal-header">
+	          <a data-dismiss="modal" class="close">×</a>
+	          <h3>Add Bookmark</h3>
+	        </div>
+	        <div class="modal-body">
+	        	<g:form class="form-horizontal">
+		        	<fieldset>
+			        	<div class="control-group ">
+							<label class="control-label" for="title">Title</label>
+							<div class="controls">
+								<input type="text" name="title" value="" required="" id="title">
+							</div>
+						</div>
+						<div class="control-group ">
+							<label class="control-label" for="address">Address</label>
+							<div class="controls">
+								<input type="text" name="address" value="" required="" id="address">
+							</div>
+						</div>
+					</fieldset>
+				</g:form>
+	        </div>
+	        <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+              <a href="#" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</a>
+            </div>
+	    </div>
 		<nav class="navbar">
 			<div class="navbar-inner">
 				<div class="container-fluid">
@@ -49,14 +77,28 @@
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
-							<li class="dropdown">
+							<li class="dropdown ${['genome','feature'].contains(controllerName)?'active':''}">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Reference DB <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
 							        <nav:eachItem var="item" group="genome">
 										<li class="${controllerName==item.controller?'active':''}">
-											<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
+											<g:link controller="${item.controller}" action="${item.action}"><i class="icon-th-list"></i> ${item.title}</g:link>
 										</li>
 									</nav:eachItem>        
+					            </ul>
+							</li>					
+							<li class="divider-vertical"></li>
+							<li class="dropdown">
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
+					            <ul class="dropdown-menu">
+					                <li>
+						                <a href="#" data-target="#bookmark" data-toggle="modal"><i class="icon-plus"></i> Add Bookmark</a>
+									</li>
+					                <auth:ifCapsidAdmin>
+					                <li><g:link controller="user" action="show"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
+					                </auth:ifCapsidAdmin>
+					                <li class="divider"></li>
+					                <li><g:link controller="logout" action="index"><i class="icon-off"></i> Logout</g:link></li>
 					            </ul>
 							</li>					
 							<li class="divider-vertical"></li>
@@ -69,10 +111,8 @@
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><sec:username/> <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
-					                <li><a href="#"><i class="icon-home"></i> Dashboard</a></li>
 					                <li><g:link controller="user" action="edit"><i class="icon-pencil"></i> Edit Account</g:link></li>
 					                <auth:ifCapsidAdmin>
-					                <li class="divider"></li>
 					                <li><g:link controller="user" action="list"><i class="icon-cog"></i> Administration</g:link></li>
 					                </auth:ifCapsidAdmin>
 					                <li class="divider"></li>

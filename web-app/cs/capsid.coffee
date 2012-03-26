@@ -31,7 +31,7 @@ $ ->
 		button.addClass 'active'
 		hidden.val button.val()
 
-	($ "a[data-toggle='modal']").click -> 
+	($ "a[data-toggle='modal'].ajax").click -> 
 		target = ($ @).attr 'data-target'
 		url = ($ @).attr 'href'
 		($ target + ' .modal-body').load url + ' #ajax', ->
