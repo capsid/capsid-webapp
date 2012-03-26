@@ -16,14 +16,20 @@
 					</div>
 					<auth:ifCapsidAdmin>
 					<div class="pull-right">
-						<div class="modal hide fade" id="myModal" style="display: none;">
+						<div class="modal hide fade" id="create" style="display: none;">
 				            <div class="modal-header">
 				              <a data-dismiss="modal" class="close">×</a>
 				              <h3>Create Project</h3>
 				            </div>
-				            <div class="modal-body"></div>
+				            <fieldset>
+								<g:form class="form-horizontal" action="save" style="margin:0">
+									<fieldset>
+							            <g:render template="/project/create" model="[projectInstance: new Project(params)]"/>
+							       	</fieldset>
+								</g:form>
+							</fieldset>
 				        </div>
-						<g:link action="create" class="btn btn-primary ajax" data-target="#myModal" data-toggle="modal">
+						<g:link action="create" class="btn btn-primary" data-target="#create" data-toggle="modal">
 							<i class="icon-plus icon-white"></i>
 							<g:message code="default.button.create.label" default="Create" />
 						</g:link>

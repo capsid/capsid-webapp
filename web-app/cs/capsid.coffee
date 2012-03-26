@@ -34,14 +34,22 @@ $ ->
 	($ "a[data-toggle='modal'].ajax").click -> 
 		target = ($ @).attr 'data-target'
 		url = ($ @).attr 'href'
-		($ target + ' .modal-body').load url + ' #ajax', ->
+		($ target + ' .modal-body').load url, ->
 			($ "[rel=tooltip]").tooltip
-			delay: show:500, hide: 100
+			delay: show:200, hide: 100
 	
+	($ "#bookmarks input[name='title']").val(document.title)
+	($ "#bookmarks input[name='address']").val(window.location.pathname)
+	($ "#bookmarks form").submit ->
+		uri = ($ @).attr('action') + '?' + ($ @).serialize()	
+		$.post uri, (data) ->
+			console.log data
+		return false
+
 	($ ".sidebar .well.separator").click ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
 
-	if ($ '#results').length
+	if ($ '.pagination').length
 		($ '.pagination a, th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
 
 	($ '#filter').keyup ->
@@ -56,7 +64,6 @@ $ ->
 		uri = ($ @).attr('action') + '&' + ($ @).serialize()
 		id = ($ @).parents('.accordion-body').attr('id')
 		$.post uri, (data) ->
-			console.log id
 			($ '#' + id + ' .user-list').append data
 			
 			($ '.search-query').each ->

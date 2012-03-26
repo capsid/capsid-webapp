@@ -25,40 +25,39 @@
 		<g:layoutHead/> 
 		<r:layoutResources/>
 	</head>
-
 	<body>
-		<div class="modal hide fade" id="bookmark" style="display: none;">
+		<div class="modal hide fade" id="bookmarks" style="display: none;">
 	        <div class="modal-header">
 	          <a data-dismiss="modal" class="close">×</a>
 	          <h3>Add Bookmark</h3>
 	        </div>
-	        <div class="modal-body">
-	        	<g:form class="form-horizontal">
-		        	<fieldset>
-			        	<div class="control-group ">
-							<label class="control-label" for="title">Title</label>
-							<div class="controls">
-								<input type="text" name="title" value="" required="" id="title">
-							</div>
+	        <g:form controller="user" action="add_bookmark" id="${sec.username()}" class="form-horizontal">
+		        <fieldset>
+			    
+	        	<div class="modal-body">
+        	    	<div class="control-group ">
+						<label class="control-label" for="title">Title</label>
+						<div class="controls">
+							<input type="text" name="title" value="" required="" id="title">
 						</div>
-						<div class="control-group ">
-							<label class="control-label" for="address">Address</label>
-							<div class="controls">
-								<input type="text" name="address" value="" required="" id="address">
-							</div>
+					</div>
+					<div class="control-group ">
+						<label class="control-label" for="address">Address</label>
+						<div class="controls">
+							<input type="text" name="address" value="" required="" id="address">
 						</div>
-					</fieldset>
-				</g:form>
-	        </div>
-	        <div class="modal-footer">
-              <a href="#" class="btn" data-dismiss="modal">Close</a>
-              <a href="#" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</a>
-            </div>
+					</div>
+			    </div>
+			        <div class="modal-footer">
+		              <a href="#" class="btn" data-dismiss="modal">Close</a>
+		              <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</button>
+		            </div>
+        		</fieldset>
+			</g:form>
 	    </div>
 		<nav class="navbar">
 			<div class="navbar-inner">
-				<div class="container-fluid">
-					
+				<div class="container-fluid">		
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -92,7 +91,7 @@
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
 					                <li>
-						                <a href="#" data-target="#bookmark" data-toggle="modal"><i class="icon-plus"></i> Add Bookmark</a>
+						                <a href="#" data-target="#bookmarks" data-toggle="modal"><i class="icon-plus"></i> Add Bookmark</a>
 									</li>
 					                <auth:ifCapsidAdmin>
 					                <li><g:link controller="user" action="show"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
@@ -111,7 +110,7 @@
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><sec:username/> <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
-					                <li><g:link controller="user" action="edit"><i class="icon-pencil"></i> Edit Account</g:link></li>
+					                <li><g:link controller="user" action="edit" id="${sec.username()}"><i class="icon-pencil"></i> Edit Account</g:link></li>
 					                <auth:ifCapsidAdmin>
 					                <li><g:link controller="user" action="list"><i class="icon-cog"></i> Administration</g:link></li>
 					                </auth:ifCapsidAdmin>

@@ -21,6 +21,7 @@ class User {
     String password
     String institute
     String location
+    List<Map> bookmarks
     boolean enabled
     boolean accountExpired
     boolean accountLocked
@@ -31,7 +32,7 @@ class User {
     static constraints = {
         username blank: false, unique: true, display: false
         userRealName blank: true, nullable: true
-        email blank: false, nullable: true
+        email blank: false, nullable: true, email: true
         password blank: false, display: false
         institute blank: true, nullable: true
         location blank: true, nullable: true    
@@ -39,6 +40,7 @@ class User {
 	    accountExpired display: false
 	    accountLocked display: false
 	    passwordExpired display: false
+        bookmarks display: false, editable: false
     }
 
     static mapping = {

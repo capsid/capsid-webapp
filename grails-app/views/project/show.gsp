@@ -23,7 +23,7 @@
 					            </div>
 					            <div class="modal-body"></div>
 					        </div>
-							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
+							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" class="ajax" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Sample
 							</g:link>

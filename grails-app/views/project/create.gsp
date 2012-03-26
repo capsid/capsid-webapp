@@ -8,11 +8,11 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
+			<div class="content">
 				<div class="page-header">
 					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				</div>
-				<div id="ajax">
+
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
@@ -35,27 +35,25 @@
 							<div class="control-group ">
 								<label for="label" class="control-label">Security</label>
 								<div class="controls">
-									<g:hiddenField name="is_private" id="is_private" value="${true}" />
+									<g:hiddenField name="is_private" id="is_private" value="${!'ROLE_CAPISD' in projectInstance.roles}" />
 									
 									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
-										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn active"><i class="icon-lock"></i> Private</button>
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn"><i class="icon-lock"></i> Private</button>
 										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
 									</div>
 								</div>
 							</div>
-							<div class="form-actions modal-footer">
-								<g:link action="list" class="btn" data-dismiss="modal">Close</g:link>
+							<div class="form-actions">
 								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
+								<g:link action="list" class="btn">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>
 				</fieldset>
-				</div>
 			</div>
-
 		</div>
 	</body>
 </html>

@@ -114,6 +114,22 @@ class UserController {
         redirect action: 'show', id: userInstance.username
 	}
 
+    def add_bookmark() {
+        User userInstance = findInstance()
+
+        if (!userInstance.bookmarks) {
+            userInstance.bookmarks = []   
+        }
+        userInstance.bookmarks.push([
+                title: params.title
+            ,   address: params.address
+            ])
+
+        userInstance.save(flush: true)
+
+        render userInstance.bookmarks as JSON
+    }
+
     def delete() {
         User userInstance = findInstance()
 

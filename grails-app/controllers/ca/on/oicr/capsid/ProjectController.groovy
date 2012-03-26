@@ -102,7 +102,7 @@ class ProjectController {
         UserRole.create user, role, 'owner'
         
 		flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.name])
-        redirect action: 'show', id: projectInstance.label
+        redirect action: 'show', id: projectInstance.label 
     }
 
     def edit() {
