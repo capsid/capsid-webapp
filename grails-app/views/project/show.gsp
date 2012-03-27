@@ -1,5 +1,5 @@
-
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.Sample" %>
 <!doctype html>
 <html>
 	<head>
@@ -16,14 +16,20 @@
 						<input class="search-query span2" placeholder="Filter Samples" type="text" id="filter">
 						<auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
 						<li>
-							<div class="modal hide fade" id="myModal" style="display: none;">
+							<div class="modal hide fade" id="create" style="display: none;">
 					            <div class="modal-header">
 					              <a data-dismiss="modal" class="close">×</a>
 					              <h3>Add Sample</h3>
 					            </div>
-					            <div class="modal-body"></div>
+					            <fieldset>
+									<g:form class="form-horizontal" controller="sample" action="save" style="margin:0">
+										<fieldset>
+								            <g:render template="/sample/create" model="[sampleInstance: new Sample(['project':projectInstance.label])]"/>
+								       	</fieldset>
+									</g:form>
+								</fieldset>
 					        </div>
-							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" class="ajax" data-toggle="modal">
+							<g:link controller="sample" action="create" params="[project:projectInstance.label]" style="margin-top:10px;margin-bottom:3px;" data-target="#create" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Sample
 							</g:link>

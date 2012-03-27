@@ -8,11 +8,11 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div>
+			<div class="content">
 				<div class="page-header">
 					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
 				</div>
-				<div id="ajax">
+				
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
@@ -32,19 +32,17 @@
 						<fieldset>
 							<f:field bean="sampleInstance" property="name"/>
 							<f:all bean="sampleInstance"/>
-							<div class="form-actions modal-footer">
-								<g:link action="list" class="btn" data-dismiss="modal">Close</g:link>
+							<div class="form-actions">
 								<button type="submit" class="btn btn-success">
 									<i class="icon-ok icon-white"></i>
 									<g:message code="default.button.create.label" default="Create" />
 								</button>
+								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
 							</div>
 						</fieldset>
 					</g:form>
 				</fieldset>
-				</div>
 			</div>
-
 		</div>
 	</body>
 </html>

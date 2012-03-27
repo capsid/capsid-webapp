@@ -24,7 +24,7 @@ class Sample {
 	
     static constraints = {
 		name unique:true, blank:false, display: false, matches: /[\w\d\-]+/
-		description blank:true
+		description blank:true, widget: 'textarea'
 		cancer blank:true
 		role blank:true
 		source blank:true

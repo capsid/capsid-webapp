@@ -166,7 +166,7 @@
 					<form class="form-horizontal">
 						<fieldset>
 							<div class="form-actions">
-								<button type="button" class="btn btn-danger" data-target="#myModal" data-toggle="modal">
+								<button type="button" class="btn btn-danger" data-target="#delete" data-toggle="modal">
 									<i class="icon-trash icon-white"></i>
 									<g:message code="default.button.delete.label" default="Delete" />
 								</button>
@@ -174,7 +174,7 @@
 						</fieldset>
 					</form>
 				</fieldset>
-				<div class="modal hide" id="myModal" style="display: none;">
+				<div class="modal hide" id="delete" style="display: none;">
 					<div class="modal-header">
 		            <a data-dismiss="modal" class="close">×</a>
 		            <h3>Delete Project</h3>
@@ -185,11 +185,11 @@
 				    <div class="modal-footer">
 						<g:form action="update" id="${projectInstance?.label}" >
 							<g:hiddenField name="version" value="${projectInstance?.version}" />
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
 							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 								<i class="icon-trash icon-white"></i>
 								<g:message code="default.button.delete.label" default="Delete" />
 							</button>
-							<a data-dismiss="modal" class="btn" href="#">Close</a>
 						</g:form>
 					</div>
 				</div>
