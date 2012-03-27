@@ -14,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import org.bson.types.ObjectId
 
 @Secured(['ROLE_CAPSID'])
 class UserController {
@@ -144,7 +145,7 @@ class UserController {
 
     def add_bookmark() {
         User userInstance = findInstance()
-		Map bookmark = [title: params.title, address: params.address]
+		Map bookmark = [title: params.title, address: params.address, _id: new ObjectId()]
 		
         if (!userInstance.bookmarks) {
             userInstance.bookmarks = []   
@@ -154,6 +155,15 @@ class UserController {
         userInstance.save(flush: true)
 
         render bookmark as JSON
+    }
+
+    def remove_bookmark() {
+        User userInstance = findInstance()
+        
+        userInstance.bookmarks.removeAll {it._id == new ObjectId(params._id)}
+        userInstance.save(flush: true)
+        
+        render userInstance.bookmarks as JSON
     }
 
     def delete() {
@@ -170,6 +180,28 @@ class UserController {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'user.label', default: 'User'), params.id])
             redirect action: 'show', id: params.id
         }
+    }
+
+    def unassigned() {
+        Set users = userService.unassigned params
+        render users as JSON
+    }
+
+    def promote() {
+        Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+        User userInstance = User.findByUsername(params.username)
+        UserRole.remove userInstance, roleInstance
+        UserRole.create userInstance, roleInstance, params.access
+
+        render template:"/project/user", model:[username:params.username, label:params.id]
+    }
+
+    def demote() {
+        Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
+        User userInstance = User.findByUsername(params.username)
+        UserRole.remove userInstance, roleInstance
+
+        render userInstance as JSON
     }
 
 	private User findInstance() {

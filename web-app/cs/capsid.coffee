@@ -63,14 +63,16 @@ $ ->
 
 		return false
 
-	($ '.accordion-inner').delegate '.user .close', 'click', ->
-		user = ($ @).parents('.user')
+	($ '.content').delegate '.delete.close', 'click', ->
+		parent = ($ @).parent()
 		uri = ($ @).attr('href')
 		$.post uri, (data) ->
-			user.fadeOut 'fast', -> 
+			parent.fadeOut 'fast', -> 
 				($ @).remove()
 			($ '.search-query').each ->
 				($ @).data('source').push(data.username)
+		
 		return false
+
 
 	return

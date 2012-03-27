@@ -8,32 +8,19 @@
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>
-		<div class="row-fluid has_sidebar use_sidebar">
-			<div class="span sidebar">
-				<div class="span well well-small">
-					<ul class="nav nav-list">
-						<li class="nav-header">${entityName}</li>
-						<li>
-							<g:link class="list" action="list">
-								<i class="icon-list"></i>
-								<g:message code="default.list.label" args="[entityName]" />
-							</g:link>
-						</li>
-						<li>
-							<g:link class="create" action="create">
-								<i class="icon-plus"></i>
-								<g:message code="default.create.label" args="[entityName]" />
-							</g:link>
-						</li>
-					</ul>
-				</div>
-				<div class="span well well-small separator"></div>
-			</div>
-			
+		<div class="row-fluid">
 			<div class="content">
 				<div class="row-fluid page-header">
 					<div class="span9">
-						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+						<h1>
+							${userInstance.username}
+							<g:if test="${userInstance?.userRealName}">(${userInstance.userRealName})</g:if><br>
+							<small>
+								<g:if test="${userInstance?.institute}">${userInstance.institute}, </g:if>
+								<g:if test="${userInstance?.location}">${userInstance.location}</g:if>
+							</small>
+						</h1>
+						<h4>${userInstance.email}</h4>
 					</div>
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${userInstance?.username}" />
@@ -49,80 +36,21 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
-
-				<dl>
-				
-					<g:if test="${userInstance?.accountExpired}">
-						<dt><g:message code="user.accountExpired.label" default="Account Expired" /></dt>
-						
-							<dd><g:formatBoolean boolean="${userInstance?.accountExpired}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.accountLocked}">
-						<dt><g:message code="user.accountLocked.label" default="Account Locked" /></dt>
-						
-							<dd><g:formatBoolean boolean="${userInstance?.accountLocked}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.email}">
-						<dt><g:message code="user.email.label" default="Email" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="email"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.enabled}">
-						<dt><g:message code="user.enabled.label" default="Enabled" /></dt>
-						
-							<dd><g:formatBoolean boolean="${userInstance?.enabled}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.institute}">
-						<dt><g:message code="user.institute.label" default="Institute" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="institute"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.location}">
-						<dt><g:message code="user.location.label" default="Location" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="location"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.password}">
-						<dt><g:message code="user.password.label" default="Password" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="password"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.passwordExpired}">
-						<dt><g:message code="user.passwordExpired.label" default="Password Expired" /></dt>
-						
-							<dd><g:formatBoolean boolean="${userInstance?.passwordExpired}" /></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.userRealName}">
-						<dt><g:message code="user.userRealName.label" default="User Real Name" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="userRealName"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${userInstance?.username}">
-						<dt><g:message code="user.username.label" default="Username" /></dt>
-						
-							<dd><g:fieldValue bean="${userInstance}" field="username"/></dd>
-						
-					</g:if>
-				
-				</dl>
+				<h1>Bookmarks <!--<small>Drag & Drop to re-order</small>--></h1>
+				<div class="row">
+					<ul class="nav span4" id="sortable-bookmarks">
+					<g:each var="bookmark" in="${userInstance.bookmarks}">
+						<li class="well well-small" style="margin-bottom:5px;">
+							<span>
+								<a href="${createLink(uri:bookmark['address'])}"><i class="icon-bookmark"></i> ${bookmark['title']}</a>
+							</span>
+							<g:link action="remove_bookmark" id="${userInstance.username}" params="[_id: bookmark['_id']]" class="icon-remove close delete" style="margin-top:4px;margin-left:5px;"></g:link>
+							<!--
+							<i class="icon-pencil close delete" style="margin-top:4px;"></i>
+							-->
+						</li>
+					</g:each> 
+				</div>
 			</div>
 		</div>
 	</body>
