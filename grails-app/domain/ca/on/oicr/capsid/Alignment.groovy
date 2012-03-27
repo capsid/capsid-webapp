@@ -29,9 +29,9 @@ class Alignment {
 		name unique:true, blank: false, display: false, matches: /[\w\d\-]+/
 		aligner blank: true
 		platform blank: true
-		infile blank: true
-		outfile blank: true
 		type blank: true
+		infile blank: true, widget: 'textarea'
+		outfile blank: true, widget: 'textarea'
 		sample blank: false, editable: false, validator: { val -> val in Sample.list().name }
 		project blank: false, editable: false, validator: { val -> val in Project.list().label }
     }

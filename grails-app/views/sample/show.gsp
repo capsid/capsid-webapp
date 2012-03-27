@@ -1,5 +1,6 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Sample" %>
+<%@ page import="ca.on.oicr.capsid.Alignment" %>
 <!doctype html>
 <html>
 	<head>
@@ -44,14 +45,20 @@
 						<input class="search-query span2" placeholder="Filter Alignments" type="text" id="filter">
 						<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
 						<li>
-							<div class="modal hide fade" id="myModal" style="display: none;">
+							<div class="modal hide fade" id="create">
 					            <div class="modal-header">
 					              <a data-dismiss="modal" class="close">×</a>
 					              <h3>Add Alignment</h3>
 					            </div>
-				            	<div class="modal-body"></div>
+					            <fieldset>
+									<g:form class="form-horizontal" controller="alignment" action="save" style="margin:0">
+										<fieldset>
+											<g:render template="/alignment/create" model="[alignmentInstance: new Alignment(['sample':sampleInstance.name, 'project':sampleInstance.project])]"/>
+										</fieldset>
+									</g:form>
+								</fieldset>
 					        </div>
-							<g:link controller="alignment" action="create" params="[project:sampleInstance.project, sample:sampleInstance.name]" style="margin-top:10px;margin-bottom:3px;" data-target="#myModal" data-toggle="modal">
+							<g:link controller="alignment" action="create" params="[project:sampleInstance.project, sample:sampleInstance.name]" style="margin-top:10px;margin-bottom:3px;" data-target="#create" data-toggle="modal">
 								<i class="icon-plus"></i>
 								Add Alignment
 							</g:link>
