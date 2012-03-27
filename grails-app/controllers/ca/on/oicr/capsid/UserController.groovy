@@ -116,18 +116,16 @@ class UserController {
 
     def add_bookmark() {
         User userInstance = findInstance()
-
+		Map bookmark = [title: params.title, address: params.address]
+		
         if (!userInstance.bookmarks) {
             userInstance.bookmarks = []   
         }
-        userInstance.bookmarks.push([
-                title: params.title
-            ,   address: params.address
-            ])
+        userInstance.bookmarks.push(bookmark)
 
         userInstance.save(flush: true)
 
-        render userInstance.bookmarks as JSON
+        render bookmark as JSON
     }
 
     def delete() {

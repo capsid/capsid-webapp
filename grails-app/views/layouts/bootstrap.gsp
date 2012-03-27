@@ -4,7 +4,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<g:set var="user" value="${User.findByUsername(sec.username())}" />
+		<g:set var="user" value="${User.findByUsername(sec?.username())}" />
 		<title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -28,35 +28,6 @@
 		<r:layoutResources/>
 	</head>
 	<body>
-		<div class="modal hide fade" id="bookmarks" style="display: none;">
-	        <div class="modal-header">
-	          <a data-dismiss="modal" class="close">×</a>
-	          <h3>Add Bookmark</h3>
-	        </div>
-	        <g:form controller="user" action="add_bookmark" id="${user.username}" class="form-horizontal">
-		        <fieldset>
-			    
-	        	<div class="modal-body">
-        	    	<div class="control-group ">
-						<label class="control-label" for="title">Title</label>
-						<div class="controls">
-							<input type="text" name="title" value="" required="" id="title">
-						</div>
-					</div>
-					<div class="control-group ">
-						<label class="control-label" for="address">Address</label>
-						<div class="controls">
-							<input type="text" name="address" value="" required="" id="address">
-						</div>
-					</div>
-			    </div>
-			        <div class="modal-footer">
-		              <a href="#" class="btn" data-dismiss="modal">Close</a>
-		              <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</button>
-		            </div>
-        		</fieldset>
-			</g:form>
-	    </div>
 		<nav class="navbar">
 			<div class="navbar-inner">
 				<div class="container-fluid">		
@@ -69,7 +40,35 @@
 					<a class="brand" href="${createLink(uri: '/')}">CaPSIDv${grailsApplication.metadata.'app.version'}</a>
 					
 					<sec:ifLoggedIn>
-					
+					<div class="modal hide fade" id="add-bookmark-modal" style="display: none;">
+				        <div class="modal-header">
+				          <a data-dismiss="modal" class="close">×</a>
+				          <h3>Add Bookmark</h3>
+				        </div>
+				        <g:form controller="user" action="add_bookmark" id="${user?.username}" class="form-horizontal" style="margin:0">
+					        <fieldset>
+						    
+				        	<div class="modal-body">
+			        	    	<div class="control-group ">
+									<label class="control-label" for="title">Title</label>
+									<div class="controls">
+										<input type="text" name="title" value="" required="" id="title">
+									</div>
+								</div>
+								<div class="control-group ">
+									<label class="control-label" for="address">Address</label>
+									<div class="controls">
+										<input type="text" name="address" value="" required="" id="address">
+									</div>
+								</div>
+						    </div>
+						        <div class="modal-footer">
+					              <a href="#" class="btn" data-dismiss="modal">Close</a>
+					              <button type="submit" class="btn btn-success""><i class="icon-ok icon-white"></i> Save</button>
+					            </div>
+			        		</fieldset>
+						</g:form>
+				    </div>		
 					<div class="nav-collapse">
 						<ul class="nav">		
 							<li class="divider-vertical"></li>
@@ -91,9 +90,9 @@
 							<li class="divider-vertical"></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
-					            <ul class="dropdown-menu">
+					            <ul class="dropdown-menu" id="bookmarks">
 					                <li>
-						                <a href="#" data-target="#bookmarks" data-toggle="modal"><i class="icon-plus"></i> Add Bookmark</a>
+						                <a href="#" data-target="#add-bookmark-modal" data-toggle="modal" id="add-bookmark"><i class="icon-plus"></i> Add Bookmark</a>
 									</li>
 					                <auth:ifCapsidAdmin>
 					                <li><g:link controller="user" action="show"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
