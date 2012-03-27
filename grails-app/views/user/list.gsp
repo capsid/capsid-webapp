@@ -15,14 +15,21 @@
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 					</div>
 					<div class="pull-right">
-						<div class="modal hide fade" id="myModal" style="display: none;">
+						<div class="modal hide fade" id="create" style="display: none;">
 				            <div class="modal-header">
 				              <a data-dismiss="modal" class="close">×</a>
 				              <h3>Add New User</h3>
 				            </div>
-				            <div class="modal-body"></div>
+				            <fieldset>
+								<g:form class="form-horizontal" action="save" style="margin:0">
+									<fieldset>
+							            <g:render template="/user/create" model="[userInstance: new User(params)]"/>
+							       	</fieldset>
+								</g:form>
+							</fieldset>
+
 				        </div>
-						<g:link action="create" class="btn btn-primary" data-target="#myModal" data-toggle="modal">
+						<g:link action="create" class="btn btn-primary" data-target="#create" data-toggle="modal">
 							<i class="icon-plus icon-white"></i>
 							<g:message code="default.button.create.label" default="Create" />
 						</g:link>
@@ -42,14 +49,13 @@
 								<g:sortableColumn params="${params}" property="userRealName" title="${message(code: 'user.userRealName.label', default: 'Full Name')}" />		
 								<g:sortableColumn params="${params}" property="institute" title="${message(code: 'user.institute.label', default: 'Institute')}" />							
 								<g:sortableColumn params="${params}" property="location" title="${message(code: 'user.location.label', default: 'Location')}" />												
-								<th>Status</th>	
-								<th></th>
+								<th>Status</th>
 							</tr>
 						</thead>
 						<tbody>
 						<g:each in="${userInstanceList}" var="userInstance">
 							<tr>
-								<td><g:link action="show" id="${userInstance.username}">${fieldValue(bean: userInstance, field: "username")}</g:link></td>
+								<td><g:link action="edit" id="${userInstance.username}">${fieldValue(bean: userInstance, field: "username")}</g:link></td>
 								<td>${fieldValue(bean: userInstance, field: "email")}</td>
 								<td>${fieldValue(bean: userInstance, field: "userRealName")}</td>
 								<td>${fieldValue(bean: userInstance, field: "institute")}</td>
@@ -59,27 +65,17 @@
 									<span class="label label-info">Enabled</span>
 									</g:if>
 									<g:else>
-									<span class="label label-danger">Disabled</span>
+									<span class="label">Disabled</span>
 									</g:else>
 									<g:if test="${userInstance?.accountExpired}">
 									<span class="label label-warning">Expired</span>
 									</g:if>
 									<g:if test="${userInstance?.accountLocked}">
-									<span class="label label-warning">Locked</span>
+									<span class="label label-important">Locked</span>
 									</g:if>
 									<g:if test="${userInstance['admin']}">
 									<span class="label label-success">Admin</span>
 									</g:if>
-								</td>
-								<td class="link">
-									<div class="btn-group">
-							        	<g:link action="show" id="${userInstance.username}" class="btn">Show &raquo;</g:link>
-									  	<button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
-							          	<ul class="dropdown-menu">
-								            <li><g:link action="show" id="${userInstance.username}">Show</g:link></li>
-								            <li><g:link action="edit" id="${userInstance.username}">Edit</g:link></li>
-							          	</ul>
-							        </div>
 								</td>
 							</tr>
 						</g:each>

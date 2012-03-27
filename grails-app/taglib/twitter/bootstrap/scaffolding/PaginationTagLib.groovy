@@ -98,7 +98,7 @@ class PaginationTagLib {
         }
 
         // display next link when not on laststep
-		if (currentstep < firststep) {
+		if (currentstep < laststep) {
 			linkTagAttrs.class = 'nextLink'
 			linkParams.offset = offset + max
 			writer << '<li'

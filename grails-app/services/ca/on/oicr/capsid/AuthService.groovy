@@ -35,7 +35,16 @@ class AuthService {
     if (user) {
       user.accessLevels()
     } else {
-      ['ROLE_CAPSID' : 'user']
+      // creates user if logging in through ldap for the first time
+      Map params = [:]
+      params.username = springSecurityService.principal.username
+      params.password = springSecurityService.encodePassword(getRandomString(8))
+      params.enabled = true
+      User userInstance = new User(params)
+      userInstance.save(flush: true)
+      Role roleInstance = Role.findByAuthority('ROLE_CAPSID')
+      UserRole.create userInstance, roleInstance, 'user'
+      userInstance.accessLevels()
     }
   }
 
@@ -54,6 +63,10 @@ class AuthService {
   boolean isCapsidAdmin(User user = getCurrentUser()) {
     Map access = getAccessLevels(user)
     access.get('ROLE_CAPSID') == 'owner'
+  }
+
+  boolean isCurrentUser(User user) {
+    user == getCurrentUser()
   }
 
   boolean authorize(Project project, List access) {

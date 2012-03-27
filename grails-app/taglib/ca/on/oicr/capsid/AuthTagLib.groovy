@@ -56,6 +56,14 @@ class AuthTagLib {
         }
     }
 
+    def ifCurrentUser = { attrs, body ->
+        String username = assertAttribute('username', attrs, 'ifCurrentUser')
+        User userInstance = User.findByUsername(username)
+        if (authService.isCurrentUser(userInstance)) {
+            out << body()
+        }
+    }
+
     protected assertAttribute(String name, attrs, String tag) {
         if (!attrs.containsKey(name)) {
             throwTagError "Tag [$tag] is missing required attribute [$name]"

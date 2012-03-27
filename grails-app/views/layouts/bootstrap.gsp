@@ -64,7 +64,7 @@
 						    </div>
 						        <div class="modal-footer">
 					              <a href="#" class="btn" data-dismiss="modal">Close</a>
-					              <button type="submit" class="btn btn-success""><i class="icon-ok icon-white"></i> Save</button>
+					              <button type="submit" class="btn btn-success"><i class="icon-ok icon-white"></i> Save</button>
 					            </div>
 			        		</fieldset>
 						</g:form>
@@ -95,7 +95,7 @@
 						                <a href="#" data-target="#add-bookmark-modal" data-toggle="modal" id="add-bookmark"><i class="icon-plus"></i> Add Bookmark</a>
 									</li>
 					                <auth:ifCapsidAdmin>
-					                <li><g:link controller="user" action="show"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
+					                <li><g:link controller="user" action="show" id="${user.username}"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
 					                </auth:ifCapsidAdmin>
 					                <li class="divider"></li>
 					                <g:each var="bookmark" in="${user.bookmarks}">

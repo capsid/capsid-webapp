@@ -9,6 +9,7 @@
 	<body>
 		<div class="row-fluid">
 			<div class="content">
+			<auth:ifCurrentUser username="${userInstance.username}">
 			<section>
 				<div class="page-header">
 					<h1>Edit ${userInstance.username} <small>Edit User Attributes</small></h1>
@@ -44,6 +45,63 @@
 					</g:form>
 				</fieldset>
 			</section>
+			</auth:ifCurrentUser>
+			<auth:ifCapsidAdmin>
+			<section>
+				<div class="page-header">
+					<h1>Edit ${userInstance.username} <small>Edit User Access Status</small></h1>
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${userInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${userInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="update_status" id="${userInstance?.username}" >
+						<g:hiddenField name="version" value="${userInstance?.version}" />
+						<fieldset>
+							<div class="control-group ">
+								<label for="label" class="control-label">Enabled</label>
+								<div class="controls">
+									<g:hiddenField name="enabled" id="enabled" value="${userInstance.enabled}" />			
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="enabled">
+										<button type="button" value="true" class="btn success"><i class="icon-ok-sign"></i> Enabled</button>
+										<button rel="tooltip" title="Disable this account" type="button" value="false" class="btn warning"><i class="icon-remove-sign"></i> Disabled</button>
+									</div>
+								</div>
+							</div>
+							<div class="control-group ">
+								<label for="label" class="control-label">Access</label>
+								<div class="controls">
+									<g:hiddenField name="is_admin" id="is_admin" value="${admin}" />			
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_admin">
+										<button type="button" value="false" class="btn"><i class="icon-user"></i> User</button>
+										<button rel="tooltip" title="Make this user a CaPSID administrator" type="button" value="true" class="btn"><i class="icon-lock"></i> Admin</button>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions" style="border-radius:0; border:none;">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.update.label" default="Update" />
+								</button>
+								<g:link action="list" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			</auth:ifCapsidAdmin>
 			<section>
 				<div class="page-header">
 					<h1>Delete User</h1>
@@ -74,11 +132,11 @@
 				    <div class="modal-footer">
 						<g:form action="update" id="${userInstance?.username}" >
 							<g:hiddenField name="version" value="${userInstance?.username}" />
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
 							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 								<i class="icon-trash icon-white"></i>
 								<g:message code="default.button.delete.label" default="Delete" />
 							</button>
-							<a data-dismiss="modal" class="btn" href="#">Close</a>
 						</g:form>
 					</div>
 				</div>

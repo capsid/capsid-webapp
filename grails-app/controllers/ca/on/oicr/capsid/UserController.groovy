@@ -44,6 +44,7 @@ class UserController {
 
     def show() {
         User userInstance = findInstance()
+        isCurrentUser(userInstance)
         
 		withFormat {
 			html userInstance: userInstance
@@ -60,7 +61,7 @@ class UserController {
         isCapsidAdmin()
 
         // Generate password
-        String password = 'pass' //authService.getRandomString(8)
+        String password = authService.getRandomString(8)
         
 		params.password = springSecurityService.encodePassword(password)
         params.enabled = true
@@ -95,7 +96,7 @@ class UserController {
 
     def edit() {
         User userInstance = findInstance()
-        [userInstance: userInstance]
+        [userInstance: userInstance, admin: authService.isCapsidAdmin(userInstance)]
 	}
 
     def update() {
@@ -113,6 +114,33 @@ class UserController {
 		flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])
         redirect action: 'show', id: userInstance.username
 	}
+
+    def update_status() {
+        User userInstance = findInstance()
+
+        checkVersion(userInstance, params)
+        
+        userInstance.properties = params
+
+        if (!userInstance.save(flush: true)) {
+            render view: 'edit', model: [userInstance: userInstance]
+            return
+        }
+        
+        Role roleInstance = Role.findByAuthority('ROLE_CAPSID')
+        
+        UserRole.remove userInstance, roleInstance
+        UserRole instance = UserRole.findByUserAndRole(userInstance, roleInstance)
+        
+        if (params.is_admin.toBoolean()) {
+          UserRole.create userInstance, roleInstance, 'owner'
+        } else {
+          UserRole.create userInstance, roleInstance, 'user'
+        }
+
+        flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])
+        redirect action: 'list'
+    }
 
     def add_bookmark() {
         User userInstance = findInstance()
@@ -173,9 +201,17 @@ class UserController {
         }
     } 
 
-    private boolean isCapsidAdmin() {
+    private void isCapsidAdmin() {
         if (!authService.isCapsidAdmin()) {
           render view: '../login/denied'
         }
     }
+
+    private void isCurrentUser(User userInstance) {
+        if (!authService.isCurrentUser(userInstance)) {
+          render view: '../login/denied'
+        }
+    }
+
+
 }
