@@ -12,7 +12,7 @@
 		<div class="row-fluid has_sidebar use_sidebar">
 			<div class="span sidebar">
 				<div class="span well well-small">
-					<ul class="nav nav-list">
+					<ul class="nav nav-list form-horizontal">
 						<li class="nav-header">Details</li>
 						<table class="table">
 							<tbody>

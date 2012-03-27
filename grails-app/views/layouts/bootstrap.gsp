@@ -1,8 +1,10 @@
 <%@ page import="org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes" %>
+<%@ page import="ca.on.oicr.capsid.User" %>
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<g:set var="user" value="${User.findByUsername(sec.username())}" />
 		<title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -31,7 +33,7 @@
 	          <a data-dismiss="modal" class="close">×</a>
 	          <h3>Add Bookmark</h3>
 	        </div>
-	        <g:form controller="user" action="add_bookmark" id="${sec.username()}" class="form-horizontal">
+	        <g:form controller="user" action="add_bookmark" id="${user.username}" class="form-horizontal">
 		        <fieldset>
 			    
 	        	<div class="modal-body">
@@ -97,7 +99,9 @@
 					                <li><g:link controller="user" action="show"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
 					                </auth:ifCapsidAdmin>
 					                <li class="divider"></li>
-					                <li><g:link controller="logout" action="index"><i class="icon-off"></i> Logout</g:link></li>
+					                <g:each var="bookmark" in="${user.bookmarks}">
+					                	<li><a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a></li>
+					            	</g:each>
 					            </ul>
 							</li>					
 							<li class="divider-vertical"></li>
