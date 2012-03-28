@@ -10,22 +10,19 @@
 
 package ca.on.oicr.capsid
 
-import org.bson.types.ObjectId
+class FeatureService {
 
-class Feature {
-	
-	ObjectId id
-    String uid
-    String locusTag
-    String operator
-    String name
-    Integer strand
-    Integer start
-    Integer end
-    Integer geneId
-    String type
-    Long genome
+    static transactional = false
 
-    static constraints = {}
-	static mapping = {version false}
+    Feature get(String uid) {
+        Feature.findByUid uid
+    }
+
+    List list(Map params) {
+		def criteria = Feature.createCriteria()
+		
+		List results = criteria.list(params) {}
+  
+		return results
+	}
 }
