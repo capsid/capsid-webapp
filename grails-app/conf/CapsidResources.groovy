@@ -7,6 +7,11 @@ modules = {
         resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
     }
 
+    jqueryplugins {
+        dependsOn 'jquery'
+        resource url:'js/lib/jquery.pjax.js', bundle: 'bundle_jquery'   
+    }
+
     visualsearch {
         dependsOn 'jquery, jquery-ui, backbone'
         resource url:'css/visualsearch-datauri.css', bundle: 'bundle_vsjs'
@@ -24,10 +29,16 @@ modules = {
         resource url:'js/lib/json2.js', bundle: 'bundle_backbone'
     }
 
-    jqueryplugins {
-        dependsOn 'jquery'
-        resource url:'js/lib/jquery.pjax.js', bundle: 'bundle_jquery'   
+    jbrowse {   
+        resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
+        resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
+        resource url:'less/jbrowse.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_jbrowse'
+
+        resource url:'js/jbrowse/jslib/dojo/jbrowse_dojo.js'
+        resource url:'js/jbrowse/prototype.js'        
+        resource url:'js/jbrowse/jbrowse.js', bundle: 'bundle_jbrowse'
     }
+
 
     overrides {
         jquery {

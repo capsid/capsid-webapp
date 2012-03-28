@@ -31,6 +31,9 @@ class GenomeController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "sampleCount"
+        params.order = params.order ?: "desc"
+
         List results = genomeService.list params
         
         if (params._pjax) {

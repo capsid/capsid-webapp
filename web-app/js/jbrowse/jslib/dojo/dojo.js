@@ -552,7 +552,7 @@ if(d.config.cacheBust){
 uri+="";
 uri+=(uri.indexOf("?")==-1?"?":"&")+String(d.config.cacheBust).replace(/\W+/g,"");
 }
-_55.open("GET",uri,false);
+_55.open("GET",'../../js/jbrowse/jslib/dojo/nls/jbrowse_dojo_en-us.js',false);
 try{
 _55.send(null);
 if(!d._isDocumentOk(_55)){

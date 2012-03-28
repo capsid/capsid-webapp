@@ -73,7 +73,7 @@ class JbrowseController {
     ArrayList samples = []
     def projects = [:]
 
-    List projectList = AuthService.isCapsidAdmin() ? Project.list() : Project.security(AuthService.getRoles()).list()
+    List projectList = authService.isCapsidAdmin() ? Project.list() : Project.security(AuthService.getRoles()).list()
 
     projectList.each {
       projects[it.label] = [
