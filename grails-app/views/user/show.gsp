@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		<title>${userInstance.username}</title>
 	</head>
 	<body>
 		<div class="row-fluid">

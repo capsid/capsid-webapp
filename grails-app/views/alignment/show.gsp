@@ -7,7 +7,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'alignment.label', default: 'Alignment')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		<title>${alignmentInstance.name}</title>
 	</head>
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
@@ -71,7 +71,7 @@
 				</ul>
 				<div class="row-fluid page-header">
 					<div class="span9">
-						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+						<h1>${alignmentInstance.name}</h1>
 					</div>
 					<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
 					<g:form class="pull-right">

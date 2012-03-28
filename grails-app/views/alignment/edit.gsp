@@ -4,7 +4,7 @@
 	<head>
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="${message(code: 'alignment.label', default: 'Alignment')}" />
-		<title><g:message code="default.edit.label" args="[entityName]" /></title>
+		<title>Editing ${alignmentInstance.name}</title>
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -74,12 +74,12 @@
 		            </div>
 				    <div class="modal-footer">
 						<g:form action="update" id="${alignmentInstance?.name}" >
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
 							<g:hiddenField name="version" value="${alignmentInstance?.name}" />
 							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
 								<i class="icon-trash icon-white"></i>
 								<g:message code="default.button.delete.label" default="Delete" />
 							</button>
-							<a data-dismiss="modal" class="btn" href="#">Close</a>
 						</g:form>
 					</div>
 				</div>

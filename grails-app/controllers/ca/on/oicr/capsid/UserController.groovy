@@ -92,7 +92,7 @@ class UserController {
         }
 		
 		flash.message = message(code: 'default.created.message', args: [message(code: 'user.label', default: 'User'), userInstance.username])
-        redirect action: 'show', id: userInstance.username
+        redirect action: 'list'
     }
 
     def edit() {

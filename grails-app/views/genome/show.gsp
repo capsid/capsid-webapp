@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
 	</head>
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
