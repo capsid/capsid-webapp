@@ -70,10 +70,11 @@
 						</g:each>
 					</ul>
 				</div>
+				<div class="span well well-small separator"></div>
 			</div>
 			
 			<div class="content">
-				<div class="row-fluid page-header">
+				<div class="page-header">
 					<div>
 						<h1><g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
 					</div>

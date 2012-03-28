@@ -69,12 +69,12 @@
 						<span class="divider">/</span>
 					</li>
 				</ul>
-				<div class="row-fluid page-header">
-					<div class="span9">
+				<div class="page-header">
+					<div>
 						<h1>${alignmentInstance.name}</h1>
 					</div>
 					<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
-					<g:form class="pull-right">
+					<g:form style="margin:10px 0 0">
 						<g:hiddenField name="id" value="${alignmentInstance?.name}" />
 						<div>
 							<g:link class="btn" action="edit" id="${alignmentInstance?.name}">

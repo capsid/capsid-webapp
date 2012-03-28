@@ -12,7 +12,7 @@
 		<div class="row-fluid has_sidebar use_sidebar">
 			<div class="span sidebar">
 				<div class="span well well-small">
-					<ul class="nav nav-list form-horizontal">
+					<ul class="nav nav-list">
 						<li class="nav-header">Details</li>
 						<table class="table">
 							<tbody>
@@ -86,13 +86,13 @@
 						<span class="divider">/</span>
 					</li>
 				</ul>
-				<div class="row-fluid page-header">
-					<div class="span9">
+				<div class="page-header">
+					<div>
 						<h1><g:fieldValue bean="${sampleInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${sampleInstance}" field="description"/></small></h1>
 					</div>
 					<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
-					<g:form class="pull-right">
+					<g:form style="margin:10px 0 0">
 						<g:hiddenField name="id" value="${sampleInstance?.name}" />
 						<div>
 							<g:link class="btn" action="edit" id="${sampleInstance?.name}">

@@ -50,15 +50,15 @@
 				<div class="span well well-small separator"></div>
 			</div>
 			<div class="content">
-				<div class="row-fluid page-header">
-					<div class="span9">
+				<div class="page-header">
+					<div>
 						<h1><g:fieldValue bean="${projectInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${projectInstance}" field="description"/></small>
 						</h1>
 						<a href="${projectInstance.wikiLink}" target="_blank">${projectInstance.wikiLink}</a>
 					</div>
 					<auth:ifAnyGranted access="[(projectInstance.label):['collaborator', 'owner']]">
-					<g:form class="pull-right">
+					<g:form style="margin:10px 0 0">
 						<g:hiddenField name="id" value="${projectInstance?.label}" />
 						<div>
 							<g:link class="btn" action="edit" id="${projectInstance?.label}">
