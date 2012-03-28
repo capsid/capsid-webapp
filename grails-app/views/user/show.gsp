@@ -42,7 +42,7 @@
 					<g:each var="bookmark" in="${userInstance.bookmarks}">
 						<li class="well well-small" style="margin-bottom:5px;">
 							<span>
-								<a href="${createLink(uri:bookmark['address'])}"><i class="icon-bookmark"></i> ${bookmark['title']}</a>
+								<a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a>
 							</span>
 							<g:link action="remove_bookmark" id="${userInstance.username}" params="[_id: bookmark['_id']]" class="icon-remove close delete" style="margin-top:4px;margin-left:5px;"></g:link>
 							<!--
