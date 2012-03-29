@@ -29,7 +29,7 @@ class StatsService {
 					if (params.project instanceof String) {
 						ilike("label", "%" + params.project + "%")
 					}
-					else if (params.name instanceof String[]) {
+					else if (params.project instanceof String[]) {
 						'in'("label", params.project)
 					}
 				}
@@ -39,8 +39,11 @@ class StatsService {
 					if (params.sample instanceof String) {
 						ilike("sample", "%" + params.sample + "%")
 					}
-					else if (params.name instanceof String[]) {
+					else if (params.sample instanceof String[]) {
 						'in'("sample", params.sample)
+					}
+					else if (params.sample instanceof Integer) {
+						isNull("sample") 
 					}
 				}
 

@@ -90,6 +90,7 @@
 						<g:each in="${statisticsInstanceList}" var="statisticsInstance">
 							<tr>
 								<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+	
 								<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 	
 								<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
