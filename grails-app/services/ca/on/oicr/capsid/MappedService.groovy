@@ -24,6 +24,21 @@ class MappedService {
         Mapped.get id
     }
 
+    ArrayList otherGenomes(Mapped mappedInstance) {
+        return Mapped.collection.find(
+          "readId": mappedInstance.readId
+          , "_id": [$ne: mappedInstance.id]
+        )
+        .collect {
+          [
+            id: it._id.toString()
+            , gi: Genome.findByGi(it.genome).accession
+            , refStart: it.refStart
+            , refEnd: it.refEnd
+          ]
+        }
+    }
+
     List<Mapped> getAllowedMappeds() {
         if (authService.isCapsidAdmin()) {
             Mapped.list()
