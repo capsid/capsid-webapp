@@ -50,12 +50,12 @@ class GenomeController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.label = params.id
-
+        params.accession = params.id
 
         Genome genomeInstance = findInstance()
         genomeInstance['genes'] = Feature.findAllByGenomeAndType(genomeInstance.gi, 'gene')
         
+        params.sample = 'only'
         List results = statsService.list params 
 
         if (params._pjax) {
@@ -63,8 +63,12 @@ class GenomeController {
             return [genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
         }
 
+        List pResults = statsService.list([accession:params.accession, sample: 'none', sort: "geneCoverageMax", order: "desc"]) 
+
         withFormat {
-            html genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            html genomeInstance: genomeInstance, 
+                 statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount,
+                 pStatisticsInstanceList: pResults, pStatisticsInstanceTotal: pResults.totalCount
             json { render results as JSON }
         }
     }

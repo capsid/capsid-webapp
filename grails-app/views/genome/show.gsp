@@ -84,23 +84,27 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
+				<h2>Sample Statistics</h2>
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>
 								<g:sortableColumn params="${params}" property="sample" title="${message(code: 'statistics.sample.label', default: 'Sample')}" />
+								<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
 								<g:sortableColumn params="${params}" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
 								<g:sortableColumn params="${params}" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
 								<g:sortableColumn params="${params}" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
-								<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Average Gene Coverage')}" />
-								<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Maximum Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Avg Gene Coverage')}" />
+								<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Max Gene Coverage')}" />
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 						<g:each in="${statisticsInstanceList}" var="statisticsInstance">
 							<tr>
 								<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
+								<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
 								<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 	
 								<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
@@ -110,6 +114,9 @@
 								<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
 	
 								<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+								<td><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}" params="[track:statisticsInstance.sample]">
+									<i class="icon-share"></i> View Reads
+								</g:link></td>
 							</tr>
 						</g:each>
 						</tbody>
@@ -118,6 +125,40 @@
 						<bootstrap:paginate id="${sampleInstance?.name}" total="${statisticsInstanceTotal}" params="${params}" />
 					</div>
 				</div>
+				<h2>Project Statistics</h2>
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<th>Project</th>
+							<th>Hits</th>
+							<th>Hits on Genes</th>
+							<th>Coverage</th>
+							<th>Average Gene Coverage</th>
+							<th>Maximum Gene Coverage</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					<g:each in="${pStatisticsInstanceList}" var="statisticsInstance">
+						<tr>
+							<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+							<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+
+							<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+
+							<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+
+							<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+
+							<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+							<td><g:link class="external-filter" action="show" id="${genomeInstance.accession}" params="[project:statisticsInstance.label]">
+								<i class="icon-search"></i>
+								Filter Samples
+							</g:link></td>
+						</tr>
+					</g:each>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</body>

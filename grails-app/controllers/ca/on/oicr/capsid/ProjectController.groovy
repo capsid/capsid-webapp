@@ -51,8 +51,8 @@ class ProjectController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.project = params.id
-        params.sample = 1 
+        params.label = params.id
+        params.sample = 'none'
 
         Project projectInstance = findInstance()
         projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)

@@ -44,7 +44,7 @@ class SampleController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.label = params.id
+        params.sample = params.id
         
         Sample sampleInstance = findInstance()
         sampleInstance['alignments'] = Alignment.findAllBySample(sampleInstance.name)

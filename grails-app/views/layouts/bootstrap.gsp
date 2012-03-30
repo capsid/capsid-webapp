@@ -104,9 +104,6 @@
 							</li>					
 							<li class="divider-vertical"></li>
 						</ul>
-					</div>
-
-					<div class="nav-collapse">
 						<ul class="nav pull-right">
 							<li class="divider-vertical"></li>
 							<li class="dropdown">

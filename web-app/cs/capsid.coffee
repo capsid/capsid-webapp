@@ -39,7 +39,11 @@ $ ->
 
 	if ($ '.pagination a').length
 		($ '.pagination a, th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+	if ($ '.external-filter').length
+		($ '.external-filter').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
 	
+
+
 	($ '#filter').keyup ->
 		value = ($ @).val()
 		if value

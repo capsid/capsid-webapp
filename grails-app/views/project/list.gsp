@@ -13,7 +13,7 @@
 		<div class="row-fluid">
 			<div class="content">
 				<div class="row-fluid page-header">
-					<div class="span9">
+					<div class="pull-left">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 					</div>
 					<auth:ifCapsidAdmin>

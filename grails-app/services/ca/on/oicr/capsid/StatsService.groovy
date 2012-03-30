@@ -25,6 +25,11 @@ class StatsService {
 		List results = criteria.list(params) {
 			and {
 				// Project
+				if (params.label) {
+					if (params.label instanceof String) {
+						eq("label", params.label)
+					}
+				}
 				if (params.project) {
 					if (params.project instanceof String) {
 						ilike("label", "%" + params.project + "%")
@@ -36,14 +41,17 @@ class StatsService {
 
 				// Sample
 				if (params.sample) {
-					if (params.sample instanceof String) {
+					if (params.sample == 'only') {
+						isNotNull('sample')
+					}
+					else if (params.sample == 'none') {
+						isNull('sample')
+					}
+					else if (params.sample instanceof String) {
 						ilike("sample", "%" + params.sample + "%")
 					}
 					else if (params.sample instanceof String[]) {
 						'in'("sample", params.sample)
-					}
-					else if (params.sample instanceof Integer) {
-						isNull("sample") 
 					}
 				}
 
@@ -56,14 +64,7 @@ class StatsService {
 						'in'("accession", params.accession)
 					}
 				}
-				if (params.gi) {
-					if (params.gi instanceof String) {
-						eq("gi", params.gi)
-					}
-					else if (params.gi instanceof String[]) {
-						'in'("gi", params.gi)
-					}
-				}
+
 				if (params.genome) {
 					ilike("genome", params.genome.replaceAll (/\"/, '%'))
 				}				
