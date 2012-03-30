@@ -1,3 +1,3 @@
 $ ->
-	visualSearch.options.callbacks.facetMatches = (callback) ->
-        callback ['name']
+#	visualSearch.options.callbacks.facetMatches = (callback) ->
+#       callback ['name']
