@@ -7,7 +7,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'feature.label', default: 'Feature')}" />
 		<g:set var="genomeInstance" value="${Genome.findByGi(featureInstance.genome)}"/>
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		<title><g:fieldValue bean="${featureInstance}" field="name"/> : ${genomeInstance.accession}</title>
 	</head>
 	<body>
 		<div class="row-fluid">

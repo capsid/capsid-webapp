@@ -21,7 +21,9 @@ class FeatureService {
     List list(Map params) {
 		def criteria = Feature.createCriteria()
 		
-		List results = criteria.list(params) {}
+		List results = criteria.list(params) {
+			eq('type', 'gene')
+		}
   
 		return results
 	}
