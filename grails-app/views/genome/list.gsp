@@ -6,6 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
+		<r:require modules="visualsearch-genome-list"/>
 	</head>
 	<body>
 		<div class="row-fluid">

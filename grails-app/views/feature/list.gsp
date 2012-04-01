@@ -6,6 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'feature.label', default: 'Feature')}" />
 		<title>Gene List</title>
+		<r:require modules="visualsearch-feature-list"/>
 	</head>
 	<body>
 		<div class="row-fluid">

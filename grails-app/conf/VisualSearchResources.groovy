@@ -1,15 +1,20 @@
 modules = {
-
-	'vs-project-list' {
+	'visualsearch-feature-list' {
 		dependsOn 'visualsearch'
-		resource url:'cs/vs/vs.project.list.coffee'
+		resource url:'js/visualsearch/visualsearch.feature.list.js'
 	}
-	
+	'visualsearch-genome-list' {
+		dependsOn 'visualsearch'
+		resource url:'js/visualsearch/visualsearch.genome.list.js'
+	}
+	'visualsearch-project-list' {
+		dependsOn 'visualsearch'
+		resource url:'js/visualsearch/visualsearch.project.list.js'
+	}
 	visualsearch {
 		dependsOn 'jquery, jquery-ui, backbone'
 		resource url:'css/visualsearch-datauri.css'
 		resource url:'js/lib/visualsearch.js'
-		resource url:'cs/vs/vs.init.coffee'
 	}
 	backbone {
 		dependsOn 'underscore, json2'

@@ -37,12 +37,12 @@ $ ->
 	($ ".sidebar .well.separator").click ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
 
-	if ($ '.pagination').length
-		($ '.pagination a, th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+	if ($ '.pagination a').length
+		($ '.pagination a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+	if ($ 'th a').length
+		($ 'th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
 	if ($ '.external-filter').length
 		($ '.external-filter').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
-	
-
 
 	($ '#filter').keyup ->
 		value = ($ @).val()

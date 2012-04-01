@@ -8,7 +8,7 @@ $(function() {
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
-    	  console.log(noPush);
+    	  
     	  // Fade out on s
     	  $("#results").css({ opacity: 0.5 });
     	  
@@ -21,7 +21,7 @@ $(function() {
     			  else {params.push(key + '="' + item[key] + '"');}
     		  }
     	  });
-    	  console.log(window.location);
+    	  
     	  // Load results and fade in
     	  $('#results').load('list table', params.join('&'), function() {
           if (!noPush) {
@@ -36,7 +36,6 @@ $(function() {
       valueMatches: function(facet, searchTerm, callback) {
         switch (facet) {
           case 'name':
-          console.log(searchTerm);
         	var list = [];
         	$.getJSON('list.json?name=' + searchTerm, function(data) {
         		$.each(data, function(i, item) {
