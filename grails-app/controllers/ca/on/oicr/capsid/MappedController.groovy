@@ -25,12 +25,34 @@ class MappedController {
     def show() {
         Mapped mappedInstance = findInstance()
 
+        List fasta = mappedService.bucket(mappedInstance.sequence)
         ArrayList otherGenomes = mappedService.otherGenomes mappedInstance
 
         withFormat {
-            html mappedInstance: mappedInstance, otherGenomes: otherGenomes
+            html mappedInstance: mappedInstance, fasta: fasta, otherGenomes: otherGenomes
         }
     }
+
+    def alignment() {
+		Mapped mappedInstance = findInstance()
+		Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
+
+	    Map alignment = mappedService.getSplitAlignment(mappedInstance)
+
+    	alignment.ref.pos.each {val -> val + mappedInstance.refStart}
+
+    	render(view: 'tabs/alignment', model: [mappedInstance: mappedInstance, alignment: alignment, genomeInstance: genomeInstance])
+    }
+
+	def contig() {
+	    Mapped mappedInstance = findInstance()
+
+	    ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
+	    List sequence = mappedService.getContig(reads, mappedInstance)
+
+    	render(view: 'tabs/contig', model: [mappedInstance: mappedInstance, sequence: sequence])
+	}
+
 
 	private Mapped findInstance() {
 		Mapped mappedInstance = mappedService.get(params.id)

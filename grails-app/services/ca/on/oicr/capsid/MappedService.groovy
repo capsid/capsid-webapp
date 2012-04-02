@@ -32,7 +32,7 @@ class MappedService {
         .collect {
           [
             id: it._id.toString()
-            , gi: Genome.findByGi(it.genome).accession
+            , gi: it.genome 
             , refStart: it.refStart
             , refEnd: it.refEnd
           ]
@@ -98,8 +98,7 @@ class MappedService {
     ArrayList reads = []
     int start = mappedInstance.refStart
     int end = mappedInstance.refEnd
-    print 'q: '
-    Date s1 = new Date()
+
     ArrayList readsQuery = Mapped.collection.find(
         [
         alignment: mappedInstance.alignment
@@ -113,16 +112,9 @@ class MappedService {
           , sequence: it.sequence
         ]
       } 
-    Date s2 = new Date()
-    TimeDuration t = TimeCategory.minus( s2, s1 )
-    println t
+
     while (true) {
-      print 'f: '
-      Date begin = new Date()
       reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
-      Date stop = new Date()
-      TimeDuration td = TimeCategory.minus( stop, begin )
-      println td
         
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break

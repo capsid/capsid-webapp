@@ -6,6 +6,7 @@ $ ->
 	($ "[rel=tooltip]").tooltip
 		delay: show:200, hide: 100
 
+
 	($ 'div.btn-group[data-toggle-name=*]').each ->
 		group = $ @
 		form = group.parents('form').eq(0)
@@ -21,7 +22,9 @@ $ ->
 			if button.val() == hidden.val()
 				button.addClass 'active'
 		return
+
 	
+	# Bookmarks
 	($ "#add-bookmark").click ->
 		($ "#add-bookmark-modal input[name='title']").val(document.title)
 		($ "#add-bookmark-modal input[name='address']").val(window.location.pathname + window.location.search)
@@ -34,15 +37,10 @@ $ ->
 		
 		return false
 
+
+	# SideBar
 	($ ".sidebar .well.separator").click ->
 		($ @).parent().parent().toggleClass 'use_sidebar'
-
-	if ($ '.pagination a').length
-		($ '.pagination a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
-	if ($ 'th a').length
-		($ 'th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
-	if ($ '.external-filter').length
-		($ '.external-filter').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
 
 	($ '#filter').keyup ->
 		value = ($ @).val()
@@ -52,6 +50,17 @@ $ ->
 		else
 			($ '#items > li').fadeIn('fast')
 
+
+	# pjax
+	if ($ '.pagination a').length
+		($ '.pagination a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+	if ($ 'th a').length
+		($ 'th a').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+	if ($ '.external-filter').length
+		($ '.external-filter').pjax('#results', {fragment: '#results', timeout: '2000'}).live('click')
+
+
+	# UAC Form
 	($ '#uac form').submit ->
 		uri = ($ @).attr('action') + '&' + ($ @).serialize()
 		id = ($ @).parents('.accordion-body').attr('id')
@@ -78,5 +87,22 @@ $ ->
 		
 		return false
 
+	# Mapped Tabs
+	if ($ '.nav-tabs').length
+		tabs = ($ '.nav-tabs').find('li.ajax a')
+		console.log tabs
+		tabs.each ->
+			tab = $ @
+			$(tab.attr('href')).load tab.data('url'), -> 
+				tab.removeClass 'disabled'
+				tab.html tab.data 'loaded'
+				($ '#blast').find('li').each ->
+					link = $ @
+					if link.data('tab') == tab.attr('href')
+						contig = ($ '#contig-sequence').val()
+						link.html '<a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?' + 
+								  'PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&' +
+								  'LINK_LOC=blasthome&QUERY=' + contig + '" ' + 
+								  'target="_blank">BLAST Contig Sequence</a>'
 
 	return

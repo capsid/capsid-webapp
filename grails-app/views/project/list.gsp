@@ -14,16 +14,6 @@
 				<div class="row-fluid page-header">
 					<div class="pull-left">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-					<div class="btn-group">
-			          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-			          	<i class="icon-share-alt icon-white"></i>
-			          	BLAST <span class="caret"></span>
-			          </button>
-			          <ul class="dropdown-menu">
-			            <li><a href="#">BLAST Sequence</a></li>
-			            <li><a href="#">BLAST Contig</a></li>
-			          </ul>
-			        </div>
 					</div>
 					<auth:ifCapsidAdmin>
 					<div class="pull-right">

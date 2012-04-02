@@ -71,18 +71,21 @@
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
 					<ul id="items" class="nav nav-list">
-						<g:each in="${mappedInstance.mapsGene}" var="uid">
-						<g:set var="geneInstance" value="${Feature.findByUid(uid)}" />
+						<g:each in="${mappedInstance.mapsGene}" var="geneId">
+						<g:set var="geneInstance" value="${Feature.findByGeneId(geneId)}" />
+						<!--
 						<li rel="popover" data-placement="right" data-content="<strong>Gene ID: </strong>${geneInstance?.geneId}<br>" data-title="${geneInstance?.name}">
 							<g:link controller="gene" action="show" id="${geneInstance?.name}">
 								<i class="icon-folder-open"></i>
 								${geneInstance?.name}
 							</g:link>
 						</li>
+						-->
+						<li><a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${geneId}">${geneInstance?.name}</a></li>
 						</g:each>
 					</ul>
-					</g:if>
 					<hr>
+					</g:if>
 					<g:if test="${otherGenomes}">
 					<ul class="nav nav-list">
 						<li class="nav-header">Hits on Other Genomes</li>
@@ -90,7 +93,7 @@
 					<ul id="items" class="nav nav-list">
 						<g:each in="${otherGenomes}" var="hit">
 						<g:set var="genomeInstance" value="${Genome.findByGi(hit.gi)}" />
-						<li rel="popover" data-placement="right" data-content="<strong>Accession: </strong>${hit?.accession}<br><strong>Start: </strong>${hit?.RefStart}<br><strong>End: </strong>${hit?.RefEnd}<br>" data-title="${genomeInstance?.name}">
+						<li rel="popover" data-placement="right" data-content="<strong>Accession: </strong>${genomeInstance?.accession}<br><strong>Start: </strong>${hit?.refStart}<br><strong>End: </strong>${hit?.refEnd}<br>" data-title="${genomeInstance?.name}">
 							<g:link controller="mapped" action="show" id="${hit?.id}">
 								<i class="icon-folder-open"></i>
 								${genomeInstance?.name}
@@ -125,12 +128,15 @@
 				</ul>
 				<div class="row-fluid page-header">
 					<h1>${mappedInstance.readId}</h1>
-					<div class="btn-group">
-			          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">BLAST <span class="caret"></span></button>
-			          <ul class="dropdown-menu">
-			            <li><a href="#">BLAST Sequence</a></li>
-			            <li><a href="#">BLAST Contig</a></li>
-			          </ul>
+					<div id="blast" class="btn-group">
+			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			          		<i class="icon-share-alt icon-white"></i>
+			          		BLAST <span class="caret"></span>
+			        	</button>
+			        	<ul class="dropdown-menu">
+			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${mappedInstance.sequence}" target="_blank">BLAST Sequence</a></li>
+			            	<li data-tab="#contig"><span class="disabled">Generating Contig...</span></li>
+			        	</ul>
 			        </div>
 				</div>
 
@@ -140,7 +146,26 @@
 				<h2><g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link> 
 					<small>[<g:fieldValue bean="${mappedInstance}" field="refStrand"/> : <g:fieldValue bean="${mappedInstance}" field="refStart"/> - <g:fieldValue bean="${mappedInstance}" field="refEnd"/>]</small>
 				</h2>
-				
+			    <ul class="nav nav-tabs">
+			    	<li class="active"><a href="#fasta" data-toggle="tab">Fasta Sequence</a></li>
+				    <li class="ajax"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance.id])}">Generating Alignment...</a></li>
+				    <li class="ajax"><a class="disabled" href="#contig" data-toggle="tab" data-url="${createLink([action:'contig',id:mappedInstance.id])}" data-loaded="Contig Sequence">Generating Contig...</a></li>
+			    </ul>
+			    <div class="tab-content">
+					<div class="tab-pane active" id="fasta">
+						<g:render template='/mapped/fasta' model="[fasta:fasta, mappedInstance:mappedInstance]"/>
+					</div>
+					<div class="tab-pane" id="alignment">
+					    <div class="progress progress-info progress-striped active"> 
+					    	<div class="bar" style="width: 100%;"></div>
+						</div>
+					</div>
+					<div class="tab-pane" id="contig">
+					    <div class="progress progress-info progress-striped active"> 
+					    	<div class="bar" style="width: 100%;"></div>
+					    </div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
