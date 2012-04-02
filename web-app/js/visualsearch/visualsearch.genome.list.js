@@ -4,11 +4,14 @@ $(function() {
   visualSearch = VS.init({
     container: $('.visual_search'),
     query: '',
-    unquotable : ['name'],
+    unquotable : ['accession', 'gi'],
+    preserveMatches: true,
+    preserveOrder: true,
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
-    	  
+    	  console.log(["query", searchCollection.facets(), query]);
+        console.log(query)
     	  // Fade out on s
     	  $("#results").css({ opacity: 0.5 });
     	  
@@ -23,7 +26,7 @@ $(function() {
     	  });
     	  
     	  // Load results and fade in
-    	  $('#results').load('list table', params.join('&'), function() {
+    	  $('#results').load('list #results', params.join('&'), function() {
           if (!noPush) {
     		    window.history.pushState(null, '', window.location.pathname + '?' + params.join('&'));
     		  }
@@ -31,34 +34,54 @@ $(function() {
     	  });
       },
       facetMatches: function(callback) {
-        callback(['name', 'accession', 'gi']);
+        callback(['name', 'organism', 'accession', 'gi', 'taxonomy']);
       },
       valueMatches: function(facet, searchTerm, callback) {
         switch (facet) {
+          case 'accession':
+          	var list = [];
+          	$.getJSON('list.json?accession=' + searchTerm, function(data) {
+          		$.each(data, function(i, item) {
+          			list.push(item.accession);
+          		});
+          		return callback(list);
+          	});
+            break;
+          case 'gi':
+            var list = [];
+            $.getJSON('list.json?gi=' + searchTerm, function(data) {
+              $.each(data, function(i, item) {
+                list.push(item.gi);
+              });
+              return callback(list);
+            });
+            break;
           case 'name':
-        	var list = [];
-        	$.getJSON('list.json?name=' + searchTerm, function(data) {
-        		$.each(data, function(i, item) {
-        			list.push({'value':item.label, 'label': item.name});
-        		});
-        		return callback(list);
-        	});
+            var list = [];
+            $.getJSON('list.json?name=' + searchTerm, function(data) {
+              $.each(data, function(i, item) {
+                list.push(item.name);
+              });
+              return callback(list);
+            });
+            break;
         }
       }
     }
   });
-  
+ 
   q = window.location.search.replace(/(offset|max|sort|order)=.+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
-                              .replace(/\%20/g, ' ').replace(/\%22/g, '');
+                              .replace(/\%20/g, ' ').replace(/\%22/g, '"');
   visualSearch.searchBox.value(q);
 
   window.addEventListener("popstate", function(e) {
 	  q = window.location.search.replace(/(offset|max|sort|order)=.+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
-                              .replace(/\%20/g, ' ').replace(/\%22/g, '');
+                              .replace(/\%20/g, ' ').replace(/\%22/g, '"');
 	  // Don't search if reloading the page - server already sending data back
 	  if (q !== visualSearch.searchBox.currentQuery) {
 		  visualSearch.searchBox.value(q);
 		  visualSearch.options.callbacks.search(q, '', true);
 	  }
   });
+
 });

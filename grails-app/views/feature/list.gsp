@@ -1,5 +1,6 @@
 
 <%@ page import="ca.on.oicr.capsid.Feature" %>
+<%@ page import="ca.on.oicr.capsid.Genome" %>
 <!doctype html>
 <html>
 	<head>
@@ -48,7 +49,7 @@
 							
 								<td><g:link controller="genome" action="show" id="">${genomeInstance.name}</g:link></td>
 							
-								<td>${fieldValue(bean: featureInstance, field: "geneId")}</td>
+								<td>${featureInstance.geneId}</td>
 							
 								<td>${fieldValue(bean: featureInstance, field: "locusTag")}</td>
 							

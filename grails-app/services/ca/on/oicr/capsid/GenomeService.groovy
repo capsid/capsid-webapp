@@ -20,7 +20,7 @@ class GenomeService {
 
     List list(Map params) {
 		def criteria = Genome.createCriteria()
-		
+
 		List results = criteria.list(params) {
 			and {
 				if (params.accession) {
@@ -35,7 +35,7 @@ class GenomeService {
 				if (params.gi) {
 					// Single name param being passed
 					if (params.gi instanceof String) {
-						ilike("gi", "%" + params.gi + "%")
+						eq("gi", params.gi as int)
 					}
 					else if (params.gi instanceof String[]) {
 						'in'("gi", params.gi)
@@ -44,27 +44,38 @@ class GenomeService {
 				if (params.name) {
 					// Single name param being passed
 					if (params.name instanceof String) {
-						ilike("name", "%" + params.name + "%")
+						ilike("name", params.name.replaceAll (/\"/, '%'))
 					}
 					else if (params.name instanceof String[]) {
-						'in'("gi", params.name)
+						'in'("name", params.name.replaceAll (/\"/, '%'))
+					}
+				}
+				if (params.organism) {
+					// Single name param being passed
+					if (params.organism instanceof String) {
+						ilike("organism", params.organism.replaceAll (/\"/, '%'))
+					}
+					else if (params.name instanceof String[]) {
+						'in'("organism", params.organism.replaceAll (/\"/, '%'))
 					}
 				}
 				if (params.taxonomy) {
 					// Single name param being passed
 					if (params.taxonomy instanceof String) {
-						ilike("taxonomy", "%" + params.taxonomy + "%")
+						ilike("taxonomy", params.taxonomy.replaceAll (/\"/, '%'))
 					}
 					else if (params.taxonomy instanceof String[]) {
 						'in'("taxonomy", params.taxonomy)
 					}
 				}
 				if (params.text) {
-				  ilike("accession", params.text.replaceAll (/\"/, '%'))
-				  ilike("gi", params.text.replaceAll (/\"/, '%'))
-				  ilike("name", params.text.replaceAll (/\"/, '%'))
-				  ilike("taxonomy", params.text.replaceAll (/\"/, '%'))
-
+					String text = params.text.replaceAll (/\"/, '%')
+					or {
+						ilike("accession", text)
+						eq("gi", params.text as int)
+						ilike("name", text)
+						ilike("taxonomy", text)
+					}
 				}
 			}
 		}

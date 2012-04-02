@@ -48,22 +48,11 @@ class FeatureController {
 
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        params.sort = params.sort ?: "geneCoverageMax"
-        params.order = params.order ?: "desc"
-        params.label = params.id
 
         Feature featureInstance = findInstance()
-        
-        List results = statsService.list params 
-
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [featureInstance: featureInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
-        }
 
         withFormat {
-            html featureInstance: featureInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
-            json { render results as JSON }
+            html featureInstance: featureInstance
         }
     }
 
