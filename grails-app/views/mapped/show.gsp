@@ -124,9 +124,14 @@
 					</li>
 				</ul>
 				<div class="row-fluid page-header">
-					<div class="span9">
-						<h1>${mappedInstance.readId}</h1>
-					</div>
+					<h1>${mappedInstance.readId}</h1>
+					<div class="btn-group">
+			          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">BLAST <span class="caret"></span></button>
+			          <ul class="dropdown-menu">
+			            <li><a href="#">BLAST Sequence</a></li>
+			            <li><a href="#">BLAST Contig</a></li>
+			          </ul>
+			        </div>
 				</div>
 
 				<g:if test="${flash.message}">
