@@ -46,7 +46,7 @@ grails.project.dependency.resolution = {
         compile ":jquery:latest.integration"
         compile ":jquery-ui:latest.integration"
         
-        compile ':twitter-bootstrap:latest.integration'
+        compile ':twitter-bootstrap:2.0.1.22'
         compile ':fields:latest.integration'
 
         compile ':navigation:latest.integration'

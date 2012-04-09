@@ -2,9 +2,12 @@ modules = {
 	
 	capsid {
 		dependsOn 'jquery, jqueryplugins, bootstrap'
-		resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
-		resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
-		resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
+		resource url:'css/style.css', bundle:'bundle_capsid'
+        resource url:'js/application.js', bundle: 'bundle_capsid'
+        //resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
+        //resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
+        //resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
+        
 	}
 
     jqueryplugins {
@@ -16,7 +19,8 @@ modules = {
     jbrowse {   
         resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
         resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
-        resource url:'less/jbrowse.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_jbrowse'
+        resource url:'css/jbrowse.css', bundle:'bundle_jbrowse'
+        //resource url:'less/jbrowse.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_jbrowse'
 
         resource url:'js/jbrowse/jslib/dojo/jbrowse_dojo.js'
         resource url:'js/jbrowse/prototype.js'        

@@ -1,0 +1,13 @@
+.plus-feature.human, 
+.minus-feature.human {
+    border: 1px solid red;
+}
+
+.track .track-label {
+    opacity: 0.6;
+}
+
+.navbar ul, 
+.navbar li {
+		background: none;
+}
