@@ -71,17 +71,8 @@
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
 					<ul id="items" class="nav nav-list">
-						<g:each in="${mappedInstance.mapsGene}" var="geneId">
-						<g:set var="geneInstance" value="${Feature.findByGeneId(geneId)}" />
-						<!--
-						<li rel="popover" data-placement="right" data-content="<strong>Gene ID: </strong>${geneInstance?.geneId}<br>" data-title="${geneInstance?.name}">
-							<g:link controller="gene" action="show" id="${geneInstance?.name}">
-								<i class="icon-folder-open"></i>
-								${geneInstance?.name}
-							</g:link>
-						</li>
-						-->
-						<li><a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${geneId}">${geneInstance?.name}</a></li>
+						<g:each in="${mappedInstance.mapsGene}" var="name">
+						<li><a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${name}">${name}</a></li>
 						</g:each>
 					</ul>
 					<hr>
