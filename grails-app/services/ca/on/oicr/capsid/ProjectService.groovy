@@ -44,7 +44,9 @@ class ProjectService {
 				  }
 			  }
 			  if (params.text) {
-			    ilike("description", params.text.replaceAll (/\"/, '%'))
+          ilike("name", params.text.replaceAll (/\"/, '%'))
+          ilike("label", params.text.replaceAll (/\"/, '%'))
+          ilike("description", params.text.replaceAll (/\"/, '%'))
 			  }
 		  }
 	  }

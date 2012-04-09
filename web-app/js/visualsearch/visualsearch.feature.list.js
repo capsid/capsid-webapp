@@ -33,26 +33,7 @@ $(function() {
       facetMatches: function(callback) {
         callback(['name', 'geneId']);
       },
-      valueMatches: function(facet, searchTerm, callback) {
-        switch (facet) {
-          case 'name':
-          	var list = [];
-          	$.getJSON('list.json?name=' + searchTerm, function(data) {
-          		$.each(data, function(i, item) {
-          			list.push(item.name);
-          		});
-          		return callback(list);
-          	});
-          case 'geneId':
-            var list = [];
-            $.getJSON('list.json?geneId=' + searchTerm, function(data) {
-              $.each(data, function(i, item) {
-                list.push(item.geneId);
-              });
-              return callback(list);
-            });
-        }
-      }
+      valueMatches: function(facet, searchTerm, callback) {}
     }
   });
   

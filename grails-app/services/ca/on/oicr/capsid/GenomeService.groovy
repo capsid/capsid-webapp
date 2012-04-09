@@ -26,7 +26,7 @@ class GenomeService {
 				if (params.accession) {
 					// Single name param being passed
 					if (params.accession instanceof String) {
-						ilike("accession", "%" + params.accession + "%")
+						eq("accession", params.accession)
 					}
 					else if (params.accession instanceof String[]) {
 						'in'("accession", params.accession)
@@ -69,12 +69,9 @@ class GenomeService {
 					}
 				}
 				if (params.text) {
-					String text = params.text.replaceAll (/\"/, '%')
 					or {
-						ilike("accession", text)
-						eq("gi", params.text as int)
-						ilike("name", text)
-						ilike("taxonomy", text)
+						ilike("name", params.text.replaceAll(/\"/, '%'))
+						ilike("taxonomy", params.text.replaceAll(/\"/, '%'))
 					}
 				}
 			}

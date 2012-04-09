@@ -36,37 +36,7 @@ $(function() {
       facetMatches: function(callback) {
         callback(['name', 'organism', 'accession', 'gi', 'taxonomy']);
       },
-      valueMatches: function(facet, searchTerm, callback) {
-        switch (facet) {
-          case 'accession':
-          	var list = [];
-          	$.getJSON('list.json?accession=' + searchTerm, function(data) {
-          		$.each(data, function(i, item) {
-          			list.push(item.accession);
-          		});
-          		return callback(list);
-          	});
-            break;
-          case 'gi':
-            var list = [];
-            $.getJSON('list.json?gi=' + searchTerm, function(data) {
-              $.each(data, function(i, item) {
-                list.push(item.gi);
-              });
-              return callback(list);
-            });
-            break;
-          case 'name':
-            var list = [];
-            $.getJSON('list.json?name=' + searchTerm, function(data) {
-              $.each(data, function(i, item) {
-                list.push(item.name);
-              });
-              return callback(list);
-            });
-            break;
-        }
-      }
+      valueMatches: function(facet, searchTerm, callback) {}
     }
   });
  
