@@ -98,9 +98,7 @@
 					                <li>
 						                <a href="#" data-target="#add-bookmark-modal" data-toggle="modal" id="add-bookmark"><i class="icon-plus"></i> Add Bookmark</a>
 									</li>
-					                <auth:ifCapsidAdmin>
 					                <li><g:link controller="user" action="show" id="${user.username}"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
-					                </auth:ifCapsidAdmin>
 					                <li class="divider"></li>
 					                <g:each var="bookmark" in="${user.bookmarks}">
 					                	<li><a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a></li>
@@ -109,19 +107,15 @@
 							</li>					
 							<li class="divider-vertical"></li>
 						</ul>
+
 						<ul class="nav pull-right">
+							<li><span style="color: #AAAAAA;float: none;line-height: 19px;padding: 10px 10px 11px;text-decoration: none;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);display:block;font-weight:bold">${sec.username()}</span></li>
 							<li class="divider-vertical"></li>
-							<li class="dropdown">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#"><sec:username/> <b class="caret"></b></a>
-					            <ul class="dropdown-menu">
-					                <li><g:link controller="user" action="edit" id="${sec.username()}"><i class="icon-pencil"></i> Edit Account</g:link></li>
-					                <auth:ifCapsidAdmin>
-					                <li><g:link controller="user" action="list"><i class="icon-cog"></i> Administration</g:link></li>
-					                </auth:ifCapsidAdmin>
-					                <li class="divider"></li>
-					                <li><g:link controller="logout" action="index"><i class="icon-off"></i> Logout</g:link></li>
-					            </ul>
-							</li>
+							<li><g:link controller="user" action="edit" id="${sec.username()}" rel="tooltip" title="Account Settings" data-placement="bottom"><i class="icon-pencil nav-icon"></i></g:link></li>
+							<auth:ifCapsidAdmin>
+			                <li><g:link controller="user" action="list" rel="tooltip" title="Administration" data-placement="bottom"><i class="icon-cog nav-icon"></i></g:link></li>
+			                </auth:ifCapsidAdmin>
+			                <li><g:link controller="logout" action="index" rel="tooltip" title="Log Out" data-placement="bottom"><i class="icon-share-alt nav-icon"></i></g:link></li>
 						</ul>
 					</div>
 					</sec:ifLoggedIn>

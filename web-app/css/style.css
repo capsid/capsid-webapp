@@ -643,6 +643,9 @@ h2 {
 .navbar .navbar-inner .dropdown-toggle.active {
   color: #ffffff;
 }
+.navbar .nav-icon:hover{
+  background-image: url(../img/glyphicons-halflings-white.png);
+}
 /* sidebar */
 .has_sidebar .content {
   margin-left: 20px;
