@@ -32,10 +32,8 @@ class SampleService {
 		List results = criteria.list(params) {
             and {
                 // Security Check
-                if (!authService.isCapsidAdmin()) {
-                    'in'("project", projectService.list([:]).label)
-                }
-
+                'in'("project", projectService.list([:]).label)
+                
                 // Filters by label, using project name on client side
                 if (params.name) {
                     // Single name param being passed

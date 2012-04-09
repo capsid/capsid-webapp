@@ -7,6 +7,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title>${sampleInstance.name}</title>
+		<r:require modules="visualsearch-sample-show"/>
 	</head>
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
@@ -88,7 +89,7 @@
 				</ul>
 				<div class="page-header">
 					<div>
-						<h1><g:fieldValue bean="${sampleInstance}" field="name"/><br>
+						<h1 id="${sampleInstance.name}"><g:fieldValue bean="${sampleInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${sampleInstance}" field="description"/></small></h1>
 					</div>
 					<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">

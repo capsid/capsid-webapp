@@ -4,7 +4,7 @@ $(function() {
   visualSearch = VS.init({
     container: $('.visual_search'),
     query: '',
-    unquotable : ['name'],
+    unquotable : [],
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
@@ -23,7 +23,7 @@ $(function() {
     	  });
     	  
     	  // Load results and fade in
-    	  $('#results').load('list #results', params.join('&'), function() {
+    	  $('#results').load($('h1').attr('id') + ' #results', params.join('&'), function() {
           if (!noPush) {
     		    window.history.pushState(null, '', window.location.pathname + '?' + params.join('&'));
     		  }
@@ -31,23 +31,12 @@ $(function() {
     	  });
       },
       facetMatches: function(callback) {
-        callback(['name']);
+        callback(['project']);
       },
-      valueMatches: function(facet, searchTerm, callback) {
-        switch (facet) {
-          case 'name':
-        	var list = [];
-        	$.getJSON('list.json?name=' + searchTerm, function(data) {
-        		$.each(data, function(i, item) {
-        			list.push({'value':item.label, 'label': item.name});
-        		});
-        		return callback(list);
-        	});
-        }
-      }
+      valueMatches: function(facet, searchTerm, callback) {}
     }
   });
-  
+
   q = window.location.search.replace(/(offset|max|sort|order)=.+\&?/g,'').replace(/\?/, '').replace(/\=/g, ': ').replace(/\&/g, ' ')
                               .replace(/\%20/g, ' ').replace(/\%22/g, '');
   visualSearch.searchBox.value(q);

@@ -6,6 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
 		<title>${projectInstance.name}</title>
+		<r:require modules="visualsearch-project-show"/>
 	</head>
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
@@ -52,7 +53,7 @@
 			<div class="content">
 				<div class="page-header">
 					<div>
-						<h1><g:fieldValue bean="${projectInstance}" field="name"/><br>
+						<h1 id="${projectInstance.label}"><g:fieldValue bean="${projectInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${projectInstance}" field="description"/></small>
 						</h1>
 						<a href="${projectInstance.wikiLink}" target="_blank">${projectInstance.wikiLink}</a>

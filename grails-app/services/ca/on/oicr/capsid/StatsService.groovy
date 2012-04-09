@@ -17,6 +17,7 @@ class StatsService {
 	static transactional = false
 
 	def authService
+	def projectService
 	def springSecurityService
 
 	List list(Map params) {
@@ -24,7 +25,10 @@ class StatsService {
 
 		List results = criteria.list(params) {
 			and {
-				// Project
+				// Security Check
+                'in'("label", projectService.list([:]).label)
+            
+            	// Project
 				if (params.label) {
 					if (params.label instanceof String) {
 						eq("label", params.label)
@@ -32,10 +36,10 @@ class StatsService {
 				}
 				if (params.project) {
 					if (params.project instanceof String) {
-						ilike("label", "%" + params.project + "%")
+						ilike("project", params.project.replaceAll (/\"/, '%'))
 					}
 					else if (params.project instanceof String[]) {
-						'in'("label", params.project)
+						'in'("project", params.project)
 					}
 				}
 
@@ -64,10 +68,19 @@ class StatsService {
 						'in'("accession", params.accession)
 					}
 				}
-
 				if (params.genome) {
 					ilike("genome", params.genome.replaceAll (/\"/, '%'))
-				}				
+				}	
+
+				// Text
+				if (params.text) {
+					String text = params.text.replaceAll (/\"/, '%')
+					or {
+						ilike("genome", text)
+						ilike("sample", text)
+						ilike("project", text)
+					}
+				}			
 			}
 		}
 

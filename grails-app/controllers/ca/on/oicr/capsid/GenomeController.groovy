@@ -53,7 +53,6 @@ class GenomeController {
         params.accession = params.id
 
         Genome genomeInstance = findInstance()
-        genomeInstance['genes'] = Feature.findAllByGenomeAndType(genomeInstance.gi, 'gene')
         
         params.sample = 'only'
         List results = statsService.list params 
@@ -63,6 +62,7 @@ class GenomeController {
             return [genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
         }
 
+        genomeInstance['genes'] = Feature.findAllByGenomeAndType(genomeInstance.gi, 'gene')
         List pResults = statsService.list([accession:params.accession, sample: 'none', sort: "geneCoverageMax", order: "desc"]) 
 
         withFormat {

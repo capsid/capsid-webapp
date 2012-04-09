@@ -6,6 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
 		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
+		<r:require modules="visualsearch-genome-show"/>
 	</head>
 	<body>
 		<div class="row-fluid has_sidebar use_sidebar">
@@ -75,7 +76,7 @@
 			<div class="content">
 				<div class="page-header">
 					<div>
-						<h1><g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
+						<h1 id="${genomeInstance.accession}"><g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
 					</div>
 				</div>
 

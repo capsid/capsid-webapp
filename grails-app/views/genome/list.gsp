@@ -26,7 +26,7 @@
 								<g:sortableColumn params="${params}" property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />
 								<g:sortableColumn params="${params}" property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
 								<g:sortableColumn params="${params}" property="gi" title="${message(code: 'genome.gi.label', default: 'Gi')}" />
-								<g:sortableColumn params="${params}" property="Taxonomy" title="${message(code: 'genome.taxonomy.label', default: 'Taxonomy')}" />
+								<th>Taxonomy</th>
 								<g:sortableColumn params="${params}" class="compress"  property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
 								<g:sortableColumn params="${params}" class="compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
 								<g:sortableColumn params="${params}" property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />

@@ -57,7 +57,6 @@ class ProjectController {
         params.sample = 'none'
 
         Project projectInstance = findInstance()
-        projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)
         
         List results = statsService.list params 
 
@@ -65,6 +64,8 @@ class ProjectController {
 			params.remove('_pjax')
             return [projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
 		}
+
+        projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)
 
         withFormat {
             html projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
