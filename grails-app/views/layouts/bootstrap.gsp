@@ -76,6 +76,11 @@
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
+							<nav:eachItem var="item" group="sample">
+								<li class="${controllerName==item.controller?'active':''}">
+									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
+								</li>
+							</nav:eachItem>
 							<li class="dropdown ${['genome','feature'].contains(controllerName)?'active':''}">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Reference DB <b class="caret"></b></a>
 					            <ul class="dropdown-menu">
