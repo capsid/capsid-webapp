@@ -28,68 +28,69 @@ class SampleService {
 
 	List list(Map params) {
 		def criteria = Sample.createCriteria()
-		
+
 		List results = criteria.list(params) {
             and {
                 // Security Check
                 if (!authService.isCapsidAdmin()) {
-                    'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
+                    'in'("project", projectService.list([:]).label)
                 }
 
                 // Filters by label, using project name on client side
                 if (params.name) {
                     // Single name param being passed
                     if (params.name instanceof String) {
-                        ilike("label", "%" + params.name + "%")
+                        ilike("name", "%" + params.name + "%")
                     }
                     else if (params.name instanceof String[]) {
-                        'in'("label", params.name)
+                        'in'("name", params.name)
                     }
                 }
                 if (params.project) {
                     // Single project param being passed
                     if (params.project instanceof String) {
-                        ilike("label", "%" + params.project + "%")
+                        eq("project", params.project)
                     }
                     else if (params.project instanceof String[]) {
-                        'in'("label", params.project)
+                        'in'("project", params.project)
                     }
                 }
                 if (params.cancer) {
                     // Single cancer param being passed
                     if (params.cancer instanceof String) {
-                        ilike("label", "%" + params.cancer + "%")
+                        ilike("cancer", "%" + params.cancer + "%")
                     }
                     else if (params.cancer instanceof String[]) {
-                        'in'("label", params.cancer)
+                        'in'("cancer", params.cancer)
                     }
                 }
                 if (params.role) {
                     // Single role param being passed
                     if (params.role instanceof String) {
-                        ilike("label", "%" + params.role + "%")
+                        ilike("role", "%" + params.role + "%")
                     }
                     else if (params.role instanceof String[]) {
-                        'in'("label", params.role)
+                        'in'("role", params.role)
                     }
                 }
                 if (params.source) {
                     // Single source param being passed
                     if (params.source instanceof String) {
-                        ilike("label", "%" + params.source + "%")
+                        ilike("source", "%" + params.source + "%")
                     }
                     else if (params.source instanceof String[]) {
-                        'in'("label", params.source)
+                        'in'("source", params.source)
                     }
                 }
                 if (params.text) {
+                    String text = params.text.replaceAll (/\"/, '%')
                     or {
-                        ilike("name", params.text.replaceAll (/\"/, '%'))
-                        ilike("project", params.text.replaceAll (/\"/, '%'))
-                        ilike("description", params.text.replaceAll (/\"/, '%'))
-                        ilike("cancer", params.text.replaceAll (/\"/, '%'))
-                        ilike("role", params.text.replaceAll (/\"/, '%'))
-                        ilike("source", params.text.replaceAll (/\"/, '%'))
+                        ilike("name", text)
+                        ilike("project", text)
+                        ilike("description", text)
+                        ilike("cancer", text)
+                        ilike("role", text)
+                        ilike("source", text)
                     }
                 }
             }

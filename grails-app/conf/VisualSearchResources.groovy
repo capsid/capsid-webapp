@@ -1,4 +1,8 @@
 modules = {
+	'visualsearch-sample-list' {
+		dependsOn 'visualsearch'
+		resource url:'js/visualsearch/visualsearch.sample.list.js'
+	}
 	'visualsearch-feature-list' {
 		dependsOn 'visualsearch'
 		resource url:'js/visualsearch/visualsearch.feature.list.js'

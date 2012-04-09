@@ -10,8 +10,8 @@ $(function() {
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
-    	  console.log(["query", searchCollection.facets(), query]);
-        console.log(query)
+//    	  console.log(["query", searchCollection.facets(), query]);
+//        console.log(query)
     	  // Fade out on s
     	  $("#results").css({ opacity: 0.5 });
     	  

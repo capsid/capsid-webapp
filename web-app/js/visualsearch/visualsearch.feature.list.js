@@ -4,7 +4,7 @@ $(function() {
   visualSearch = VS.init({
     container: $('.visual_search'),
     query: '',
-    unquotable : ['geneId'],
+    unquotable : ['name', 'geneId', 'locusTag'],
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
@@ -31,7 +31,7 @@ $(function() {
     	  });
       },
       facetMatches: function(callback) {
-        callback(['name', 'geneId']);
+        callback(['name', 'geneId', 'locusTag', 'genome']);
       },
       valueMatches: function(facet, searchTerm, callback) {}
     }

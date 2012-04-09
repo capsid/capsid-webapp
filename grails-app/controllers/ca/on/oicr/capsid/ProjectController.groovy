@@ -35,7 +35,9 @@ class ProjectController {
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 		List results = projectService.list params
-		
+		results.each {
+          it['sampleCount'] = Sample.countByProject(it.label)
+        }
 		if (params._pjax) {
 			params.remove('_pjax')
 			return [projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax']

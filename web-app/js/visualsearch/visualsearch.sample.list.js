@@ -4,14 +4,12 @@ $(function() {
   visualSearch = VS.init({
     container: $('.visual_search'),
     query: '',
-    unquotable : [],
+    unquotable : ['name', 'project', 'cancer', 'source', 'role'],
     preserveMatches: true,
     preserveOrder: true,
     callbacks: {
       search: function(query, searchCollection, noPush) {
     	  var params = [], noPush = noPush, unq = visualSearch.options.unquotable;
-    	  console.log(["query", searchCollection.facets(), query]);
-        console.log(query)
     	  // Fade out on s
     	  $("#results").css({ opacity: 0.5 });
     	  
@@ -36,7 +34,19 @@ $(function() {
       facetMatches: function(callback) {
         callback(['name', 'project', 'cancer', 'source', 'role']);
       },
-      valueMatches: function(facet, searchTerm, callback) {}
+      valueMatches: function(facet, searchTerm, callback) {
+        switch (facet) {
+          case 'project':
+            var list = [];
+            $.getJSON('../project/list.json?name=' + searchTerm, function(data) {
+              $.each(data, function(i, item) {
+                list.push({'value':item.label, 'label': item.name});
+              });
+              return callback(list);
+            });
+            break;
+        }
+      }
     }
   });
  

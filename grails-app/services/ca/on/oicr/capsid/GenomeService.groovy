@@ -69,9 +69,10 @@ class GenomeService {
 					}
 				}
 				if (params.text) {
+					String text = params.text.replaceAll(/\"/, '%')
 					or {
-						ilike("name", params.text.replaceAll(/\"/, '%'))
-						ilike("taxonomy", params.text.replaceAll(/\"/, '%'))
+						ilike("name", text)
+						ilike("taxonomy", text)
 					}
 				}
 			}

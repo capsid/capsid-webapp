@@ -24,7 +24,7 @@ class FeatureService {
 		List results = criteria.list(params) {
 			eq('type', 'gene')
 			and {
-				if (params.name) {
+				if (params?.name) {
 					// Single name param being passed
 					if (params.name instanceof String) {
 						ilike("name", "%" + params.name + "%")
@@ -33,7 +33,16 @@ class FeatureService {
 						'in'("name", params.name)
 					}
 				}
-				if (params.geneId) {
+				if (params?.locusTag) {
+					// Single name param being passed
+					if (params.locusTag instanceof String) {
+						ilike("locusTag", "%" + params.locusTag + "%")
+					}
+					else if (params.locusTag instanceof String[]) {
+						'in'("name", params.locusTag)
+					}
+				}
+				if (params?.geneId) {
 					// Single name param being passed
 					if (params.geneId instanceof String) {
 						eq("geneId", params.geneId as int)
@@ -42,11 +51,17 @@ class FeatureService {
 						'in'("geneId", params.geneId)
 					}
 				}
-				if (params.text) {
+				if (params?.genome) {
+					if (params.genome instanceof String) {
+						'in'("genome", Genome.withCriteria{ilike("name",params.genome.replaceAll(/\"/,'%'))}.gi)
+					}
+				}
+				if (params?.text) {
 					String text = params.text.replaceAll (/\"/, '%')
 					or {
 						ilike("name", text)
-						eq("geneId", params.text as int)
+						ilike("genome", text)
+						'in'("genome", Genome.withCriteria{ilike("name",text)}.gi)
 					}
 				}
 			}

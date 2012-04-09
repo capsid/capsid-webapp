@@ -26,7 +26,7 @@ class ProjectService {
   List list(Map params) {
 	  def criteria = Project.createCriteria()
 	  
-	  List results = criteria.list(params) {
+	  criteria.list(params) {
 		  and {
 			  // Security Check
 			  if (!authService.isCapsidAdmin()) {
@@ -34,7 +34,7 @@ class ProjectService {
 			  }
 
 			  // Filters by label, using project name on client side
-			  if (params.name) {
+			  if (params?.name) {
 				  // Single name param being passed
 				  if (params.name instanceof String) {
 					  ilike("label", "%" + params.name + "%")
@@ -43,19 +43,14 @@ class ProjectService {
 					  'in'("label", params.name)
 				  }
 			  }
-			  if (params.text) {
-          ilike("name", params.text.replaceAll (/\"/, '%'))
-          ilike("label", params.text.replaceAll (/\"/, '%'))
-          ilike("description", params.text.replaceAll (/\"/, '%'))
+			  if (params?.text) {
+          String text = params.text.replaceAll (/\"/, '%')
+          ilike("name", text)
+          ilike("label", text)
+          ilike("description", text)
 			  }
 		  }
 	  }
-
-    results.each {
-      it['sampleCount'] = Sample.countByProject(it.label)
-    }
-
-    return results
   }
 
   List<Project> getAllowedProjects() {

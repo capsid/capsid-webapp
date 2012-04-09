@@ -6,7 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
-		<r:require modules="visualsearch-project-list"/>
+		<r:require modules="visualsearch-sample-list"/>
 	</head>
 	<body>
 		<div class="row-fluid">
