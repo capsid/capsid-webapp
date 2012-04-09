@@ -126,12 +126,12 @@ defaultConfigFiles.each { filePath ->
   }
 }
 
-def externalConfig = System.getenv("CAPSID_CONFIG_PATH")
+def externalConfig = System.getenv(appName.toUpperCase() + "_CONFIG_PATH")
 if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }
 
-externalConfig = System.getProperty("CAPSID_CONFIG_PATH")
+externalConfig = System.getProperty(appName.toUpperCase() + "_CONFIG_PATH")
 if (externalConfig) {
   grails.config.locations << "file:" + externalConfig
 }
