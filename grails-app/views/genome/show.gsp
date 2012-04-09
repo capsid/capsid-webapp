@@ -54,7 +54,6 @@
 			          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
 					</ul>
 					<hr>
-
 					<ul class="nav nav-list">
 						<li class="nav-header">Genes</li>
 						<input class="search-query span2" placeholder="Filter Genes" type="text" id="filter">
@@ -62,7 +61,7 @@
 					<ul id="items" class="nav nav-list">
 						<g:each in="${genomeInstance['genes']}" var="geneInstance">
 						<li rel="popover" data-placement="right" data-content="<strong>Gene ID: </strong>${geneInstance.geneId}<br>" data-title="${geneInstance.name}">
-							<g:link controller="gene" action="show" id="${geneInstance.name}">
+							<g:link controller="feature" action="show" id="${geneInstance.uid}">
 								<i class="icon-folder-open"></i>
 								${geneInstance.name}
 							</g:link>
