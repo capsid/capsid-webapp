@@ -20,6 +20,7 @@ import grails.plugins.springsecurity.Secured
 class JbrowseController {
 
   def authService
+  def projectService
 
   def index = {redirect(action: "show", params: params)}
   def show = {
@@ -73,7 +74,7 @@ class JbrowseController {
     ArrayList samples = []
     def projects = [:]
 
-    List projectList = authService.isCapsidAdmin() ? Project.list() : Project.security(AuthService.getRoles()).list()
+    List projectList = projectService.list [:]
 
     projectList.each {
       projects[it.label] = [
