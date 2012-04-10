@@ -22,6 +22,7 @@
 						</h1>
 						<h4>${userInstance.email}</h4>
 					</div>
+					<!--
 					<g:form class="pull-right">
 						<g:hiddenField name="id" value="${userInstance?.username}" />
 						<div>
@@ -31,6 +32,7 @@
 							</g:link>
 						</div>
 					</g:form>
+					-->
 				</div>
 
 				<g:if test="${flash.message}">
