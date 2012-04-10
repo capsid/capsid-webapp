@@ -109,6 +109,7 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
+				<h2>Genome Hits</h2>
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
 					<table class="table table-striped table-condensed">
