@@ -55,7 +55,7 @@ grails.project.dependency.resolution = {
         compile ':spring-security-ldap:latest.integration'
 
         runtime ':lesscss-resources:latest.integration'
-        runtime ':coffeescript-resources:latest.integration'
+        //runtime ':coffeescript-resources:latest.integration'
 
         runtime ":mongodb:latest.integration"
         
