@@ -101,7 +101,6 @@
 									<thead>
 										<tr>
 											<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />
-											<g:sortableColumn params="${params}" property="project" title="${message(code: 'sample.project.label', default: 'Project')}" />
 											<g:sortableColumn params="${params}" property="description" title="${message(code: 'sample.description.label', default: 'Description')}" />
 											<g:sortableColumn params="${params}" property="cancer" title="${message(code: 'sample.cancer.label', default: 'Cancer')}" />
 											<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />								

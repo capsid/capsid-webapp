@@ -10,40 +10,7 @@
 		<r:require modules="visualsearch-sample-show"/>
 	</head>
 	<body>
-		<div class="row-fluid has_sidebar use_sidebar">
-			<div class="span sidebar">
-				<div class="span well well-small">
-					<ul class="nav nav-list">
-						<li class="nav-header">Details</li>
-						<table class="table">
-							<tbody>
-							<g:if test="${sampleInstance?.cancer}">
-							<tr>
-								<td><g:message code="sample.cancer.label" default="Cancer" /></td>
-								<td><g:fieldValue bean="${sampleInstance}" field="cancer"/></td>
-							</tr>
-							</g:if>
-						
-							<g:if test="${sampleInstance?.role}">
-							<tr>
-								<td><g:message code="sample.role.label" default="Role" /></td>						
-								<td><g:fieldValue bean="${sampleInstance}" field="role"/></td>
-							</tr>
-							</g:if>
-						
-							<g:if test="${sampleInstance?.source}">
-							<tr>
-								<td><g:message code="sample.source.label" default="Source" /></td>
-								<td><g:fieldValue bean="${sampleInstance}" field="source"/></td>
-							</tr>
-							</g:if>
-							</tbody>
-						</table>
-					</ul>
-				</div>
-				<div class="span well well-small separator"></div>
-			</div>
-			
+		<div class="row-fluid">
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
@@ -86,6 +53,38 @@
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+
+				<div class="row-fluid">
+					<div class="span6">
+						<ul class="nav nav-list">
+							<li class="nav-header">Details</li>
+							<table class="table">
+								<tbody>
+								<g:if test="${sampleInstance?.cancer}">
+								<tr>
+									<td><g:message code="sample.cancer.label" default="Cancer" /></td>
+									<td><g:fieldValue bean="${sampleInstance}" field="cancer"/></td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${sampleInstance?.role}">
+								<tr>
+									<td><g:message code="sample.role.label" default="Role" /></td>						
+									<td><g:fieldValue bean="${sampleInstance}" field="role"/></td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${sampleInstance?.source}">
+								<tr>
+									<td><g:message code="sample.source.label" default="Source" /></td>
+									<td><g:fieldValue bean="${sampleInstance}" field="source"/></td>
+								</tr>
+								</g:if>
+								</tbody>
+							</table>
+						</ul>
+					</div>
+				</div>
 
 				<ul class="nav nav-tabs">
 			    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits</a></li>

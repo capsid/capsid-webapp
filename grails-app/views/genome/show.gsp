@@ -9,55 +9,7 @@
 		<r:require modules="visualsearch-genome-show"/>
 	</head>
 	<body>
-		<div class="row-fluid has_sidebar use_sidebar">
-			<aside class="span sidebar">
-				<div class="span well well-small">
-					<ul class="nav nav-list">
-						<li class="nav-header">Details</li>
-						<table class="table">
-							<tbody>
-							<g:if test="${genomeInstance?.accession}">
-							<tr>
-								<td><g:message code="sample.accession.label" default="Accession" /></td>
-								<td><g:fieldValue bean="${genomeInstance}" field="accession"/></td>
-							</tr>
-							</g:if>
-						
-							<g:if test="${genomeInstance?.gi}">
-							<tr>
-								<td><g:message code="sample.gi.label" default="GI" /></td>						
-								<td>${genomeInstance.gi}</td>
-							</tr>
-							</g:if>
-						
-							<g:if test="${genomeInstance?.organism}">
-							<tr>
-								<td><g:message code="sample.organism.label" default="Organism" /></td>
-								<td><g:fieldValue bean="${genomeInstance}" field="organism"/></td>
-							</tr>
-							</g:if>
-
-							<g:if test="${genomeInstance?.length}">
-							<tr>
-								<td><g:message code="sample.length.label" default="Length" /></td>
-								<td><g:fieldValue bean="${genomeInstance}" field="length"/></td>
-							</tr>
-							</g:if>
-							</tbody>
-						</table>
-						<hr>
-						<li class="nav-header">Links</li>
-			 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
-			        	<g:if test="${genomeInstance.organism == 'Homo sapiens'}">
-			            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
-			          	</g:if>
-			          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
-			          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
-					</ul>
-				</div>
-				<div class="span well well-small separator"></div>
-			</aside>
-			
+		<div class="row-fluid">
 			<div class="content">
 				<div class="page-header row-fluid">
 					<div>
@@ -106,7 +58,7 @@
 							</table>
 						</ul>
 					</div>
-					<div class="span">
+					<div class="span6">
 						<ul class="nav nav-list">
 							<li class="nav-header">Links</li>
 				 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
