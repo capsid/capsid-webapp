@@ -626,10 +626,13 @@ h1 {
   font-size: 24px;
 }
 h1 small {
-  font-size: 14px;
+  font-size: 18px;
 }
 h2 {
   font-size: 18px;
+}
+h2 small {
+  font-size: 16px;
 }
 /* Nav */
 .navbar {
@@ -797,7 +800,7 @@ pre.snippet .error {
   color: #ccc;
 }
 #blast {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
 }
 #blast .disabled {
   line-height: 18px;

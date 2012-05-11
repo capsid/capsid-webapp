@@ -47,13 +47,12 @@ class GenomeController {
         params.accession = params.id
 
         Genome genomeInstance = findInstance()
-        
 
         params.sample = 'none'
         List pStatistics = statsService.list params 
         params.sample = 'only'
         List sStatistics = statsService.list params 
-        List features = featureService.list params
+        List features = []//featureService.list params
         
         [genomeInstance: genomeInstance, 
          pStatistics: pStatistics, 

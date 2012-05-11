@@ -17,6 +17,7 @@ class AlignmentService {
     static transactional = false
 
     def authService
+    def projectService
     def springSecurityService
 
     Alignment get(String name) {
@@ -26,7 +27,32 @@ class AlignmentService {
     List list(Map params) {
         def criteria = Alignment.createCriteria()
         
-        List results = criteria.list(params) {}
+        List results = criteria.list(params) {
+            and {
+                // Security Check
+                'in'("project", projectService.list([:]).label)
+
+                // Sample
+                if (params.sample) {
+                    if (params.sample instanceof String) {
+                        ilike("sample", "%" + params.sample + "%")
+                    }
+                    else if (params.sample instanceof String[]) {
+                        'in'("sample", params.sample)
+                    }
+                }
+
+                // Text
+                if (params.text) {
+                    String text = params.text.replaceAll (/\"/, '%')
+                    or {
+                        ilike("name", text)
+                        ilike("sample", text)
+                        ilike("project", text)
+                    }
+                }
+            }
+        }
   
         return results
     }

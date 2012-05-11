@@ -24,7 +24,7 @@ class MappedService {
         Mapped.get id
     }
 
-    ArrayList otherGenomes(Mapped mappedInstance) {
+    ArrayList otherHits(Mapped mappedInstance) {
         return Mapped.collection.find(
           "readId": mappedInstance.readId
           , "_id": [$ne: mappedInstance.id]

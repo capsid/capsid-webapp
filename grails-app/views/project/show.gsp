@@ -13,7 +13,7 @@
 			<div class="content">
 				<div class="page-header row-fluid">
 					<div class="pull-left">
-						<h1 id="${projectInstance.label}"><g:fieldValue bean="${projectInstance}" field="name"/><br>
+						<h1 id="${projectInstance.label}"><small>PROJECT</small> <g:fieldValue bean="${projectInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${projectInstance}" field="description"/></small>
 						</h1>
 						<a href="${projectInstance.wikiLink}" target="_blank">${projectInstance.wikiLink}</a>

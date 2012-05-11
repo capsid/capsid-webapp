@@ -25,12 +25,10 @@ class MappedController {
     def show() {
         Mapped mappedInstance = findInstance()
 
-        List fasta = mappedService.bucket(mappedInstance.sequence)
-        ArrayList otherGenomes = mappedService.otherGenomes mappedInstance
+        List fasta = [] //mappedService.bucket(mappedInstance.sequence)
+        ArrayList otherHits = mappedService.otherHits mappedInstance
 
-        withFormat {
-            html mappedInstance: mappedInstance, fasta: fasta, otherGenomes: otherGenomes
-        }
+        [mappedInstance: mappedInstance, fasta: fasta, otherHits: otherHits]
     }
 
     def alignment() {

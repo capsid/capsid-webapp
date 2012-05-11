@@ -53,7 +53,7 @@
 				</ul>
 				<div class="page-header row-fluid">
 					<div class="pull-left">
-						<h1 id="${sampleInstance.name}"><g:fieldValue bean="${sampleInstance}" field="name"/><br>
+						<h1 id="${sampleInstance.name}"><small>SAMPLE</small> <g:fieldValue bean="${sampleInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${sampleInstance}" field="description"/></small></h1>
 					</div>
 					<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">

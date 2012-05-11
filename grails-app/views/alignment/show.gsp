@@ -24,7 +24,7 @@
 				</ul>
 				<div class="page-header">
 					<div>
-						<h1>${alignmentInstance.name}</h1>
+						<h1><small>ALIGNMENT</small> ${alignmentInstance.name}</h1>
 					</div>
 					<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
 					<g:form style="margin:10px 0 0">

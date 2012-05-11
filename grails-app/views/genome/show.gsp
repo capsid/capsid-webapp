@@ -59,15 +59,65 @@
 			</aside>
 			
 			<div class="content">
-				<div class="page-header">
+				<div class="page-header row-fluid">
 					<div>
-						<h1 id="${genomeInstance.accession}"><g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
+						<h1 id="${genomeInstance.accession}"><small>GENOME</small> <g:fieldValue bean="${genomeInstance}" field="name"/><br><small>${genomeInstance.taxonomy.join(', ')}</small></h1>
 					</div>
 				</div>
 
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+
+				<div class="row-fluid">
+					<div class="span6">
+						<ul class="nav nav-list">
+							<li class="nav-header">Details</li>
+							<table class="table">
+								<tbody>
+								<g:if test="${genomeInstance?.accession}">
+								<tr>
+									<td><g:message code="sample.accession.label" default="Accession" /></td>
+									<td><g:fieldValue bean="${genomeInstance}" field="accession"/></td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${genomeInstance?.gi}">
+								<tr>
+									<td><g:message code="sample.gi.label" default="GI" /></td>						
+									<td>${genomeInstance.gi}</td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${genomeInstance?.organism}">
+								<tr>
+									<td><g:message code="sample.organism.label" default="Organism" /></td>
+									<td><g:fieldValue bean="${genomeInstance}" field="organism"/></td>
+								</tr>
+								</g:if>
+
+								<g:if test="${genomeInstance?.length}">
+								<tr>
+									<td><g:message code="sample.length.label" default="Length" /></td>
+									<td><g:fieldValue bean="${genomeInstance}" field="length"/></td>
+								</tr>
+								</g:if>
+								</tbody>
+							</table>
+						</ul>
+					</div>
+					<div class="span">
+						<ul class="nav nav-list">
+							<li class="nav-header">Links</li>
+				 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
+				        	<g:if test="${genomeInstance.organism == 'Homo sapiens'}">
+				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
+				          	</g:if>
+				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
+				          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
+				          </ul>
+					</div>
+				</div>
 
 				<ul class="nav nav-tabs">
 			    	<li class="active"><a href="#sample-stats" data-toggle="tab">Sample Statistics</a></li>
