@@ -3,11 +3,9 @@ modules = {
 	capsid {
 		dependsOn 'jquery, jqueryplugins, bootstrap'
 		resource url:'css/style.css', bundle:'bundle_capsid'
-        resource url:'js/application.js', bundle: 'bundle_capsid'
+        resource url:'js/capsid.js', bundle: 'bundle_capsid'
         //resource url:'less/responsive.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
-        //resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'
-        //resource url:'cs/capsid.coffee', bundle: 'bundle_capsid'
-        
+        //resource url:'less/style.less',attrs:[rel: "stylesheet/less", type:'css'], bundle:'bundle_capsid'        
 	}
 
     jqueryplugins {

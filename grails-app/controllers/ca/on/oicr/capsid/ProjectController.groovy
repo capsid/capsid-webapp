@@ -27,6 +27,7 @@ class ProjectController {
 	
     def authService
     def projectService
+    def sampleService
     def statsService
     def userService
 	
@@ -34,43 +35,28 @@ class ProjectController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-		List results = projectService.list params
-		results.each {
+		List projects = projectService.list params
+		
+        projects.each {
           it['sampleCount'] = Sample.countByProject(it.label)
         }
-		if (params._pjax) {
-			params.remove('_pjax')
-			return [projectInstanceList: results, projectInstanceTotal: results.totalCount, layout:'ajax']
-		}
 
-		withFormat {
-			html projectInstanceList: results, projectInstanceTotal: results.totalCount
-			json { render results as JSON  }
-		}
+		[projects: projects]
     }
 
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.label = params.id
+        params.project = params.label = params.id
         params.sample = 'none'
 
         Project projectInstance = findInstance()
         
-        List results = statsService.list params 
+        List statistics = statsService.list params 
+        List samples = sampleService.list params 
 
-		if (params._pjax) {
-			params.remove('_pjax')
-            return [projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
-		}
-
-        projectInstance['samples'] = Sample.findAllByProject(projectInstance.label)
-
-        withFormat {
-            html projectInstance: projectInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
-            json { render results as JSON }
-        }
+        [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 
     def create() { 

@@ -19,7 +19,7 @@
 				</g:if>
 
 				<div class="visual_search" style="height:32px;"></div>
-				<div id="results">
+				<div id="genomes" class="results">
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>								
@@ -33,7 +33,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<g:each in="${genomeInstanceList}" var="genomeInstance">
+						<g:each in="${genomes}" var="genomeInstance">
 							<tr>
 								<td><g:link action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "accession")}</g:link></td>
 								<td>${fieldValue(bean: genomeInstance, field: "name")}</td>
@@ -47,7 +47,7 @@
 						</tbody>
 					</table>
 					<div class="pagination">
-						<bootstrap:paginate total="${genomeInstanceTotal}" params="${params}" />
+						<bootstrap:paginate total="${genomes.totalCount}" params="${params}" />
 					</div>
 				</div>
 			</div>

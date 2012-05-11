@@ -27,23 +27,16 @@ class SampleController {
 
     def authService
     def sampleService
+    def alignmentService
     def statsService
 
     def index() { redirect action: 'list', params: params }
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        List results = sampleService.list params
+        List samples = sampleService.list params
         
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [sampleInstanceList: results, sampleInstanceTotal: results.totalCount, layout:'ajax']
-        }
-
-        withFormat {
-            html sampleInstanceList: results, sampleInstanceTotal: results.totalCount
-            json { render results as JSON  }
-        }
+        [samples: samples]
     }
 
     def show() {
@@ -53,19 +46,11 @@ class SampleController {
         params.sample = params.id
         
         Sample sampleInstance = findInstance()
-        sampleInstance['alignments'] = Alignment.findAllBySample(sampleInstance.name)
         
-        List results = statsService.list params 
+        List statistics = statsService.list params 
+        List alignments = alignmentService.list params
 
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [sampleInstance: sampleInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
-        }
-
-        withFormat {
-            html sampleInstance: sampleInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
-            json { render results as JSON }
-        }
+        [sampleInstance: sampleInstance, statistics: statistics, alignments: alignments]
     }
 
     def create() { 

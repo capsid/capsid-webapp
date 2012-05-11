@@ -25,6 +25,7 @@ class GenomeController {
     ]
 
     def genomeService
+    def featureService
     def statsService
 
     def index() { redirect action: 'list', params: params }
@@ -34,16 +35,9 @@ class GenomeController {
         params.sort = params.sort ?: "sampleCount"
         params.order = params.order ?: "desc"
 
-        List results = genomeService.list params
-        
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [genomeInstanceList: results, genomeInstanceTotal: results.totalCount, layout:'ajax']
-        }      
-        withFormat {
-            html genomeInstanceList: results, genomeInstanceTotal: results.totalCount
-            json { render results as JSON  }
-        }
+        List genomes = genomeService.list params
+    
+        [genomes: genomes]
     }
 
     def show() {
@@ -54,23 +48,17 @@ class GenomeController {
 
         Genome genomeInstance = findInstance()
         
+
+        params.sample = 'none'
+        List pStatistics = statsService.list params 
         params.sample = 'only'
-        List results = statsService.list params 
-
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [genomeInstance: genomeInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
-        }
-
-        genomeInstance['genes'] = Feature.findAllByGenomeAndType(genomeInstance.gi, 'gene')
-        List pResults = statsService.list([accession:params.accession, sample: 'none', sort: "geneCoverageMax", order: "desc"]) 
-
-        withFormat {
-            html genomeInstance: genomeInstance, 
-                 statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount,
-                 pStatisticsInstanceList: pResults, pStatisticsInstanceTotal: pResults.totalCount
-            json { render results as JSON }
-        }
+        List sStatistics = statsService.list params 
+        List features = featureService.list params
+        
+        [genomeInstance: genomeInstance, 
+         pStatistics: pStatistics, 
+         sStatistics: sStatistics,
+         features: features]
     }
 
 	private Genome findInstance() {

@@ -21,7 +21,7 @@
 				</g:if>
 
 				<div class="visual_search" style="height:32px;"></div>
-				<div id="results">
+				<div id="samples" class="results">
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>
@@ -34,7 +34,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<g:each in="${sampleInstanceList}" var="sampleInstance">
+						<g:each in="${samples}" var="sampleInstance">
 							<tr>		
 								<td><g:link action="show" id="${sampleInstance.name}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
 								<td><g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link></td>
@@ -47,7 +47,7 @@
 						</tbody>
 					</table>
 					<div class="pagination">
-						<bootstrap:paginate total="${sampleInstanceTotal}" params="${params}" />
+						<bootstrap:paginate total="${samples.totalCount}" params="${params}" />
 					</div>
 				</div>
 			</div>
