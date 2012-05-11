@@ -79,7 +79,6 @@
 					<hr>
 					</g:if>
 				</div>
-				<div class="span well well-small separator"></div>
 			</div>
 			<div class="content">
 				<ul class="breadcrumb">
@@ -103,9 +102,7 @@
 					</li>
 				</ul>
 				<div class="row-fluid page-header">
-					<h1 class="pull-left"><small>READ</small> ${mappedInstance.readId}<br>
-						<small>${mappedInstance.sequence}</small>
-					</h1>
+					<h1 class="span"><small>READ</small> ${mappedInstance.readId}</h1>
 					<div id="blast" class="btn-group pull-right">
 			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			          		<i class="icon-share-alt icon-white"></i>
@@ -123,17 +120,18 @@
 				</g:if>
 				<h2><small>MAPS TO GENOME</small> <g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></h2>
 			    <ul class="nav nav-tabs">
-			    	<li class="ajax active"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance.id])}">Generating Alignment...</a></li>
+			    	<li class="active"><a href="#fasta" data-toggle="tab">Fasta</a></li>
+			    	<li class="ajax"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance.id])}">Generating Alignment...</a></li>
 				    <li class="ajax"><a class="disabled" href="#contig" data-toggle="tab" data-url="${createLink([action:'contig',id:mappedInstance.id])}" data-loaded="Contig Sequence">Generating Contig...</a></li>
 					<g:if test="${otherHits}">
 					<li><a href="#other" data-toggle="tab">Other Hits</a></li>
 					</g:if>
 			    </ul>
 			    <div class="tab-content">
-					<div class="tab-pane" id="fasta">
+					<div class="tab-pane active" id="fasta">
 						<g:render template='/mapped/fasta' model="[fasta:fasta, mappedInstance:mappedInstance]"/>
 					</div>
-					<div class="tab-pane active" id="alignment">
+					<div class="tab-pane" id="alignment">
 					    <div class="progress progress-info progress-striped active"> 
 					    	<div class="bar" style="width: 100%;"></div>
 						</div>

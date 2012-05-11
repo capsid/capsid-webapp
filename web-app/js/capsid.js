@@ -71,7 +71,7 @@ $(function() {
     return false;
   });
 
-  // Sidebar
+  /* Sidebar */
   $(".sidebar .well.separator").click(function() {
     $(this).parent().parent().toggleClass('use_sidebar');
   });

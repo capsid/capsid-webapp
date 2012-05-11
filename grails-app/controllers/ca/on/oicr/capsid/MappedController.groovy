@@ -25,7 +25,7 @@ class MappedController {
     def show() {
         Mapped mappedInstance = findInstance()
 
-        List fasta = [] //mappedService.bucket(mappedInstance.sequence)
+        List fasta = mappedService.bucket(mappedInstance.sequence)
         ArrayList otherHits = mappedService.otherHits mappedInstance
 
         [mappedInstance: mappedInstance, fasta: fasta, otherHits: otherHits]

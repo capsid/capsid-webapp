@@ -52,7 +52,7 @@ class GenomeController {
         List pStatistics = statsService.list params 
         params.sample = 'only'
         List sStatistics = statsService.list params 
-        List features = []//featureService.list params
+        List features = featureService.list params
         
         [genomeInstance: genomeInstance, 
          pStatistics: pStatistics, 
