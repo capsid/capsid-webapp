@@ -21,7 +21,9 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<div class="visual_search" style="height:32px;"></div>
+				<div class="row-fluid">
+					<g:render template="/layouts/filter"/>
+				</div>
 				<div id="genes" class="results">
 					<table class="table table-striped table-condensed">
 						<thead>

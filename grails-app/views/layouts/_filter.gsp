@@ -1,4 +1,4 @@
-<g:form action="show" id="${id}" class="form-horizontal pull-right search">
+<g:form action="${id?show:list}" id="${id}" class="form-horizontal pull-right search">
 	<g:if test="${buttons=='true'}">
 	<div class="span filter">
 		<div data-toggle="buttons-checkbox" class="btn-group">

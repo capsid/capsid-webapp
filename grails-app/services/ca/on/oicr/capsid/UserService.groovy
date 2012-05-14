@@ -30,7 +30,18 @@ class UserService {
   List list(Map params) {
 	  def criteria = User.createCriteria()
 	  
-	  List results = criteria.list(params) {}
+	  List results = criteria.list(params) {
+      // Text
+        if (params.text) {
+          String text = '%' + params.text + '%'
+          or {
+            ilike("username", text)
+            ilike("userRealName", text)
+            ilike("email", text)
+            ilike("institute", text)
+          }
+        }
+    }
 
     results.each {
       it['admin'] = authService.isCapsidAdmin(it)
