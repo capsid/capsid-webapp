@@ -74,13 +74,18 @@ class StatsService {
 
 				// Text
 				if (params.text) {
-					String text = params.text.replaceAll (/\"/, '%')
+					String text = '%' + params.text + '%'
 					or {
 						ilike("genome", text)
 						ilike("sample", text)
 						ilike("project", text)
 					}
-				}			
+				}	
+
+				// Filters
+				if (params.filters) {
+					'in'("filters", params.filters)
+				}		
 			}
 		}
 

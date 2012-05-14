@@ -52,8 +52,9 @@ class FeatureService {
 					}
 				}
 				if (params?.genome) {
-					if (params.genome instanceof String) {
-						'in'("genome", Genome.withCriteria{ilike("name",params.genome.replaceAll(/\"/,'%'))}.gi)
+					if (params.genome instanceof Long) {
+						//'in'("genome", Genome.withCriteria{ilike("name",params.genome.replaceAll(/\"/,'%'))}.gi)
+						eq("genome", params.genome as Long)
 					}
 				}
 				if (params?.text) {

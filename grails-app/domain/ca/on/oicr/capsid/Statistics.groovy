@@ -25,6 +25,7 @@ class Statistics {
 	Float genomeCoverage
 	Float geneCoverageAvg
 	Float geneCoverageMax
+	Set filters
 
     static constraints = { }
     static mapping = { version false }

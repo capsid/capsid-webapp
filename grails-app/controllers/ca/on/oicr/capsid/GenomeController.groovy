@@ -52,7 +52,11 @@ class GenomeController {
         List pStatistics = statsService.list params 
         params.sample = 'only'
         List sStatistics = statsService.list params 
+        params.genome = genomeInstance.gi
         List features = featureService.list params
+
+        params.remove('sample')
+        params.remove('genome')
         
         [genomeInstance: genomeInstance, 
          pStatistics: pStatistics, 

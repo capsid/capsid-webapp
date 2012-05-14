@@ -79,8 +79,10 @@
 
 			    <div class="tab-content">
 					<div class="tab-pane active" id="sample-stats">
-						<h2>Sample Statistics</h2>
-						<div class="visual_search" style="height:32px;"></div>
+						<div class="row-fluid">
+							<h2 class="pull-left">Sample Statistics</h2>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'buttons':'true']"/>
+						</div>
 						<div id="sample-stats-table" class="results">
 							<table class="table table-striped table-condensed">
 								<thead>
@@ -117,13 +119,16 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate id="${sampleInstance?.name}" total="${sStatistics.totalCount}" params="${params}" />
+								<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${sStatistics.totalCount}" params="${params}" />
 							</div>
 						</div>
 					</div>
 					<div class="tab-pane" id="project-stats">
+						<div class="row-fluid">
+							<h2 class="pull-left">Project Statistics</h2>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'buttons':'true']"/>
+						</div>
 						<div id="project-stats-table" class="results">
-							<h2>Project Statistics</h2>
 							<table class="table table-striped table-condensed">
 								<thead>
 									<tr>
@@ -153,13 +158,16 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate total="${pStatistics.totalCount}" params="${params}" />
+								<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${pStatistics.totalCount}" params="${params}" />
 							</div>
 						</div>
 					</div>
 					<div class="tab-pane" id="features">
+						<div class="row-fluid">
+							<h2 class="pull-left">Features</h2>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
+						</div>
 						<div id="features-table" class="results">
-							<h2>Features</h2>
 							<table class="table table-striped table-condensed">
 								<thead>
 									<tr>

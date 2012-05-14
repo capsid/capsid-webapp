@@ -93,8 +93,10 @@
 
 				<div class="tab-content">
 					<div class="tab-pane active" id="hits">
-						<h2>Genome Hits</h2>
-						<div class="visual_search" style="height:32px;"></div>
+						<div class="row-fluid">
+							<h2 class="pull-left">Genome Hits</h2>
+							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'buttons':'true']"/>
+						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
 								<thead>
@@ -125,13 +127,15 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
+								<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
 							</div>
 						</div>
 					</div>
 					<div class="tab-pane" id="alignments">
-						<h2>Alignments</h2>
-						<div class="visual_search" style="height:32px;"></div>
+						<div class="row-fluid">
+							<h2 class="pull-left">Alignments</h2>
+							<g:render template="/layouts/filter" model="['id':sampleInstance.name]"/>
+						</div>
 						<div id="alignments-table" class="results">
 							<table class="table table-striped table-condensed">
 								<thead>
@@ -154,7 +158,7 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate id="${sampleInstance?.name}" total="${alignments.totalCount}" params="${params}" />
+								<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${alignments.totalCount}" params="${params}" />
 							</div>
 						</div>
 					</div>

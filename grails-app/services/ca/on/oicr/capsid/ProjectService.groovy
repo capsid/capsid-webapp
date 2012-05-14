@@ -44,7 +44,7 @@ class ProjectService {
 				  }
 			  }
 			  if (params?.text) {
-          String text = params.text.replaceAll (/\"/, '%')
+          String text = '%' + params.text + '%'
           ilike("name", text)
           ilike("label", text)
           ilike("description", text)

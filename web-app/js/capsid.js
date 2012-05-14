@@ -15,30 +15,51 @@ $(function() {
     }
   });
 
-  // Pagination
-  if ($('.pagination a').length) {
-    $('.results').each(function () {
-      var el, id;
-      id = "#"+this.id;
-      $(id).on('click', '.pagination a', function(e) {  
-        $(id).load($(this).attr('href') + ' ' + id);
-        return false;
-      });
-    });
-  }
-  if ($('th a').length) {
-    $('.results').each(function () {
-      var el, id;
-      id = "#"+this.id;
-      $(id).on('click', 'th a', function(e) {  
-        $(id).load($(this).attr('href') + ' ' + id);
+  // Search
+  if ($('.search').length) {
+    $('.tab-pane .search').each(function () {
+      var id = '#' + $(this).parent().parent().attr('id');
+
+      $(this).submit(function(e) {  
+        var form, filters = '';
+        form = $(e.target);
+
+        $('.btn-group > button.active', id).each(function(){
+          filters = filters + '&filters=' + $(this).val();
+        });
+        console.log(form.attr('action') + ' ' + id + ' .results');
+        console.log(form.serialize() + filters);
+        
+        $(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize() + filters);
         return false;
       });
     });
   }
 
+  // Filter Buttons
+  $('.filter button').click(function() {  
+      var button = $(this);
+      button.toggleClass('active');
+      button.toggleClass('btn-primary');      
+  });
+
+  // Ajax Tables
+  $('.results').each(function () {
+    var id = "#"+this.id;
+    // Sorting
+    $(id).on('click', 'th a', function(e) {  
+      $(id).load($(this).attr('href') + ' ' + id);
+      return false;
+    });
+    // Pagination
+    $(id).on('click', '.pagination a', function(e) {  
+      $(id).load($(this).attr('href') + ' ' + id);
+      return false;
+    });  
+  });
+  
   // Radio Button Groups
-  $('div.btn-group[data-toggle-name=*]').each(function() {
+  $('div.btn-group[data-toggle=buttons-radio]').each(function() {
     var form, group, hidden, name;
     group = $(this);
     form = group.parents('form').eq(0);
@@ -71,12 +92,12 @@ $(function() {
     return false;
   });
 
-  /* Sidebar */
+  // Sidebar
   $(".sidebar .well.separator").click(function() {
     $(this).parent().parent().toggleClass('use_sidebar');
   });
 
-  // User Access Contorl Form
+  // User Access Control Form
   $('#uac form').submit(function() {
     var id, uri;
     uri = $(this).attr('action') + '&' + $(this).serialize();
@@ -133,4 +154,5 @@ $(function() {
       });
     });
   }
+
 });
