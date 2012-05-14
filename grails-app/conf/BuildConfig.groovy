@@ -46,7 +46,8 @@ grails.project.dependency.resolution = {
         compile ":jquery:latest.integration"
         compile ":jquery-ui:latest.integration"
         
-        compile ':twitter-bootstrap:2.0.1.22'
+        //compile ':twitter-bootstrap:2.0.1.22'
+        compile ':twitter-bootstrap:latest.integration'
         compile ':fields:latest.integration'
 
         compile ':navigation:latest.integration'
@@ -55,8 +56,7 @@ grails.project.dependency.resolution = {
         compile ':spring-security-ldap:latest.integration'
 
         runtime ':lesscss-resources:latest.integration'
-        //runtime ':coffeescript-resources:latest.integration'
-
+        
         runtime ":mongodb:latest.integration"
         
         runtime ":zipped-resources:latest.integration"
