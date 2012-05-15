@@ -33,40 +33,6 @@ h2 small {font-size: 16px;}
 .navbar .navbar-inner .dropdown-toggle.active {color: #ffffff;}
 .navbar .nav-icon:hover{background-image: url(../img/glyphicons-halflings-white.png);}
 
-/* Sidebar */
-.has_sidebar .content {
-  margin-left: 20px;
-  min-height: 515px;
-}
-.has_sidebar.use_sidebar .sidebar .well {
-  display: block;
-}
-.has_sidebar.use_sidebar .content {
-  margin-left: 300px;
-}
-.sidebar {
-  margin-bottom: -100%;
-  width: 300px;
-  word-wrap: break-word;
-}
-.sidebar .well {
-  display: none;
-  width: 250px;
-  margin: 0 10px 0 0;
-}
-.sidebar .well.separator {
-  display: block;
-  padding-left: 3px;
-  padding-right: 3px;
-  width: 1px;
-  margin: 15px 0;
-  min-height: 485px;
-}
-.sidebar .well.separator:hover {
-  background-color: #ccc;
-  cursor: pointer;
-}
-
 .nav-list .divider {
   background-color: #E5E5E5;
   border-bottom: 1px solid #FFFFFF;

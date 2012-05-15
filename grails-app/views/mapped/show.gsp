@@ -12,9 +12,9 @@
 		<title>${mappedInstance.readId}</title>
 	</head>
 	<body>
-		<div class="row-fluid has_sidebar use_sidebar">
-			<div class="span sidebar">
-				<div class="span well well-small">
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well well-small">
 					<ul class="nav nav-list">
 						<li class="nav-header">Details</li>
 						<table class="table">
@@ -66,8 +66,8 @@
 							</tbody>
 							</table>		
 					</ul>
-					<hr>
 					<g:if test="${mappedInstance?.mapsGene}">
+					<hr>
 					<ul class="nav nav-list">
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
@@ -76,11 +76,10 @@
 						<li><a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${name}">${name}</a></li>
 						</g:each>
 					</ul>
-					<hr>
 					</g:if>
 				</div>
 			</div>
-			<div class="content">
+			<div class="content span9">
 				<ul class="breadcrumb">
 					<li>
 						<g:link controller="project" action="show" id="${mappedInstance.project}">
@@ -102,7 +101,7 @@
 					</li>
 				</ul>
 				<div class="row-fluid page-header">
-					<h1 class="span"><small>READ</small> ${mappedInstance.readId}</h1>
+					<h1 class="pull-left"><small>READ</small> ${mappedInstance.readId}</h1>
 					<div id="blast" class="btn-group pull-right">
 			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			          		<i class="icon-share-alt icon-white"></i>
