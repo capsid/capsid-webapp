@@ -80,7 +80,7 @@
 					<div class="tab-pane active" id="sample-stats">
 						<div class="row-fluid">
 							<h2 class="pull-left">Sample Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'buttons':'true']"/>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
 						</div>
 						<div id="sample-stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -125,7 +125,7 @@
 					<div class="tab-pane" id="project-stats">
 						<div class="row-fluid">
 							<h2 class="pull-left">Project Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'buttons':'true']"/>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
 						</div>
 						<div id="project-stats-table" class="results">
 							<table class="table table-striped table-condensed">

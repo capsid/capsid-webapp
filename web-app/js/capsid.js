@@ -1,4 +1,11 @@
 $(function() {
+  $('body').ajaxStart(function() {
+    $('.results table').css({'opacity': 0.4});
+  });
+  $('body').ajaxComplete(function() {
+    $('.results table').css({'opacity': 1});
+  });
+
   // Popover
   $("[rel=popover]").popover({
     html: true,
@@ -33,14 +40,14 @@ $(function() {
       });
     });
   }
-
+/*
   // Filter Buttons
   $('.filter button').click(function() {  
       var button = $(this);
       button.toggleClass('active');
       button.toggleClass('btn-primary');      
   });
-
+*/
   // Ajax Tables
   $('.results').each(function () {
     var id = "#"+this.id;

@@ -83,8 +83,8 @@ class StatsService {
 				}	
 
 				// Filters
-				if (params.filters) {
-					'in'("filters", params.filters)
+				if (params.filters && params.filters != "false") {
+					'in'("filter", params.filters)
 				}		
 			}
 		}
