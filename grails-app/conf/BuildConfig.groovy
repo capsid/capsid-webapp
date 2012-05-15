@@ -52,10 +52,10 @@ grails.project.dependency.resolution = {
 
         runtime ":mongodb:latest.integration"
         
-        //runtime ":zipped-resources:latest.integration"
-        //runtime ":cached-resources:latest.integration"
-        //runtime ":cache-headers:latest.integration"
-        //runtime ":yui-minify-resources:latest.integration"
+        runtime ":zipped-resources:latest.integration"
+        runtime ":cached-resources:latest.integration"
+        runtime ":cache-headers:latest.integration"
+        runtime ":yui-minify-resources:latest.integration"
         
         build ":tomcat:$grailsVersion"
         
