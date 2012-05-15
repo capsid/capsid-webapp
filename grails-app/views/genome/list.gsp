@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="content">
+			<div class="content" id="genome-list">
 				<div class="row-fluid page-header">
 					<h1><g:message code="default.list.label" args="[entityName]" /></h1>
 				</div>

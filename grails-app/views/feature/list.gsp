@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="content">
+			<div class="content" id="feature-list">
 				<div class="row-fluid page-header">
 					<div>
 						<h1>Gene List</h1>

@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="content">
+			<div class="content" id="user-list">
 				<div class="row-fluid page-header">
 					<div class="span9">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -42,7 +42,7 @@
 				<div class="row-fluid">
 					<g:render template="/layouts/filter"/>
 				</div>
-				<div id="results">
+				<div id="users" class="results">
 					<table class="table table-striped table-condensed">
 						<thead>
 							<tr>
