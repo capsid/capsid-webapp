@@ -1,6 +1,6 @@
 <g:form action="${id?'show':'list'}" id="${id}" class="form-horizontal pull-right search">
 	<g:if test="${buttons=='true'}">
-	<div class="span filter">
+	<div class="pull-left filter">
 		<input type="hidden" name="filter" value="false">
 		<div class="btn-group" data-toggle-name="filter" data-toggle="buttons-radio">
 			<button class="btn" value="false">No Filter</button>
@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	</g:if>
-	<div class="input-prepend input-append span">
-		<span class="add-on"><i class="icon-search"></i></span><input type="search" name="text" class="span3"><button class="btn">Search</button>
+	<div class="input-prepend input-append pull-right" style="margin: 0 10px;">
+		<span class="add-on"><i class="icon-search"></i></span><input type="search" name="text"><button class="btn">Search</button>
 	</div>
 </g:form>
