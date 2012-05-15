@@ -17,19 +17,17 @@ $(function() {
 
   // Search
   if ($('.search').length) {
-    $('.tab-pane .search').each(function () {
+    $('.search').each(function () {
       var id = '#' + $(this).parent().parent().attr('id');
-
-      $(this).submit(function(e) {  
+      $(this).submit(function(e) {
+        
         var form, filters = '';
         form = $(e.target);
 
-        $('.btn-group > button.active', id).each(function(){
+        $('.btn-group button.active', id).each(function(){
           filters = filters + '&filters=' + $(this).val();
         });
-        console.log(form.attr('action') + ' ' + id + ' .results');
-        console.log(form.serialize() + filters);
-        
+
         $(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize() + filters);
         return false;
       });
@@ -57,7 +55,7 @@ $(function() {
       return false;
     });  
   });
-  
+
   // Radio Button Groups
   $('div.btn-group[data-toggle=buttons-radio]').each(function() {
     var form, group, hidden, name;

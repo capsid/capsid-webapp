@@ -6,11 +6,10 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>	
-		<r:require modules="visualsearch-project-list"/>
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="content">
+			<div class="content" id="project-list">
 				<div class="row-fluid page-header">
 					<div class="pull-left">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>

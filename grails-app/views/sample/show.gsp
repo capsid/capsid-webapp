@@ -7,7 +7,6 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title>${sampleInstance.name}</title>
-		<r:require modules="visualsearch-sample-show"/>
 	</head>
 	<body>
 		<div class="row-fluid">

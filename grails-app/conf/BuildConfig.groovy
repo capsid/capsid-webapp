@@ -46,7 +46,6 @@ grails.project.dependency.resolution = {
         compile ":jquery:latest.integration"
         compile ":jquery-ui:latest.integration"
         
-        //compile ':twitter-bootstrap:2.0.1.22'
         compile ':twitter-bootstrap:latest.integration'
         compile ':fields:latest.integration'
 
@@ -59,9 +58,9 @@ grails.project.dependency.resolution = {
         
         runtime ":mongodb:latest.integration"
         
-        runtime ":zipped-resources:latest.integration"
-        runtime ":cached-resources:latest.integration"
-        runtime ":cache-headers:latest.integration"
+        //runtime ":zipped-resources:latest.integration"
+        //runtime ":cached-resources:latest.integration"
+        //runtime ":cache-headers:latest.integration"
         //runtime ":yui-minify-resources:latest.integration"
         
         build ":tomcat:$grailsVersion"

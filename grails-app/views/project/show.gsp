@@ -6,7 +6,6 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
 		<title>${projectInstance.name}</title>
-		<r:require modules="visualsearch-project-show"/>
 	</head>
 	<body>
 		<div class="row-fluid">
