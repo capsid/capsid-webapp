@@ -39,7 +39,7 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 				<h1>Bookmarks <!--<small>Drag & Drop to re-order</small>--></h1>
-				<div class="row">
+				<div class="row-fluid">
 					<ul class="nav span4" id="sortable-bookmarks">
 					<g:each var="bookmark" in="${userInstance.bookmarks}">
 						<li class="well well-small" style="margin-bottom:5px;">

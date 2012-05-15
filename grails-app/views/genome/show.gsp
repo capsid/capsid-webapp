@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
+		<title>${genomeInstance.accession.replaceAll('_',' ')} - ${genomeInstance.name}</title>
 	</head>
 	<body>
 		<div class="row-fluid">
