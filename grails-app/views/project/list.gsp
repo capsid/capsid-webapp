@@ -54,7 +54,10 @@
 						<tbody>
 						<g:each in="${projects}" var="projectInstance">
 							<tr>
-								<td><g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
+								<td>
+									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+									<i rel="tooltip" title="${is_private?'Private':'Public'}" class="${is_private?'icon-lock':'icon-eye-open'}"></i>
+									<g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
 								<td>${fieldValue(bean: projectInstance, field: "description")}</td>
 								<td>${projectInstance["sampleCount"]}</td>
 							</tr>
