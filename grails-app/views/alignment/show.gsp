@@ -22,20 +22,17 @@
 						<span class="divider">/</span>
 					</li>
 				</ul>
-				<div class="page-header">
-					<div>
+				<div class="page-header row-fluid">
+					<div class="pull-left">
 						<h1><small>ALIGNMENT</small> ${alignmentInstance.name}</h1>
 					</div>
 					<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
-					<g:form style="margin:10px 0 0">
-						<g:hiddenField name="id" value="${alignmentInstance?.name}" />
-						<div>
-							<g:link class="btn" action="edit" id="${alignmentInstance?.name}">
-								<i class="icon-pencil"></i>
-								<g:message code="default.button.edit.label" default="Edit" />
-							</g:link>
-						</div>
-					</g:form>
+					<div class="pull-right">
+						<g:link class="btn" action="edit" id="${alignmentInstance?.name}">
+							<i class="icon-pencil"></i>
+							<g:message code="default.button.edit.label" default="Edit" />
+						</g:link>
+					</div>
 					</auth:ifAnyGranted>
 				</div>
 
