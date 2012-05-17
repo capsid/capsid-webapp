@@ -1,10 +1,12 @@
-
+<%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Genome" %>
 <!doctype html>
 <html>
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
+		<g:set var="projectInstance" value="${params?.project?Project.findByLabel(params?.project):null}" />
+		
 		<title>${genomeInstance.accession.replaceAll('_',' ')} - ${genomeInstance.name}</title>
 	</head>
 	<body>
@@ -80,7 +82,7 @@
 					<div class="tab-pane active" id="sample-stats">
 						<div class="row-fluid">
 							<h2 class="pull-left">Sample Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'query': projectInstance?.name]"/>
 						</div>
 						<div id="sample-stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -125,7 +127,7 @@
 					<div class="tab-pane" id="project-stats">
 						<div class="row-fluid">
 							<h2 class="pull-left">Project Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
+							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'query': projectInstance?.name]"/>
 						</div>
 						<div id="project-stats-table" class="results">
 							<table class="table table-striped table-condensed">

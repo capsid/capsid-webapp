@@ -72,8 +72,9 @@
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
 					<ul id="items" class="nav nav-list">
-						<g:each in="${mappedInstance.mapsGene}" var="name">
-						<li><a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${name}">${name}</a></li>
+						<g:each in="${mappedInstance.mapsGene}" var="geneId">
+						<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(geneId, 'gene')}" />
+						<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
 						</g:each>
 					</ul>
 					</g:if>
@@ -108,7 +109,7 @@
 			          		BLAST <span class="caret"></span>
 			        	</button>
 			        	<ul class="dropdown-menu" style="left:auto; right:0;">
-			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${mappedInstance.sequence}" target="_blank">BLAST Sequence</a></li>
+			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${mappedInstance.sequence}" target="_blank">BLAST Read Sequence</a></li>
 			            	<li data-tab="#contig"><span class="disabled">Generating Contig...</span></li>
 			        	</ul>
 			        </div>
