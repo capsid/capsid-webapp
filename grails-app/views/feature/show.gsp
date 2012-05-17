@@ -12,71 +12,80 @@
 	<body>
 		<div class="row-fluid">
 			<div class="content">
-				<ul class="breadcrumb">
-					<li>
-						<g:link controller="genome" action="show" id="${genomeInstance.accession}">
-						${genomeInstance.name}
-						</g:link> 
-						<span class="divider">/</span>
-					</li>
-				</ul>
-				<div class="page-header">
-					<div>
-						<h1><g:fieldValue bean="${featureInstance}" field="name"/></h1>
-					</div>
+				<div class="row-fluid page-header">
+					<h1 class="pull-left"><small>FEATURE</small> ${featureInstance.name}</h1>
+					<g:if test="${1 == 2}">
+					<div id="blast" class="btn-group pull-right">
+			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			          		<i class="icon-share-alt icon-white"></i>
+			          		BLAST <span class="caret"></span>
+			        	</button>
+			        	<ul class="dropdown-menu" style="left:auto; right:0;">
+			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${sequence}" target="_blank">BLAST Sequence</a></li>
+			        	</ul>
+			        </div>
+			    	</g:if>
 				</div>
 
 				<g:if test="${flash.message}">
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
+				<h2><small>${featureInstance.type.toUpperCase()} ON GENOME</small> <g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></h2>
+				
+				<div class="row-fluid">
+					<div class="span6">
+						<ul class="nav nav-list">
+							<li class="nav-header">Details</li>
+							<table class="table">
+								<tbody>
+								<g:if test="${featureInstance?.geneId}">
+								<tr>
+									<td><g:message code="feature.geneId.label" default="Gene Id" /></td>
+									<td><g:fieldValue bean="${featureInstance}" field="geneId"/></td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${featureInstance?.locusTag}">
+								<tr>
+									<td><g:message code="feature.locusTag.label" default="Locus Tag" /></td>						
+									<td>${featureInstance.locusTag}</td>
+								</tr>
+								</g:if>
+							
+								<g:if test="${featureInstance?.start}">
+								<tr>
+									<td><g:message code="feature.start.label" default="Start" /></td>
+									<td><g:fieldValue bean="${featureInstance}" field="start"/></td>
+								</tr>
+								</g:if>
 
-				<dl>
-					<g:if test="${featureInstance?.geneId}">
-						<dt><g:message code="feature.geneId.label" default="Gene Id" /></dt>
-						
-							<dd>${featureInstance.geneId}</dd>
-						
-					</g:if>
-	
-					<g:if test="${featureInstance?.locusTag}">
-						<dt><g:message code="feature.locusTag.label" default="Locus Tag" /></dt>
-						
-							<dd><g:fieldValue bean="${featureInstance}" field="locusTag"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${featureInstance?.start}">
-						<dt><g:message code="feature.start.label" default="Start" /></dt>
-						
-							<dd><g:fieldValue bean="${featureInstance}" field="start"/></dd>
-						
-					</g:if>
-				
+								<g:if test="${featureInstance?.end}">
+								<tr>
+									<td><g:message code="feature.end.label" default="End" /></td>
+									<td><g:fieldValue bean="${featureInstance}" field="end"/></td>
+								</tr>
+								</g:if>
 
-					<g:if test="${featureInstance?.end}">
-						<dt><g:message code="feature.end.label" default="End" /></dt>
-						
-							<dd><g:fieldValue bean="${featureInstance}" field="end"/></dd>
-						
-					</g:if>
-					
-				
-					
-					<g:if test="${featureInstance?.strand}">
-						<dt><g:message code="feature.strand.label" default="Strand" /></dt>
-						
-							<dd><g:fieldValue bean="${featureInstance}" field="strand"/></dd>
-						
-					</g:if>
-				
-					<g:if test="${featureInstance?.type}">
-						<dt><g:message code="feature.type.label" default="Type" /></dt>
-						
-							<dd><g:fieldValue bean="${featureInstance}" field="type"/></dd>
-						
-					</g:if>
-				
-				</dl>
+								<g:if test="${featureInstance?.strand}">
+								<tr>
+									<td><g:message code="feature.strand.label" default="Strand" /></td>
+									<td><g:fieldValue bean="${featureInstance}" field="strand"/></td>
+								</tr>
+								</g:if>
+								</tbody>
+							</table>
+						</ul>
+					</div>
+					<div class="span6">
+						<ul class="nav nav-list">
+							<li class="nav-header">Links</li>
+
+				 			<li><a href="http://www.ncbi.nlm.nih.gov/gene/${featureInstance.geneId}" target="_blank">NCBI Gene DB</a></li>
+				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${featureInstance.geneId}" target="_blank">Search NCBI</a></li>
+				          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
+				          </ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

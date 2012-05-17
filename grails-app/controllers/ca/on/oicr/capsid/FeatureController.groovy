@@ -35,15 +35,7 @@ class FeatureController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = featureService.list params
         
-        if (params._pjax) {
-            params.remove('_pjax')
-            return [featureInstanceList: results, featureInstanceTotal: results.totalCount, layout:'ajax']
-        }        
-        
-        withFormat {
-            html featureInstanceList: results, featureInstanceTotal: results.totalCount
-            json { render results as JSON  }
-        }
+        [featureInstanceList: results, featureInstanceTotal: results.totalCount]
     }
 
     def show() {
@@ -51,9 +43,7 @@ class FeatureController {
 
         Feature featureInstance = findInstance()
 
-        withFormat {
-            html featureInstance: featureInstance
-        }
+        [featureInstance: featureInstance]
     }
 
 	private Feature findInstance() {
