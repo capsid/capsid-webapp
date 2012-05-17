@@ -44,7 +44,7 @@ class AlignmentService {
 
                 // Text
                 if (params.text) {
-                    String text = params.text.replaceAll (/\"/, '%')
+                    String text = '%' + params.text + '%'
                     or {
                         ilike("name", text)
                         ilike("sample", text)
