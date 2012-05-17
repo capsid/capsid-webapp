@@ -77,18 +77,18 @@ class JbrowseController {
     List projectList = projectService.list [:]
 
     projectList.each {
-      projects[it.label] = [
-        label: '.'+it.label
+      projects[it.name.replaceAll(' ', '_')] = [
+        label: it.name.replaceAll(' ', '_')
         ,   type: "TrackGroup"
         ,   children: []
-        ,   key: '.'+it.label
+        ,   key: it.name.replaceAll(' ', '_')
       ]
     }
     genomeInstance.samples.each {
       Sample sampleInstance = Sample.findByName(it)
       Project projectInstance = Project.findByLabel(sampleInstance.project)
-      if (projects[projectInstance.label]) {
-        projects[projectInstance.label]["children"].add(["_reference":it])
+      if (projects[projectInstance.name.replaceAll(' ', '_')]) {
+        projects[projectInstance.name.replaceAll(' ', '_')]["children"].add(["_reference":it])
       }
       samples += [
         url: "../track/{refseq}?track="+it

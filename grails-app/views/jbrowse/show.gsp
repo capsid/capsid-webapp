@@ -35,7 +35,7 @@
 	    </r:script>
 	</head>
 	<body>
-		<div class="content">
+		<div class="content" style="margin: 0pt -20px;">
 			<div class="page-header">
 				<h1>
 					<g:link controller="genome" action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "name")} (${fieldValue(bean: genomeInstance, field: "accession")})</g:link>
