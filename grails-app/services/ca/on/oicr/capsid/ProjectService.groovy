@@ -43,11 +43,13 @@ class ProjectService {
 					  'in'("label", params.name)
 				  }
 			  }
-			  if (params?.text) {
+			  if (params.text) {
           String text = '%' + params.text + '%'
-          ilike("name", text)
-          ilike("label", text)
-          ilike("description", text)
+          or {
+            ilike("name", text)
+            ilike("label", text)
+            ilike("description", text)
+          }
 			  }
 		  }
 	  }
