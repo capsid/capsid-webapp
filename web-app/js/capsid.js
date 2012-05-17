@@ -26,8 +26,13 @@ $(function() {
   if ($('.search').length) {
     $('.search').each(function () {
       var id = '#' + $(this).parent().parent().attr('id');
-      $(this).submit(function(e) {
-        
+
+      $('button[type="reset"]', this).click(function(){
+        $(this).siblings('input').eq(0).val('');
+        $(this).parents('form').eq(0).submit();
+      });
+
+      $(this).submit(function(e) {        
         var form, filters = '';
         form = $(e.target);
 

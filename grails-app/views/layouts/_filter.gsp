@@ -11,6 +11,6 @@
 	</div>
 	</g:if>
 	<div class="input-prepend input-append pull-right" style="margin: 0 10px;">
-		<span class="add-on"><i class="icon-search"></i></span><input type="search" name="text" value="${query}"><button class="btn">Search</button>
+		<span class="add-on"><i class="icon-search"></i></span><input type="search" name="text" value="${query}"><button type="reset" class="btn btn-danger">&times</button><button class="btn">Search</button>
 	</div>
 </g:form>
