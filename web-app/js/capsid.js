@@ -27,9 +27,8 @@ $(function() {
     $('.search').each(function () {
       var id = '#' + $(this).parent().parent().attr('id');
 
-      $('button[type="reset"]', this).click(function(){
+      $('button.clear', this).click(function(){
         $(this).siblings('input').eq(0).val('');
-        $(this).parents('form').eq(0).submit();
       });
 
       $(this).submit(function(e) {        
@@ -45,14 +44,7 @@ $(function() {
       });
     });
   }
-/*
-  // Filter Buttons
-  $('.filter button').click(function() {  
-      var button = $(this);
-      button.toggleClass('active');
-      button.toggleClass('btn-primary');      
-  });
-*/
+
   // Ajax Tables
   $('.results').each(function () {
     var id = "#"+this.id;
