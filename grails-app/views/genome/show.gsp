@@ -73,9 +73,9 @@
 				</div>
 
 				<ul class="nav nav-tabs">
-			    	<li class="active"><a href="#sample-stats" data-toggle="tab">Sample Statistics (${sStatistics.totalCount})</a></li>
-			    	<li><a href="#project-stats" data-toggle="tab">Project Statistics (${pStatistics.totalCount})</a></li>
-				    <li><a href="#features" data-toggle="tab">Features (${features.totalCount})</a></li>
+			    	<li class="active"><a href="#sample-stats" data-toggle="tab">Sample Statistics</a></li>
+			    	<li><a href="#project-stats" data-toggle="tab">Project Statistics</a></li>
+				    <li><a href="#features" data-toggle="tab">Features</a></li>
 			    </ul>
 
 			    <div class="tab-content">

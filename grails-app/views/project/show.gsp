@@ -49,8 +49,8 @@
 					</g:if>
 					
 					<ul class="nav nav-tabs">
-				    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits (${statistics.totalCount})</a></li>
-					    <li><a href="#samples" data-toggle="tab">Samples (${samples.totalCount})</a></li>
+				    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits</a></li>
+					    <li><a href="#samples" data-toggle="tab">Samples</a></li>
 				    </ul>
 
 				    <div class="tab-content">

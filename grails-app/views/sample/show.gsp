@@ -86,8 +86,8 @@
 				</div>
 
 				<ul class="nav nav-tabs">
-			    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits (${statistics.totalCount})</a></li>
-				    <li><a href="#alignments" data-toggle="tab">Alignments (${alignments.totalCount})</a></li>
+			    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits</a></li>
+				    <li><a href="#alignments" data-toggle="tab">Alignments</a></li>
 			    </ul>
 
 				<div class="tab-content">
