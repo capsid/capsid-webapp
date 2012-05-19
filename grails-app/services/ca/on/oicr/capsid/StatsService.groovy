@@ -36,7 +36,7 @@ class StatsService {
 				}
 				if (params.project) {
 					if (params.project instanceof String) {
-						ilike("project", params.project.replaceAll (/\"/, '%'))
+						ilike("project", '%' + params.project + '%')
 					}
 					else if (params.project instanceof String[]) {
 						'in'("project", params.project)
@@ -69,7 +69,7 @@ class StatsService {
 					}
 				}
 				if (params.genome) {
-					ilike("genome", params.genome.replaceAll (/\"/, '%'))
+					ilike("genome", '%' + params.genome + '%')
 				}	
 
 				// Text

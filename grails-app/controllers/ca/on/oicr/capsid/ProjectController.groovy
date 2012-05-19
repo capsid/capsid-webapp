@@ -48,12 +48,13 @@ class ProjectController {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.project = params.label = params.id
+        params.label = params.id
         params.sample = 'none'
 
         Project projectInstance = findInstance()
         
         List statistics = statsService.list params 
+        params.project = params.id
         List samples = sampleService.list params 
 
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
