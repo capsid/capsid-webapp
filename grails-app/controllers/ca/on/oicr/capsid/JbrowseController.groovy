@@ -78,7 +78,7 @@ class JbrowseController {
 
     projectList.each {
       projects[it.name.replaceAll(' ', '_')] = [
-        label: it.name.replaceAll(' ', '_')
+        label: '.' + it.name.replaceAll(' ', '_')
         ,   type: "TrackGroup"
         ,   children: []
         ,   key: it.name.replaceAll(' ', '_')
