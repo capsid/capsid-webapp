@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-		<g:set var="projectInstance" value="${params?.project?Project.findByLabel(params?.project):null}" />
+		<g:set var="projectInstance" value="${params?.label?Project.findByLabel(params?.label):null}" />
 		
 		<title>${genomeInstance.accession.replaceAll('_',' ')} - ${genomeInstance.name}</title>
 	</head>

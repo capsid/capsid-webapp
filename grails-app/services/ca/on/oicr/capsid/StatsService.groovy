@@ -31,7 +31,7 @@ class StatsService {
             	// Project
 				if (params.label) {
 					if (params.label instanceof String) {
-						eq("label", params.label)
+						eq("label",params.label)
 					}
 				}
 				if (params.project) {
