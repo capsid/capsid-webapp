@@ -51,7 +51,7 @@ class JbrowseController {
         label: "General"
         ,   type: "TrackGroup"
         ,	children: [
-          [ "_reference" : "Genes"]
+              [ "_reference" : "Genes"]
           ,   [ "_reference" : "DNA"]
         ]
         ,   key: "General"
@@ -77,18 +77,20 @@ class JbrowseController {
     List projectList = projectService.list [:]
 
     projectList.each {
-      projects[it.name.replaceAll(' ', '_')] = [
-        label: '.' + it.name.replaceAll(' ', '_')
+      projects[it.label] = [
+            label: it.name.replaceAll(' ', '_').replaceAll('-', '_')
         ,   type: "TrackGroup"
         ,   children: []
-        ,   key: it.name.replaceAll(' ', '_')
+        ,   key: it.name.replaceAll(' ', '_').replaceAll('-', '_')
       ]
     }
+
     genomeInstance.samples.each {
       Sample sampleInstance = Sample.findByName(it)
+      if (sampleInstance == null) return
       Project projectInstance = Project.findByLabel(sampleInstance.project)
-      if (projects[projectInstance.name.replaceAll(' ', '_')]) {
-        projects[projectInstance.name.replaceAll(' ', '_')]["children"].add(["_reference":it])
+      if (projects[projectInstance.label]) {
+        projects[projectInstance.label]["children"].add(["_reference":it])
       }
       samples += [
         url: "../track/{refseq}?track="+it
@@ -106,7 +108,6 @@ class JbrowseController {
     }
 
     tracks.addAll(samples);
-
     def s = [refseqs:seqs, trackInfo:tracks]
     render s as JSON
   }
