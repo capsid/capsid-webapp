@@ -1,12 +1,13 @@
+/*
 html, body {
     height: 100%;
 }
 
-div {
+#browser div {
     font-family: "sans-serif";
 }
-
-.nav {
+*/
+#browser .nav {
     vertical-align: middle;
     z-index: 10;
 }
@@ -18,7 +19,7 @@ input.icon {
     *display: inline;
 }
 
-div.container {
+#browser div.container {
     position: absolute;
     z-index: 0;
 }

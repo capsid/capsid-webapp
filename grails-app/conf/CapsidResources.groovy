@@ -1,12 +1,12 @@
 modules = {
 	
 	capsid {
-		dependsOn 'bootstrap'
+        dependsOn 'bootstrap'
 		resource url:'js/capsid.js'
         resource url:'css/style.css'        
 	}
     
-    jbrowse {   
+    jbrowse {
         resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
         resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
         resource url:'css/jbrowse.css', bundle:'bundle_jbrowse'
