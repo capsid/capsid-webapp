@@ -27,8 +27,9 @@ $(function() {
     $('.search').each(function () {
       var id = '#' + $(this).parent().parent().attr('id');
 
-      $('button.clear', this).click(function(){
-        $(this).parents('input').eq(0).val('');
+      $('span.clear', this).click(function(){
+        $(this).parent().siblings('input').eq(0).val('');
+        $(this).parents('form').submit();
       });
 
       $(this).submit(function(e) {        
