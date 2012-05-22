@@ -28,7 +28,7 @@ $(function() {
       var id = '#' + $(this).parent().parent().attr('id');
 
       $('button.clear', this).click(function(){
-        $(this).siblings('input').eq(0).val('');
+        $(this).parents('input').eq(0).val('');
       });
 
       $(this).submit(function(e) {        
