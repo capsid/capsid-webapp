@@ -72,8 +72,8 @@
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
 					<ul id="items" class="nav nav-list">
-						<g:each in="${mappedInstance.mapsGene}" var="geneId">
-						<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(geneId, 'gene')}" />
+						<g:each in="${mappedInstance.mapsGene}" var="uid">
+						<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
 						<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
 						</g:each>
 					</ul>
@@ -167,7 +167,7 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate id="${mappedInstance?.id}" total="${otherHits.totalCount}" params="${params}" />
+								<bootstrap:paginate id="${mappedInstance?.id}" total="${otherHits.size()}" params="${params}" />
 							</div>
 						</div>
 					</div>
