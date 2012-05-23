@@ -1,4 +1,4 @@
-$(function() {
+jQuery(function($) {
   $('body').ajaxStart(function() {
     $('.results table').css({'opacity': 0.4});
   });
@@ -82,6 +82,7 @@ $(function() {
 
   // Bookmarks
   $("#add-bookmark").click(function() {
+    alert('bmk');
     $("#add-bookmark-modal input[name='title']").val(document.title);
     $("#add-bookmark-modal input[name='address']").val(window.location.pathname + window.location.search);
   });

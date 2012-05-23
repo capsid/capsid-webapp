@@ -5,7 +5,7 @@ modules = {
 		resource url:'js/capsid.js'
         resource url:'css/style.css'        
 	}
-    
+
     jbrowse {
         resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
         resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
