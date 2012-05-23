@@ -52,6 +52,7 @@ class ProjectController {
 
         Project projectInstance = findInstance()
         
+        params.label = params.id
         List statistics = statsService.list params 
         params.project = params.id
         List samples = sampleService.list params 
