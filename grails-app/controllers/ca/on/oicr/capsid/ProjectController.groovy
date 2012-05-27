@@ -56,7 +56,9 @@ class ProjectController {
         List statistics = statsService.list params 
         params.project = params.id
         List samples = sampleService.list params 
-
+        params.remove('label')
+        params.remove('project')
+        
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 
