@@ -78,10 +78,10 @@ class JbrowseController {
 
     projectList.each {
       projects[it.label] = [
-            label: it.name.replaceAll(' ', '_').replaceAll('-', '_')
+            label: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
         ,   type: "TrackGroup"
         ,   children: []
-        ,   key: it.name.replaceAll(' ', '_').replaceAll('-', '_')
+        ,   key: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
       ]
     }
 
@@ -115,7 +115,7 @@ class JbrowseController {
   def track = {
     Genome genomeInstance = Genome.findByAccession(params.id)
     Sample sampleInstance = Sample.findByName(params.track)
-
+    
     List headers = ['start', 'end', 'strand', 'id', 'isRef', 'label'];
     int ncIndex = headers.size();
 
