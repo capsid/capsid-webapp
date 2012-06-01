@@ -32,7 +32,7 @@ class LoginController {
 			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
 		}
 		else {
-			redirect action: auth, params: params
+			redirect action: 'auth', params: params
 		}
 	}
 
@@ -55,7 +55,7 @@ class LoginController {
 	}
 
 	/**
-	 * The redirect action for Ajax requests. 
+	 * The redirect action for Ajax requests.
 	 */
 	def authAjax = {
 		response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
@@ -69,7 +69,7 @@ class LoginController {
 		if (springSecurityService.isLoggedIn() &&
 				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
-			redirect action: full, params: params
+			redirect action: 'full', params: params
 		}
 	}
 
@@ -93,19 +93,19 @@ class LoginController {
 		def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]
 		if (exception) {
 			if (exception instanceof AccountExpiredException) {
-				msg = SpringSecurityUtils.securityConfig.errors.login.expired
+				msg = g.message(code: "springSecurity.errors.login.expired")
 			}
 			else if (exception instanceof CredentialsExpiredException) {
-				msg = SpringSecurityUtils.securityConfig.errors.login.passwordExpired
+				msg = g.message(code: "springSecurity.errors.login.passwordExpired")
 			}
 			else if (exception instanceof DisabledException) {
-				msg = SpringSecurityUtils.securityConfig.errors.login.disabled
+				msg = g.message(code: "springSecurity.errors.login.disabled")
 			}
 			else if (exception instanceof LockedException) {
-				msg = SpringSecurityUtils.securityConfig.errors.login.locked
+				msg = g.message(code: "springSecurity.errors.login.locked")
 			}
 			else {
-				msg = SpringSecurityUtils.securityConfig.errors.login.fail
+				msg = g.message(code: "springSecurity.errors.login.fail")
 			}
 		}
 
@@ -114,7 +114,7 @@ class LoginController {
 		}
 		else {
 			flash.message = msg
-			redirect action: auth, params: params
+			redirect action: 'auth', params: params
 		}
 	}
 

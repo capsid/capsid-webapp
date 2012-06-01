@@ -1,56 +1,59 @@
+
 <%@ page import="ca.on.oicr.capsid.User" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-    <title>${userInstance.username}</title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <div class="line">
-      <div class="unit">
-        <h1>${userInstance.username}</h1>
-      </div>
-      <div class="unit right">
-          <span id="edit-wrap"><button data-dojo-type="dijit.form.Button" jsId="editButton" id="/user/edit/${userInstance.username}">Edit User</button></span>
-      </div>
-    </div>
-    <div class="line">
-      <div class="dialog unit size1of3">
-        <table>
-          <tbody>
-            <tr class="prop">
-              <td valign="top" class="name">Full Name</td>
-              <td valign="top" class="value">${userInstance.userRealName}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Email Address</td>
-              <td valign="top" class="value">${userInstance.email}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Institute</td>
-              <td valign="top" class="value">${userInstance.institute}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Location</td>
-              <td valign="top" class="value">${userInstance.location}</td>
-            </tr>
-            <auth:ifAnyGranted access="[('capsid'):['owner']]">
-              <tr class="prop">
-                <td valign="top" class="name">Enabled</td>
-                <g:set var="enabled" value="${userInstance.enabled?'bullet_green.png':'bullet_red.png'}"/>
-                <td valign="top" class="value"><img src="${createLinkTo(dir:'images', file:enabled)}"/></td>
-              </tr>
-              <tr class="prop">
-                <td valign="top" class="name">Admin</td>
-                <g:set var="enabled" value="${admin?'bullet_green.png':'bullet_red.png'}"/>
-                <td valign="top" class="value"><img src="${createLinkTo(dir:'images', file:enabled)}"/></td>
-              </tr>
-            </auth:ifAnyGranted>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </body>
+	<head>
+		<meta name="layout" content="${layout?:'bootstrap'}">
+		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+		<title>${userInstance.username}</title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+				<div class="row-fluid page-header">
+					<div class="span9">
+						<h1>
+							${userInstance.username}
+							<g:if test="${userInstance?.userRealName}">(${userInstance.userRealName})</g:if><br>
+							<small>
+								<g:if test="${userInstance?.institute}">${userInstance.institute}, </g:if>
+								<g:if test="${userInstance?.location}">${userInstance.location}</g:if>
+							</small>
+						</h1>
+						<h4>${userInstance.email}</h4>
+					</div>
+					<!--
+					<g:form class="pull-right">
+						<g:hiddenField name="id" value="${userInstance?.username}" />
+						<div>
+							<g:link class="btn" action="edit" id="${userInstance?.username}">
+								<i class="icon-pencil"></i>
+								<g:message code="default.button.edit.label" default="Edit" />
+							</g:link>
+						</div>
+					</g:form>
+					-->
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+				<h1>Bookmarks <!--<small>Drag & Drop to re-order</small>--></h1>
+				<div class="row-fluid">
+					<ul class="nav span4" id="sortable-bookmarks">
+					<g:each var="bookmark" in="${userInstance.bookmarks}">
+						<li class="well well-small" style="margin-bottom:5px;">
+							<span>
+								<a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a>
+							</span>
+							<g:link action="remove_bookmark" id="${userInstance.username}" params="[_id: bookmark['_id']]" class="icon-remove close delete" style="margin-top:4px;margin-left:5px;"></g:link>
+							<!--
+							<i class="icon-pencil close delete" style="margin-top:4px;"></i>
+							-->
+						</li>
+					</g:each> 
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

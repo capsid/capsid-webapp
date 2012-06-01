@@ -1,69 +1,89 @@
-<% import grails.persistence.Event %>
-<% import org.codehaus.groovy.grails.plugins.PluginManagerHolder %>
 <%=packageName%>
+<!doctype html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="breadcrumbs nav">
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-           &raquo;
-            <span class="menuButton"><g:link action="show" id="\${${propertyName}?.id}">\${${propertyName}?.name}</g:link></span>      
-            &raquo;
-            <span class="menuButton"><span class="link edit"><g:message code="default.edit.label" args="[entityName]" /></span></span>
-            
-        </div>
-        <div class="line">
-        <div class="body unit size2of5">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
-            <g:if test="\${flash.message}">
-            <div class="message">\${flash.message}</div>
-            </g:if>
-            <g:hasErrors bean="\${${propertyName}}">
-            <div class="errors">
-                <g:renderErrors bean="\${${propertyName}}" as="list" />
-            </div>
-            </g:hasErrors>
-            <g:form method="post" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
-                <g:hiddenField name="id" value="\${${propertyName}?.id}" />
-                <g:hiddenField name="version" value="\${${propertyName}?.version}" />
-                <div class="dialog">
-                    <table>
-                        <tbody>
-                        <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
-                            persistentPropNames = domainClass.persistentProperties*.name
-                            props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
-                            Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-                            display = true
-                            boolean hasHibernate = PluginManagerHolder.pluginManager.hasGrailsPlugin('hibernate')
-                            props.each { p ->
-                                if (hasHibernate) {
-                                    cp = domainClass.constrainedProperties[p.name]
-                                    display = (cp?.display ?: true)
-                                }
-                                if (display) { %>
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                  <label for="${p.name}"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></label>
-                                </td>
-                                <td valign="top" class="value \${hasErrors(bean: ${propertyName}, field: '${p.name}', 'errors')}">
-                                    ${renderEditor(p)}
-                                </td>
-                            </tr>
-                        <%  }   } %>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="\${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
-            </g:form>
-        </div>
-        </div>
-    </body>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
+		<title><g:message code="default.edit.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+			<section>
+				<div class="page-header">
+					<h1>Edit \${${propertyName}.name} <small>Edit ${className} Attributes</small></h1>
+				</div>
+
+				<g:if test="\${flash.message}">
+				<bootstrap:alert class="alert-info">\${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="\${${propertyName}}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="\${${propertyName}}" var="error">
+					<li <g:if test="\${error in org.springframework.validation.FieldError}">data-field-id="\${error.field}"</g:if>><g:message error="\${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="\${${propertyName}?.label}" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
+						<g:hiddenField name="version" value="\${${propertyName}?.version}" />
+						<fieldset>
+							<f:all bean="${propertyName}"/>
+							<div class="form-actions" style="border-radius:0; border:none;">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.update.label" default="Update" />
+								</button>
+								<g:link action="show" id="\${${propertyName}?.name}" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Delete ${className}</h1>
+				</div>
+				<div class="row-fluid">
+					<div class="span alert alert-danger">Deleting this ${className} <i>(\${${propertyName}?.name})</i> will also delete all mapped reads associated with it.</div>
+				</div>
+				<fieldset>
+					<form class="form-horizontal">
+						<fieldset>
+							<div class="form-actions">
+								<button type="button" class="btn btn-danger" data-target="#myModal" data-toggle="modal">
+									<i class="icon-trash icon-white"></i>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				</fieldset>
+				<div class="modal hide" id="myModal" style="display: none;">
+					<div class="modal-header">
+		            <a data-dismiss="modal" class="close">×</a>
+		            <h3>Delete ${className}</h3>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="alert alert-danger">Deleting this ${className} <i>(\${${propertyName}?.name})</i> will also delete all mapped reads associated with it.<br/><br/>Deleting a ${className} is permanent, please be certain before continuing.<br/></div>	
+		            </div>
+				    <div class="modal-footer">
+						<g:form action="update" id="\${${propertyName}??.name}" >
+							<g:hiddenField name="version" value="\${${propertyName}??.name}" />
+							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+								<i class="icon-trash icon-white"></i>
+								<g:message code="default.button.delete.label" default="Delete" />
+							</button>
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
+						</g:form>
+					</div>
+				</div>
+			</section>
+			</div>
+		</div>
+	</body>
 </html>

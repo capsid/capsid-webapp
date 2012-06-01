@@ -1,49 +1,59 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
-<form action="save" method="post" dojoType="dijit.form.Form" id="addProjectForm" jsId="addProjectForm">
-  <div class="error">${flash.message}</div>
-  <table>
-    <tbody>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="name"><g:message code="project.name.label" default="Name" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="name" value="${projectInstance?.name}" dojoType="dijit.form.ValidationTextBox" required="true"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="label"><g:message code="project.label.label" default="Label" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="label" value="${projectInstance?.label}"  dojoType="dijit.form.ValidationTextBox" regExp='[\\w]+' required="true" invalidMessage="Invalid Symbol or Space."/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="description"><g:message code="project.description.label" default="Description" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textArea name="description" value="${projectInstance?.description}" dojoType="dijit.form.Textarea"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="wikiLink"><g:message code="project.wikiLink.label" default="Wiki Link" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="wikiLink" value="${projectInstance?.wikiLink}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="private"><g:message code="project.private.label" default="Private" /></label>
-        </td>
-        <td valign="top" class="value">
-          <input id="private" name="private" dojoType="dijit.form.CheckBox" value="agreed"/>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <button dojoType="dijit.form.Button" type="submit">Create</button>
-</form>
+<!doctype html>
+<html>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
+		<title><g:message code="default.create.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+				<div class="page-header">
+					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${projectInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${projectInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="save" >
+						<fieldset>
+							<f:all bean="projectInstance"/>
+							<f:field bean="projectInstance" property="label"/>
+							<div class="control-group ">
+								<label for="label" class="control-label">Security</label>
+								<div class="controls">
+									<g:hiddenField name="is_private" id="is_private" value="${!'ROLE_CAPISD' in projectInstance.roles}" />
+									
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn"><i class="icon-lock"></i> Private</button>
+										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.create.label" default="Create" />
+								</button>
+								<g:link action="list" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>

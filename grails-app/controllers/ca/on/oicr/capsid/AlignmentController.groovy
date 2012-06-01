@@ -1,117 +1,146 @@
 /*
- *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
- *
- *	This program and the accompanying materials are made available under the
- *	terms of the GNU Public License v3.0.
- *
- *	You should have received a copy of the GNU General Public License along with
- *	this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+*    Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+*
+*    This program and the accompanying materials are made available under the
+*    terms of the GNU Public License v3.0.
+*
+*    You should have received a copy of the GNU General Public License along with
+*    this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
 import org.springframework.dao.DataIntegrityViolationException
+import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class AlignmentController {
 
-    def projectService
-    def sampleService
-    def alignmentService
+    static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+
     def authService
+    def alignmentService
+	def statsService
 
-    def index = {redirect(action: "list", params: params)}
+    def index() { redirect action: 'list', params: params }
 
-    def list = {}
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        List results = alignmentService.list params
+        
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount, layout:'ajax']
+        }        
+        
+        withFormat {
+            html alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount
+            json { render results as JSON  }
+        }
+    }
 
-    def show = {
+    def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+
         Alignment alignmentInstance = findInstance()
-        [alignmentInstance: alignmentInstance]
-    }
+        
+        List results = statsService.list params 
 
-    def create = {
-        authorize(['ROLE_' + params.id.toUpperCase()], ['collaborator', 'owner'])
-
-        Alignment alignment = new Alignment(params)
-        List<Sample> samples = []
-
-        if (projectService.get(params.id)) {
-            alignment.project = params.id
-            samples = Sample.findAllByProject(params.id)
-        } else if (sampleService.get(params.id)) {
-            Sample sample = sampleService.get(params.id)
-            alignment.project = sample.project
-            samples = [sample]
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
         }
 
-        [alignmentInstance: alignment, sampleList: samples]
+        withFormat {
+            html alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
     }
 
-    def save = {
+    def create() { 
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
-        alignmentService.save(params)
+        [alignmentInstance: new Alignment(params)] }
 
-        render 'created'
+	def save() {
+	    Alignment alignmentInstance = new Alignment(params)
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
+
+		if (!alignmentInstance.save(flush: true)) {
+			render view: 'create', model: [alignmentInstance: alignmentInstance]
+			return
+		}
+		
+		flash.message = message(code: 'default.created.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
+        redirect action: 'show', id: alignmentInstance.name
     }
 
-    def edit = {
-        Alignment alignment = findInstance()
-        authorize(alignment, ['collaborator', 'owner'])
-        [alignmentInstance: alignment]
-    }
+    def edit() {
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
+        [alignmentInstance: alignmentInstance]
+	}
 
-    def update = {
-        Alignment alignment = findInstance()
-        authorize(alignment, ['collaborator', 'owner'])
-        alignmentService.update alignment, params
+    def update() {
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
-        if (!renderWithErrors('edit', alignment)) {
-            redirectShow "${message(code: 'default.updated.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignment.name])}", alignment.name
+        checkVersion(alignmentInstance, params)
+        
+        alignmentInstance.properties = params
+
+        if (!alignmentInstance.save(flush: true)) {
+            render view: 'edit', model: [alignmentInstance: alignmentInstance]
+            return
         }
-    }
 
-    def delete = {
-        Alignment alignment = findInstance()
-        authorize(alignment, ['owner'])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
+        redirect action: 'show', id: alignmentInstance.name
+	}
+
+    def delete() {
+        Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
         try {
-            String sample = alignment.sample
-            alignmentService.delete alignment
-            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'alignment.name', default: 'Alignment'), params.id])}"
-            redirect(controller: 'sample', action: 'show', id:sample)
-        } catch (DataIntegrityViolationException e) {
-            redirectShow "Alignment $alignment.name could not be deleted", alignment.name
+            alignmentInstance.delete(flush: true)
+			alignmentService.delete alignmentInstance.name
+			
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
+            redirect action: 'list'
+        }
+        catch (DataIntegrityViolationException e) {
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
+            redirect action: 'show', id: params.id
         }
     }
 
-    private Alignment findInstance() {
-        Alignment alignmentInstance = alignmentService.get(params.id)
-        authorize(alignmentInstance, ['user', 'collaborator', 'owner'])
-        if (!alignmentInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alignment.name', default: 'Alignment'), params.id])}"
-            redirect(controller:'project', action: 'list')
+	private Alignment findInstance(List roles = ['user', 'collaborator', 'owner']) {
+		Alignment alignmentInstance = alignmentService.get(params.id)
+		authorize(alignmentInstance, roles)
+		if (!alignmentInstance) {
+		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
+		  redirect action: 'list'
+		}
+		alignmentInstance
+	}
+
+	private void authorize(def auth, List access) {
+		if (!authService.authorize(auth, access)) {
+		  render view: '../login/denied'
+		}
+	}
+
+    private void checkVersion(Alignment alignmentInstance, def params) {
+        if (params.version) {
+            Long version = params.version.toLong()
+            if (alignmentInstance.version > version) {
+                alignmentInstance.errors.rejectValue('version', 'default.optimistic.locking.failure',
+                          [message(code: 'alignment.label', default: 'Alignment')] as Object[],
+                          "Another user has updated this Alignment while you were editing")
+                render view: 'edit', model: [alignmentInstance: alignmentInstance]
+                return
+            }
         }
-        alignmentInstance
-    }
-
-    private void redirectShow(message, id) {
-        flash.message = message
-        redirect(action: 'show', id: id)
-    }
-
-    private boolean renderWithErrors(String view, Alignment alignmentInstance) {
-        if (alignmentInstance.hasErrors()) {
-            render view: view, model: [alignmentInstance: alignmentInstance]
-            return true
-        }
-        false
-    }
-
-    private boolean authorize(def auth, List access) {
-        if (!authService.authorize(auth, access)) {
-            render view: '../login/denied'
-        }
-    }
-
+    } 
 }

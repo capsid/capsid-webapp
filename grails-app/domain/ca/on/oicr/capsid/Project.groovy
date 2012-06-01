@@ -1,19 +1,18 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
-*
-*    This program and the accompanying materials are made available under the
-*    terms of the GNU Public License v3.0.
-*
-*    You should have received a copy of the GNU General Public License along with
-*    this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+ *
+ *  This program and the accompanying materials are made available under the
+ *  terms of the GNU Public License v3.0.
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
 class Project {
-    static mapWith = 'mongo'
 
     ObjectId id
     String name
@@ -23,18 +22,13 @@ class Project {
     Set roles
 
     static constraints = {
-        name unique: true, nullable:false, blank:false
-        label unique:true, nullable:false, blank:false, matches:/[\w]+/
-        description nullable:false, blank:true
-        wikiLink nullable:false, blank:true
-        roles nullable:false, blank:false
+        name unique: true, blank:false
+        label unique:true, blank:false, display:false, matches:/[\w\d\-]+/
+        description blank:true, widget: 'textarea'
+        wikiLink blank:true, url: true
+        roles blank:false, display:false, editable: false
     }
 
-    static mapping = { cache true }
-
-    static namedQueries = {
-        security { roles ->
-            'in'("roles", roles)
-        }
-    }
+    static mapping = {}
+    static namedQueries = {}
 }

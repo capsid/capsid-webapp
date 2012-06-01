@@ -1,12 +1,12 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
-*
-*   This program and the accompanying materials are made available under the
-*   terms of the GNU Public License v3.0.
-*
-*   You should have received a copy of the GNU General Public License along with
-*   this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+ *
+ *  This program and the accompanying materials are made available under the
+ *  terms of the GNU Public License v3.0.
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package ca.on.oicr.capsid
 
@@ -22,6 +22,21 @@ class MappedService {
 
     Mapped get(String id) {
         Mapped.get id
+    }
+
+    ArrayList otherHits(Mapped mappedInstance) {
+        return Mapped.collection.find(
+          "readId": mappedInstance.readId
+          , "_id": [$ne: mappedInstance.id]
+        )
+        .collect {
+          [
+            id: it._id.toString()
+            , gi: it.genome 
+            , refStart: it.refStart
+            , refEnd: it.refEnd
+          ]
+        }
     }
 
     List<Mapped> getAllowedMappeds() {
@@ -83,8 +98,7 @@ class MappedService {
     ArrayList reads = []
     int start = mappedInstance.refStart
     int end = mappedInstance.refEnd
-    print 'q: '
-    Date s1 = new Date()
+
     ArrayList readsQuery = Mapped.collection.find(
         [
         alignment: mappedInstance.alignment
@@ -98,16 +112,9 @@ class MappedService {
           , sequence: it.sequence
         ]
       } 
-    Date s2 = new Date()
-    TimeDuration t = TimeCategory.minus( s2, s1 )
-    println t
+
     while (true) {
-      print 'f: '
-      Date begin = new Date()
       reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
-      Date stop = new Date()
-      TimeDuration td = TimeCategory.minus( stop, begin )
-      println td
         
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break

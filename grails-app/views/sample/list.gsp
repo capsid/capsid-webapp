@@ -1,43 +1,56 @@
-<%@ page import="ca.on.oicr.capsid.Sample" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.Sample" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
-    <title><g:message code="default.list.label" args="[entityName]" /></title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <div class="line">
-      <div class="unit">
-        <h1>Samples</h1>
-      </div>
-      <!--
-      <auth:ifAnyGranted access="['capsid': ['owner']]">
-        <button class="unit right" id="createButton" dojoType="dijit.form.Button" type="button">Add Sample</button>
-        <div style="display:none" id="createDialog" dojoType="dijit.Dialog" title="Add Sample" ></div>
-      </auth:ifAnyGranted>
-      -->
-    </div>
-
-    <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="grid" jsId="grid" style="height:700px" store="store"
-         sortInfo="1"
-         plugins='{
-                    pagination: {
-                      pageSizes: ["25", "50", "100", "250"]
-                    },
-                    filter: {itemsName : "samples"}
-                  }'
-         selectable="true"
-         structure='[{cells:[
-                    {field: "name", name: "Name", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.sample}
-                    ,    {fields: ["plabel", "pname"], name: "Project", datatype: "string", width: "auto", formatter: capsid.grid.Formatter.prototype.links.project}
-                    ,    {field: "cancer", name: "Cancer", datatype: "string", width: "auto"}
-                    ,    {field: "role", name: "Role", datatype: "string", width: "auto"}
-                    ,    {field: "source", name: "Source", datatype: "string", width: "auto"}
-                    ]}]'>
-    </div>
-  </body>
+	<head>
+		<meta name="layout" content="${layout?:'bootstrap'}">
+		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
+		<title><g:message code="default.list.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content" id="sample-list">
+				<div class="row-fluid page-header">
+					<div>
+						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+					</div>
+				</div>
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+				<div class="row-fluid">
+					<g:render template="/layouts/filter"/>
+				</div>
+				<div id="samples" class="results">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />
+								<g:sortableColumn params="${params}" property="project" title="${message(code: 'sample.project.label', default: 'Project')}" />
+								<g:sortableColumn params="${params}" property="description" title="${message(code: 'sample.description.label', default: 'Description')}" />
+								<g:sortableColumn params="${params}" property="cancer" title="${message(code: 'sample.cancer.label', default: 'Cancer')}" />
+								<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />								
+								<g:sortableColumn params="${params}" property="source" title="${message(code: 'sample.source.label', default: 'Source')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${samples}" var="sampleInstance">
+							<tr>		
+								<td><g:link action="show" id="${sampleInstance.name}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
+								<td><g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link></td>
+								<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
+								<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
+								<td>${fieldValue(bean: sampleInstance, field: "role")}</td>
+								<td>${fieldValue(bean: sampleInstance, field: "source")}</td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate total="${samples.totalCount}" params="${params}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

@@ -1,69 +1,68 @@
 <%@ page import="ca.on.oicr.capsid.User" %>
-<form action="save" method="post" dojoType="dijit.form.Form" id="addUserForm" jsId="addUserForm">
-  <div class="error">${flash.message}</div>
-  <table>
-    <tbody>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="username"><g:message code="user.username.label" default="Username" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="username" value="${userInstance?.username}" dojoType="dijit.form.ValidationTextBox" required="true"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="userRealName"><g:message code="user.userRealName.label" default="Full Name" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="userRealName" value="${userInstance?.userRealName}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="email"><g:message code="user.email.label" default="Email Address" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="email" value="${userInstance?.email}" dojoType="dijit.form.ValidationTextBox" required="true"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="institute"><g:message code="user.institute.label" default="Institute" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="institute" value="${userInstance?.institute}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="location"><g:message code="user.location.label" default="Location" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="location" value="${userInstance?.location}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="admin"><g:message code="user.admin.label" default="CaPSID Admin" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:checkBox name="admin" value="${admin}"/>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table>
-    <tbody>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="ldap">Use LDAP for<br>authorization</label>
-        </td>
-        <td valign="top" class="value">
-          <g:checkBox name="ldap" value="${ldap}"/>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <button dojoType="dijit.form.Button" type="submit">Add User</button>
-</form>
+<!doctype html>
+<html>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
+		<title><g:message code="default.create.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+				<div class="page-header">
+					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+				</div>
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${userInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${userInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="save" >
+						<fieldset>
+							<f:field bean="${userInstance}" property="username"/>
+							<f:all bean="${userInstance}"/>
+							<div class="control-group ">
+								<label for="label" class="control-label">Access</label>
+								<div class="controls">
+									<g:hiddenField name="is_admin" id="is_admin" value="${params.is_admin?:false}" />			
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_admin">
+										<button type="button" value="false" class="btn"><i class="icon-user"></i> User</button>
+										<button rel="tooltip" title="Make this user a CaPSID administrator" type="button" value="true" class="btn"><i class="icon-lock"></i> Admin</button>
+									</div>
+								</div>
+							</div>
+							<div class="control-group ">
+								<label for="label" class="control-label">LDAP</label>
+								<div class="controls">
+									<g:hiddenField name="is_ldap" id="is_ldap" value="${params.is_ldap?:false}" />
+									
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_ldap">
+										<button rel="tooltip" title="CaPSID will use the Database for authorization" type="button" value="false" class="btn">No</button>
+										<button rel="tooltip" title="CaPSID will use LDAP for authorization" type="button" value="true" class="btn">LDAP</button>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.create.label" default="Create" />
+								</button>
+								<g:link action="list" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>

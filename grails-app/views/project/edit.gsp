@@ -1,88 +1,201 @@
 <%@ page import="ca.on.oicr.capsid.Project" %>
+<%@ page import="ca.on.oicr.capsid.User" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
-    <title>Editing ${projectInstance.name}</title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <h1>Project Details</h1>
-    <div class="line">
-      <g:form action="update" method="post" id="${projectInstance.label}" dojoType="dijit.form.Form" class="unit size1of2">
-        <input type="hidden" name="label" value="${projectInstance.label}"/>
-        <table>
-          <tbody>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="name"><g:message code="project.name.label" default="Name" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textField name="name" value="${projectInstance?.name}" dojoType="dijit.form.ValidationTextBox" required="true"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="description"><g:message code="project.description.label" default="Description" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textArea name="description" value="${projectInstance?.description}" style="width:350px;" dojoType="dijit.form.Textarea"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="wikiLink"><g:message code="project.wikiLink.label" default="Wiki Link" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textField name="wikiLink" value="${projectInstance?.wikiLink}" dojoType="dijit.form.TextBox"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="private"><g:message code="project.private.label" default="Private" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:checkBox name="private" value="${!('ROLE_CAPSID' in projectInstance.roles)}"/>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="submit" dojoType="dijit.form.Button">Update Project</button>
-        <g:link action="show" id="${projectInstance.label}">Cancel Edit</g:link>
-      </g:form>
-    </div>
-    <auth:ifAnyGranted access="[(projectInstance.label):['admin']]">
-      <div class="line" style="margin: 25px 0;">
-        <h1>Access Control</h1>
-        <div dojoType="dojo.data.ItemFileReadStore" jsId="userStore" url="../../user/unassigned/${projectInstance.label}" clearOnClose="true" urlPreventCache="true"></div>
-        <div dojoType="dijit.layout.TabContainer" style="width: 50%;" doLayout="false"
-             tabStrip="true" parseOnLoad="true" id="access-panel">
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'owner', description: 'Owners have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.']"/>
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'collaborator', description: 'Collaborators have permission to add, edit and remove samples']"/>
-          <g:render template='/layouts/projectaccesspanel' model="[users:users, projectInstance:projectInstance, level: 'user', description: 'Users have read-only access to projects']"/>
-        </div>
-      </div>
-      <div class="line">
-        <h1 style="color:red">Delete Project</h1>
-        <div class="errors unit size1of3">
-          <div class="unit size3of4">
-            <p>Deleting a project is permanent.<br/>Please be certain before continuing.</p>
-          </div>
-          <div class="">
-            <button type="submit" style="color:#333;" class="right" id="deleteButton" jsID="deleteButton" dojoType="dijit.form.Button">Delete Project</button>
-            <div style="display:none" style="width:400px;" id="deleteDialog" jsId="deleteDialog" dojoType="dijit.Dialog" title="Delete Project">
-              <g:form action="delete" id="deleteForm" jsId="deleteForm" method="post" dojoType="dijit.form.Form" id="${projectInstance.label}">
-Deleting this project will also delete all samples, alignments and mapped reads associated with it. <br/><br/>Are you sure you want to continue?
-              <br/><br/>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
+		<title>Editing ${projectInstance.name}</title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+			<section>
+				<div class="page-header">
+					<h1>Edit ${projectInstance.name} <small>Edit Project Attributes</small></h1>
+				</div>
 
-                <button type="submit" id="deleteConfirm" jsID="deleteConfirm" dojoType="dijit.form.Button">Delete Project</button>
-                <button id="deleteCancel" jsID="deleteCancel" dojoType="dijit.form.Button">Cancel</button>
-              </g:form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </auth:ifAnyGranted>
-  </body>
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${projectInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${projectInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="${projectInstance?.label}" >
+						<g:hiddenField name="version" value="${projectInstance?.version}" />
+						<g:hiddenField name="label" id="label" value="${projectInstance?.label}" />
+						<fieldset>
+							<f:all bean="projectInstance"/>
+							<div class="control-group ">
+								<label for="label" class="control-label">Security</label>
+								<div class="controls">
+									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+									<g:hiddenField name="is_private" id="is_private" value="${is_private}" />
+									
+									<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_private">
+										<button rel="tooltip" title="Your project will only be visable to users that are given access" type="button" value="true" class="btn"><i class="icon-lock"></i> Private</button>
+										<button rel="tooltip" title="Project will be visable to all CaPSID users" type="button" value="false" class="btn"><i class="icon-eye-open"></i> Public</button>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions" style="border-radius:0; border:none;">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.update.label" default="Update" />
+								</button>
+								<g:link action="show" id="${projectInstance.label}" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			<auth:ifAnyGranted access="[(projectInstance.label):['owner']]">
+			<section id="uac">
+				<div class="page-header">
+					<h1>Edit Permissions <small>Change User Access Levels</small></h1>
+				</div>
+				<div class="row-fluid">
+					<div id="accordion" class="accordion" style="width:768px">
+				        <div class="accordion-group">
+				          <div class="accordion-heading">
+				            <a href="#owners" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+				              Owners Group
+				            </a>
+				          </div>
+				          <div class="accordion-body in" id="owners" style="height: auto;">
+				            <div class="accordion-inner">
+				            	<div class="row-fluid">
+				                  	<div class="span6">
+					            		<div class="alert alert-info">
+					            			<strong>Owners</strong> have full access to the project, which includes the ability to give permission for others users to access the project, and to remove the project and all associated data entirely from the platform.
+					            		</div>
+					            	</div>
+					            	<div class="span6">
+					            		<div class="user-list">
+						            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='owner'}}">
+							            		<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+						            		</g:each>
+						            	</div>
+										<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'owner']" class="well well-small form-search" >
+									    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
+									    	<button class="btn btn-success pull-right" type="submit">Add User</button>
+									    </g:form>
+					            	</div>
+				            	</div>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="accordion-group">
+				          <div class="accordion-heading">
+				            <a href="#collaborators" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+				              Collaborators Group
+				            </a>
+				          </div>
+				          <div class="accordion-body collapse" id="collaborators" style="height: 0px;">
+				            <div class="accordion-inner">
+				            	<div class="row-fluid">
+					            	<div class="span6">
+					            		<div class="alert alert-info">
+					            			<strong>Collaborators</strong> have permission to add, edit and remove samples
+					            		</div>
+					            	</div>
+					            	<div class="span6">
+					            		<div class="user-list">
+						            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='collaborator'}}">
+						            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+						            		</g:each>
+						            	</div>
+										<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'collaborator']" class="well well-small form-search" >
+									    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
+									    	<button class="btn btn-success pull-right" type="submit">Add User</button>
+									    </g:form>
+					            	</div>
+				            	</div>
+				            </div>
+				          </div>
+				        </div>
+				        <div class="accordion-group">
+				          <div class="accordion-heading">
+				            <a href="#users" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+				              Users Group
+				            </a>
+				          </div>
+				          <div class="accordion-body collapse" id="users" style="height: 0px;">
+				            <div class="accordion-inner">
+				            	<div class="row-fluid">
+					            	<div class="span6">
+					            		<div class="alert alert-info">
+					            			<strong>Users</strong> have read-only access to projects
+					            		</div>
+					            	</div>
+					            	<div class="span6">
+					            		<div class="user-list">
+						            		<g:each var="userRoleInstance" in="${userRoles.findAll{it.access=='user'}}">
+						            			<g:render template="/project/user" model="['username':userRoleInstance.user.username,'label':projectInstance.label]"/>
+						            		</g:each>
+						            	</div>
+										<g:form autocomplete="off" controller="user" action="promote" id="${projectInstance.label}" params="['access':'user']" class="well well-small form-search" >
+									    	<input type="text" class="search-query" placeholder="Search for users..." name="username" data-provide="typeahead" data-source='${unassignedUsers}'/>
+									    	<button class="btn btn-success pull-right" type="submit">Add User</button>
+									    </g:form>
+					            	</div>
+				            	</div>
+				            </div>
+				          </div>
+				        </div>
+				    </div>
+				</div>
+			</section>
+			<section>
+				<div class="page-header">
+					<h1>Delete Project</h1>
+				</div>
+				<div class="row-fluid">
+					<div class="span alert alert-danger">Deleting this project <i>(${projectInstance.name})</i> will also delete all samples, alignments and mapped reads associated with it.</div>
+				</div>
+				<fieldset>
+					<form class="form-horizontal">
+						<fieldset>
+							<div class="form-actions">
+								<button type="button" class="btn btn-danger" data-target="#delete" data-toggle="modal">
+									<i class="icon-trash icon-white"></i>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				</fieldset>
+				<div class="modal hide" id="delete" style="display: none;">
+					<div class="modal-header">
+		            <a data-dismiss="modal" class="close">×</a>
+		            <h3>Delete Project</h3>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="alert alert-danger">Deleting this project <i>(${projectInstance.name})</i> will also delete all samples, alignments and mapped reads associated with it.<br/><br/>Deleting a project is permanent, please be certain before continuing.<br/></div>	
+		            </div>
+				    <div class="modal-footer">
+						<g:form action="update" id="${projectInstance?.label}" >
+							<g:hiddenField name="version" value="${projectInstance?.version}" />
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
+							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+								<i class="icon-trash icon-white"></i>
+								<g:message code="default.button.delete.label" default="Delete" />
+							</button>
+						</g:form>
+					</div>
+				</div>
+			</section>
+			</auth:ifAnyGranted>
+			</div>
+		</div>
+	</body>
 </html>

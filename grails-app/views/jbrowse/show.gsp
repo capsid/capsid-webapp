@@ -1,18 +1,15 @@
-<%@ page import="ca.on.oicr.capsid.Genome" %>
 <html>
-<head>
-  <meta name="layout" content="main"/>
-	<link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse/jslib/dijit/themes/tundra',file:'tundra.css')}"></link>
-    <link rel="stylesheet" type="text/css" href="${resource(dir:'js/jbrowse', file:'genome.css')}"></link>
-	<p:dependantJavascript>
-    <script type="text/javascript" src="${resource(dir:'js/jbrowse/jslib/dojo', file:'jbrowse_dojo.js')}" ></script>
-    <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'prototype.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js/jbrowse', file:'jbrowse.js')}"></script>
-
-    <script type="text/javascript">
-    /* <![CDATA[ */
-			var queryParams = dojo.queryToObject(window.location.search.slice(1));
-            dojo.ready(function() {
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
+		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
+		<script src="/capsiddev/js/jbrowse/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad:true"/></script>
+	    <r:require module="jbrowse"/>
+		
+		<r:script>
+    		dojo.ready(function() {
+    			var queryParams = dojo.queryToObject(window.location.search.slice(1));
+            
         	    dojo.xhrGet({
 	   	            url: "${createLink(controller:'jbrowse', action:'setup', id:params.id)}",
 	   	            handleAs: "json",
@@ -35,16 +32,22 @@
      	         	}
         	    });
            });
-    /* ]]> */
-    </script>
-    </p:dependantJavascript>
-</head>
-<body>
-<g:if test="${flash.message}">
-<div class="message">${flash.message}</div>
-</g:if>
-<h1 style="display:inline">${genomeInstance?.name.replaceAll("_"," ")} (${genomeInstance?.accession.replaceAll("_"," ")}), ${genomeInstance?.length}bp</h1> [<a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank" style="color:#444">Link to NCBI Nucleotide DB</a>]
-<div id="setup-loader"><span>Setting Up jBrowse...</span></div>
-<div id="browser" style="border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; height:750px;width:100%"></div>
-</body>
+	    </r:script>
+	</head>
+	<body>
+		<div class="content" style="margin: 0pt -20px;">
+			<div class="page-header">
+				<h1>
+					<g:link controller="genome" action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "name")} (${fieldValue(bean: genomeInstance, field: "accession")})</g:link>
+					<small> ${fieldValue(bean: genomeInstance, field: "length")}bp</small>
+				</h1>
+				[<a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank" style="color:#444">Link to NCBI Nucleotide DB</a>]
+			</div>
+			<g:if test="${flash.message}">
+			<div class="message">${flash.message}</div>
+			</g:if>
+			<div id="setup-loader"><span>Setting Up jBrowse...</span></div>
+			<div id="browser" style="border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; height:750px;width:100%"></div>
+		</div>
+	</body>
 </html>

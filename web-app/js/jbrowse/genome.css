@@ -1,12 +1,13 @@
+/*
 html, body {
     height: 100%;
 }
 
-div {
+#browser div {
     font-family: "sans-serif";
 }
-
-.nav {
+*/
+#browser .nav {
     vertical-align: middle;
     z-index: 10;
 }
@@ -18,7 +19,7 @@ input.icon {
     *display: inline;
 }
 
-div.container {
+#browser div.container {
     position: absolute;
     z-index: 0;
 }
@@ -27,7 +28,7 @@ div.dragWindow {
     position:absolute;
     overflow: hidden;
     z-index: 1;
-    cursor: url("openhand.cur");
+    /* */
 }
 
 div.locationTrap {
@@ -47,11 +48,11 @@ div.locationThumb {
     /* if you change this border from 2px, change GenomeView.showTrap */
     border: 2px solid red;
     margin: 0px -2px 0px -2px;
-    cursor: url("openhand.cur");
+    /* */
 }
 
 div.locationThumb.dojoMoveItem {
-    cursor: url("closedhand.cur");
+    /* */
 }
 
 div.overview {
@@ -831,13 +832,6 @@ ul.pmenu li a {
 ul.pmenu li a:hover {
     background:#335EA8;
     color:white;
-}
-
-ul.pmenu li a.parent {
-    background:url('drop_down_triangle.gif') no-repeat 140px 4px; 
-}
-ul.pmenu li a.parent:hover {
-    background:#335EA8 url('drop_down_triangle_hover.gif') no-repeat 140px 4px;
 }
 
 /* IE \*/

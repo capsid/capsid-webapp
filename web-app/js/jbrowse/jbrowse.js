@@ -59,8 +59,8 @@ var Browser = function(params) {
     else
         dataRoot = "";
 
-    this.names = new LazyTrie(dataRoot + "/names/lazy-",
-			      dataRoot + "/names/root.json");
+    this.names = null; //new LazyTrie(dataRoot + "/names/lazy-",
+			      //dataRoot + "/names/root.json");
     this.tracks = [] ;
     var brwsr = this;
     brwsr.isInitialized = false;
@@ -2823,7 +2823,8 @@ FeatureTrack.prototype.loadSuccess = function(trackInfo) {
                   ", label: " + feat[fields["name"]] +
                   ", ID: " + feat[fields["id"]]);
             */
-            window.open(baseUrl + "/mapped/show/" + feat[fields['id']], '_newtab');
+            
+            window.open("/capsiddev/mapped/show/" + feat[fields['id']], '_newtab');
         };
         var track = this;
 
@@ -3614,7 +3615,7 @@ function Zoomer(scale, toScroll, callback, time, zoomLoc) {
         (toScroll.getX() + (toScroll.elem.clientWidth * zoomLoc))
         / toScroll.scrollContainer.clientWidth;
 
-    // initialX and initialLeft can differ when we're scrolling
+    // initialX and initialLeft can differ when we are scrolling
     // using scrollTop and scrollLeft
     this.initialX = this.subject.getX();
     this.initialLeft = parseInt(this.toZoom.style.left);
@@ -3854,7 +3855,7 @@ function GenomeView(elem, stripeWidth, refseq, zoomLevel, overviewTrackData) {
 	dojo.forEach(view.dragEventHandles, dojo.disconnect);
 
 	view.dragging = false;
-        view.elem.style.cursor = "url(\"openhand.cur\"), move";
+        //view.elem.style.cursor = "url(\"openhand.cur\"), move";
         document.body.style.cursor = "default";
         dojo.stopEvent(event);
 	view.showCoarse();
@@ -3914,8 +3915,8 @@ function GenomeView(elem, stripeWidth, refseq, zoomLevel, overviewTrackData) {
 			     y: event.clientY};
 	view.winStartPos = view.getPosition();
 
-	document.body.style.cursor = "url(\"closedhand.cur\"), move";
-	view.elem.style.cursor = "url(\"closedhand.cur\"), move";
+	//document.body.style.cursor = "url(\"closedhand.cur\"), move";
+	//view.elem.style.cursor = "url(\"closedhand.cur\"), move";
     };
 
     dojo.connect(view.elem, "mousedown", view.mouseDown);
@@ -4014,7 +4015,7 @@ function GenomeView(elem, stripeWidth, refseq, zoomLevel, overviewTrackData) {
 
     this.addOverviewTrack(new StaticTrack("overview_loc_track", "overview-pos", this.overviewPosHeight));
 
-    document.body.style.cursor = "url(\"closedhand.cur\")";
+    //document.body.style.cursor = "url(\"closedhand.cur\")";
     document.body.style.cursor = "default";
 
     this.showFine();

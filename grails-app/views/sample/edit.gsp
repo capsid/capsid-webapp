@@ -1,76 +1,93 @@
+<%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Sample" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
-    <title>Editing ${sampleInstance.name}</title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <h1>${sampleInstance.name} Details</h1>
-    <div class="line">
-      <g:form action="update" method="post" id="${sampleInstance.name}" dojoType="dijit.form.Form" class="unit size1of2">
-        <g:hiddenField name="name" value="${sampleInstance.name}"/>
-        <table>
-          <tbody>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="description"><g:message code="sample.description.label" default="Description" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textArea name="description" value="${sampleInstance?.description}" style="width:350px;" dojoType="dijit.form.Textarea"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="cancer"><g:message code="sample.cancer.label" default="Cancer" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textField name="cancer" value="${sampleInstance?.cancer}" dojoType="dijit.form.TextBox"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="role"><g:message code="sample.role.label" default="Role" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textField name="role" value="${sampleInstance?.role}" dojoType="dijit.form.TextBox"/>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">
-                <label for="source"><g:message code="sample.source.label" default="Source" /></label>
-              </td>
-              <td valign="top" class="value">
-                <g:textField name="source" value="${sampleInstance?.source}" dojoType="dijit.form.TextBox"/>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button dojoType="dijit.form.Button" type="submit">Update Sample</button>
-        <g:link action="show" id="${sampleInstance?.name}">Cancel Edit</g:link>
-      </g:form>
-    </div>
-      <div class="line">
-        <h1 style="color:red">Delete Sample</h1>
-        <div class="errors unit size1of3">
-          <div class="unit size3of4">
-            <p>Deleting a sample is permanent.<br/>Please be certain before continuing.</p>
-          </div>
-          <div class="">
-            <button type="submit" style="color:#333;" class="right" id="deleteButton" jsID="deleteButton" dojoType="dijit.form.Button">Delete Sample</button>
-            <div style="display:none" style="width:400px;" id="deleteDialog" jsId="deleteDialog" dojoType="dijit.Dialog" title="Delete Sample">
-              <g:form action="delete" id="deleteForm" jsId="deleteForm" method="post" dojoType="dijit.form.Form" id="${sampleInstance.name}">
-Deleting this sample will also delete all alignments and mapped reads associated with it. <br/><br/>Are you sure you want to continue?
-              <br/><br/>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
+		<title>Editing ${sampleInstance.name}</title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+			<section>
+				<div class="page-header">
+					<h1>Edit ${sampleInstance.name} <small>Edit Sample Attributes</small></h1>
+				</div>
 
-                <button type="submit" id="deleteConfirm" jsID="deleteConfirm" dojoType="dijit.form.Button">Delete Sample</button>
-                <button id="deleteCancel" jsID="deleteCancel" dojoType="dijit.form.Button">Cancel</button>
-              </g:form>
-            </div>
-          </div>
-        </div>
-      </div>
-  </body>
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${sampleInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${sampleInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="update" id="${sampleInstance?.name}" >
+						<g:hiddenField name="version" value="${sampleInstance?.version}" />
+						<fieldset>
+							<f:all bean="sampleInstance"/>
+							<div class="form-actions" style="border-radius:0; border:none;">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.update.label" default="Update" />
+								</button>
+								<g:link action="show" id="${sampleInstance.name}" class="btn">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</section>
+			
+			<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
+			<section>
+				<div class="page-header">
+					<h1>Delete Project</h1>
+				</div>
+				<div class="row-fluid">
+					<div class="span alert alert-danger">Deleting this sample <i>(${sampleInstance.name})</i> will also delete all alignments and mapped reads associated with it.</div>
+				</div>
+				<fieldset>
+					<form class="form-horizontal">
+						<fieldset>
+							<div class="form-actions">
+								<button type="button" class="btn btn-danger" data-target="#myModal" data-toggle="modal">
+									<i class="icon-trash icon-white"></i>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				</fieldset>
+				<div class="modal hide" id="myModal" style="display: none;">
+					<div class="modal-header">
+		            <a data-dismiss="modal" class="close">×</a>
+		            <h3>Delete Sample</h3>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="alert alert-danger">Deleting this sample <i>(${sampleInstance.name})</i> will also delete all alignments and mapped reads associated with it.<br/><br/>Deleting a sample is permanent, please be certain before continuing.<br/></div>	
+		            </div>
+				    <div class="modal-footer">
+						<g:form action="update" id="${sampleInstance?.name}" >
+							<g:hiddenField name="version" value="${sampleInstance?.name}" />
+							<button type="submit" class="btn btn-danger" name="_action_delete" formnovalidate>
+								<i class="icon-trash icon-white"></i>
+								<g:message code="default.button.delete.label" default="Delete" />
+							</button>
+							<a data-dismiss="modal" class="btn" href="#">Close</a>
+						</g:form>
+					</div>
+				</div>
+			</section>
+			</auth:ifAnyGranted>
+			</div>
+		</div>
+	</body>
 </html>
