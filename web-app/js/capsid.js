@@ -43,6 +43,12 @@ jQuery(function($) {
         $(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize() + filters);
         return false;
       });
+
+      // search if this a saved term
+      if($('input[type="search"]', this).val()) {
+        console.log($(this));
+        $(this).submit();
+      }
     });
   }
 
