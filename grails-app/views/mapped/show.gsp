@@ -79,7 +79,7 @@
 								<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
 							</g:if>
 							<g:else>
-								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid, 'gene')}" />
+								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid.toInteger(), 'gene')}" />
 								<g:if test="${featureInstance}">
 									<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
 								</g:if>
