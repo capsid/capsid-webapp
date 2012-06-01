@@ -48,7 +48,7 @@
 							
 								<td><g:link action="show" id="${featureInstance.uid}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
 							
-								<td><g:link controller="genome" action="show" id="">${genomeInstance.name}</g:link></td>
+								<td><g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></td>
 							
 								<td>${featureInstance.geneId}</td>
 							
