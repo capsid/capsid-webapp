@@ -41,7 +41,7 @@
 								<g:if test="${featureInstance?.geneId}">
 								<tr>
 									<td><g:message code="feature.geneId.label" default="Gene Id" /></td>
-									<td><g:fieldValue bean="${featureInstance}" field="geneId"/></td>
+									<td>${featureInstance.geneId}</td>
 								</tr>
 								</g:if>
 							
