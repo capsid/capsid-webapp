@@ -1,5 +1,17 @@
 # Change Log
 
+## 1.4.0
+
+*Release date: 1 June 2012*
+
+**FEATURES**
+
+* Completely redone interface
+* Save bookmarks within the app
+* Search genome features
+* Genome feature details page
+* BLAST read sequences and contig sequences
+
 ## 1.3.0
 
 *Release date: 28 Feb 2012*
