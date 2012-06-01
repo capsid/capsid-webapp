@@ -179,19 +179,11 @@ pre.snippet .error {
   width: 75px;
 }
 .seqpos {
-<<<<<<< HEAD
-    display: inline-block;
-    width: 50px;
-    height: 15px;
-    vertical-align: top;
-    font-weight: bold;
-=======
   display: inline-block;
   font-weight: bold;
   height: 15px;
   vertical-align: top;
   width: 50px;
->>>>>>> feature/bootstrap
 }
 .seqstr {
   display: inline-block;
