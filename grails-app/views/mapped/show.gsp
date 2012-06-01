@@ -73,8 +73,20 @@
 					</ul>
 					<ul id="items" class="nav nav-list">
 						<g:each in="${mappedInstance.mapsGene}" var="uid">
-						<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
-						<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+
+							<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
+							<g:if test="${featureInstance}">
+								<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+							</g:if>
+							<g:else>
+								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid, 'gene')}" />
+								<g:if test="${featureInstance}">
+									<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+								</g:if>
+								<g:else>
+								<a href="http://www.ncbi.nlm.nih.gov/gene/${uid}" target="_blank">${uid}</a>
+							</g:else>
+							</g:else>
 						</g:each>
 					</ul>
 					</g:if>
