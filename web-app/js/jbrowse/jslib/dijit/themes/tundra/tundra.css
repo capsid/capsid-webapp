@@ -1668,11 +1668,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 .dijitIconFolderClosed,
 .dijitFolderOpened,
 .dijitIconFolderOpen,
-.dijitIconError {
-	background-image: url(../../icons/images/commonIconsObjActEnabled.png); 
-	width: 16px;
-	height: 16px;
-}
+
 .dj_ie6 .dijitIconSave,
 .dj_ie6 .dijitIconPrint,
 .dj_ie6 .dijitIconCut,
@@ -1707,9 +1703,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 .dj_ie6 .dijitIconFolderClosed,
 .dj_ie6 .dijitFolderOpened,
 .dj_ie6 .dijitIconFolderOpen,
-.dj_ie6 .dijitIconError {
-	background-image: url(../../icons/images/commonIconsObjActEnabled8bit.png);
-}
+
 .dijitDisabled .dijitIconSave,
 .dijitDisabled .dijitIconPrint,
 .dijitDisabled .dijitIconCut,
@@ -1744,9 +1738,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 .dijitDisabled .dijitIconFolderClosed,
 .dijitDisabled .dijitFolderOpened,
 .dijitDisabled .dijitIconFolderOpen,
-.dijitDisabled .dijitIconError {
-	background-image: url(../../icons/images/commonIconsObjActDisabled.png); 
-}
+
 .dijitIconSave { background-position: 0px; }
 .dijitIconPrint { background-position: -16px; }
 .dijitIconCut { background-position: -32px; }
@@ -2964,14 +2956,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	border: 1px #555 dotted !important;
 	padding: 0;
 }
-.tundra .dijitToolbarSeparator {
-	
-	background: url(../../icons/images/editorIconsEnabled.png);
-}
-.tundra .dijitToolbarRtl .dijitToolbarSeparator {
-	
-	background-image: url(../../icons/images/editorIconsDisabled.png);
-}
+
 .tundra .dijitDialog {
 	background: #fff;
 	border: 1px solid #7eabcd;
@@ -3165,26 +3150,7 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 	border:1px solid #bfbfbf;
 	border-top:0;
 }
-.tundra .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsEnabled.png); 
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
-	text-align: center;
-}
-.tundra .dijitDisabled .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsDisabled.png); 
-}
-.dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsEnabled.png); 
-	background-repeat: no-repeat;
-	width: 18px;
-	height: 18px;
-	text-align: center;
-}
-.dijitDisabled .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsDisabled.png); 
-}
+
 .dijitEditorIconSep { background-position: 0px; }
 .dijitEditorIconSave { background-position: -18px; }
 .dijitEditorIconPrint { background-position: -36px; }
@@ -3330,21 +3296,6 @@ DIV.dijitTabDisabled, .dj_ie DIV.dijitTabDisabled {
 .tundra .dijitDialogRtl .dijitDialogCloseIcon {
 	right: auto;
 	left: 5px;
-}
-.tundra .dijitEditorRtl .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsEnabled_rtl.png); 
-}
-.tundra .dijitEditorRtlDisabled .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsDisabled_rtl.png); 
-}
-.dijitEditorRtl .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsEnabled_rtl.png); 
-}
-.dijitEditorRtlDisabled .dijitEditorIcon {
-	background-image: url(../../icons/images/editorIconsDisabled_rtl.png); 
-}
-.dijitToolbarRtl .dijitToolbarSeparator {
-	background-image: url(../../icons/images/editorIconsEnabled_rtl.png);
 }
 .tundra .dijitMenuItemRtl .dijitMenuExpand {
 	background-position: -7px 0;

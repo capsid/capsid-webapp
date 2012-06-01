@@ -1,70 +1,126 @@
+<html>
 <head>
-<meta name='layout' content='main' />
-<title>Login</title>
-<style type='text/css' media='screen'>
-#loginModal {
-display: block; width: 500px;
-position: absolute; top: -1px; left: 50%;
-margin-left: -250px;
-padding: 30px 30px;
-background: url("../images/gradient.jpg") repeat-x scroll 0 0 transparent;
--webkit-box-shadow: 0px 3px 6px rgba(0,0,0,0.25);
--moz-box-shadow: 0px 3px 6px rgba(0,0,0,0.25);
--webkit-border-bottom-left-radius: 6px;
--webkit-border-bottom-right-radius: 6px;
--moz-border-radius-bottomright: 6px;
--moz-border-radius-bottomleft: 6px;
-}
-#loginModal.show {
--webkit-transform: translateY(-80px);
--moz-transform: translatey(-80px);
-}
-#loginForm {
-	border-top: 1px dashed #cdcdcd;
-	padding-top: 10px;
-}
-#login form input {width: 90%;}
-#loginButton {
-	padding: 10px;
-	margin-top: 10px;
-	font-weight: bold;
-	width: 100px;
-	background: hsla(203,27%,50%,1.0);
-	color: #fff;
-	
-	-moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
-</style>
+	<meta name='layout' content='bootstrap'/>
+	<title><g:message code="springSecurity.login.title"/></title>
+	<style type='text/css' media='screen'>
+	#login {
+		margin: 15px 0px;
+		padding: 0px;
+		text-align: center;
+	}
+
+	#login .inner {
+		width: 340px;
+		padding-bottom: 6px;
+		margin: 60px auto;
+		text-align: left;
+		border: 1px solid #aab;
+		background-color: #f0f0fa;
+		-moz-box-shadow: 2px 2px 2px #eee;
+		-webkit-box-shadow: 2px 2px 2px #eee;
+		-khtml-box-shadow: 2px 2px 2px #eee;
+		box-shadow: 2px 2px 2px #eee;
+	}
+
+	#login .inner .fheader {
+		padding: 18px 26px 14px 26px;
+		background-color: #f7f7ff;
+		margin: 0px 0 14px 0;
+		color: #2e3741;
+		font-size: 18px;
+		font-weight: bold;
+	}
+
+	#login .inner .cssform p {
+		clear: left;
+		margin: 0;
+		padding: 4px 0 3px 0;
+		padding-left: 105px;
+		margin-bottom: 20px;
+		height: 1%;
+	}
+
+	#login .inner .cssform input[type='text'] {
+		width: 120px;
+	}
+
+	#login .inner .cssform label {
+		font-weight: bold;
+		float: left;
+		text-align: right;
+		margin-left: -105px;
+		width: 110px;
+		padding-top: 3px;
+		padding-right: 10px;
+	}
+
+	#login #remember_me_holder {
+		padding-left: 120px;
+	}
+
+	#login #submit {
+		margin-left: 15px;
+	}
+
+	#login #remember_me_holder label {
+		float: none;
+		margin-left: 0;
+		text-align: left;
+		width: 200px
+	}
+
+	#login .inner .login_message {
+		padding: 6px 25px 20px 25px;
+		color: #c33;
+	}
+
+	#login .inner .text_ {
+		width: 120px;
+	}
+
+	#login .inner .chk {
+		height: 12px;
+	}
+	</style>
 </head>
 
 <body>
-	<div id='loginModal'>
+<div id='login'>
+	<div class='inner'>
+		<div class='fheader'><g:message code="springSecurity.login.header"/></div>
+
 		<g:if test='${flash.message}'>
-		<div style="width:450px; margin:0 auto 15px;" class="message errors">${flash.message}</div>
+			<div class='login_message'>${flash.message}</div>
 		</g:if>
-		<h1>Please Login</h1>
-		<form action='${postUrl}' method='POST' id='loginForm' jsId='loginForm' dojoType="dijit.form.Form" autocomplete='off' class="line">
-			<div class='line'>
-				<div class="unit size1of2">
-					<label for='username'>Login ID</label>
-					<input type='text' class='text_' name='j_username' id='username' dojoType="dijit.form.ValidationTextBox" required="true"/>
-				</div>
-				<div class="unit size1of2">
-					<label for='password'>Password</label>
-					<input type='password' class='text_' name='j_password' id='password' dojoType="dijit.form.ValidationTextBox" required="true"/>
-				</div>
-			</div>
-			<p class='line'>
-				<button id="loginButton" type='submit'>Sign In</button>
+
+		<form action='${postUrl}' method='POST' id='loginForm' class='cssform' autocomplete='off'>
+			<p>
+				<label for='username'><g:message code="springSecurity.login.username.label"/>:</label>
+				<input type='text' class='text_' name='j_username' id='username'/>
+			</p>
+
+			<p>
+				<label for='password'><g:message code="springSecurity.login.password.label"/>:</label>
+				<input type='password' class='text_' name='j_password' id='password'/>
+			</p>
+
+			<p id="remember_me_holder">
+				<input type='checkbox' class='chk' name='${rememberMeParameter}' id='remember_me' <g:if test='${hasCookie}'>checked='checked'</g:if>/>
+				<label for='remember_me'><g:message code="springSecurity.login.remember.me.label"/></label>
+			</p>
+
+			<p>
+				<input type='submit' id="submit" value='${message(code: "springSecurity.login.button")}'/>
 			</p>
 		</form>
 	</div>
+</div>
 <script type='text/javascript'>
-<!--
-(function(){
-	document.forms['loginForm'].elements['j_username'].focus();
-})();
-// -->
+	<!--
+	(function() {
+		document.forms['loginForm'].elements['j_username'].focus();
+	})();
+	// -->
 </script>
 </body>
+</html>

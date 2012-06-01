@@ -1,50 +1,48 @@
 <%@ page import="ca.on.oicr.capsid.Sample" %>
-<form action="${createLink(controller:'sample', action:'save')}" method="post" dojoType="dijit.form.Form" id="addSampleForm" jsId="addSampleForm">
-  <div class="error">${flash.message}</div>
-  <input type="hidden" value="${sampleInstance?.project}" name="project"/>
-  <table>
-    <tbody>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="name"><g:message code="sample.name.label" default="Name" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="name" value="${sampleInstance?.name}" dojoType="dijit.form.ValidationTextBox" regExp='[\\w]+' required="true" invalidMessage="Invalid Symbol or Space"/>
-       </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="description"><g:message code="sample.description.label" default="Description" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textArea name="description" value="${sampleInstance?.description}" dojoType="dijit.form.Textarea"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="cancer"><g:message code="sample.cancer.label" default="Cancer" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="cancer" value="${sampleInstance?.cancer}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="role"><g:message code="sample.role.label" default="Role" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="role" value="${sampleInstance?.role}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-      <tr class="prop">
-        <td valign="top" class="name">
-          <label for="source"><g:message code="sample.source.label" default="Source" /></label>
-        </td>
-        <td valign="top" class="value">
-          <g:textField name="source" value="${sampleInstance?.source}" dojoType="dijit.form.TextBox"/>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <button dojoType="dijit.form.Button" type="submit">Add Sample</button>
-</form>
+<!doctype html>
+<html>
+	<head>
+		<meta name="layout" content="bootstrap">
+		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
+		<title><g:message code="default.create.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content">
+				<div class="page-header">
+					<h1><g:message code="default.create.label" args="[entityName]" /></h1>
+				</div>
+				
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<g:hasErrors bean="${sampleInstance}">
+				<bootstrap:alert class="alert-error">
+				<ul>
+					<g:eachError bean="${sampleInstance}" var="error">
+					<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
+				</bootstrap:alert>
+				</g:hasErrors>
+
+				<fieldset>
+					<g:form class="form-horizontal" action="save" >
+						<fieldset>
+							<f:field bean="sampleInstance" property="name"/>
+							<f:all bean="sampleInstance"/>
+							<div class="form-actions">
+								<button type="submit" class="btn btn-success">
+									<i class="icon-ok icon-white"></i>
+									<g:message code="default.button.create.label" default="Create" />
+								</button>
+								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
+							</div>
+						</fieldset>
+					</g:form>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>

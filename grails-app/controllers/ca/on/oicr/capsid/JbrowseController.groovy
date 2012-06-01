@@ -12,14 +12,15 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
-import ca.on.oicr.ferv.jbrowser.Histogram
+import ca.on.oicr.capsid.jbrowse.Histogram
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class JbrowseController {
 
-  def AuthService
+  def authService
+  def projectService
 
   def index = {redirect(action: "show", params: params)}
   def show = {
@@ -50,7 +51,7 @@ class JbrowseController {
         label: "General"
         ,   type: "TrackGroup"
         ,	children: [
-          [ "_reference" : "Genes"]
+              [ "_reference" : "Genes"]
           ,   [ "_reference" : "DNA"]
         ]
         ,   key: "General"
@@ -73,18 +74,20 @@ class JbrowseController {
     ArrayList samples = []
     def projects = [:]
 
-    List projectList = AuthService.isCapsidAdmin() ? Project.list() : Project.security(AuthService.getRoles()).list()
+    List projectList = projectService.list [:]
 
     projectList.each {
       projects[it.label] = [
-        label: '.'+it.label
+            label: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
         ,   type: "TrackGroup"
         ,   children: []
-        ,   key: '.'+it.label
+        ,   key: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
       ]
     }
+
     genomeInstance.samples.each {
       Sample sampleInstance = Sample.findByName(it)
+      if (sampleInstance == null) return
       Project projectInstance = Project.findByLabel(sampleInstance.project)
       if (projects[projectInstance.label]) {
         projects[projectInstance.label]["children"].add(["_reference":it])
@@ -105,7 +108,6 @@ class JbrowseController {
     }
 
     tracks.addAll(samples);
-
     def s = [refseqs:seqs, trackInfo:tracks]
     render s as JSON
   }
@@ -113,7 +115,7 @@ class JbrowseController {
   def track = {
     Genome genomeInstance = Genome.findByAccession(params.id)
     Sample sampleInstance = Sample.findByName(params.track)
-
+    
     List headers = ['start', 'end', 'strand', 'id', 'isRef', 'label'];
     int ncIndex = headers.size();
 

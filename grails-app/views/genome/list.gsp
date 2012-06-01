@@ -1,36 +1,56 @@
+
 <%@ page import="ca.on.oicr.capsid.Genome" %>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-    <title><g:message code="default.list.label" args="[entityName]" /></title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <div class="line">
-      <div class="unit lastUnit">
-        <h1>Genomes</h1>
-      </div>
-    </div>
-    <div dojoType="dojox.data.AndOrReadStore" url="list_data/" idAttribute="id" jsId="store" query="{}"></div>
-    <div dojoType="dojox.grid.EnhancedGrid" id="genomeGrid" jsId="genomeGrid" style="height:700px" store="store"
-         sortInfo="-6"
-         plugins='{
-                    pagination: {
-                      pageSizes: ["25", "50", "100", "250"]
-                    },
-                    filter: { itemsName : "genomes" }
-                  }'
-         selectable="true"
-         structure='[{cells:[
-                    {field: "accession", name: "Accession", datatype: "string", width: "100px", formatter: capsid.grid.Formatter.prototype.links.genome}
-                    ,	{field: "name", name: "Name", datatype: "string", width: "auto"}
-                    ,  	{field: "gi", name: "GI", datatype: "string", width: "150px"}
-                    ,	{field: "taxonomy", name: "Taxonomy", datatype: "string", width: "auto"}
-                    ,	{field: "length", name: "Length", datatype: "number", width: "100px"}
-                    ,	{field: "samples", name: "Samples", datatype: "number", width: "100px"}
-                    ]}]'>
-    </div>
-  </body>
+	<head>
+		<meta name="layout" content="${layout?:'bootstrap'}">
+		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
+		<title><g:message code="default.list.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="content" id="genome-list">
+				<div class="row-fluid page-header">
+					<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+				</div>
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+				<div class="row-fluid">
+					<g:render template="/layouts/filter"/>
+				</div>
+				<div id="genomes" class="results">
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>								
+								<g:sortableColumn params="${params}" property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />
+								<g:sortableColumn params="${params}" property="name" title="${message(code: 'genome.name.label', default: 'Name')}" />
+								<g:sortableColumn params="${params}" property="gi" title="${message(code: 'genome.gi.label', default: 'Gi')}" />
+								<th>Taxonomy</th>
+								<g:sortableColumn params="${params}" class="compress"  property="length" title="${message(code: 'genome.length.label', default: 'Length')}" />
+								<g:sortableColumn params="${params}" class="compress" property="organism" title="${message(code: 'genome.organism.label', default: 'Organism')}" />
+								<g:sortableColumn params="${params}" property="sampleCount" title="${message(code: 'genome.sampleCount.label', default: 'Sample Count')}" />
+							</tr>
+						</thead>
+						<tbody>
+						<g:each in="${genomes}" var="genomeInstance">
+							<tr>
+								<td><g:link action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "accession")}</g:link></td>
+								<td>${fieldValue(bean: genomeInstance, field: "name")}</td>
+								<td>${genomeInstance.gi}</td>
+								<td>${genomeInstance.taxonomy.join(', ')}</td>
+								<td class="compress">${fieldValue(bean: genomeInstance, field: "length")}</td>
+								<td class="compress">${fieldValue(bean: genomeInstance, field: "organism")}</td>
+								<td>${fieldValue(bean: genomeInstance, field: "sampleCount")}</td>
+							</tr>
+						</g:each>
+						</tbody>
+					</table>
+					<div class="pagination">
+						<bootstrap:paginate total="${genomes.totalCount}" params="${params}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

@@ -1,2 +1,0 @@
-Run this command in /path/to/capsid-webapp/web-app/js/src/dojo-sdk/util/buildscripts
-./build.sh profileFile=../../../capsid/layers.profile.js action=release optimize=shrinksafe layerOptimize=shrinksafe version=1.0 releaseName=release releaseDir=../../../../

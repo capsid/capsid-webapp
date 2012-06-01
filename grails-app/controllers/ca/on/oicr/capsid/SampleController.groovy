@@ -1,5 +1,5 @@
 /*
-*  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+*    Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
 *
 *    This program and the accompanying materials are made available under the
 *    terms of the GNU Public License v3.0.
@@ -10,178 +10,130 @@
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
-import grails.converters.JSON
-import org.bson.types.ObjectId
 import org.springframework.dao.DataIntegrityViolationException
+import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
 class SampleController {
 
-    def sampleService
+    static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+	static navigation = [
+        group:'sample', 
+        order:10, 
+        title:'Samples', 
+        action:'list'
+    ]
+
     def authService
+    def sampleService
+    def alignmentService
+    def statsService
 
-    def index = {redirect(action: "list", params: params)}
+    def index() { redirect action: 'list', params: params }
 
-    def list = {}
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        List samples = sampleService.list params
+        
+        [samples: samples]
+    }
 
-    def show = {
+    def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.sample = params.id
+        
+        Sample sampleInstance = findInstance()
+        
+        List statistics = statsService.list params 
+        List alignments = alignmentService.list params
+
+        [sampleInstance: sampleInstance, statistics: statistics, alignments: alignments]
+    }
+
+    def create() { 
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
+        [sampleInstance: new Sample(params)] 
+    }
+
+	def save() {
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])	
+        Sample sampleInstance = new Sample(params)
+		
+		if (!sampleInstance.save(flush: true)) {
+			render view: 'create', model: [sampleInstance: sampleInstance]
+			return
+		}
+		
+		flash.message = message(code: 'default.created.message', args: [message(code: 'sample.label', default: 'Sample'), sampleInstance.name])
+        redirect action: 'show', id: sampleInstance.name
+    }
+
+    def edit() {
         Sample sampleInstance = findInstance()
         [sampleInstance: sampleInstance]
-    }
+	}
 
-    def create = {
-        authorize(['ROLE_' + params.id.toUpperCase()], ['collaborator', 'owner'])
-        Sample sample = new Sample(params)
-        sample.project = params.id
-        [sampleInstance: sample]
-    }
+    def update() {
+        Sample sampleInstance = findInstance(['collaborator', 'owner'])
 
-    def save = {
-        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
-        sampleService.save params
+        checkVersion(sampleInstance, params)
+        
+        sampleInstance.properties = params
 
-        render 'created'
-    }
-
-    def edit = {
-        Sample sample = findInstance()
-        authorize(sample, ['collaborator', 'owner'])
-        [sampleInstance: sample]
-    }
-
-    def update = {
-        Sample sample = findInstance()
-        authorize(sample, ['collaborator', 'owner'])
-        sampleService.update sample, params
-
-        if (!renderWithErrors('edit', sample)) {
-            redirectShow "${message(code: 'default.updated.message', args: [message(code: 'sample.label', default: 'Sample'), sample.name])}", sample.name
+        if (!sampleInstance.save(flush: true)) {
+            render view: 'edit', model: [sampleInstance: sampleInstance]
+            return
         }
-    }
 
-    def delete = {
-        Sample sample = findInstance()
-        authorize(sample, ['collaborator', 'owner'])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'sample.label', default: 'Sample'), sampleInstance.name])
+        redirect action: 'show', id: sampleInstance.name
+	}
+
+    def delete() {
+        Sample sampleInstance = findInstance(['collaborator', 'owner'])
 
         try {
-            String project = sample.project
-            sampleService.delete sample
-            flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect(controller: 'project', action: 'show', id:project)
-        } catch (DataIntegrityViolationException e) {
-            redirectShow "Sample $sample.name could not be deleted", sample.name
+            sampleInstance.delete(flush: true)
+            sampleService.delete sampleInstance.name
+
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
+            redirect controller: 'project', action: 'show', id: sampleInstance.project
+        }
+        catch (DataIntegrityViolationException e) {
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
+            redirect action: 'show', id: params.id
         }
     }
 
-    /* ************************************************************************
-    * AJAX Tabs
-    ************************************************************************ */
-    def list_data = {
-        List samples = sampleService.getAllowedSamples().collect {
-                [
-                     name:it.name
-                ,    plabel: it.project
-                ,    pname: Project.findByLabel(it.project).name
-                ,    cancer: it.cancer
-                ,    role: it.role
-                ,    source: it.source
-                ]
+	private Sample findInstance(List roles = ['user', 'collaborator', 'owner']) {
+		Sample sampleInstance = sampleService.get(params.id)
+		authorize(sampleInstance, roles)
+		if (!sampleInstance) {
+		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
+		  redirect action: 'list'
+		}
+		sampleInstance
+	}
+
+	private void authorize(def auth, List access) {
+		if (!authService.authorize(auth, access)) {
+		  render view: '../login/denied'
+		}
+	}
+
+    private void checkVersion(Sample sampleInstance, def params) {
+        if (params.version) {
+            Long version = params.version.toLong()
+            if (sampleInstance.version > version) {
+                sampleInstance.errors.rejectValue('version', 'default.optimistic.locking.failure',
+                          [message(code: 'sample.label', default: 'Sample')] as Object[],
+                          "Another user has updated this Sample while you were editing")
+                render view: 'edit', model: [sampleInstance: sampleInstance]
+                return
             }
-
-        def ret = [
-               'identifier': 'name',
-               'label': 'name',
-               'items': samples
-                ]
-
-       render ret as JSON
-    }
-
-    /*** Show ***/
-    def show_alignments = {
-        Sample sampleInstance = findInstance()
-        render(view: 'ajax/show/alignments', model: [sampleInstance: sampleInstance])
-    }
-    def show_alignments_data = {
-        Sample sampleInstance = findInstance()
-        ArrayList alignments = Alignment.collection.find(sample: sampleInstance.name).collect {
-                [
-                      name: it.name
-                 ,    aligner: it.aligner
-                 ,    platform: it.platform
-                 ,    type: it.type
-                 ,    infile: it.infile
-                 ,    outfile: it.outfile
-                 ]
         }
-
-        def ret = [
-                   'identifier': 'name'
-              ,    'label': 'name'
-              ,    'items': alignments
-        ]
-
-        render ret as JSON
-
-    }
-
-    def show_stats = {
-        Sample sampleInstance = findInstance()
-        render(view: 'ajax/show/stats', model: [sampleInstance: sampleInstance])
-    }
-    def show_stats_data = {
-        Sample sampleInstance = findInstance()
-        ArrayList stats = Statistics.collection.find(sample:sampleInstance.name).collect{
-                [
-                    accession: it.accession
-                ,   genome: it.genome
-                ,   genomeHits: it.genomeHits
-                ,   geneHits: it.geneHits
-                ,   genomeCoverage: it.genomeCoverage
-                ,   geneCoverageAvg: it.geneCoverageAvg
-                ,   geneCoverageMax: it.geneCoverageMax
-                ,   sample: it.sample
-                ]
-        }
-
-        def ret = [
-               'identifier': 'accession'
-           ,   'label': 'gname'
-           ,   'items': stats
-           ]
-
-        render ret as JSON
-    }
-
-    def jbrowse_samples = {}
-
-    private Sample findInstance() {
-        Sample sampleInstance = sampleService.get(params.id)
-        authorize(sampleInstance, ['user', 'collaborator', 'owner'])
-        if (!sampleInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'sample.name', default: 'Sample'), params.id])}"
-            redirect(action: 'list')
-        }
-        sampleInstance
-    }
-
-    private void redirectShow(message, id) {
-        flash.message = message
-        redirect(action: 'show', id: id)
-    }
-
-    private boolean renderWithErrors(String view, Sample sampleInstance) {
-        if (sampleInstance.hasErrors()) {
-            render view: view, model: [sampleInstance: sampleInstance]
-            return true
-        }
-        false
-    }
-
-    private boolean authorize(def auth, List access) {
-        if (!authService.authorize(auth, access)) {
-            render view: '../login/denied'
-        }
-    }
+    } 
 }

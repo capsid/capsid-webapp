@@ -1,66 +1,84 @@
 <% import grails.persistence.Event %>
 <%=packageName%>
+<!doctype html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
-        <title><g:message code="default.show.label" args="[entityName]" /></title>
-    </head>
-    <body>
-        <div class="breadcrumbs nav">
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            &raquo;
-            <span class="menuButton"><g:link action="show" id="\${${propertyName}?.id}">\${${propertyName}?.name}</g:link></span>            
-        </div>
-        <div class="line">
-        <div class="body unit size2of5">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
-            <g:if test="\${flash.message}">
-            <div class="message">\${flash.message}</div>
-            </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
-                    <%  excludedProps = Event.allEvents.toList() << 'version'
-                        allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
-                        props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
-                        Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-                        props.each { p -> %>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></td>
-                            <%  if (p.isEnum()) { %>
-                            <td valign="top" class="value">\${${propertyName}?.${p.name}?.encodeAsHTML()}</td>
-                            <%  } else if (p.oneToMany || p.manyToMany) { %>
-                            <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="\${${propertyName}.${p.name}}" var="${p.name[0]}">
-                                    <li><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${p.name[0]}.id}">\${${p.name[0]}?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            <%  } else if (p.manyToOne || p.oneToOne) { %>
-                            <td valign="top" class="value"><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${propertyName}?.${p.name}?.id}">\${${propertyName}?.${p.name}?.encodeAsHTML()}</g:link></td>
-                            <%  } else if (p.type == Boolean.class || p.type == boolean.class) { %>
-                            <td valign="top" class="value"><g:formatBoolean boolean="\${${propertyName}?.${p.name}}" /></td>
-                            <%  } else if (p.type == Date.class || p.type == java.sql.Date.class || p.type == java.sql.Time.class || p.type == Calendar.class) { %>
-                            <td valign="top" class="value"><g:formatDate date="\${${propertyName}?.${p.name}}" /></td>
-                            <%  } else if(!p.type.isArray()) { %>
-                            <td valign="top" class="value">\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</td>
-                            <%  } %>
-                        </tr>
-                    <%  } %>
-                    </tbody>
-                </table>
-            </div>
-            <div class="buttons">
-                <g:form>
-                    <g:hiddenField name="id" value="\${${propertyName}?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="\${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="\${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </g:form>
-            </div>
-        </div>
-        </div>
-    </body>
+	<head>
+		<meta name="layout" content="\${layout?:'bootstrap'}">
+		<g:set var="entityName" value="\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" />
+		<title><g:message code="default.show.label" args="[entityName]" /></title>
+	</head>
+	<body>
+		<div class="row-fluid has_sidebar use_sidebar">
+			<div class="span sidebar">
+				<div class="span well well-small">
+					<ul class="nav nav-list">
+						<li class="nav-header">\${entityName}</li>
+						<li>
+							<g:link class="list" action="list">
+								<i class="icon-list"></i>
+								<g:message code="default.list.label" args="[entityName]" />
+							</g:link>
+						</li>
+						<li>
+							<g:link class="create" action="create">
+								<i class="icon-plus"></i>
+								<g:message code="default.create.label" args="[entityName]" />
+							</g:link>
+						</li>
+					</ul>
+				</div>
+				<div class="span well well-small separator"></div>
+			</div>
+			
+			<div class="content">
+				<div class="row-fluid page-header">
+					<div class="span9">
+						<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+					</div>
+					<auth:ifAnyGranted access="[(\${${propertyName}}.label):['collaborator', 'owner']]">
+					<g:form class="pull-right">
+						<g:hiddenField name="id" value="\${${propertyName}?.name}" />
+						<div>
+							<g:link class="btn" action="edit" id="\${${propertyName}?.id}">
+								<i class="icon-pencil"></i>
+								<g:message code="default.button.edit.label" default="Edit" />
+							</g:link>
+						</div>
+					</g:form>
+					</auth:ifAnyGranted>
+				</div>
+
+				<g:if test="\${flash.message}">
+				<bootstrap:alert class="alert-info">\${flash.message}</bootstrap:alert>
+				</g:if>
+
+				<dl>
+				<%  excludedProps = Event.allEvents.toList() << 'id' << 'version'
+					allowedNames = domainClass.persistentProperties*.name << 'dateCreated' << 'lastUpdated'
+					props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
+					Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+					props.each { p -> %>
+					<g:if test="\${${propertyName}?.${p.name}}">
+						<dt><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></dt>
+						<%  if (p.isEnum()) { %>
+							<dd><g:fieldValue bean="\${${propertyName}}" field="${p.name}"/></dd>
+						<%  } else if (p.oneToMany || p.manyToMany) { %>
+							<g:each in="\${${propertyName}.${p.name}}" var="${p.name[0]}">
+							<dd><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${p.name[0]}.id}">\${${p.name[0]}?.encodeAsHTML()}</g:link></dd>
+							</g:each>
+						<%  } else if (p.manyToOne || p.oneToOne) { %>
+							<dd><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${propertyName}?.${p.name}?.id}">\${${propertyName}?.${p.name}?.encodeAsHTML()}</g:link></dd>
+						<%  } else if (p.type == Boolean || p.type == boolean) { %>
+							<dd><g:formatBoolean boolean="\${${propertyName}?.${p.name}}" /></dd>
+						<%  } else if (p.type == Date || p.type == java.sql.Date || p.type == java.sql.Time || p.type == Calendar) { %>
+							<dd><g:formatDate date="\${${propertyName}?.${p.name}}" /></dd>
+						<%  } else if(!p.type.isArray()) { %>
+							<dd><g:fieldValue bean="\${${propertyName}}" field="${p.name}"/></dd>
+						<%  } %>
+					</g:if>
+				<%  } %>
+				</dl>
+			</div>
+		</div>
+	</body>
 </html>

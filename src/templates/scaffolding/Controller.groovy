@@ -1,104 +1,138 @@
-<%=packageName ? "package ${packageName}" : ''%>
+/*
+*    Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+*
+*    This program and the accompanying materials are made available under the
+*    terms of the GNU Public License v3.0.
+*
+*    You should have received a copy of the GNU General Public License along with
+*    this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
-class ${className}Controller {	
-	
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+<%=packageName ? "package ${packageName}\n\n" : ''%>import org.springframework.dao.DataIntegrityViolationException
+import grails.converters.JSON
+import grails.plugins.springsecurity.Secured
 
-	def filterService
-	
-    def index = {
-        redirect(action: "list", params: params)
+@Secured(['ROLE_CAPSID'])
+class ${className}Controller {
+
+    static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+
+    def authService
+    def ${domainClass.propertyName}Service
+
+    def index() { redirect action: 'list', params: params }
+
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        List results = ${domainClass.propertyName}Service.list params
+        
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [${propertyName}List: results, ${propertyName}Total: results.totalCount, layout:'ajax']
+        }        
+        
+        withFormat {
+            html ${propertyName}List: results, ${propertyName}Total: results.totalCount
+            json { render results as JSON  }
+        }
     }
-	
-	def list = {
-	    if(!params.max) params.max = 10
+
+    def show() {
+        params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        params.sort = params.sort ?: "geneCoverageMax"
+        params.order = params.order ?: "desc"
+        params.label = params.id
+
+        ${className} ${propertyName} = findInstance()
+        
+        List results = statsService.list params 
+
+        if (params._pjax) {
+            params.remove('_pjax')
+            return [${propertyName}: ${propertyName}, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+        }
+
+        withFormat {
+            html ${propertyName}: ${propertyName}, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            json { render results as JSON }
+        }
+    }
+
+    def create() { [${propertyName}: new ${className}(params)] }
+
+	def save() {
+	    ${className} ${propertyName} = new ${className}(params)
 		
-	    [${propertyName}List: filterService.filter( params, ${className}), 
-	     ${propertyName}Total: filterService.count( params, ${className}), 
-	     filterParams: com.zeddware.grails.plugins.filterpane.FilterUtils.extractFilterParams(params)]
-	}
-	
-    def create = {
-        def ${propertyName} = new ${className}()
-        ${propertyName}.properties = params
+		if (!${propertyName}.save(flush: true)) {
+			render view: 'create', model: [${propertyName}: ${propertyName}]
+			return
+		}
 		
+		flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.name])
+        redirect action: 'show', id: ${propertyName}.label
+    }
+
+    def edit() {
+        ${className} ${propertyName} = findInstance()
         [${propertyName}: ${propertyName}]
-    }
+	}
 
-    def save = {
-        def ${propertyName} = new ${className}(params)
-        if (${propertyName}.save(flush: true)) {
-            flash.message = "\${message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])}"
-            redirect(action: "show", id: ${propertyName}.id)
-        }
-        else {
-            render(view: "create", model: [${propertyName}: ${propertyName}])
-        }
-    }
+    def update() {
+        ${className} ${propertyName} = findInstance()
 
-    def show = {
-        def ${propertyName} = ${className}.get(params.id as int)
-        if (!${propertyName}) {
-            flash.message = "\${message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-            redirect(action: "list")
-        } else {
-            [${propertyName}: ${propertyName}]
-        }
-    }
+        checkVersion(${propertyName}, params)
+        
+        ${propertyName}.properties = params
 
-    def edit = {
-        def ${propertyName} = ${className}.get(params.id as int)
-        if (!${propertyName}) {
-            flash.message = "\${message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-            redirect(action: "list")
-        } else {
-            [${propertyName}: ${propertyName}]
+        if (!${propertyName}.save(flush: true)) {
+            render view: 'edit', model: [${propertyName}: ${propertyName}]
+            return
         }
-    }
 
-    def update = {
-        def ${propertyName} = ${className}.get(params.id as int)
-        if (${propertyName}) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (${propertyName}.version > version) {
-                    <% def lowerCaseName = grails.util.GrailsNameUtils.getPropertyName(className) %>
-                    ${propertyName}.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: '${domainClass.propertyName}.label', default: '${className}')] as Object[], "Another user has updated this ${className} while you were editing")
-                    render(view: "edit", model: [${propertyName}: ${propertyName}])
-                    return
-                }
-            }
-            ${propertyName}.properties = params
-            if (!${propertyName}.hasErrors() && ${propertyName}.save(flush: true)) {
-                flash.message = "\${message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])}"
-                redirect(action: "show", id: ${propertyName}.id)
-            }
-            else {
-                render(view: "edit", model: [${propertyName}: ${propertyName}])
-            }
+		flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.name])
+        redirect action: 'show', id: ${propertyName}.label
+	}
+
+    def delete() {
+        ${className} ${propertyName} = findInstance()
+
+        try {
+            ${propertyName}.delete(flush: true)
+			flash.message = message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])
+            redirect action: 'list'
         }
-        else {
-            flash.message = "\${message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-            redirect(action: "list")
+        catch (DataIntegrityViolationException e) {
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])
+            redirect action: 'show', id: params.id
         }
     }
 
-    def delete = {
-        def ${propertyName} = ${className}.get(params.id as int)
-        if (${propertyName}) {
-            try {
-                ${propertyName}.delete(flush: true)
-                flash.message = "\${message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "\${message(code: 'default.not.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-                redirect(action: "show", id: params.id)
+	private ${className} findInstance() {
+		${className} ${propertyName} = ${domainClass.propertyName}Service.get(params.id)
+		authorize(${propertyName}, ['user', 'collaborator', 'owner'])
+		if (!${propertyName}) {
+		  flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])
+		  redirect action: 'list'
+		}
+		${propertyName}
+	}
+
+	private void authorize(def auth, List access) {
+		if (!authService.authorize(auth, access)) {
+		  render view: '../login/denied'
+		}
+	}
+
+    private void checkVersion(${className} ${propertyName}, def params) {
+        if (params.version) {
+            Long version = params.version.toLong()
+            if (${propertyName}.version > version) {<% def lowerCaseName = grails.util.GrailsNameUtils.getPropertyName(className) %>
+                ${propertyName}.errors.rejectValue('version', 'default.optimistic.locking.failure',
+                          [message(code: '${domainClass.propertyName}.label', default: '${className}')] as Object[],
+                          "Another user has updated this ${className} while you were editing")
+                render view: 'edit', model: [${propertyName}: ${propertyName}]
+                return
             }
         }
-        else {
-            flash.message = "\${message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.id])}"
-            redirect(action: "list")
-        }
-    }
+    } 
 }

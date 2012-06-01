@@ -1,128 +1,191 @@
+
 <%@ page import="ca.on.oicr.capsid.Mapped" %>
 <%@ page import="ca.on.oicr.capsid.Project" %>
 <%@ page import="ca.on.oicr.capsid.Genome" %>
 <%@ page import="ca.on.oicr.capsid.Feature" %>
-<g:set var="genome" value="${Genome.findByGi(mappedInstance.genome as int)}"/>
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="layout" content="main" />
-    <g:set var="entityName" value="${message(code: 'mapped.label', default: 'Mapped')}" />
-    <title>${mappedInstance.readId}</title>
-  </head>
-  <body>
-    <g:if test="${flash.message}"><div class="message">${flash.message}</div></g:if>
-    <h1>${mappedInstance.readId}</h1>
-    <div class="line">
-      <div class="dialog unit size1of3">
-        <table>
-          <tbody>
-            <tr class="prop">
-              <td valign="top" class="name">Project</td>
-              <td valign="top" class="value">
-                <g:link controller="project" action="show" id="${mappedInstance.project}">${Project.findByLabel(mappedInstance.project).name}</g:link>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Sample</td>
-              <td valign="top" class="value">
-                <g:link controller="sample" action="show" id="${mappedInstance.sample}">${mappedInstance.sample}</g:link>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Alignment</td>
-              <td valign="top" class="value">
-                <g:link controller="alignment" action="show" id="${mappedInstance.alignment}">${mappedInstance.alignment}</g:link>
-              </td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Genome</td>
-              <td valign="top" class="value"><g:link controller="genome" action="show" id="${genome.accession}">${genome.name}</g:link></td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Accession</td>
-              <td valign="top" class="value"><g:link controller="genome" action="show" id="${genome.accession}">${genome.accession.replace("_"," ")}</g:link></td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Score</td>
-              <td valign="top" class="value">${mappedInstance.mapq}</td>
-            </tr>
-            <g:if test="${mappedInstance.alignScore}">
-            <tr class="prop">
-              <td valign="top" class="name">Alignment Score</td>
-              <td valign="top" class="value">${mappedInstance.alignScore}</td>
-            </tr>
-            </g:if>
-            <tr class="prop">
-              <td valign="top" class="name">Min Quality</td>
-              <td valign="top" class="value">${mappedInstance.minQual}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Avg Quality</td>
-              <td valign="top" class="value">${mappedInstance.avgQual}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Mismatch</td>
-              <td valign="top" class="value">${mappedInstance.mismatch}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Miscalls</td>
-              <td valign="top" class="value">${mappedInstance.miscalls}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Ref Strand</td>
-              <td valign="top" class="value">${mappedInstance.refStrand}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Ref Start</td>
-              <td valign="top" class="value">${mappedInstance.refStart}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Ref End</td>
-              <td valign="top" class="value">${mappedInstance.refEnd}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Read Length</td>
-              <td valign="top" class="value">${mappedInstance.readLength}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Alignment Length</td>
-              <td valign="top" class="value">${mappedInstance.alignLength}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Sequencing Type</td>
-              <td valign="top" class="value">${mappedInstance.sequencingType}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Platform</td>
-              <td valign="top" class="value">${mappedInstance.platform}</td>
-            </tr>
-            <tr class="prop">
-              <td valign="top" class="name">Maps to Gene(s)</td>
-              <td valign="top" class="value">
-              <g:each in="${mappedInstance.mapsGene}">
-                <a target="_blank" href="http://www.ncbi.nlm.nih.gov/gene/${it}">
-                  ${Feature.collection.findOne('type': 'gene', 'geneId': it)?.name}
-                </a>
-              </g:each>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="unit size1of3 hidden">
-        <h2>Analysis</h2>
-        <ul class="links">
-          <li>BLAST</li>
-          <li>Contig</li>
-        </ul>
-      </div>
-    </div>
-    <div dojoType="dijit.layout.TabContainer" style="width: 100%;" doLayout="false" tabStrip="false" persist="true">
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_alignment', id:mappedInstance.id)}" rel="Alignment" title="Alignment" errorMessage="<span class='dijitContentPaneError'>Alignment data for this read not found in database.</span>"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_fasta', id:mappedInstance.id)}" rel="Fasta" title="FASTA Sequence"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_reads', id:mappedInstance.id)}" rel="Genomes" title="Hits on other Genomes"></div>
-      <div dojoType="dijit.layout.ContentPane" href="${createLink(action:'show_contig', id:mappedInstance.id)}" rel="Contig" title="Contig Sequence"></div>
-   </div>
-  </body>
+	<head>
+		<meta name="layout" content="${layout?:'bootstrap'}">
+		<g:set var="entityName" value="${message(code: 'mapped.label', default: 'Mapped')}" />
+		<g:set var="genomeInstance" value="${Genome.findByGi(mappedInstance.genome)}" />
+		<title>${mappedInstance.readId}</title>
+	</head>
+	<body>
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well well-small">
+					<ul class="nav nav-list">
+						<li class="nav-header">Details</li>
+						<table class="table">
+							<tbody>
+								<g:if test="${mappedInstance?.PG}">
+								<tr><td><g:message code="mapped.PG.label" default="PG" /></td>
+								
+									<td><g:fieldValue bean="${mappedInstance}" field="PG"/></td></tr>	
+								</g:if>
+						
+								<tr><td><g:message code="mapped.platform.label" default="Platform" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="platform"/></td></tr>
+								
+								<tr><td><g:message code="mapped.sequencingType.label" default="Sequencing Type" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="sequencingType"/></td></tr>
+								
+								<tr><td><g:message code="mapped.readLength.label" default="Read Length" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="readLength"/></td></tr>
+
+								<tr><td><g:message code="mapped.alignLength.label" default="Align Length" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="alignLength"/></td></tr>
+								
+								<tr><td><g:message code="mapped.alignScore.label" default="Align Score" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="alignScore"/></td></tr>
+								
+								<tr><td><g:message code="mapped.mapq.label" default="Mapq" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="mapq"/></td></tr>
+
+								<tr><td><g:message code="mapped.minQual.label" default="Min Qual" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="minQual"/></td></tr>
+								
+								<tr><td><g:message code="mapped.avgQual.label" default="Avg Qual" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="avgQual"/></td></tr>
+							
+								<tr><td><g:message code="mapped.miscalls.label" default="Miscalls" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="miscalls"/></td></tr>
+								
+								<tr><td><g:message code="mapped.mismatch.label" default="Mismatch" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="mismatch"/></td></tr>		
+
+								<tr><td><g:message code="mapped.refStrand.label" default="Strand" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="refStrand"/></td></tr>		
+
+								<tr><td><g:message code="mapped.refStart.label" default="Start" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="refStart"/></td></tr>		
+
+								<tr><td><g:message code="mapped.refEnd.label" default="End" /></td>
+									<td><g:fieldValue bean="${mappedInstance}" field="refEnd"/></td></tr>		
+							</tbody>
+							</table>		
+					</ul>
+					<g:if test="${mappedInstance?.mapsGene}">
+					<hr>
+					<ul class="nav nav-list">
+						<li class="nav-header">Mapped to Genes</li>
+					</ul>
+					<ul id="items" class="nav nav-list">
+						<g:each in="${mappedInstance.mapsGene}" var="uid">
+
+							<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
+							<g:if test="${featureInstance}">
+								<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+							</g:if>
+							<g:else>
+								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid, 'gene')}" />
+								<g:if test="${featureInstance}">
+									<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+								</g:if>
+								<g:else>
+								<a href="http://www.ncbi.nlm.nih.gov/gene/${uid}" target="_blank">${uid}</a>
+							</g:else>
+							</g:else>
+						</g:each>
+					</ul>
+					</g:if>
+				</div>
+			</div>
+			<div class="content span9">
+				<ul class="breadcrumb">
+					<li>
+						<g:link controller="project" action="show" id="${mappedInstance.project}">
+						${Project.findByLabel(mappedInstance.project).name}
+						</g:link> 
+						<span class="divider">/</span>
+					</li>
+					<li>
+						<g:link controller="sample" action="show" id="${mappedInstance.sample}">
+						${mappedInstance.sample}
+						</g:link> 
+						<span class="divider">/</span>
+					</li>
+					<li>
+						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}">
+						${mappedInstance.alignment}
+						</g:link> 
+						<span class="divider">/</span>
+					</li>
+				</ul>
+				<div class="row-fluid page-header">
+					<h1 class="pull-left"><small>READ</small> ${mappedInstance.readId}</h1>
+					<div id="blast" class="btn-group pull-right">
+			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			          		<i class="icon-share-alt icon-white"></i>
+			          		BLAST <span class="caret"></span>
+			        	</button>
+			        	<ul class="dropdown-menu" style="left:auto; right:0;">
+			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${mappedInstance.sequence}" target="_blank">BLAST Read Sequence</a></li>
+			            	<li data-tab="#contig"><span class="disabled">Generating Contig...</span></li>
+			        	</ul>
+			        </div>
+				</div>
+
+				<g:if test="${flash.message}">
+				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
+				</g:if>
+				<h2><small>MAPS TO GENOME</small> <g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></h2>
+			    <ul class="nav nav-tabs">
+			    	<li class="active"><a href="#fasta" data-toggle="tab">Fasta</a></li>
+			    	<li class="ajax"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance.id])}">Generating Alignment...</a></li>
+				    <li class="ajax"><a class="disabled" href="#contig" data-toggle="tab" data-url="${createLink([action:'contig',id:mappedInstance.id])}" data-loaded="Contig Sequence">Generating Contig...</a></li>
+					<g:if test="${otherHits}">
+					<li><a href="#other" data-toggle="tab">Other Hits</a></li>
+					</g:if>
+			    </ul>
+			    <div class="tab-content">
+					<div class="tab-pane active" id="fasta">
+						<g:render template='/mapped/fasta' model="[fasta:fasta, mappedInstance:mappedInstance]"/>
+					</div>
+					<div class="tab-pane" id="alignment">
+					    <div class="progress progress-info progress-striped active"> 
+					    	<div class="bar" style="width: 100%;"></div>
+						</div>
+					</div>
+					<div class="tab-pane" id="contig">
+					    <div class="progress progress-info progress-striped active"> 
+					    	<div class="bar" style="width: 100%;"></div>
+					    </div>
+					</div>
+					<g:if test="${otherHits}">
+					<div class="tab-pane" id="other">
+						<div id="other-table" class="results">
+							<h2>Hits on Other Genomes</h2>
+							<table class="table table-striped table-condensed">
+								<thead>
+									<tr>
+										<th>Genome</th>
+										<th>Start</th>
+										<th>End</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<g:each in="${otherHits}" var="hit">
+										<g:set var="genomeInstance" value="${Genome.findByGi(hit.gi)}" />
+										<tr>
+											<td><g:link controller="genome" action="show" id="${fieldValue(bean: genomeInstance, field: 'accession')}">${fieldValue(bean: genomeInstance, field: "name")}</g:link></td>
+											<td>${hit.refStart}</td>
+											<td>${hit.refEnd}</td>
+												<td><g:link action="show" id="${hit.id}" class="btn btn-small">View Hit</g:link></td>
+										</tr>
+									</g:each>
+								</tbody>
+							</table>
+							<div class="pagination">
+								<bootstrap:paginate id="${mappedInstance?.id}" total="${otherHits.size()}" params="${params}" />
+							</div>
+						</div>
+					</div>
+					</g:if>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
