@@ -52,60 +52,6 @@ class MappedController {
 	}
 
 
-<<<<<<< HEAD
-    Map ret = [
-      'identifier': 'id',
-      'label': 'gname',
-      'items': reads
-    ]
-
-    render ret as JSON
-  }
-
-
-  def show_contig = {
-    Mapped mappedInstance = findInstance()
-    
-    //Date start = new Date()
-    ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
-    //Date stop = new Date()
-    //TimeDuration td = TimeCategory.minus( stop, start )
-    //println td
-    
-    /*
-    ArrayList reads = [
-      ['refStart': 11,
-       'refEnd': 30,
-       'sequence': 'ABCDEFGHIJKLMNOPQRST'],
-      ['refStart': 16,
-       'refEnd': 35,
-       'sequence': 'FGHIJKLMNOPQRST43210'],
-      ['refStart': 21,
-       'refEnd': 40,
-       'sequence': '!@#$%^&*())(*&^%$#@!']
-    ]
-    */
-
-    //start = new Date()
-    //List contig = mappedService.bucket(mappedService.getContig(reads, mappedInstance))
-    List contig = mappedService.getContig(reads, mappedInstance)
-    //stop = new Date()
-    //td = TimeCategory.minus( stop, start )
-    //println td
-
-    render(view: 'ajax/show/contig', model: [mappedInstance: mappedInstance, sequence: contig])
-  }
-
-  private Mapped findInstance() {
-    Mapped mappedInstance = mappedService.get(params.id)
-    authorize(mappedInstance, ['user', 'collaborator', 'owner'])
-    if (!mappedInstance) {
-      flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'mapped.name', default: 'Mapped'), params.id])}"
-      redirect(controller:'project', action: 'list')
-    }
-    mappedInstance
-  }
-=======
 	private Mapped findInstance() {
 		Mapped mappedInstance = mappedService.get(params.id)
 		authorize(mappedInstance, ['user', 'collaborator', 'owner'])
@@ -115,7 +61,6 @@ class MappedController {
 		}
 		mappedInstance
 	}
->>>>>>> feature/bootstrap
 
 	private void authorize(def auth, List access) {
 		if (!authService.authorize(auth, access)) {
