@@ -10,12 +10,6 @@
 
 package ca.on.oicr.capsid
 
-import java.util.List;
-import java.util.Map;
-
-import grails.plugins.springsecurity.Secured
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
-
 class UserService {
 
   static transactional = false
@@ -84,6 +78,10 @@ class UserService {
 
   Set unassigned(Map params) {
     Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
-    UserRole.findAll().user.username.minus(UserRole.findAllByRole(roleInstance).user.username)
+    Set roles = UserRole.findAll().user.username
+	if (roleInstance) {
+		roles = roles.minus(UserRole.findAllByRole(roleInstance).user.username)
+	}
+	roles
   }    
 }

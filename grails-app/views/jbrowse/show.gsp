@@ -1,9 +1,9 @@
 <html>
 	<head>
 		<meta name="layout" content="bootstrap">
-		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
+		<g:set var="entityName" value="Genome" />
 		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
-		<script src="/capsid/js/jbrowse/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad:true"/></script>
+		<script src="/capsid/js/jbrowse/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad:true"></script>
 	    <r:require module="jbrowse"/>
 		
 		<r:script>
@@ -17,7 +17,7 @@
 	   	            	// Hide Loader
 	   	            	dojo.destroy(dojo.byId("setup-loader"));
 	   	            	// Create Browser
-	   	                var b = new Browser({
+	   	                new Browser({
 	   	                    containerID: "browser"
 	   	                ,   refSeqs: setup.refseqs
 	   	                ,   trackData: setup.trackInfo
@@ -27,7 +27,7 @@
 	   	                ,   tracks: "DNA,genes," + queryParams.track
 	   	                ,   dataRoot: ""
 		                ,   browserRoot: "${resource(dir:'js/jbrowse')}/"
-			            ,   conf : {'flags': {'trackCustomizationOff': true, 'facetedOff': true,}}
+			            ,   conf : {'flags': {'trackCustomizationOff': true, 'facetedOff': true}}
 	   	                });
      	         	}
         	    });
@@ -35,7 +35,7 @@
 	    </r:script>
 	</head>
 	<body>
-		<div class="content" style="margin: 0pt -20px;">
+		<div class="content" style="margin: 0 -20px;">
 			<div class="page-header">
 				<h1>
 					<g:link controller="genome" action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "name")} (${fieldValue(bean: genomeInstance, field: "accession")})</g:link>

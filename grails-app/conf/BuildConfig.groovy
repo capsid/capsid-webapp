@@ -43,14 +43,14 @@ grails.project.dependency.resolution = {
         
         compile ":jquery:latest.integration"
         
-        compile ':fields:1.2'
+        compile ':fields:latest.integration'
         
         compile ':navigation:latest.integration'
         compile ':mail:latest.integration'
-        compile ':spring-security-core:1.2.7.3'
-        compile ":spring-security-ldap:1.0.6"
+        compile ':spring-security-core:latest.integration'
+        compile ":spring-security-ldap:latest.integration"
 
-        runtime ":mongodb:1.0.0.GA"
+        runtime ":mongodb:latest.integration"
         
         runtime ":zipped-resources:latest.integration"
         runtime ":cached-resources:latest.integration"
