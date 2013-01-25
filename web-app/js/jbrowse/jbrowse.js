@@ -2824,7 +2824,7 @@ FeatureTrack.prototype.loadSuccess = function(trackInfo) {
                   ", ID: " + feat[fields["id"]]);
             */
             
-            window.open("/capsid/mapped/show/" + feat[fields['id']], '_newtab');
+            window.open("/capsiddev/mapped/show/" + feat[fields['id']], '_newtab');
         };
         var track = this;
 
