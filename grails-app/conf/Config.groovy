@@ -98,44 +98,37 @@ grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
 // Twitter Bootstrap
 grails.plugins.twitterbootstrap.customDir = 'less'
 
-/**
- * Running externalized configuration
- * Assuming the following configuration files
- * - config location set path by system variable '<APP_NAME>_CONFIG_PATH'
- */
+grails.config.locations = []
+def defaultConfigFiles = [
+    "/etc/capsid/capsid-config.properties",
+    "/etc/capsid/capsid-config.groovy",  
+    "${userHome}/.grails/capsid-config.properties",
+    "${userHome}/.grails/capsid-config.groovy"
+]
 
-grails.config.locations = ["classpath:${appName}-config.groovy"]
-def defaultConfigFiles = ["${appName}-config.groovy"]
-
-// Find the absolute path of of the war
-try {
-  Class startClass = Class.forName("ca.on.oicr.capsid.Start");
-  ProtectionDomain protectionDomain = startClass.getProtectionDomain();
-  URL location = protectionDomain.getCodeSource().getLocation();
-  File file = new File(location.toURI().getPath());
-  String war_location = file.getParentFile().toString()
-
-  defaultConfigFiles << war_location + "/${appName}-config.groovy"
-} catch(ClassNotFoundException e) {
-  // embedded
+if (System.getenv("CAPSID_HOME")) {
+  defaultConfigFiles.unshift(System.getenv("CAPSID_HOME") + "/capsid-config.groovy");
+  defaultConfigFiles.unshift(System.getenv("CAPSID_HOME") + "/capsid-config.properties");
 }
+
 defaultConfigFiles.each { filePath ->
-  def f = new File(filePath)
-  if (f.exists()) {
-    grails.config.locations << "file:${filePath}"
-  }
+    def f = new File(filePath)
+    if (f.exists()) {
+        grails.config.locations << "file:${filePath}"
+    }
 }
 
-def externalConfig = System.getenv(appName.toUpperCase() + "_CONFIG_PATH")
-if (externalConfig) {
-  grails.config.locations << "file:" + externalConfig
-}
-
-externalConfig = System.getProperty(appName.toUpperCase() + "_CONFIG_PATH")
-if (externalConfig) {
-  grails.config.locations << "file:" + externalConfig
-}
-
-grails.config.locations.each {
-  println "[INFO] Including configuration file [${it}] in configuration building."
+environments {
+    staging {
+        grails.serverURL = "http://localhost:8080/${appName}"
+        grails.gsp.enable.reload=true
+    }
+    development {
+        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.gsp.enable.reload=true
+    }
+    test {
+        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.gsp.enable.reload=true
+    }
 }
