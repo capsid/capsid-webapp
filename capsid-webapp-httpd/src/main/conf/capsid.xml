@@ -36,7 +36,7 @@
 
     <New id="webApp" class="org.eclipse.jetty.webapp.WebAppContext">
         <Set name="contextPath">/</Set>
-        <Set name="war"><SystemProperty name="CAPSID_DIST" default=".."/>/lib/capsid-webap-app-${project.version}.war</Set>
+        <Set name="war">${project.build.directory}/capsid-webapp-app-${project.version}.war</Set>
     </New>
     
     <Set name="handler"><Ref id="webApp"/></Set>

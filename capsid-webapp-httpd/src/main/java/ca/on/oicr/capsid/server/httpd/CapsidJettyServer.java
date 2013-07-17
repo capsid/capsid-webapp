@@ -24,10 +24,17 @@ public class CapsidJettyServer {
 
 	public CapsidJettyServer() throws Exception {
 		
-		String home = System.getProperty("CAPSID_HOME");
+		String config = System.getProperty("CAPSID_CONFIG");
+		if (config == null) {
+			config = System.getProperty("CAPSID_HOME");
+			if (config == null) {
+				config = System.getProperty("user.dir");
+			}
+			config = config + "/capsid.xml";
+		}
 		
-		URL configXMLURL = new URL("file", "", home + "/conf/capsid.xml");
-		log.info("Configuring web server from: " + configXMLURL);
+		URL configXMLURL = new URL("file", "", config);
+		System.err.println("Configuring web server from: " + configXMLURL);
 		Resource configXML = new FileResource(configXMLURL);
 	
 	    XmlConfiguration configuration = new XmlConfiguration(configXML.getInputStream());
