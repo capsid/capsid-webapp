@@ -3,12 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>ca.on.oicr.capsid</groupId>
-    <artifactId>capsiddev</artifactId>
+
+    <parent>
+        <groupId>ca.on.oicr.capsid</groupId>
+        <artifactId>capsid-webapp</artifactId>
+        <version>1.5-SNAPSHOT</version>
+    </parent>
+
     <packaging>grails-app</packaging>
-    <version>1.5-SNAPSHOT</version>
-    <name>capsiddev</name>
-    <description>capsiddev</description>
+
+    <artifactId>capsid-webapp-app</artifactId>
+    <name>capsid-webapp-app</name>
+    <description>CaPSID web application WAR file</description>
 
     <properties>
         <grails.version>2.2.3</grails.version>
