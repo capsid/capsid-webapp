@@ -10,4 +10,5 @@ web-app/js/release/
 .project
 *.log
 target-eclipse/
+plugins/
 .settings
