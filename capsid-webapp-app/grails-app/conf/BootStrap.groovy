@@ -1,5 +1,8 @@
 import ca.on.oicr.capsid.*
 
+// Note: to debug Mongo, use the following command to start the app:
+// grails -DDB.TRACE=true -DDEBUG.MONGO=true run-app
+
 class BootStrap {
 
     def springSecurityService

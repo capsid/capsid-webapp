@@ -3,7 +3,7 @@
 		<meta name="layout" content="bootstrap">
 		<g:set var="entityName" value="Genome" />
 		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
-		<script src="/capsiddev/js/jbrowse/jslib/dojo/dojo.js" data-dojo-config="parseOnLoad:true"></script>
+		<script src="${resource(dir: 'js/jbrowse/jslib/dojo', file: 'dojo.js')}" data-dojo-config="parseOnLoad:true"></script>
 	    <r:require module="jbrowse"/>
 		
 		<r:script>

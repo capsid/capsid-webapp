@@ -185,15 +185,6 @@
 
         <dependency>
             <groupId>org.grails.plugins</groupId>
-            <artifactId>yui-minify-resources</artifactId>
-            <version>0.1.5</version>
-            <scope>runtime</scope>
-            <type>zip</type>
-        </dependency>
-                        
-
-        <dependency>
-            <groupId>org.grails.plugins</groupId>
             <artifactId>webxml</artifactId>
             <version>1.4.1</version>
             <scope>provided</scope>

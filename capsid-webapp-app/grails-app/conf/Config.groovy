@@ -24,7 +24,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 
 // What URL patterns should be processed by the resources plugin
 grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
-
+grails.resources.mappers.hashandcache.excludes = ['**/*.js']
 
 // The default codec used to encode data with ${}
 grails.views.default.codec = "none" // none, html, base64
@@ -62,7 +62,10 @@ environments {
 }
 
 // log4j configuration
-log4j = {
+log4j = { root ->
+
+    root.level = org.apache.log4j.Level.INFO
+
     // Example of changing the log pattern for the default console
     // appender:
     //
@@ -81,7 +84,10 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+
     warn   'grails.plugins.twitterbootstrap'
+
+    debug  'com.mongodb'
 }
 
 // Added by the Spring Security Core plugin:
