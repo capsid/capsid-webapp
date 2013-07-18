@@ -3,7 +3,7 @@
   
   <groupId>ca.on.oicr.capsid</groupId>
   <artifactId>capsid-webapp</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.6-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <properties>
@@ -78,7 +78,6 @@
   <modules>
     <module>capsid-webapp-app</module>
     <module>capsid-webapp-httpd</module>
-    <module>capsid-webapp-server</module>
   </modules>
   
   <scm>
