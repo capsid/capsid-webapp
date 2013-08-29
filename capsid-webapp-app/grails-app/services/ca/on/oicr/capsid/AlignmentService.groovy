@@ -35,7 +35,7 @@ class AlignmentService {
                 // Sample
                 if (params.sample) {
                     if (params.sample instanceof String) {
-                        ilike("sample", "%" + params.sample + "%")
+                        eq("sample", params.sample)
                     }
                     else if (params.sample instanceof String[]) {
                         'in'("sample", params.sample)

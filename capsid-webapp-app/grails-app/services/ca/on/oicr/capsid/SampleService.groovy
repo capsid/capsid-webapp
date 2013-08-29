@@ -13,6 +13,7 @@ package ca.on.oicr.capsid
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
 class SampleService {
@@ -32,7 +33,7 @@ class SampleService {
 		List results = criteria.list(params) {
             and {
                 // Security Check
-                'in'("project", projectService.list([:]).label)
+                //'in'("project", projectService.list([:]).label)
                 
                 // Filters by label, using project name on client side
                 if (params.name) {
@@ -44,13 +45,13 @@ class SampleService {
                         'in'("name", params.name)
                     }
                 }
-                if (params.project) {
+                if (params.projectId) {
                     // Single project param being passed
-                    if (params.project instanceof String) {
-                        eq("project", params.project)
+                    if (params.projectId instanceof ObjectId) {
+                        eq("projectId", params.projectId)
                     }
-                    else if (params.project instanceof String[]) {
-                        'in'("project", params.project)
+                    else if (params.projectId instanceof ObjectId[]) {
+                        'in'("projectId", params.projectId)
                     }
                 }
                 if (params.cancer) {

@@ -16,7 +16,7 @@ class Genome {
 
     ObjectId id
     List<String> taxonomy
-    List<String> samples
+    List<ObjectId> samples
     Integer sampleCount
     String accession
     String version

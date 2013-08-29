@@ -15,10 +15,12 @@ import org.bson.types.ObjectId
 class Statistics {
 	
 	ObjectId id
+	ObjectId projectId
 	String project
 	String label
-	String sample
+	ObjectId sample
 	String genome
+	ObjectId genomeId
 	String accession
 	Integer genomeHits
 	Integer geneHits

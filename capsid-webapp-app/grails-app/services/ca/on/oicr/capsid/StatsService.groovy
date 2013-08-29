@@ -10,6 +10,7 @@
 
 package ca.on.oicr.capsid
 
+import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
 class StatsService {
@@ -26,20 +27,20 @@ class StatsService {
 		List results = criteria.list(params) {
 			and {
 				// Security Check
-                'in'("label", projectService.list([:]).label)
+                //'in'("label", projectService.list([:]).label)
             
             	// Project
-				if (params.label) {
-					if (params.label instanceof String) {
-						eq("label",params.label)
+				// if (params.label) {
+				// 	if (params.label instanceof String) {
+				// 		eq("label",params.label)
+				// 	}
+				// }
+				if (params.projectId) {
+					if (params.projectId instanceof ObjectId) {
+						eq("projectId", params.projectId)
 					}
-				}
-				if (params.project) {
-					if (params.project instanceof String) {
-						ilike("project", '%' + params.project + '%')
-					}
-					else if (params.project instanceof String[]) {
-						'in'("project", params.project)
+					else if (params.projectId instanceof ObjectId[]) {
+						'in'("projectId", params.projectId)
 					}
 				}
 

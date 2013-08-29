@@ -38,7 +38,7 @@ class ProjectController {
         List projects = projectService.list params
 		
         projects.each {
-          it['sampleCount'] = Sample.countByProject(it.label)
+          it['sampleCount'] = Sample.countByProject(it.id)
         }
 
 		[projects: projects]
@@ -52,12 +52,8 @@ class ProjectController {
 
         Project projectInstance = findInstance()
         
-        params.label = params.id
-        List statistics = statsService.list params 
-        params.project = params.id
-        List samples = sampleService.list params 
-        params.remove('label')
-        params.remove('project')
+        List statistics = statsService.list(projectId: projectInstance.id, sample: "none")
+        List samples = sampleService.list(projectId: projectInstance.id)
         
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
