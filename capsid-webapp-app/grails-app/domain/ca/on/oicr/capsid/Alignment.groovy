@@ -22,8 +22,10 @@ class Alignment {
 	String outfile
 	String type
 
-	ObjectId sample
-	ObjectId project
+	ObjectId sampleId
+	String sample
+	ObjectId projectId
+	String projectLabel
 
     static constraints = {
 		name unique:true, blank: false, display: false, matches: /[\w\d\-]+/
@@ -32,8 +34,10 @@ class Alignment {
 		type blank: true
 		infile blank: true, widget: 'textarea'
 		outfile blank: true, widget: 'textarea'
-		sample blank: false, editable: false, validator: { val -> val in Sample.list()._id }
-		project blank: false, editable: false, validator: { val -> val in Project.list()._id }
+		sample blank: false
+		projectLabel blank: false
+		sampleId nullable: false, editable: false, validator: { val -> val in Sample.list()._id }
+		projectId nullable: false, editable: false, validator: { val -> val in Project.list()._id }
     }
 
 	static mapping = { cache true }

@@ -1,4 +1,4 @@
-<g:form action="${id?'show':'list'}" id="${id}" class="form-horizontal pull-right search">
+<g:form action="${id?'show':'list'}" id="${id}" params="${projectLabel ? [projectLabel: projectLabel] : []}" class="form-horizontal pull-right search">
 	<g:if test="${buttons=='true'}">
 	<div class="pull-left filter">
 		<input type="hidden" name="filter" value="false">

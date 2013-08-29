@@ -18,7 +18,8 @@ class Statistics {
 	ObjectId projectId
 	String project
 	String label
-	ObjectId sample
+	String sample
+	ObjectId sampleId
 	String genome
 	ObjectId genomeId
 	String accession

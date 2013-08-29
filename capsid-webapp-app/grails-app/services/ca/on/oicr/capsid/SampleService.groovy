@@ -23,8 +23,8 @@ class SampleService {
     def authService
     def projectService
 
-    Sample get(String name) {
-        Sample.findByName name
+    Sample get(String name, ObjectId projectId) {
+        Sample.findByNameAndProjectId name, projectId
     }
 
 	List list(Map params) {

@@ -13,7 +13,7 @@
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link> 
+						<g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findById(sampleInstance.projectId).name}</g:link> 
 						<span class="divider">/</span>
 					</li>
 				</ul>
@@ -29,13 +29,11 @@
 				              <a data-dismiss="modal" class="close">×</a>
 				              <h3>Add Alignment</h3>
 				            </div>
-				            <fieldset>
-								<g:form class="form-horizontal" controller="alignment" action="save" style="margin:0">
-									<fieldset>
-										<g:render template="/alignment/create" model="[alignmentInstance: new Alignment(['sample':sampleInstance.name, 'project':sampleInstance.project])]"/>
-									</fieldset>
-								</g:form>
-							</fieldset>
+							<g:form class="form-horizontal" controller="alignment" action="save" style="margin:0">
+								<fieldset>
+									<g:render template="/alignment/create" model="[alignmentInstance: new Alignment(['sample':sampleInstance.name, 'project':sampleInstance.project])]"/>
+								</fieldset>
+							</g:form>
 				        </div>
 						<g:link action="edit" class="btn" id="${sampleInstance?.name}">
 							<i class="icon-pencil"></i>
@@ -94,7 +92,7 @@
 					<div class="tab-pane active" id="hits">
 						<div class="row-fluid">
 							<h2 class="pull-left">Genome Hits</h2>
-							<g:render template="/layouts/filter" model="['id':sampleInstance.name]"/>
+							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
 						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -112,7 +110,7 @@
 								<tbody>
 								<g:each in="${statistics}" var="statisticsInstance">
 									<tr>
-										<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+										<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
 										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
 										<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>

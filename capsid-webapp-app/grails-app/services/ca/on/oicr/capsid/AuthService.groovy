@@ -73,7 +73,7 @@ class AuthService {
     isCapsidAdmin() || !project?.roles?.disjoint(getRolesWithAccess(access))
   }
   boolean authorize(Sample sample, List access) {
-    Project project = Project.findByLabel(sample.project)
+    Project project = Project.findById(sample.projectId)
     authorize(project, access)
   }
   boolean authorize(Mapped mapped, List access) {

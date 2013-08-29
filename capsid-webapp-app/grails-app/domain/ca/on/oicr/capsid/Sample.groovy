@@ -30,7 +30,7 @@ class Sample {
 		role blank:true
 		source blank:true
 		projectLabel blank:false
-		projectId blank:false, editable: false, validator: { val -> val in Project.list()._id }
+		projectId nullable:false, editable: false, validator: { val -> val in Project.list()._id }
     }
 	
 	static mapping = {}

@@ -45,18 +45,18 @@ class StatsService {
 				}
 
 				// Sample
-				if (params.sample) {
-					if (params.sample == 'only') {
-						isNotNull('sample')
+				if (params.sampleId) {
+					if (params.sampleId == 'only') {
+						isNotNull('sampleId')
 					}
-					else if (params.sample == 'none') {
-						isNull('sample')
+					else if (params.sampleId == 'none') {
+						isNull('sampleId')
 					}
-					else if (params.sample instanceof String) {
-						ilike("sample", "%" + params.sample + "%")
+					else if (params.sampleId instanceof ObjectId) {
+						eq("sampleId", params.sampleId)
 					}
-					else if (params.sample instanceof String[]) {
-						'in'("sample", params.sample)
+					else if (params.sampleId instanceof ObjectId[]) {
+						'in'("sampleId", params.sampleId)
 					}
 				}
 
@@ -81,7 +81,7 @@ class StatsService {
 						ilike("sample", text)
 						ilike("project", text)
 					}
-				}	
+				}
 
 				// Filters
 				if (params.filters && params.filters != "false") {

@@ -37,7 +37,7 @@ sub update_samples {
 
 	my $samples = $db->get_collection('sample');
 	while(my ($key, $value) = each %$table) {
-		$samples->update({project => $key}, {'$set' => {projectId => $value}, '$rename' => {project => 'projectLabel'}});
+		$samples->update({project => $key}, {'$set' => {projectId => $value}, '$rename' => {project => 'projectLabel'}}, {multiple => 1});
 	}
 
 	close_database($db);
@@ -102,10 +102,40 @@ sub update_statistics_samples {
 	close_database($db);
 }
 
+sub update_alignments {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $samples = $db->get_collection('sample')->find();
+	while (my $sample = $samples->next()) {
+		$table->{$sample->{name}} = $sample->{_id};
+	}
+
+	my $alignments = $db->get_collection('alignment');
+	while(my ($key, $value) = each %$table) {
+		say Dumper $alignments->update({sample => $key}, {'$set' => {sampleId => $value}}, {multiple => 1});
+	}
+
+	$table = {};
+	my $projects = $db->get_collection('project')->find();
+	while (my $project = $projects->next()) {
+		$table->{$project->{label}} = $project->{_id};
+	}
+
+	while(my ($key, $value) = each %$table) {
+		say Dumper $alignments->update({project => $key}, {'$set' => {projectId => $value}, '$rename' => {project => 'projectLabel'}}, {multiple => 1});
+	}
+
+
+	close_database($db);
+}
+
 
 # update_samples();
 # update_statistics_genomes();
 # update_statistics_projects();
-update_statistics_samples();
+# update_statistics_samples();
+update_alignments();
 
 1;

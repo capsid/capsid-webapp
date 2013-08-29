@@ -34,24 +34,26 @@ class SampleController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        
+
         List samples = sampleService.list params
         
         [samples: samples]
     }
 
     def show() {
+
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
-        params.sample = params.id
-        
-        Sample sampleInstance = findInstance()
-        
-        List statistics = statsService.list params 
-        List alignments = alignmentService.list params
+        params.offset = params.offset ?: 0
 
-        [sampleInstance: sampleInstance, statistics: statistics, alignments: alignments]
+        Map model = findModel()
+        Project projectInstance = model['projectInstance']
+        Sample sampleInstance = model['sampleInstance']
+        model['statistics'] = statsService.list(projectId: projectInstance, sampleId: sampleInstance, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['alignments'] = alignmentService.list params
+
+        model
     }
 
     def create() { 
@@ -73,12 +75,12 @@ class SampleController {
     }
 
     def edit() {
-        Sample sampleInstance = findInstance()
-        [sampleInstance: sampleInstance]
+        findModel()
 	}
 
     def update() {
-        Sample sampleInstance = findInstance(['collaborator', 'owner'])
+        Map model = findModel(['collaborator', 'owner'])
+        Sample sampleInstance = model['sampleInstance']
 
         checkVersion(sampleInstance, params)
         
@@ -94,7 +96,8 @@ class SampleController {
 	}
 
     def delete() {
-        Sample sampleInstance = findInstance(['collaborator', 'owner'])
+        Map model = findModel(['collaborator', 'owner'])
+        Sample sampleInstance = model['sampleInstance']
 
         try {
             sampleInstance.delete(flush: true)
@@ -109,14 +112,18 @@ class SampleController {
         }
     }
 
-	private Sample findInstance(List roles = ['user', 'collaborator', 'owner']) {
-		Sample sampleInstance = sampleService.get(params.id)
-		authorize(sampleInstance, roles)
+	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
+
+        Project projectInstance = Project.findByLabel(params.projectLabel)
+        authorize(projectInstance, roles)
+
+		Sample sampleInstance = sampleService.get(params.id, projectInstance.id)
 		if (!sampleInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
 		  redirect action: 'list'
 		}
-		sampleInstance
+
+		[sampleInstance: sampleInstance, projectInstance: projectInstance]
 	}
 
 	private void authorize(def auth, List access) {
