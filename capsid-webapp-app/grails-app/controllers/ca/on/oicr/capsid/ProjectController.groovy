@@ -49,12 +49,13 @@ class ProjectController {
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
         params.sample = "none"
+        params.offset = params.offset ?: 0
 
         Project projectInstance = findInstance()
         
-        List statistics = statsService.list(projectId: projectInstance.id, sample: "none")
-        List samples = sampleService.list(projectId: projectInstance.id)
-        
+        List statistics = statsService.list(projectId: projectInstance.id, sample: "none", text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+        List samples = sampleService.list(projectId: projectInstance.id, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 

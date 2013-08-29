@@ -34,6 +34,7 @@ class SampleController {
 
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
+        
         List samples = sampleService.list params
         
         [samples: samples]

@@ -27,21 +27,19 @@
 				</bootstrap:alert>
 				</g:hasErrors>
 
-				<fieldset>
-					<g:form class="form-horizontal" action="save" >
-						<fieldset>
-							<f:field bean="sampleInstance" property="name"/>
-							<f:all bean="sampleInstance"/>
-							<div class="form-actions">
-								<button type="submit" class="btn btn-success">
-									<i class="icon-ok icon-white"></i>
-									<g:message code="default.button.create.label" default="Create" />
-								</button>
-								<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
-							</div>
-						</fieldset>
-					</g:form>
-				</fieldset>
+				<g:form class="form-horizontal" action="save" >
+					<fieldset>
+						<f:field bean="sampleInstance" property="name"/>
+						<f:all bean="sampleInstance"/>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-success">
+								<i class="icon-ok icon-white"></i>
+								<g:message code="default.button.create.label" default="Create" />
+							</button>
+							<g:link action="list" class="btn" data-dismiss="modal">Cancel</g:link>
+						</div>
+					</fieldset>
+				</g:form>
 			</div>
 		</div>
 	</body>
