@@ -84,9 +84,28 @@ sub update_statistics_projects {
 	close_database($db);
 }
 
+sub update_statistics_samples {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $samples = $db->get_collection('sample')->find();
+	while (my $sample = $samples->next()) {
+		$table->{$sample->{name}} = $sample->{_id};
+	}
+
+	my $statistics = $db->get_collection('statistics');
+	while(my ($key, $value) = each %$table) {
+		say Dumper $statistics->update({sample => $key}, {'$set' => {sampleId => $value}}, {multiple => 1});
+	}
+
+	close_database($db);
+}
+
 
 # update_samples();
 # update_statistics_genomes();
-update_statistics_projects();
+# update_statistics_projects();
+update_statistics_samples();
 
 1;
