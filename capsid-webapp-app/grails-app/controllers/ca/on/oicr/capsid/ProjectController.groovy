@@ -38,7 +38,7 @@ class ProjectController {
         List projects = projectService.list params
 		
         projects.each {
-          it['sampleCount'] = Sample.countByProject(it.id)
+          it['sampleCount'] = Sample.countByProjectId(it.id)
         }
 
 		[projects: projects]
