@@ -49,9 +49,11 @@ class SampleController {
 
         Map model = findModel()
         Project projectInstance = model['projectInstance']
+        assert projectInstance != null
         Sample sampleInstance = model['sampleInstance']
-        model['statistics'] = statsService.list(projectId: projectInstance, sampleId: sampleInstance, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
-        model['alignments'] = alignmentService.list params
+        assert sampleInstance != null
+        model['statistics'] = statsService.list(projectId: projectInstance.id, sampleId: sampleInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['alignments'] = alignmentService.list(projectId: projectInstance.id, sampleId: sampleInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
 
         model
     }
@@ -121,9 +123,10 @@ class SampleController {
 		if (!sampleInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'sample.label', default: 'Sample'), params.id])
 		  redirect action: 'list'
-		}
-
-		[sampleInstance: sampleInstance, projectInstance: projectInstance]
+          [:]
+		} else {
+  		  [sampleInstance: sampleInstance, projectInstance: projectInstance]
+        }
 	}
 
 	private void authorize(def auth, List access) {

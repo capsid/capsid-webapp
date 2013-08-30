@@ -7,6 +7,8 @@ class UrlMappings {
 
 		"/genome/$action?/$projectLabel?/$id?"(controller: "genome")
 
+		"/alignment/$action?/$projectLabel?/$sampleName?/$id?"(controller: "alignment")
+
 		"/$controller/$action?/$id?"{
 			constraints {
 				// apply constraints here

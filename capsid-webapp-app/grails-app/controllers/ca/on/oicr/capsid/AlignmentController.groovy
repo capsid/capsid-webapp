@@ -22,6 +22,7 @@ class AlignmentController {
     def authService
     def alignmentService
 	def statsService
+    def sampleService
 
     def index() { redirect action: 'list', params: params }
 
@@ -46,17 +47,20 @@ class AlignmentController {
         params.order = params.order ?: "desc"
         params.label = params.id
 
-        Alignment alignmentInstance = findInstance()
+        Map model = findModel()
         
         List results = statsService.list params 
+        model['statisticsInstanceList'] = results
+        model['statisticsInstanceTotal'] = results.totalCount
 
         if (params._pjax) {
             params.remove('_pjax')
-            return [alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount, layout:'ajax']
+            model['layout'] = 'ajax'
+            return model
         }
 
         withFormat {
-            html alignmentInstance: alignmentInstance, statisticsInstanceList: results, statisticsInstanceTotal: results.totalCount
+            html model
             json { render results as JSON }
         }
     }
@@ -115,14 +119,23 @@ class AlignmentController {
         }
     }
 
-	private Alignment findInstance(List roles = ['user', 'collaborator', 'owner']) {
-		Alignment alignmentInstance = alignmentService.get(params.id)
-		authorize(alignmentInstance, roles)
+	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
+
+        System.err.println(params)
+
+        Project projectInstance = Project.findByLabel(params.projectLabel)
+        authorize(projectInstance, roles)
+
+        Sample sampleInstance = sampleService.get(params.sampleName, projectInstance.id)
+        assert sampleInstance != null
+
+		Alignment alignmentInstance = alignmentService.get(params.id, projectInstance.id, sampleInstance.id)
+
 		if (!alignmentInstance) {
 		  flash.message = message(code: 'default.not.found.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
 		  redirect action: 'list'
 		}
-		alignmentInstance
+		[alignmentInstance: alignmentInstance, sampleInstance: sampleInstance, projectInstance: projectInstance]
 	}
 
 	private void authorize(def auth, List access) {

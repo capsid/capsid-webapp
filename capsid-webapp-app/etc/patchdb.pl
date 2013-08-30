@@ -131,11 +131,30 @@ sub update_alignments {
 	close_database($db);
 }
 
+sub update_alignments2 {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $samples = $db->get_collection('sample')->find();
+	while (my $sample = $samples->next()) {
+		$table->{$sample->{projectId}}->{$sample->{name}} = $sample->{_id};
+	}
+
+	my $alignments = $db->get_collection('alignment');
+	foreach my $projectId (keys %$table) {
+		$projectId = MongoDB::OID->new($projectId);
+		while(my ($key, $value) = each %{$table->{$projectId}}) {
+			say Dumper $alignments->update({sample => $key, projectId => $projectId}, {'$set' => {sampleId => $value}}, {multiple => 1});
+		}
+	}
+}
 
 # update_samples();
 # update_statistics_genomes();
 # update_statistics_projects();
 # update_statistics_samples();
-update_alignments();
+# update_alignments();
+update_alignments2();
 
 1;

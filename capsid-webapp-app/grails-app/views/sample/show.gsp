@@ -146,7 +146,7 @@
 								<tbody>
 								<g:each in="${alignments}" var="alignmentInstance">
 									<tr>
-										<td><g:link controller="alignment" action="show" id="${alignmentInstance.name}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
+										<td><g:link controller="alignment" action="show" id="${alignmentInstance.name}" params="${[projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
 										<td>${fieldValue(bean: alignmentInstance, field: "aligner")}</td>
 										<td>${fieldValue(bean: alignmentInstance, field: "platform")}</td>
 										<td>${fieldValue(bean: alignmentInstance, field: "type")}</td>
