@@ -150,11 +150,29 @@ sub update_alignments2 {
 	}
 }
 
+sub update_genomes {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $samples = $db->get_collection('sample')->find();
+	while (my $sample = $samples->next()) {
+		$table->{$sample->{name}} = $sample->{_id};
+	}
+
+	my $genomes = $db->get_collection('genome');
+	while (my ($key, $value) = each %$table) {
+		say Dumper $genomes->update({samples => $key}, {'$set' => {'samples.$' => $value}}, {multiple => 1});
+	}
+}
+
+update_genomes();
+
 # update_samples();
 # update_statistics_genomes();
 # update_statistics_projects();
 # update_statistics_samples();
 # update_alignments();
-update_alignments2();
+# update_alignments2();
 
 1;

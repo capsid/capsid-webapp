@@ -101,8 +101,8 @@
 								<tbody>
 								<g:each in="${sStatistics}" var="statisticsInstance">
 									<tr>
-										<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+										<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
+										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
 										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 			
 										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
@@ -144,7 +144,7 @@
 								<tbody>
 								<g:each in="${pStatistics}" var="statisticsInstance">
 									<tr>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
 										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 
 										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
