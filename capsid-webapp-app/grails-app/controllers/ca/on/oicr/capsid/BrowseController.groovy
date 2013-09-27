@@ -12,12 +12,12 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
-import ca.on.oicr.capsid.jbrowse.Histogram
+import ca.on.oicr.capsid.browse.Histogram
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
 @Secured(['ROLE_CAPSID'])
-class JbrowseController {
+class BrowseController {
 
   def authService
   def projectService
@@ -26,6 +26,34 @@ class JbrowseController {
   def show = {
     Genome genomeInstance = Genome.findByAccession(params.id)
     [genomeInstance:genomeInstance]
+  }
+
+  def config = {
+    def datasets = [datasets: [capsid: [url: '?data=sample_data/json/capsid', name: 'CaPSID']], dataset_id: 'capsid']
+    render datasets as JSON
+  }
+
+  def names = {
+    def rootNames = [
+      lowercase_keys:1,
+      track_names:["DNA","Genes","ReadingFrame","CDS","Transcript","Clones","EST"],
+      hash_bits:4,
+      last_changed_entry:"seg15"
+    ]
+    render rootNames as JSON
+  }
+
+  def refSeqs = {
+    Genome genomeInstance = Genome.findByAccession(params.id)
+    def refSeqs = [[
+        name:genomeInstance.accession,
+        length:genomeInstance.length,
+        start:1,
+        end:genomeInstance.length,
+        seqChunkSize:20000,
+        seqDir:'genome/'+genomeInstance.accession+'/sequence'
+      ]] 
+    render refSeqs as JSON
   }
 
   def setup = {
@@ -42,32 +70,36 @@ class JbrowseController {
 
     List tracks = [
       [
-        label: "ROOT"
-        ,	type: "ROOT"
-        ,	children: [["_reference": "General"]]
-        ,	key: "ROOT"
+        label: "ROOT",
+        type: "ROOT",
+        children: [["_reference": "General"]],
+        key: "ROOT"
       ],
       [
-        label: "General"
-        ,   type: "TrackGroup"
-        ,	children: [
-              [ "_reference" : "Genes"]
-          ,   [ "_reference" : "DNA"]
-        ]
-        ,   key: "General"
+        label: "General",
+        type: "TrackGroup",
+        children: [
+          [ "_reference" : "Genes"],
+          [ "_reference" : "DNA"]
+        ],
+        key: "General"
       ],
       [
-        url : "../sequence/{refseq}?"
-        ,	args_chunkSize : 20000
-        ,	label : "DNA"
-        ,	type : "SequenceTrack"
-        ,	key : "DNA"
+        url : "../sequence/{refseq}?",
+        args_chunkSize : 20000,
+        label : "DNA",
+        type : "JBrowse/View/Track/Wiggle/Density",
+        key : "DNA",
+        storeClass : "JBrowse/Store/SeqFeature/REST",
+        baseUrl : "http://my.site.com/rest/api/base"
       ],
       [
-        url : "../genes/{refseq}?"
-        ,	label : "genes"
-        ,	type : "FeatureTrack"
-        ,	key : "Genes"
+        url : "../genes/{refseq}?",
+        label : "Genes",
+        type : "JBrowse/View/Track/HTMLFeatures",
+        key : "Genes",
+        storeClass : "JBrowse/Store/SeqFeature/REST",
+        baseUrl : "http://my.site.com/rest/api/base"
       ]
     ]
 
