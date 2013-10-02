@@ -3,10 +3,11 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content = "text/html; charset=utf-8">
-	<g:set var="user" value="${User.findByUsername(sec?.username())}" />
+	  <g:set var="user" value="${User.findByUsername(sec?.username())}" />
     <title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
 
 
+    <link rel="stylesheet" type="text/css" href="${resource(dir:'css', 'main.css')}">
     <link rel="stylesheet" type="text/css" href="${resource(dir:'css', 'genome.css')}">
     <script type="text/javascript" charset="utf-8" src="${resource(dir:'js/dojo/nls',file:'dojo_en-us.js')}" data-dojo-config="async: 1"></script>
     <script type="text/javascript" src="${resource(dir:'js/dojo',file:'dojo.js')}" data-dojo-config="async: 1"></script>

@@ -56,93 +56,193 @@ class BrowseController {
     render refSeqs as JSON
   }
 
-  def setup = {
-    Genome genomeInstance = Genome.findByAccession(params.id)
-    // jbrowse breaks when refseq name contains spaces or commas. So we use accession.
-    List seqs = [[
-        name:genomeInstance.accession,
-        length:genomeInstance.length,
-        start:1,
-        end:genomeInstance.length,
-        seqChunkSize:20000,
-        seqDir:'genome/'+genomeInstance.accession+'/sequence'
-      ]]
-
-    List tracks = [
-      [
-        label: "ROOT",
-        type: "ROOT",
-        children: [["_reference": "General"]],
-        key: "ROOT"
-      ],
-      [
-        label: "General",
-        type: "TrackGroup",
-        children: [
-          [ "_reference" : "Genes"],
-          [ "_reference" : "DNA"]
-        ],
-        key: "General"
-      ],
-      [
-        url : "../sequence/{refseq}?",
-        args_chunkSize : 20000,
-        label : "DNA",
-        type : "JBrowse/View/Track/Wiggle/Density",
-        key : "DNA",
-        storeClass : "JBrowse/Store/SeqFeature/REST",
-        baseUrl : "http://my.site.com/rest/api/base"
-      ],
-      [
-        url : "../genes/{refseq}?",
-        label : "Genes",
-        type : "JBrowse/View/Track/HTMLFeatures",
-        key : "Genes",
-        storeClass : "JBrowse/Store/SeqFeature/REST",
-        baseUrl : "http://my.site.com/rest/api/base"
-      ]
+  def tracks = {
+    def genesTrack = [
+      storeClass : "JBrowse/Store/SeqFeature/REST",
+      baseUrl: resource(dir:'browse'),
+      query: [data: "genes"],
+      style : [height : 7],
+      type : "JBrowse/View/Track/HTMLFeatures",
+      displayMode: 'normal',
+      maxHeight: 400,
+      metadata : [description: "RESTful BAM-format alignments of simulated resequencing reads on the volvox test ctgA reference."],
+      label : "Genes",
+      key : "Genes"
     ]
-
-    ArrayList samples = []
-    def projects = [:]
-
-    List projectList = projectService.list [:]
-
-    projectList.each {
-      projects[it.label] = [
-            label: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
-        ,   type: "TrackGroup"
-        ,   children: []
-        ,   key: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
-      ]
-    }
-
-    genomeInstance.samples.each {
-      Sample sampleInstance = Sample.findByName(it)
-      if (sampleInstance == null) return
-      Project projectInstance = Project.findByLabel(sampleInstance.project)
-      if (projects[projectInstance.label]) {
-        projects[projectInstance.label]["children"].add(["_reference":it])
-      }
-      samples += [
-        url: "../track/{refseq}?track="+it
-        ,	type: 'FeatureTrack'
-        ,	label: it
-        ,	key: it
-      ]
-    }
-
-    projects.each {
-      if (it.value['children'].length) {
-        tracks.add(it.value)
-        tracks[0]['children'].add("_reference" : it.value['label'])
-      }
-    }
-
-    tracks.addAll(samples);
-    def s = [refseqs:seqs, trackInfo:tracks]
-    render s as JSON
+    def readTrack = [
+      storeClass : "JBrowse/Store/SeqFeature/REST",
+      baseUrl: resource(dir:'browse'),
+      query: [data: "reads"],
+      style : [height : 7],
+      type : "JBrowse/View/Track/HTMLFeatures",
+      displayMode: 'normal',
+      maxHeight: 400,
+      metadata : [description: "RESTful BAM-format alignments of simulated resequencing reads on the volvox test ctgA reference."],
+      label : "Reads",
+      key : "REST - volvox-sorted"
+    ]
+    def trackList = [
+      tracks: [genesTrack]
+    ]
+    render trackList as JSON
   }
+
+  def stats = {
+    def data = [
+      featureDensity: 0.002,
+      featureCount: 100,
+      scoreMin: 87,
+      scoreMax: 87,
+      scoreMean: 42,
+      scoreStdDev: 2.1
+    ]
+    render data as JSON
+  }
+
+  def geneFeatures(String identifier, Integer start, Integer end) {
+    Genome genomeInstance = Genome.findByAccession(params.id)
+
+    List headers = ['start', 'end', 'strand', 'name', 'id', 'subfeatures'];
+    int ncIndex = headers.size();
+
+    List histograms = [new Histogram(1000)]
+    List features = []
+
+    log.info("Looking for hits: type: gene, " + genomeInstance.gi + ", start: " + start + ", end: " + end)
+
+    Feature.collection.find(genome:genomeInstance.gi, type: 'gene').sort([start: 1]).collect { val ->
+      if (val.end >= start && val.start <= end) {
+        def hit = [val.start, val.end, val.strand, val.name, val.name, []]
+        //addToNcList(hits, ncIndex, hit)
+        //histograms*.count(val.start)
+        features.add([start: val.start, end: val.end, strand: val.strand, uniqueID: val.name, name: val.name])
+      }
+      null;
+    }
+
+    return features
+  }
+
+  def features = {
+    def identifier = params.id
+    def dataType = params.data
+    def start = params.start
+    def end = params.end
+
+    def features
+
+    log.info("Features: " + identifier + ", " + dataType + ", " + start + ", " + end)
+
+    if (dataType == 'genes') {
+      features = geneFeatures(identifier, start.toInteger(), end.toInteger())
+    } else {
+      features = [
+       
+        /* minimal required data */
+        [start: 123, end: 456, uniqueID: 'globallyUniqueString1' ],
+     
+        /* typical quantitative data */
+        [start: 123, end: 456, score: 42, uniqueID: 'globallyUniqueString2' ],
+     
+        /* Expected format of the single feature expected when the track is a sequence data track. */
+        [seq: 'gattacagattaca', start: 0, end: 14, uniqueID: 'globallyUniqueString3'],
+     
+        /* typical processed transcript with subfeatures */
+        [type: 'mRNA', start: 5975, end: 9744, score: 0.84, strand: 1,
+         name: 'au9.g1002.t1', uniqueID: 'globallyUniqueString4']
+      ]
+    }
+    def data = [features: features]
+    render data as JSON
+  }
+
+//  def setup = {
+//    Genome genomeInstance = Genome.findByAccession(params.id)
+//    // jbrowse breaks when refseq name contains spaces or commas. So we use accession.
+//    List seqs = [[
+//        name:genomeInstance.accession,
+//        length:genomeInstance.length,
+//        start:1,
+//        end:genomeInstance.length,
+//        seqChunkSize:20000,
+//        seqDir:'genome/'+genomeInstance.accession+'/sequence'
+//      ]]
+//
+//    List tracks = [
+//      [
+//        label: "ROOT",
+//        type: "ROOT",
+//        children: [["_reference": "General"]],
+//        key: "ROOT"
+//      ],
+//      [
+//        label: "General",
+//        type: "TrackGroup",
+//        children: [
+//          [ "_reference" : "Genes"],
+//          [ "_reference" : "DNA"]
+//        ],
+//        key: "General"
+//      ],
+//      [
+//        url : "../sequence/{refseq}?",
+//        args_chunkSize : 20000,
+//        label : "DNA",
+//        type : "JBrowse/View/Track/Wiggle/Density",
+//        key : "DNA",
+//        storeClass : "JBrowse/Store/SeqFeature/REST",
+//        baseUrl : "http://my.site.com/rest/api/base"
+//      ],
+//      [
+//        url : "../genes/{refseq}?",
+//        label : "Genes",
+//        type : "JBrowse/View/Track/HTMLFeatures",
+//        key : "Genes",
+//        storeClass : "JBrowse/Store/SeqFeature/REST",
+//        baseUrl : "http://my.site.com/rest/api/base"
+//      ]
+//    ]
+//
+//    ArrayList samples = []
+//    def projects = [:]
+//
+//    List projectList = projectService.list [:]
+//
+//    projectList.each {
+//      projects[it.label] = [
+//            label: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
+//        ,   type: "TrackGroup"
+//        ,   children: []
+//        ,   key: ':' + it.name.replaceAll(' ', '_').replaceAll('-', '_')
+//      ]
+//    }
+//
+//    genomeInstance.samples.each {
+//      Sample sampleInstance = Sample.findByName(it)
+//      if (sampleInstance == null) return
+//      Project projectInstance = Project.findByLabel(sampleInstance.project)
+//      if (projects[projectInstance.label]) {
+//        projects[projectInstance.label]["children"].add(["_reference":it])
+//      }
+//      samples += [
+//        url: "../track/{refseq}?track="+it
+//        ,	type: 'FeatureTrack'
+//        ,	label: it
+//        ,	key: it
+//      ]
+//    }
+//
+//    projects.each {
+//      if (it.value['children'].length) {
+//        tracks.add(it.value)
+//        tracks[0]['children'].add("_reference" : it.value['label'])
+//      }
+//    }
+//
+//    tracks.addAll(samples);
+//    def s = [refseqs:seqs, trackInfo:tracks]
+//    render s as JSON
+//  }
 
   def track = {
     Genome genomeInstance = Genome.findByAccession(params.id)
