@@ -11,6 +11,8 @@
 package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
+import org.bson.types.ObjectId
+import com.mongodb.BasicDBObject
 
 import ca.on.oicr.capsid.browse.Histogram
 import grails.converters.JSON
@@ -57,11 +59,14 @@ class BrowseController {
   }
 
   def tracks = {
+
+    Genome genomeInstance = Genome.findByAccession(params.id)
+
     def genesTrack = [
       storeClass : "JBrowse/Store/SeqFeature/REST",
       baseUrl: resource(dir:'browse'),
       query: [data: "genes"],
-      style : [height : 7],
+      style : [height: 6],
       type : "JBrowse/View/Track/HTMLFeatures",
       displayMode: 'normal',
       maxHeight: 400,
@@ -69,20 +74,28 @@ class BrowseController {
       label : "Genes",
       key : "Genes"
     ]
-    def readTrack = [
-      storeClass : "JBrowse/Store/SeqFeature/REST",
-      baseUrl: resource(dir:'browse'),
-      query: [data: "reads"],
-      style : [height : 7],
-      type : "JBrowse/View/Track/HTMLFeatures",
-      displayMode: 'normal',
-      maxHeight: 400,
-      metadata : [description: "RESTful BAM-format alignments of simulated resequencing reads on the volvox test ctgA reference."],
-      label : "Reads",
-      key : "REST - volvox-sorted"
-    ]
+
+    ArrayList sampleTracks = []
+    genomeInstance.samples.each {
+
+      Sample sampleInstance = Sample.get(it)
+      if (sampleInstance == null) return
+
+      sampleTracks += [
+        regionStats : true,
+        storeClass : "JBrowse/Store/SeqFeature/REST",
+        type : "JBrowse/View/Track/HTMLFeatures",
+        baseUrl: resource(dir:'browse'),
+        displayMode: 'normal',
+        style : [className: 'feature', arrowheadClass: null, showLabels: false],
+        query: [data: 'mapped', sample: sampleInstance.id.toString()],
+        label: sampleInstance.name,
+        key: sampleInstance.name
+      ]
+    }
+
     def trackList = [
-      tracks: [genesTrack]
+      tracks: [genesTrack] + sampleTracks
     ]
     render trackList as JSON
   }
@@ -100,27 +113,26 @@ class BrowseController {
   }
 
   def geneFeatures(String identifier, Integer start, Integer end) {
-    Genome genomeInstance = Genome.findByAccession(params.id)
-
-    List headers = ['start', 'end', 'strand', 'name', 'id', 'subfeatures'];
-    int ncIndex = headers.size();
-
-    List histograms = [new Histogram(1000)]
+    Genome genomeInstance = Genome.findByAccession(identifier)
     List features = []
-
-    log.info("Looking for hits: type: gene, " + genomeInstance.gi + ", start: " + start + ", end: " + end)
-
-    Feature.collection.find(genome:genomeInstance.gi, type: 'gene').sort([start: 1]).collect { val ->
-      if (val.end >= start && val.start <= end) {
-        def hit = [val.start, val.end, val.strand, val.name, val.name, []]
-        //addToNcList(hits, ncIndex, hit)
-        //histograms*.count(val.start)
-        features.add([start: val.start, end: val.end, strand: val.strand, uniqueID: val.name, name: val.name])
-      }
-      null;
+    def featureQuery = [genome: genomeInstance.gi, 
+                        type: 'gene',
+                        end: ['$gte': start],
+                        start: ['$lte': end]] as BasicDBObject
+    return Feature.collection.find(featureQuery).collect { val ->
+      [start: val.start, end: val.end, strand: val.strand, uniqueID: val.name, name: val.name]
     }
+  }
 
-    return features
+  def mappedFeatures(String identifier, String sampleId, Integer start, Integer end) {
+    Genome genomeInstance = Genome.findByAccession(identifier)
+    def mappedQuery = [genome: genomeInstance.gi, 
+                       sampleId: new ObjectId(sampleId),
+                       refEnd: ['$gte': start],
+                       refStart: ['$lte': end]] as BasicDBObject
+    return Mapped.collection.find(mappedQuery).collect { val ->
+      [start: val.refStart, end: val.refEnd, strand: val.refStrand, uniqueID: val['_id'].toString()]
+    }
   }
 
   def features = {
@@ -129,28 +141,12 @@ class BrowseController {
     def start = params.start
     def end = params.end
 
-    def features
-
-    log.info("Features: " + identifier + ", " + dataType + ", " + start + ", " + end)
+    def features = null
 
     if (dataType == 'genes') {
       features = geneFeatures(identifier, start.toInteger(), end.toInteger())
-    } else {
-      features = [
-       
-        /* minimal required data */
-        [start: 123, end: 456, uniqueID: 'globallyUniqueString1' ],
-     
-        /* typical quantitative data */
-        [start: 123, end: 456, score: 42, uniqueID: 'globallyUniqueString2' ],
-     
-        /* Expected format of the single feature expected when the track is a sequence data track. */
-        [seq: 'gattacagattaca', start: 0, end: 14, uniqueID: 'globallyUniqueString3'],
-     
-        /* typical processed transcript with subfeatures */
-        [type: 'mRNA', start: 5975, end: 9744, score: 0.84, strand: 1,
-         name: 'au9.g1002.t1', uniqueID: 'globallyUniqueString4']
-      ]
+    } else if (dataType == 'mapped') {
+      features = mappedFeatures(identifier, params.sample, start.toInteger(), end.toInteger())
     }
     def data = [features: features]
     render data as JSON

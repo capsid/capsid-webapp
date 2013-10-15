@@ -13,7 +13,7 @@ sub open_database {
 	
 	my $database_name = "capsid";
     my $database_server = "localhost:27017";  
-    my @options = (host => $database_server);
+    my @options = (host => $database_server, query_timeout => 1000*600);
 
 	my $conn = MongoDB::Connection->new(@options);	
     my $database = $conn->get_database($database_name);
@@ -166,13 +166,45 @@ sub update_genomes {
 	}
 }
 
-update_genomes();
+sub update_mapped_samples {
+	my $db = open_database();
 
+	my $table = {};
+
+	my $samples = $db->get_collection('sample')->find();
+	while (my $sample = $samples->next()) {
+		$table->{$sample->{name}} = $sample->{_id};
+	}
+
+	my $mapped = $db->get_collection('mapped');
+	while (my ($key, $value) = each %$table) {
+		say Dumper $mapped->update({sample => $key}, {'$set' => {'sampleId' => $value}}, {multiple => 1});
+	}
+}
+
+sub update_mapped_projects {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $projects = $db->get_collection('project')->find();
+	while (my $project = $projects->next()) {
+		$table->{$project->{label}} = $project->{_id};
+	}
+
+	my $mapped = $db->get_collection('mapped');
+	while(my ($key, $value) = each %$table) {
+		say Dumper $mapped->update({project => $key}, {'$set' => {projectId => $value}, '$rename' => {project => 'projectLabel'}}, {multiple => 1});
+	}
+}
+
+# update_genomes();
 # update_samples();
 # update_statistics_genomes();
 # update_statistics_projects();
 # update_statistics_samples();
 # update_alignments();
 # update_alignments2();
+update_mapped_projects();
 
 1;

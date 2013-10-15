@@ -23,7 +23,7 @@
                     ],
                     refSeqs: "${createLink(controller:'browse', action:'refSeqs', id:params.id)}",
                     nameUrl: "${createLink(controller:'browse', action:'names', id:params.id)}",
-                    defaultTracks: "DNA,Genes",
+                    defaultTracks: "Genes",
                     location: queryParams.loc
                 });
 
