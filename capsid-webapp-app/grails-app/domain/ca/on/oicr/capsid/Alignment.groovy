@@ -28,7 +28,7 @@ class Alignment {
 	String projectLabel
 
     static constraints = {
-		name unique:true, blank: false, display: false, matches: /[\w\d\-]+/
+		name unique:'sampleId', blank: false, display: false, matches: /[\w\d\-]+/
 		aligner blank: true
 		platform blank: true
 		type blank: true

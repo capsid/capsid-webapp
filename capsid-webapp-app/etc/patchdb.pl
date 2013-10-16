@@ -198,6 +198,23 @@ sub update_mapped_projects {
 	}
 }
 
+sub update_mapped_alignments {
+	my $db = open_database();
+
+	my $table = {};
+
+	my $alignments = $db->get_collection('alignment')->find();
+	while (my $alignment = $alignments->next()) {
+		$table->{$alignment->{name}} = $alignment->{_id};
+	}
+
+	my $mapped = $db->get_collection('mapped');
+	while (my ($key, $value) = each %$table) {
+		say Dumper $mapped->update({alignment => $key}, {'$set' => {'alignmentId' => $value}}, {multiple => 1});
+	}
+}
+
+
 # update_genomes();
 # update_samples();
 # update_statistics_genomes();
@@ -205,6 +222,7 @@ sub update_mapped_projects {
 # update_statistics_samples();
 # update_alignments();
 # update_alignments2();
-update_mapped_projects();
+# update_mapped_projects();
+update_mapped_alignments();
 
 1;

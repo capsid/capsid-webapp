@@ -24,7 +24,7 @@ class Sample {
 	ObjectId projectId
 	
     static constraints = {
-		name unique:true, blank:false, display: false, matches: /[\w\d\-]+/
+		name unique:'projectId', blank:false, display: false, matches: /[\w\d\-]+/
 		description blank:true, widget: 'textarea'
 		cancer blank:true
 		role blank:true

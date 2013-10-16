@@ -35,9 +35,13 @@ class Mapped {
         String PG
 
 	Long genome
-	ObjectId alignment
-	ObjectId project
-	ObjectId sample
+	ObjectId alignmentId
+	ObjectId projectId
+	ObjectId sampleId
+
+        String alignment
+        String projectLabel
+        String sample
 
 	static constraints = {}
 	static mapping = {
