@@ -6,43 +6,23 @@ modules = {
         resource url:'css/style.css'        
 	}
 
-    //dojo {
-    //    resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css'
-    //}
-
-    jbrowse {
-        //dependsOn 'dojo'
-        //resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
-        //resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
-        resource url:'css/tundra.css'
-
-        resource url:'css/jbrowse.css'
-        resource url:'css/jbrowse_main.css'
-        resource url:'css/sequence.css'
-        resource url:'css/menubar.css'
-        resource url:'css/icons.css'
-        resource url:'css/file_dialog.css'
-        resource url:'css/combination_tracks.css'
-        resource url:'css/export_dialog.css'
-        resource url:'css/track_styles.css'
-        resource url:'css/faceted_track_selector.css'
-
-
-
-        //@import url("main.css");
-        //@import url("sequence.css");
-        //@import url("menubar.css");
-        //@import url("icons.css");
-        //@import url("file_dialog.css");
-        //@import url("combination_tracks.css");
-        //@import url("export_dialog.css");
-
-        // ///* CSS styles for the various types of feature glyphs */
-        //@import url("track_styles.css");
-        //@import url("faceted_track_selector.css");
-
-
-        //resource url:'js/jbrowse/dojo.js'
+    browser {
+        dependsOn 'bootstrap'
+        resource url:'js/jquery.qtip.min.js'
+        resource url:'js/bootstrap-slider.js'
+        resource url:'js/underscore-min.js'
+        resource url:'js/backbone-min.js'
+        resource url:'js/genome-viewer-1.0.2.js'
+        resource url:'js/capsid-navigation-bar.js'
+        resource url:'js/capsid-gene-track.js'
+        resource url:'js/capsid-gene-adapter.js'
+        resource url:'js/capsid-gene-renderer.js'
+        resource url:'js/capsid-feature-track.js'
+        resource url:'js/capsid-feature-adapter.js'
+        resource url:'js/capsid-feature-renderer.js'
+        resource url:'js/browser-config.js'
+        resource url:'css/slider.css'
+        resource url:'css/jquery.qtip.css'
     }
 
     bootstrap {
