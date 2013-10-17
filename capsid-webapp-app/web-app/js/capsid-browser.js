@@ -26,6 +26,11 @@ function handleDragOver(e) {
 	return true;
 }
 
+function handleMouseDown(e) {
+	e.stopPropagation();
+	return true;
+}
+
 function handleDragLeave(e) {
 	if (e.preventDefault) e.preventDefault(); 
 	e.stopPropagation();
@@ -288,6 +293,7 @@ function addSampleTrack(genomeViewer, urlBase, params) {
 
 	jQuery("#" + trackIdentifier + "-titlediv").attr("draggable", "true");
 	jQuery("#" + trackIdentifier + "-titlediv").on('dragstart', handleDragStartMove);
+	jQuery("#" + trackIdentifier + "-titlediv").on('mousedown', handleMouseDown);
 
 	jQuery("#" + trackIdentifier + "-titlediv").addClass("capsid-track-title capsid-draggable-track-title");
 	jQuery("#" + trackIdentifier + "-titlediv").attr('data-track-identifier', trackIdentifier);
