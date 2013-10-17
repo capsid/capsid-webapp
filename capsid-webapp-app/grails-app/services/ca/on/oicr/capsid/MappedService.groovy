@@ -172,6 +172,9 @@ class MappedService {
     }
 
     Integer maximum = data.max()
+    if (maximum == 0) {
+      maximum = 1;
+    }
 
     List<Map> result = data.collect { count ->
       [start: (start += interval),
@@ -195,8 +198,6 @@ class MappedService {
       le("refStart", end)
       ge("refEnd", start)
     }
-
-    log.info("Results: " + results)
 
     List<Map> data = results.collect { Mapped m ->
       [start: m.refStart, end: m.refEnd, strand: m.refStrand, id: m.readId]

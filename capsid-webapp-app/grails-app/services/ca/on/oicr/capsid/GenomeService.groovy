@@ -104,6 +104,9 @@ class GenomeService {
 		}
 
 		Integer maximum = data.max()
+	    if (maximum == 0) {
+	      	maximum = 1;
+	    }
 
 		List<Map> result = data.collect { count ->
 			[start: (start += interval),
