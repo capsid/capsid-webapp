@@ -63,22 +63,22 @@ CapsidNavigationBar.prototype = {
 
     var navgationHtml =
 //        '<button id="restoreDefaultRegionButton" class="t_button"><i class="icon-repeat"></i></button> ' +
-        '<div class="btn-group" style="font-size: inherit; vertical-align: baseline">' +
-        '<button id="regionHistorybutton" class="btn" data-toggle="dropdown">' +
-        '<i class="icon-time"></i> <span class="icon-caret-down"></span></button>' +
+        '<div class="btn-toolbar">' +
+        '<div class="btn-group">' +
+        '<button id="regionHistorybutton" class="btn dropdown-toggle" data-toggle="dropdown">' +
+        '<i class="icon-time"></i> <span class="caret"></span></button>' +
         '<ul id="regionHistoryMenu" class="dropdown-menu"></ul>' +
-        '</div>' +
-        '<span style="margin:0 .25rem">' +
         '<button id="zoomOutButton" class="btn"><i class="icon-zoom-out"></i></button>' +
-        '<span style="margin:0 15px"><div id="slider" style="width:100px" ></div></span>' +
+        '</div>' +
+        '<div id="slider" style="width:160px"></div>' +
+        '<div class="btn-group">' +        
         '<button id="zoomInButton" class="btn"><i class="icon-zoom-in"></i></button> ' +
-        '</span>';
+        '</div>' +
+        '</div>';
 
 //        icon-repeat
     this.targetDiv = target[0];
-    this.div = jQuery('<div style="vertical-align: middle" ' +
-      'class="t_gv__navbar unselectable" ' +
-      'id="navigation-bar">' + navgationHtml + '</div>')[0];
+    this.div = jQuery('<div id="navigation-bar">' + navgationHtml + '</div>')[0];
     // @Capsid - need Nav functions but not the bar
     jQuery(this.targetDiv).append(this.div);
 

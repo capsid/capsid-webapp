@@ -47,7 +47,7 @@ class BrowseController {
     Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
     assert sampleInstance != null
 
-    [genomeInstance:genomeInstance, projectInstance: projectInstance, sampleInstance: sampleInstance]
+    [genomeInstance:genomeInstance, projectInstance: projectInstance, sampleInstance: sampleInstance, projectService: projectService, sampleService: sampleService]
   }
 
   def apiGeneTrack() {

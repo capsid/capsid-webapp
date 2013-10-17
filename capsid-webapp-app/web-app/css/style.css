@@ -239,3 +239,65 @@ pre.snippet .error {
 }
 
 
+.capsid-feature {
+    fill: #AA0000;
+    cursor: pointer;
+}
+
+.capsid-feature-label {
+    font-weight: 400;
+    font-size: 1.4ex;
+    cursor: pointer;
+}
+
+.capsid-feature-read {
+    fill: #888888;   
+}
+
+#gv-tracks {
+  margin-top: 1em;
+  width: 20%;
+  min-height: 260px;
+}
+
+#gv-application {
+  width: 80%; 
+  float: right;
+}
+
+#gv-closer {
+  clear: both;
+}
+
+.capsid-track-title {
+  display: inline-block;
+}
+
+.capsid-draggable-track-title {
+  background-color: #CCCCCC;
+  padding: 2px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.capsid-track-block {
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-collapse: collapse;
+}
+
+.capsid-track-insert-below {
+  border-bottom: 3px solid #8888CC;
+}
+
+.capsid-track-insert-above {
+  border-top: 3px solid #8888CC;
+}
+
+.css-treeview li.capsid-draggable-track-title {
+  margin: 3px 0px;
+  padding: 0px 3px;
+  display: table;
+}
+

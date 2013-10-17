@@ -21,8 +21,10 @@ modules = {
         resource url:'js/capsid-feature-adapter.js'
         resource url:'js/capsid-feature-renderer.js'
         resource url:'js/browser-config.js'
+        resource url:'js/capsid-browser.js'
         resource url:'css/slider.css'
         resource url:'css/jquery.qtip.css'
+        resource url:'css/treeview.css'
     }
 
     bootstrap {
