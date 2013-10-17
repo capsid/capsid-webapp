@@ -39,7 +39,6 @@ function handleDragLeave(e) {
 function handleDragStart(e) {
 	e.stopPropagation();
 	var data = jQuery(this).attr('data-track-identifier');
-	console.log("Starting drag", data);
 
 	e.originalEvent.dataTransfer.effectAllowed = 'link';
 	e.originalEvent.dataTransfer.setData('Text', data);
@@ -64,21 +63,25 @@ function handleDrop(e, genomeViewer) {
 	}
 
 	var currentTrack = e.originalEvent.dataTransfer.getData('Text');
-	console.log("Add or move track", currentTrack, direction, e.currentTarget.id, genomeViewer);
 
 	var trackListPanel = genomeViewer.trackListPanel;
 	var targetId = e.currentTarget.id;
 	targetId = targetId.slice(0, -4);
 
 	var oldIndex = trackListPanel.swapHash[targetId].index;
-	var trackIndexData = trackListPanel.swapHash[currentTrack];
-	console.log(targetId, oldIndex, trackIndexData);
+	var trackData = genomeViewer.getTrackSvgById(currentTrack);
 
 	// Now we can start to handle where we currently are.
-	if (trackIndexData) {
+	if (trackData) {
 		// We're handling an existing track, so we're actually moving it, to what might be a new index. 
+
+		var newIndex = (direction == "below") ? (oldIndex + 1) : oldIndex;
+		if (newIndex !== oldIndex) {
+			genomeViewer.setTrackIndex(currentTrack, newIndex);
+		}
+
 	} else {
-		
+
 		// There's no existing track, so we better make one :-)
 
 		var urlBase = jQuery("#gv-application").attr('data-capsid-url-base');
@@ -91,7 +94,11 @@ function handleDrop(e, genomeViewer) {
 			projectLabel: projectLabel,
 			sampleName: sampleName
 		}
-		addSampleTrack(genomeViewer, urlBase, params);
+		var track = addSampleTrack(genomeViewer, urlBase, params);
+
+		// We can now work out the new index, which ought to be related to the previous one. 
+		var newIndex = (direction == "below") ? (oldIndex + 1) : oldIndex;
+		genomeViewer.setTrackIndex(currentTrack, newIndex);
 	}
 
 	return true;
@@ -215,6 +222,8 @@ function addGeneTrack(genomeViewer, urlBase, params) {
 	jQuery("#" + trackIdentifier + "-div").on('dragleave', handleDragLeave);
 	jQuery("#" + trackIdentifier + "-div").on('dragover', handleDragOver);
 	jQuery("#" + trackIdentifier + "-div").on('drop', function(e) { return handleDrop(e, genomeViewer); });
+
+	return capsidGeneTrack;
 }
 
 function addSampleTrack(genomeViewer, urlBase, params) {
@@ -266,7 +275,6 @@ function addSampleTrack(genomeViewer, urlBase, params) {
 		e.originalEvent.dataTransfer.effectAllowed = 'linkMove';
 		var data = jQuery(this).attr('data-track-identifier');
 		e.originalEvent.dataTransfer.setData('Text', data);
-		console.log("Starting drag", data);
 	}
 
 	jQuery("#" + trackIdentifier + "-div").attr('data-track-type', 'reads');
@@ -283,4 +291,6 @@ function addSampleTrack(genomeViewer, urlBase, params) {
 
 	jQuery("#" + trackIdentifier + "-titlediv").addClass("capsid-track-title capsid-draggable-track-title");
 	jQuery("#" + trackIdentifier + "-titlediv").attr('data-track-identifier', trackIdentifier);
+
+	return capsidFeatureTrack;
 }
