@@ -24,6 +24,8 @@ class StatsService {
 	List list(Map params) {
 		def criteria = Statistics.createCriteria()
 
+		log.info("Params: " + params.toString())
+
 		List results = criteria.list(params) {
 			and {
 				// Security Check

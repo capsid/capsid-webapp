@@ -116,7 +116,7 @@
 										<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[track:statisticsInstance.sample]">
+										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
 											<i class="icon-share"></i> View Reads
 										</g:link></td>
 									</tr>

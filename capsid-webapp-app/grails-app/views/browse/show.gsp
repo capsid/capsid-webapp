@@ -43,17 +43,22 @@
 		</div>
 
 		<g:javascript>
-
 var genomeViewer = initializeGenomeViewer();
 var urlBase = "${resource(dir: '/browse/api')}";
 addGeneTrack(genomeViewer, urlBase, {
 	accession: "${genomeInstance.accession}"
 });
+		</g:javascript>
+		<g:if test="${sampleInstance}">
+		<g:javascript>
 addSampleTrack(genomeViewer, urlBase, {
 	accession: "${genomeInstance.accession}",
 	projectLabel: "${projectInstance.label}",
 	sampleName: "${sampleInstance.name}"
 });
+		</g:javascript>
+		</g:if>
+		<g:javascript>
 bootstrapGenomeViewer(genomeViewer);
 jQuery("#setup-loader").remove();
 		</g:javascript>

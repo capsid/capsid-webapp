@@ -67,7 +67,7 @@
 				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
 				          	</g:if>
 				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
-				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
+				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}">View in genome browser</g:link></li>
 				          </ul>
 					</div>
 				</div>
@@ -112,7 +112,7 @@
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
 			
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]" target="_blank">
+										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
 											<i class="icon-share"></i> View Reads
 										</g:link></td>
 									</tr>

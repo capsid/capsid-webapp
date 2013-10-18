@@ -37,17 +37,26 @@ class BrowseController {
     assert accession != null
     Genome genomeInstance = Genome.findByAccession(accession)
 
+    Map model = [genomeInstance:genomeInstance, projectService: projectService, sampleService: sampleService]
+
+    // The genome browser might also be invoked with a project and sample. If so, we should add that
+    // into the view. If not, we just display the genome. 
+
     String projectLabel = params.projectLabel
     String sampleName = params.sampleName
-    assert projectLabel != null
-    assert sampleName != null
 
-    Project projectInstance = Project.findByLabel(projectLabel)
-    assert projectInstance != null
-    Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
-    assert sampleInstance != null
+    if (sampleName && projectLabel) {
 
-    [genomeInstance:genomeInstance, projectInstance: projectInstance, sampleInstance: sampleInstance, projectService: projectService, sampleService: sampleService]
+      Project projectInstance = Project.findByLabel(projectLabel)
+      assert projectInstance != null
+      Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
+      assert sampleInstance != null
+
+      model['projectInstance'] = projectInstance
+      model['sampleInstance'] = sampleInstance
+    }
+
+    return model
   }
 
   def apiGeneTrack() {
