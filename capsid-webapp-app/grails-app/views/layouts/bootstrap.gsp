@@ -97,7 +97,7 @@
 						</ul>
 
 						<ul class="nav pull-right">
-							<li><span style="color: #AAAAAA;float: none;line-height: 19px;padding: 10px 10px 11px;text-decoration: none;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);display:block;font-weight:bold">${sec.username()}</span></li>
+							<li><span class="capsid-username">${sec.username()}</span></li>
 							<li class="divider-vertical"></li>
 							<li><g:link controller="user" action="edit" id="${sec.username()}" rel="tooltip" title="Account Settings" data-placement="bottom"><i class="icon-pencil nav-icon"></i></g:link></li>
 							<auth:ifCapsidAdmin>
