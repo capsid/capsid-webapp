@@ -36,8 +36,8 @@
 						<tbody>
 						<g:each in="${samples}" var="sampleInstance">
 							<tr>		
-								<td><g:link action="show" id="${sampleInstance.name}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
-								<td><g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findByLabel(sampleInstance.project).name}</g:link></td>
+								<td><g:link action="show" id="${sampleInstance.name}" params="${[projectLabel: sampleInstance.projectLabel]}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
+								<td><g:link controller="project" action="show" id="${sampleInstance.projectLabel}">${Project.findById(sampleInstance.projectId).name}</g:link></td>
 								<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
 								<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
 								<td>${fieldValue(bean: sampleInstance, field: "role")}</td>

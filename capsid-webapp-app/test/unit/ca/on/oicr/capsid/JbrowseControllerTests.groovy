@@ -2,11 +2,11 @@ package ca.on.oicr.capsid
 
 import grails.test.mixin.TestFor
 
-@TestFor(JbrowseController)
-class JbrowseControllerTests {
+@TestFor(BrowseController)
+class BrowseControllerTests {
 
     void testIndex() {
         controller.index()
-        assert "/jbrowse/show" == response.redirectedUrl
+        assert "/browse/show" == response.redirectedUrl
     }
 }

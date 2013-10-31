@@ -20,15 +20,17 @@ class Sample {
 	String role
 	String source
 	String cancer
-	String project
+	String projectLabel
+	ObjectId projectId
 	
     static constraints = {
-		name unique:true, blank:false, display: false, matches: /[\w\d\-]+/
+		name unique:'projectId', blank:false, display: false, matches: /[\w\d\-]+/
 		description blank:true, widget: 'textarea'
 		cancer blank:true
 		role blank:true
 		source blank:true
-		project blank:false, editable: false, validator: { val -> val in Project.list().label }
+		projectLabel blank:false
+		projectId nullable:false, editable: false, validator: { val -> val in Project.list()._id }
     }
 	
 	static mapping = {}

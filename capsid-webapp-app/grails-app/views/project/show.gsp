@@ -24,13 +24,11 @@
 				            	<a data-dismiss="modal" class="close">×</a>
 				            	<h3>Add Sample</h3>
 				            </div>
-				            <fieldset>
-								<g:form class="form-horizontal" controller="sample" action="save" style="margin:0">
-									<fieldset>
-							            <g:render template="/sample/create" model="[sampleInstance: new Sample(['project':projectInstance.label])]"/>
-							       	</fieldset>
-								</g:form>
-							</fieldset>
+							<g:form class="form-horizontal" controller="sample" action="save" style="margin:0">
+								<fieldset>
+						            <g:render template="/sample/create" model="[sampleInstance: new Sample(['project':projectInstance.label])]"/>
+						       	</fieldset>
+							</g:form>
 				        </div>
 						<g:link action="edit" class="btn" id="${projectInstance?.label}">
 							<i class="icon-pencil"></i>
@@ -74,7 +72,7 @@
 									<tbody>
 									<g:each in="${statistics}" var="statisticsInstance">
 										<tr>
-											<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="[label:projectInstance.label]">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+											<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="[projectLabel:projectInstance.label]">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
 				
 											<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 				
@@ -113,7 +111,7 @@
 									<tbody>
 									<g:each in="${samples}" var="sampleInstance">
 										<tr>		
-											<td><g:link controller="sample" action="show" id="${sampleInstance.name}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
+											<td><g:link controller="sample" action="show" id="${sampleInstance.name}" params="${[projectLabel: sampleInstance.projectLabel]}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
 											<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
 											<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
 											<td>${fieldValue(bean: sampleInstance, field: "role")}</td>

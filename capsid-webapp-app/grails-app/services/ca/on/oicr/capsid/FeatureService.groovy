@@ -39,7 +39,7 @@ class FeatureService {
 						ilike("locusTag", "%" + params.locusTag + "%")
 					}
 					else if (params.locusTag instanceof String[]) {
-						'in'("name", params.locusTag)
+						'in'("locusTag", params.locusTag)
 					}
 				}
 				if (params?.geneId) {

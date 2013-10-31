@@ -10,6 +10,8 @@
 
 package ca.on.oicr.capsid
 
+import java.lang.Math
+
 class GenomeService {
 
     static transactional = false
@@ -79,5 +81,59 @@ class GenomeService {
 		}
   
 		return results
+	}
+
+	// Calculate and build a histogram for the gene data across the region.
+	def getHistogramRegion(Genome genome, Integer start, Integer end, Integer interval) {
+
+        Integer histogramCount = Math.ceil((end - start) / interval).toInteger()
+
+        Integer[] data = new int[histogramCount]
+
+		def criteria = Feature.createCriteria();
+		List<Feature> results = criteria.list(params) {
+			eq("genome", genome.gi)
+			eq("type", "gene")
+			le("start", end)
+			ge("end", start)
+		}
+
+		for(Feature f in results) {
+			Integer box = Math.floor((f.start - start) / interval).toInteger()
+			data[box]++
+		}
+
+		Integer maximum = data.max()
+	    if (maximum == 0) {
+	      	maximum = 1;
+	    }
+
+		List<Map> result = data.collect { count ->
+			[start: (start += interval),
+			 end: start,
+			 interval: 0,
+			 absolute: count,
+			 value: count / maximum]
+		}
+
+        return result
+	}
+
+	// Calculate and build a histogram for the gene data across the region.
+	def getGenesRegion(Genome genome, Integer start, Integer end) {
+
+		def criteria = Feature.createCriteria();
+		List<Feature> results = criteria.list(params) {
+			eq("genome", genome.gi)
+			eq("type", "gene")
+			le("start", end)
+			ge("end", start)
+		}
+
+	    List<Map> data = results.collect { Feature f ->
+	      	[start: f.start, end: f.end, strand: f.strand, name: f.name, locusTag: f.locusTag]
+    	}
+
+        return [data: data]
 	}
 }

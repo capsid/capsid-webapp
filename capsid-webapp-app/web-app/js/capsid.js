@@ -77,7 +77,7 @@ jQuery(function($) {
     $('button', group).each(function() {
       var button;
       button = $(this);
-      button.live('click', function() {
+      button.on('click', function() {
         button.siblings().removeClass('active');
         button.addClass('active');
         hidden.val(button.val());

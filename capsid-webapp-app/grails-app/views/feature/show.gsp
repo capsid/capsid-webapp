@@ -82,7 +82,7 @@
 
 				 			<li><a href="http://www.ncbi.nlm.nih.gov/gene/${featureInstance.geneId}" target="_blank">NCBI Gene DB</a></li>
 				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${featureInstance.geneId}" target="_blank">Search NCBI</a></li>
-				          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
+				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}">View in genome browser</g:link></li>
 				          </ul>
 					</div>
 				</div>

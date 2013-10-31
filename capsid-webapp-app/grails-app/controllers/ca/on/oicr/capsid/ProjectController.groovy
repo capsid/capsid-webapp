@@ -38,7 +38,7 @@ class ProjectController {
         List projects = projectService.list params
 		
         projects.each {
-          it['sampleCount'] = Sample.countByProject(it.label)
+          it['sampleCount'] = Sample.countByProjectId(it.id)
         }
 
 		[projects: projects]
@@ -49,16 +49,13 @@ class ProjectController {
         params.sort = params.sort ?: "geneCoverageMax"
         params.order = params.order ?: "desc"
         params.sample = "none"
+        params.offset = params.offset ?: 0
 
         Project projectInstance = findInstance()
         
-        params.label = params.id
-        List statistics = statsService.list params 
-        params.project = params.id
-        List samples = sampleService.list params 
-        params.remove('label')
-        params.remove('project')
-        
+        List statistics = statsService.list(projectId: projectInstance.id, sample: "none", text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+        List samples = sampleService.list(projectId: projectInstance.id, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 

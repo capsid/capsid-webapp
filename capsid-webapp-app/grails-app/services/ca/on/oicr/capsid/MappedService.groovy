@@ -151,4 +151,59 @@ class MappedService {
     seq_array.collect { it.value }
   }
 
+  // Calculate and build a histogram for the gene data across the region.
+  def getHistogramRegion(Genome genome, Sample sample, Integer start, Integer end, Integer interval) {
+
+    Integer histogramCount = Math.ceil((end - start) / interval).toInteger()
+
+    Integer[] data = new int[histogramCount]
+
+    def criteria = Mapped.createCriteria();
+    List<Mapped> results = criteria.list {
+      eq("genome", genome.gi)
+      eq("sampleId", sample.id)
+      le("refStart", end)
+      ge("refEnd", start)
+    }
+
+    for(Mapped f in results) {
+      Integer box = Math.floor((f.refStart - start) / interval).toInteger()
+      data[box]++
+    }
+
+    Integer maximum = data.max()
+    if (maximum == 0) {
+      maximum = 1;
+    }
+
+    List<Map> result = data.collect { count ->
+      [start: (start += interval),
+       end: start,
+       interval: 0,
+       absolute: count,
+       value: count / maximum]
+    }
+
+    return result
+  }
+
+
+  // Calculate and build a histogram for the read data across the region.
+  def getMappedRegion(Genome genome, Sample sample, Integer start, Integer end) {
+
+    def criteria = Mapped.createCriteria();
+    List<Mapped> results = criteria.list {
+      eq("genome", genome.gi)
+      eq("sampleId", sample.id)
+      le("refStart", end)
+      ge("refEnd", start)
+    }
+
+    List<Map> data = results.collect { Mapped m ->
+      [start: m.refStart, end: m.refEnd, strand: m.refStrand, id: m.readId]
+    }
+
+    return [data: data]
+  }
+
 }

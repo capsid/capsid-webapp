@@ -10,6 +10,7 @@
 
 package ca.on.oicr.capsid
 
+import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
 class AlignmentService {
@@ -20,25 +21,32 @@ class AlignmentService {
     def projectService
     def springSecurityService
 
-    Alignment get(String name) {
-        Alignment.findByName name
+    Alignment get(String name, ObjectId projectId, ObjectId sampleId) {
+        return Alignment.createCriteria().get {
+            eq("projectId", projectId)
+            eq("sampleId", sampleId)
+            eq("name", name)
+        }
     }
 
     List list(Map params) {
         def criteria = Alignment.createCriteria()
+
+        System.err.println("list()")
+        System.err.println(params)
         
         List results = criteria.list(params) {
             and {
                 // Security Check
-                'in'("project", projectService.list([:]).label)
+                //'in'("project", projectService.list([:]).label)
 
                 // Sample
-                if (params.sample) {
-                    if (params.sample instanceof String) {
-                        ilike("sample", "%" + params.sample + "%")
+                if (params.sampleId) {
+                    if (params.sampleId instanceof ObjectId) {
+                        eq("sampleId", params.sampleId)
                     }
-                    else if (params.sample instanceof String[]) {
-                        'in'("sample", params.sample)
+                    else if (params.sampleId instanceof ObjectId[]) {
+                        'in'("sampleId", params.sampleId)
                     }
                 }
 
@@ -48,7 +56,7 @@ class AlignmentService {
                     or {
                         ilike("name", text)
                         ilike("sample", text)
-                        ilike("project", text)
+                        ilike("projectLabel", text)
                     }
                 }
             }

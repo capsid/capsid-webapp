@@ -10,6 +10,7 @@
 
 package ca.on.oicr.capsid
 
+import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
 class StatsService {
@@ -23,39 +24,41 @@ class StatsService {
 	List list(Map params) {
 		def criteria = Statistics.createCriteria()
 
+		log.info("Params: " + params.toString())
+
 		List results = criteria.list(params) {
 			and {
 				// Security Check
-                'in'("label", projectService.list([:]).label)
+                //'in'("label", projectService.list([:]).label)
             
             	// Project
-				if (params.label) {
-					if (params.label instanceof String) {
-						eq("label",params.label)
+				// if (params.label) {
+				// 	if (params.label instanceof String) {
+				// 		eq("label",params.label)
+				// 	}
+				// }
+				if (params.projectId) {
+					if (params.projectId instanceof ObjectId) {
+						eq("projectId", params.projectId)
 					}
-				}
-				if (params.project) {
-					if (params.project instanceof String) {
-						ilike("project", '%' + params.project + '%')
-					}
-					else if (params.project instanceof String[]) {
-						'in'("project", params.project)
+					else if (params.projectId instanceof ObjectId[]) {
+						'in'("projectId", params.projectId)
 					}
 				}
 
 				// Sample
-				if (params.sample) {
-					if (params.sample == 'only') {
-						isNotNull('sample')
+				if (params.sampleId) {
+					if (params.sampleId == 'only') {
+						isNotNull('sampleId')
 					}
-					else if (params.sample == 'none') {
-						isNull('sample')
+					else if (params.sampleId == 'none') {
+						isNull('sampleId')
 					}
-					else if (params.sample instanceof String) {
-						ilike("sample", "%" + params.sample + "%")
+					else if (params.sampleId instanceof ObjectId) {
+						eq("sampleId", params.sampleId)
 					}
-					else if (params.sample instanceof String[]) {
-						'in'("sample", params.sample)
+					else if (params.sampleId instanceof ObjectId[]) {
+						'in'("sampleId", params.sampleId)
 					}
 				}
 
@@ -80,7 +83,7 @@ class StatsService {
 						ilike("sample", text)
 						ilike("project", text)
 					}
-				}	
+				}
 
 				// Filters
 				if (params.filters && params.filters != "false") {

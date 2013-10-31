@@ -48,13 +48,14 @@ class GenomeController {
 
         Genome genomeInstance = findInstance()
 
-        params.sample = 'none'
+        params.sampleId = 'none'
         List pStatistics = statsService.list params 
-        params.sample = 'only'
+        params.sampleId = 'only'
         List sStatistics = statsService.list params 
         params.genome = genomeInstance.gi
         List features = featureService.list params
 
+        // These appear to be pointless - SNW
         params.remove('sample')
         params.remove('genome')
         

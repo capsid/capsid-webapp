@@ -6,14 +6,25 @@ modules = {
         resource url:'css/style.css'        
 	}
 
-    jbrowse {
-        resource url:'js/jbrowse/jslib/dijit/themes/tundra/tundra.css', bundle: 'bundle_jbrowse'
-        resource url:'js/jbrowse/genome.css', bundle: 'bundle_jbrowse'
-        resource url:'css/jbrowse.css', bundle:'bundle_jbrowse'
-
-        resource url:'js/jbrowse/jslib/dojo/jbrowse_dojo.js'
-        resource url:'js/jbrowse/prototype.js'        
-        resource url:'js/jbrowse/jbrowse.js', bundle: 'bundle_jbrowse'
+    browser {
+        dependsOn 'bootstrap'
+        resource url:'js/jquery.qtip.min.js'
+        resource url:'js/bootstrap-slider.js'
+        resource url:'js/underscore-min.js'
+        resource url:'js/backbone-min.js'
+        resource url:'js/genome-viewer-1.0.2.js'
+        resource url:'js/capsid-navigation-bar.js'
+        resource url:'js/capsid-gene-track.js'
+        resource url:'js/capsid-gene-adapter.js'
+        resource url:'js/capsid-gene-renderer.js'
+        resource url:'js/capsid-feature-track.js'
+        resource url:'js/capsid-feature-adapter.js'
+        resource url:'js/capsid-feature-renderer.js'
+        resource url:'js/browser-config.js'
+        resource url:'js/capsid-browser.js'
+        resource url:'css/slider.css'
+        resource url:'css/jquery.qtip.css'
+        resource url:'css/treeview.css'
     }
 
     bootstrap {

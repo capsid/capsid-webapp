@@ -14,11 +14,11 @@
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${alignmentInstance.project}">${Project.findByLabel(alignmentInstance.project).name}</g:link> 
+						<g:link controller="project" action="show" id="${alignmentInstance.projectLabel}">${projectInstance.name}</g:link> 
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="sample" action="show" id="${alignmentInstance.sample}">${Sample.findByName(alignmentInstance.sample).name}</g:link> 
+						<g:link controller="sample" action="show" id="${alignmentInstance.sample}" params="${[projectLabel: alignmentInstance.projectLabel]}">${sampleInstance.name}</g:link> 
 						<span class="divider">/</span>
 					</li>
 				</ul>

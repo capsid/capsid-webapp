@@ -23,6 +23,7 @@
 		<g:layoutHead/> 
 		<r:layoutResources/>
 	</head>
+	
 	<body>
 		<nav class="navbar">
 			<div class="navbar-inner">
@@ -78,16 +79,6 @@
 									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
 								</li>
 							</nav:eachItem>
-							<li class="dropdown ${['genome','feature'].contains(controllerName)?'active':''}">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Reference DB <b class="caret"></b></a>
-					            <ul class="dropdown-menu">
-							        <nav:eachItem var="item" group="genome">
-										<li class="${controllerName==item.controller?'active':''}">
-											<g:link controller="${item.controller}" action="${item.action}"><i class="icon-th-list"></i> ${item.title}</g:link>
-										</li>
-									</nav:eachItem>        
-					            </ul>
-							</li>					
 							<li class="divider-vertical"></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
@@ -106,7 +97,7 @@
 						</ul>
 
 						<ul class="nav pull-right">
-							<li><span style="color: #AAAAAA;float: none;line-height: 19px;padding: 10px 10px 11px;text-decoration: none;text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);display:block;font-weight:bold">${sec.username()}</span></li>
+							<li><span class="capsid-username">${sec.username()}</span></li>
 							<li class="divider-vertical"></li>
 							<li><g:link controller="user" action="edit" id="${sec.username()}" rel="tooltip" title="Account Settings" data-placement="bottom"><i class="icon-pencil nav-icon"></i></g:link></li>
 							<auth:ifCapsidAdmin>

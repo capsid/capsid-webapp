@@ -67,7 +67,7 @@
 				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
 				          	</g:if>
 				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
-				          	<li><g:link controller="jbrowse" action="show" id="${genomeInstance.accession}"  target="_blank">View in JBrowse</g:link></li>
+				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}">View in genome browser</g:link></li>
 				          </ul>
 					</div>
 				</div>
@@ -101,8 +101,8 @@
 								<tbody>
 								<g:each in="${sStatistics}" var="statisticsInstance">
 									<tr>
-										<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+										<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
+										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
 										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 			
 										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
@@ -112,7 +112,7 @@
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
 			
 										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:link controller="jbrowse" action="show" id="${statisticsInstance.accession}" params="[track:statisticsInstance.sample]" target="_blank">
+										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
 											<i class="icon-share"></i> View Reads
 										</g:link></td>
 									</tr>
@@ -144,7 +144,7 @@
 								<tbody>
 								<g:each in="${pStatistics}" var="statisticsInstance">
 									<tr>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.label}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
 										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 
 										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
