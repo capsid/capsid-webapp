@@ -27,5 +27,8 @@ class Feature {
     Long genome
 
     static constraints = {}
-	static mapping = {version false}
+	static mapping = {
+        version false
+        stateless true
+    }
 }

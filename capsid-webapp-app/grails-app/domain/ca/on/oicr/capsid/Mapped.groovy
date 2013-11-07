@@ -43,10 +43,15 @@ class Mapped {
         String projectLabel
         String sample
 
-	static constraints = {}
+	static constraints = {
+                
+        }
 	static mapping = {
                 cache true
                 version false
+                stateless true
         }
-	static namedQueries = {}
+	static namedQueries = {
+
+        }
 }

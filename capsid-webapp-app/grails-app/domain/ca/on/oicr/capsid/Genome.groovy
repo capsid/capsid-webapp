@@ -27,5 +27,8 @@ class Genome {
     String organism
 
     static constraints = {}
-    static mapping = {version false}
+    static mapping = {
+        version false
+        stateless true
+    }
 }
