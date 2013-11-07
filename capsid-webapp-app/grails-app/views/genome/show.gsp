@@ -183,7 +183,6 @@
 								</thead>
 								<tbody>
 								<g:each in="${features}" var="featureInstance">
-									<g:set var="genomeInstance" value="${Genome.findByGi(featureInstance.genome)}"/>
 									<tr>
 										<td><g:link controller="feature" action="show" id="${featureInstance.uid}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
 										<td><g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></td>
