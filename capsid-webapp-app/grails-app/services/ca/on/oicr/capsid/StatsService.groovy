@@ -65,7 +65,7 @@ class StatsService {
 				// Genome
 				if (params.accession) {
 					if (params.accession instanceof String) {
-						ilike("accession", "%" + params.accession + "%")
+						eq("accession", params.accession)
 					}
 					else if (params.name instanceof String[]) {
 						'in'("accession", params.accession)

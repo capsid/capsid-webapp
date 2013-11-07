@@ -17,6 +17,7 @@ class MappedService {
 
     static transactional = false
 
+    def mongo
     def authService
     def projectService
 
@@ -158,17 +159,14 @@ class MappedService {
 
     Integer[] data = new int[histogramCount]
 
-    def criteria = Mapped.createCriteria();
-    List<Mapped> results = criteria.list {
-      eq("genome", genome.gi)
-      eq("sampleId", sample.id)
-      le("refStart", end)
-      ge("refEnd", start)
-    }
-
-    for(Mapped f in results) {
-      Integer box = Math.floor((f.refStart - start) / interval).toInteger()
-      data[box]++
+    // There is a huge performance hit in using GORM for large data blocks. So instead, 
+    // we use gmongo directly. This appars to be about an order of magnitude faster for
+    // the purposes of building a histogram. Using aggregation would probably be faster
+    // still, but that can wait. 
+    def cursor = Mapped.collection.find(genome: genome.gi, sampleId: sample.id, refStart: [$lte: end], refEnd: [$gte: start]).hint(["genome":1, "sampleId":1, "refStart":1])
+    cursor.each { f ->
+      def bin = Math.floor((f['refStart'] - start) / interval).toInteger()
+      data[bin]++
     }
 
     Integer maximum = data.max()
@@ -197,6 +195,7 @@ class MappedService {
       eq("sampleId", sample.id)
       le("refStart", end)
       ge("refEnd", start)
+      arguments hint:["genome":1, "sampleId":1, "refStart":1]
     }
 
     List<Map> data = results.collect { Mapped m ->

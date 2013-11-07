@@ -90,18 +90,15 @@ class GenomeService {
 
         Integer[] data = new int[histogramCount]
 
-		def criteria = Feature.createCriteria();
-		List<Feature> results = criteria.list(params) {
-			eq("genome", genome.gi)
-			eq("type", "gene")
-			le("start", end)
-			ge("end", start)
-		}
-
-		for(Feature f in results) {
-			Integer box = Math.floor((f.start - start) / interval).toInteger()
-			data[box]++
-		}
+	    // There is a huge performance hit in using GORM for large data blocks. So instead, 
+	    // we use gmongo directly. This appars to be about an order of magnitude faster for
+	    // the purposes of building a histogram. Using aggregation would probably be faster
+	    // still, but that can wait. 
+	    def cursor = Feature.collection.find(genome: genome.gi, type: "gene", start: [$lte: end], end: [$gte: start]).hint(["genome":1, "start":1])
+	    cursor.each { f ->
+		      def bin = Math.floor((f['start'] - start) / interval).toInteger()
+		      data[bin]++
+	    }
 
 		Integer maximum = data.max()
 	    if (maximum == 0) {
