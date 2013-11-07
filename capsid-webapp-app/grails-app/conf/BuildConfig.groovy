@@ -39,22 +39,23 @@ grails.project.dependency.resolution = {
 
     plugins {
         
-        compile ":resources:latest.integration"
+        compile ":resources:1.2.RC2"
         
-        compile ":jquery:latest.integration"
+        compile ":jquery:1.10.2"
         
-        compile ':fields:latest.integration'
+        compile ':fields:1.3'
         
-        compile ':navigation:latest.integration'
-        compile ':mail:latest.integration'
-        compile ':spring-security-core:latest.integration'
-        compile ":spring-security-ldap:latest.integration"
+        compile ':navigation:1.3.2'
+        compile ':mail:1.0.1'
+        compile ':spring-security-core:1.2.7.3'
+        compile ":spring-security-ldap:1.0.6"
 
-        runtime ":mongodb:latest.integration"
+        runtime ":mongodb:1.3.0"
         
         //runtime ":zipped-resources:latest.integration"
         //runtime ":cached-resources:latest.integration"
-        runtime ":cache-headers:latest.integration"
+        runtime ":cache-headers:1.1.5"
+        runtime ":webxml:1.4.1"
         
         build ":tomcat:$grailsVersion"
         

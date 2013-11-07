@@ -174,14 +174,14 @@
         </dependency>
                         
 
-        <dependency>
+<!--         <dependency>
             <groupId>org.grails.plugins</groupId>
             <artifactId>cached-resources</artifactId>
             <version>1.0</version>
             <scope>runtime</scope>
             <type>zip</type>
         </dependency>
-                        
+ -->                        
 
         <dependency>
             <groupId>org.grails.plugins</groupId>
