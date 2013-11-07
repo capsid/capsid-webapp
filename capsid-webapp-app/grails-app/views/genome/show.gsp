@@ -64,7 +64,7 @@
 							<li class="nav-header">Links</li>
 				 			<li><a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank">NCBI Nucleotide DB</a></li>
 				        	<g:if test="${genomeInstance.organism == 'Homo sapiens'}">
-				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
+				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&amp;chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
 				          	</g:if>
 				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
 				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}">View in genome browser</g:link></li>
