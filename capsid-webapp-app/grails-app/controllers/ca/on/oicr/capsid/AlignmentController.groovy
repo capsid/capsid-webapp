@@ -122,10 +122,8 @@ class AlignmentController {
     def taxonomy() {
         Map model = findModel()
         Alignment alignmentInstance = model.alignmentInstance
-        withFormat {
-            json { render alignmentInstance.gra as JSON }
-        }
-        
+
+        render(contentType: "application/json", text: alignmentInstance.gra.toString())
     }
 
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {

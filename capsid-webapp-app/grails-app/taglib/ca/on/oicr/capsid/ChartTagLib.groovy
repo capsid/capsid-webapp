@@ -27,8 +27,6 @@ class ChartTagLib {
 
 		def object = attrs.display
 
-		log.info("Attributes: " + attrs)
-
 		def name = object.name
 		def projectLabel = object.projectLabel
 		def sample = object.sample
@@ -36,7 +34,7 @@ class ChartTagLib {
 
 		out << g.javascript() { """
 buildHierarchy("${actionUrl}", function(data) {
-  var chart = hierarchyChart().width(500).height(500);
+  var chart = hierarchyChart().width(360).height(360);
   d3.select("#vis")
     .datum(data)
     .call(chart);

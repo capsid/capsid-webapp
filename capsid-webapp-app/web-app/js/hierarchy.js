@@ -70,7 +70,7 @@ function buildHierarchy(filename, callback) {
   // Now, we really should introduce some placeholders, but this can probably omit 
   // ranks that are genuinely not populated at all. 
 
-  d3.tsv(filename).get(function(error, rows) { 
+  d3.json(filename).get(function(error, rows) { 
     rows.forEach(function(row) {
       blocks[row.level].push(row);
       identifiers[row.id] = row;

@@ -42,7 +42,7 @@
 				</g:if>
 
 
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span4">
 						<g:zoomableSunburst display="${alignmentInstance}"/>
 					</div>
