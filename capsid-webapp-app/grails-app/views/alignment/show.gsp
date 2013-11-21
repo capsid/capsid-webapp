@@ -8,6 +8,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'alignment.label', default: 'Alignment')}" />
 		<title>${alignmentInstance.name}</title>
+		<r:require modules="charts"/>
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -40,45 +41,42 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<table class="table">
-							<tbody>
+
+				<div class="row">
+					<div class="span4">
+						<g:zoomableSunburst display="${alignmentInstance}"/>
+					</div>
+					<div class="span8">
+						<dl class="dl-horizontal">
 							<g:if test="${alignmentInstance?.aligner}">
-							<tr>
-								<td><g:message code="sample.aligner.label" default="Aligner" /></td>
-								<td><g:fieldValue bean="${alignmentInstance}" field="aligner"/></td>
-							</tr>
+							<dt><g:message code="sample.aligner.label" default="Aligner" /></dt>
+							<dd><g:fieldValue bean="${alignmentInstance}" field="aligner"/></dd>
 							</g:if>
-						
+
 							<g:if test="${alignmentInstance?.platform}">
-							<tr>
-								<td><g:message code="sample.platform.label" default="Platform" /></td>						
-								<td>${alignmentInstance.platform}</td>
-							</tr>
+							<dt><g:message code="sample.platform.label" default="Platform" /></dt>						
+							<dd>${alignmentInstance.platform}</dd>
 							</g:if>
-						
+
 							<g:if test="${alignmentInstance?.type}">
-							<tr>
-								<td><g:message code="sample.type.label" default="Type" /></td>
-								<td><g:fieldValue bean="${alignmentInstance}" field="type"/></td>
-							</tr>
+							<dt><g:message code="sample.type.label" default="Type" /></dt>
+							<dd><g:fieldValue bean="${alignmentInstance}" field="type"/></dd>
 							</g:if>
 
 							<g:if test="${alignmentInstance?.infile}">
-							<tr>
-								<td><g:message code="sample.infile.label" default="Input" /></td>
-								<td><g:fieldValue bean="${alignmentInstance}" field="infile"/></td>
-							</tr>
+							<dt><g:message code="sample.infile.label" default="Input" /></dt>
+							<dd><g:fieldValue bean="${alignmentInstance}" field="infile"/></dd>
 							</g:if>
 
 							<g:if test="${alignmentInstance?.outfile}">
-							<tr>
-								<td><g:message code="sample.outfile.label" default="Output" /></td>
-								<td><g:fieldValue bean="${alignmentInstance}" field="outfile"/></td>
-							</tr>
+							<dt><g:message code="sample.outfile.label" default="Output" /></dt>
+							<dd><g:fieldValue bean="${alignmentInstance}" field="outfile"/></dd>
 							</g:if>
-							</tbody>
-						</table>
+						</dl>
+					</div>
+				</div>
 			</div>
 		</div>
+		<div id="tooltip-container"></div>
 	</body>
 </html>

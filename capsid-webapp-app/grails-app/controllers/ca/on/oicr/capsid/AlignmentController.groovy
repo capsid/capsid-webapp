@@ -119,9 +119,16 @@ class AlignmentController {
         }
     }
 
-	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
+    def taxonomy() {
+        Map model = findModel()
+        Alignment alignmentInstance = model.alignmentInstance
+        withFormat {
+            json { render alignmentInstance.gra as JSON }
+        }
+        
+    }
 
-        System.err.println(params)
+	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
 
         Project projectInstance = Project.findByLabel(params.projectLabel)
         authorize(projectInstance, roles)

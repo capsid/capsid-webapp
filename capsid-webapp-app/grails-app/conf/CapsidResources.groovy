@@ -3,17 +3,22 @@ modules = {
 	capsid {
         dependsOn 'bootstrap'
 		resource url:'js/capsid.js'
+        resource url:'js/jquery.qtip.min.js'
         resource url:'css/style.css'        
+        resource url:'css/jquery.qtip.css'
 	}
 
+    charts {
+        dependsOn 'capsid'
+        resource url:'js/d3.v3.js'
+        resource url:'js/hierarchy.js'        
+    }
+
     browser {
-        dependsOn 'bootstrap'
-        resource url:'js/jquery.qtip.min.js'
+        dependsOn 'capsid'
         resource url:'js/bootstrap-slider.js'
         resource url:'js/underscore-min.js'
         resource url:'js/backbone-min.js'
-        resource url:'js/d3.v3.js'
-        resource url:'js/hierarchy.js'
         resource url:'js/genome-viewer-1.0.2.js'
         resource url:'js/capsid-navigation-bar.js'
         resource url:'js/capsid-gene-track.js'
@@ -25,7 +30,6 @@ modules = {
         resource url:'js/browser-config.js'
         resource url:'js/capsid-browser.js'
         resource url:'css/slider.css'
-        resource url:'css/jquery.qtip.css'
         resource url:'css/treeview.css'
     }
 
