@@ -3,11 +3,17 @@ import ca.on.oicr.capsid.*
 // Note: to debug Mongo, use the following command to start the app:
 // grails -DDB.TRACE=true -DDEBUG.MONGO=true run-app
 
+import grails.converters.JSON
+import com.mongodb.DBObject
+
 class BootStrap {
 
     def springSecurityService
 
     def init = { servletContext ->
+        JSON.registerObjectMarshaller(DBObject) {
+            it.toMap()
+        }
         createUser()
     }
 
