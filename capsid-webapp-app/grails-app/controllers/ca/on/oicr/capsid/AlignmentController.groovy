@@ -48,21 +48,14 @@ class AlignmentController {
         params.label = params.id
 
         Map model = findModel()
-        
-        List results = statsService.list params 
-        model['statisticsInstanceList'] = results
-        model['statisticsInstanceTotal'] = results.totalCount
 
-        if (params._pjax) {
-            params.remove('_pjax')
-            model['layout'] = 'ajax'
-            return model
-        }
+        Project projectInstance = model['projectInstance']
+        assert projectInstance != null
+        Alignment alignmentInstance = model['alignmentInstance']
+        assert alignmentInstance != null
+        model['statistics'] = statsService.list(projectId: projectInstance.id, alignmentId: alignmentInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
 
-        withFormat {
-            html model
-            json { render results as JSON }
-        }
+        model
     }
 
     def create() { 

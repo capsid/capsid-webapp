@@ -17,9 +17,11 @@ class Statistics {
 	ObjectId id
 	ObjectId projectId
 	String project
-	String label
+	String projectLabel
 	String sample
 	ObjectId sampleId
+	String alignment
+	ObjectId alignmentId
 	String genome
 	ObjectId genomeId
 	String accession

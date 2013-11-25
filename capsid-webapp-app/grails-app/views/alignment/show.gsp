@@ -41,42 +41,91 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
+				<ul class="nav nav-tabs">
+			    	<li class="active"><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
+				    <li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
+			    </ul>
 
-				<div class="row-fluid">
-					<div class="span4">
-						<g:zoomableSunburst display="${alignmentInstance}"/>
+				<div class="tab-content">
+					<div class="tab-pane active" id="gra-tab">
+						<div class="row-fluid">
+							<h2>Genome Relative Abundance</h2>
+							<div class="span4">
+								<g:zoomableSunburst display="${alignmentInstance}"/>
+							</div>
+							<div class="span6">
+								<dl class="dl-horizontal">
+									<g:if test="${alignmentInstance?.aligner}">
+									<dt><g:message code="sample.aligner.label" default="Aligner" /></dt>
+									<dd><g:fieldValue bean="${alignmentInstance}" field="aligner"/></dd>
+									</g:if>
+
+									<g:if test="${alignmentInstance?.platform}">
+									<dt><g:message code="sample.platform.label" default="Platform" /></dt>						
+									<dd>${alignmentInstance.platform}</dd>
+									</g:if>
+
+									<g:if test="${alignmentInstance?.type}">
+									<dt><g:message code="sample.type.label" default="Type" /></dt>
+									<dd><g:fieldValue bean="${alignmentInstance}" field="type"/></dd>
+									</g:if>
+
+									<g:if test="${alignmentInstance?.infile}">
+									<dt><g:message code="sample.infile.label" default="Input" /></dt>
+									<dd><g:fieldValue bean="${alignmentInstance}" field="infile"/></dd>
+									</g:if>
+
+									<g:if test="${alignmentInstance?.outfile}">
+									<dt><g:message code="sample.outfile.label" default="Output" /></dt>
+									<dd><g:fieldValue bean="${alignmentInstance}" field="outfile"/></dd>
+									</g:if>
+								</dl>
+							</div>
+						</div>
 					</div>
-					<div class="span8">
-						<dl class="dl-horizontal">
-							<g:if test="${alignmentInstance?.aligner}">
-							<dt><g:message code="sample.aligner.label" default="Aligner" /></dt>
-							<dd><g:fieldValue bean="${alignmentInstance}" field="aligner"/></dd>
-							</g:if>
 
-							<g:if test="${alignmentInstance?.platform}">
-							<dt><g:message code="sample.platform.label" default="Platform" /></dt>						
-							<dd>${alignmentInstance.platform}</dd>
-							</g:if>
-
-							<g:if test="${alignmentInstance?.type}">
-							<dt><g:message code="sample.type.label" default="Type" /></dt>
-							<dd><g:fieldValue bean="${alignmentInstance}" field="type"/></dd>
-							</g:if>
-
-							<g:if test="${alignmentInstance?.infile}">
-							<dt><g:message code="sample.infile.label" default="Input" /></dt>
-							<dd><g:fieldValue bean="${alignmentInstance}" field="infile"/></dd>
-							</g:if>
-
-							<g:if test="${alignmentInstance?.outfile}">
-							<dt><g:message code="sample.outfile.label" default="Output" /></dt>
-							<dd><g:fieldValue bean="${alignmentInstance}" field="outfile"/></dd>
-							</g:if>
-						</dl>
+					<div class="tab-pane" id="genomes-tab">
+						<div class="row-fluid">
+							<h2 class="pull-left">Genomes</h2>
+							<div id="stats-table" class="results">
+								<table class="table table-striped table-condensed">
+									<thead>
+										<tr>
+											<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
+											<g:sortableColumn params="${params}" property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
+											<g:sortableColumn params="${params}" property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
+											<g:sortableColumn params="${params}" property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
+											<g:sortableColumn params="${params}" property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Avg Gene Coverage')}" />
+											<g:sortableColumn params="${params}" property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Max Gene Coverage')}" />
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									<g:each in="${statistics}" var="statisticsInstance">
+										<tr>
+											<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+											<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+											<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+											<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+											<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+											<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+											<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
+												<i class="icon-share"></i> View Reads
+											</g:link></td>
+										</tr>
+									</g:each>
+									</tbody>
+								</table>
+								<div class="pagination">
+									<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<div id="tooltip-container"></div>
 	</body>
 </html>

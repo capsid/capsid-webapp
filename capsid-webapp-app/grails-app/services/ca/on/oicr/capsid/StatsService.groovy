@@ -46,6 +46,22 @@ class StatsService {
 					}
 				}
 
+				// Alignment
+				if (params.alignmentId) {
+					if (params.alignmentId == 'only') {
+						isNotNull('alignmentId')
+					}
+					else if (params.alignmentId == 'none') {
+						isNull('alignmentId')
+					}
+					else if (params.alignmentId instanceof ObjectId) {
+						eq("alignmentId", params.alignmentId)
+					}
+					else if (params.alignmentId instanceof ObjectId[]) {
+						'in'("alignmentId", params.alignmentId)
+					}
+				}
+
 				// Sample
 				if (params.sampleId) {
 					if (params.sampleId == 'only') {
