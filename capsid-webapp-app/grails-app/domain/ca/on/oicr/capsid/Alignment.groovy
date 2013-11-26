@@ -27,6 +27,8 @@ class Alignment {
 	ObjectId projectId
 	String projectLabel
 
+	static mapWith = "mongo"
+
     static constraints = {
 		name unique:'sampleId', blank: false, display: false, matches: /[\w\d\-]+/
 		aligner blank: true

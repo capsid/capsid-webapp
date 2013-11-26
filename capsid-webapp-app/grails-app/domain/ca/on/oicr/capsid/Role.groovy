@@ -21,5 +21,6 @@ class Role {
 		authority blank: false, unique: true
 	}
 
+	static mapWith = "mongo"
 	static mapping = { cache true }
 }

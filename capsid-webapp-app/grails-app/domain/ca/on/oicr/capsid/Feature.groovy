@@ -26,6 +26,7 @@ class Feature {
     String type
     Long genome
 
+    static mapWith = "mongo"
     static constraints = {}
 	static mapping = {
         version false

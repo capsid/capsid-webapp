@@ -64,6 +64,7 @@ class UserRole implements Serializable {
         UserRole.findAllByRole(role).each { it.delete(flush: true) }
     }
 
+    static mapWith = "mongo"
     static mapping = {
         // id composite: ['role', 'user']
         version false

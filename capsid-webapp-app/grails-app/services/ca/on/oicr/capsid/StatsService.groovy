@@ -22,6 +22,15 @@ class StatsService {
 	def springSecurityService
 
 	List list(Map params) {
+
+		// If we have a taxon identifier, we should use this as a filter. To do so, we
+		// need to get the taxon and use its left/right values as a between filter on 
+		// the left in the statistics. 
+		Taxon tx = null;
+		if (params.taxonRootId) {
+			tx = Taxon.findById(params.taxonRootId);
+		}
+
 		def criteria = Statistics.createCriteria()
 
 		log.info("Params: " + params.toString())
@@ -44,6 +53,11 @@ class StatsService {
 					else if (params.projectId instanceof ObjectId[]) {
 						'in'("projectId", params.projectId)
 					}
+				}
+
+				// And this adds the filter on taxon range, if we need it. 
+				if (tx != null) {
+					between("left", tx.left, tx.right);
 				}
 
 				// Alignment

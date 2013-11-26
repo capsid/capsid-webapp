@@ -47,13 +47,19 @@ class AlignmentController {
         params.order = params.order ?: "desc"
         params.label = params.id
 
+        // We might also specify a root taxon identifier. This will default to 
+        // a root identifier of one. We can inject this into the request if we
+        // like to filter. 
+        Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
+
         Map model = findModel()
 
         Project projectInstance = model['projectInstance']
         assert projectInstance != null
         Alignment alignmentInstance = model['alignmentInstance']
         assert alignmentInstance != null
-        model['statistics'] = statsService.list(projectId: projectInstance.id, alignmentId: alignmentInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['statistics'] = statsService.list(projectId: projectInstance.id, taxonRootId: taxonRootId, alignmentId: alignmentInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['forwardURI'] = request.forwardURI;
 
         model
     }

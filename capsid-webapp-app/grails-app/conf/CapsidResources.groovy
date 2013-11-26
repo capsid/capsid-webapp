@@ -4,6 +4,7 @@ modules = {
         dependsOn 'bootstrap'
 		resource url:'js/capsid.js'
         resource url:'js/jquery.qtip.min.js'
+        resource url:'js/hierarchy-chooser.js'
         resource url:'css/style.css'        
         resource url:'css/jquery.qtip.css'
 	}

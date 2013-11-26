@@ -27,6 +27,8 @@ class User {
     boolean accountLocked
     boolean passwordExpired
 
+    static mapWith = "mongo"
+
     static transients = ['authorities']
 
     static constraints = {

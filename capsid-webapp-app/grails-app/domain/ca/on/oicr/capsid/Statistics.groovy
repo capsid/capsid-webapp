@@ -23,7 +23,9 @@ class Statistics {
 	String alignment
 	ObjectId alignmentId
 	String genome
+	Integer gi
 	ObjectId genomeId
+	Integer left
 	String accession
 	Integer genomeHits
 	Integer geneHits
@@ -32,6 +34,7 @@ class Statistics {
 	Float geneCoverageMax
 	Set filter
 
+	static mapWith = "mongo"
     static constraints = { }
     static mapping = { version false }
 	static namedQueries = {	}

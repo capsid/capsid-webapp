@@ -43,6 +43,7 @@ class Mapped {
         String projectLabel
         String sample
 
+        static mapWith = "mongo"
 	static constraints = {
                 
         }

@@ -29,6 +29,7 @@ class Project {
         roles blank:false, display:false, editable: false
     }
 
+    static mapWith = "mongo"
     static mapping = {}
     static namedQueries = {}
 }

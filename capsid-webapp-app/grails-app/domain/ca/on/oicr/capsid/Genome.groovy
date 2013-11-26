@@ -26,6 +26,7 @@ class Genome {
     Long gi
     String organism
 
+    static mapWith = "mongo"
     static constraints = {}
     static mapping = {
         version false

@@ -33,6 +33,7 @@ class Sample {
 		projectId nullable:false, editable: false, validator: { val -> val in Project.list()._id }
     }
 	
+	static mapWith = "mongo"
 	static mapping = {}
 	
 	static namedQueries = { security { label -> 'in'("project", label) } }
