@@ -15,7 +15,7 @@
 			'</div>'
 
 		var _this = this;
-    	$(_this).append(jQuery(chooser));
+		var internalChangeEvent = false;
 
     	function trim1 (str) {
  		   	return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
@@ -45,7 +45,9 @@
     		dropdown.bind({'click' : handleRestoreClick});
 
     		refreshDropdownMenu(taxonId);
+    		internalChangeEvent = true;
     		$(_this).trigger("change", {id: taxonId});
+    		internalChangeEvent = false;
     	}
 
     	function handleRestoreClick(evt) {
@@ -75,8 +77,9 @@
     		target.append(" <span class='caret'></span>");
 
     		refreshDropdownMenu(taxonId);
-
+    		internalChangeEvent = true;
     		$(_this).trigger("change", {id: taxonId});
+    		internalChangeEvent = false;
     	}
 
     	function refreshDropdownMenu(taxonId) {
@@ -102,35 +105,47 @@
     	// we need to figure out the full hierarchy for that. Which can be quite deep. This is 
     	// an API call, at least in theory. 
 
-    	var serviceUrl = settings.baseUrl + "?ancestors=" + encodeURIComponent(settings.taxonRootId);
-    	$.ajax({
-  			url: serviceUrl
-		}).done(function(data) {
+    	function initialize(taxonId) {
+    		$(_this).empty();
+    		$(_this).append(jQuery(chooser));
+	    	var serviceUrl = settings.baseUrl + "?ancestors=" + encodeURIComponent(taxonId);
+	    	$.ajax({
+	  			url: serviceUrl
+			}).done(function(data) {
 
-			// In order of parenting, this allows us to add new items to the hierarchy. 
-			for(var i = data.length - 1; i >= 0; i--) {
-				var taxon = data[i];
+				// In order of parenting, this allows us to add new items to the hierarchy. 
+				for(var i = data.length - 1; i >= 0; i--) {
+					var taxon = data[i];
 
-	    		var dropdown = $(_this).find(".dropdown-toggle");
+		    		var dropdown = $(_this).find(".dropdown-toggle");
 
-	    		// To add, modify the current item and a new one after it. 
-	    		var currentItemLabel = trim1(dropdown.text());
-	    		var newItem = "<a class='btn btn-small dropdown-toggle' data-toggle='dropdown' data-taxon-id='" + taxon.id + "' href='#'>" + taxon.comName + " <span class='caret'></span></a>";
+		    		// To add, modify the current item and a new one after it. 
+		    		var currentItemLabel = trim1(dropdown.text());
+		    		var newItem = "<a class='btn btn-small dropdown-toggle' data-toggle='dropdown' data-taxon-id='" + taxon.id + "' href='#'>" + taxon.comName + " <span class='caret'></span></a>";
 
-	    		// This done, change the immediate text of the dropdown to the new common name. 
-	    		// The text() method should remove the old caret, sneakily. 
-	    		dropdown.text(currentItemLabel);
-	    		dropdown.removeClass('dropdown-toggle');
-	    		dropdown.removeAttr('data-toggle');
-	    		dropdown.after(newItem);
+		    		// This done, change the immediate text of the dropdown to the new common name. 
+		    		// The text() method should remove the old caret, sneakily. 
+		    		dropdown.text(currentItemLabel);
+		    		dropdown.removeClass('dropdown-toggle');
+		    		dropdown.removeAttr('data-toggle');
+		    		dropdown.after(newItem);
 
-	    		// We can also modify the click handling for the old item, so that it pops everything 
-	    		// back the way it was. 
-	    		dropdown.bind({'click' : handleRestoreClick});
-			}
-		});
+		    		// We can also modify the click handling for the old item, so that it pops everything 
+		    		// back the way it was. 
+		    		dropdown.bind({'click' : handleRestoreClick});
+				}
+			});	
+    	}
 
+    	initialize(settings.taxonRootId);
     	refreshDropdownMenu(settings.taxonRootId);
+
+    	$(_this).bind('change', function(evt, value) {
+    		if (! internalChangeEvent) {
+    			initialize(value.id);
+    			refreshDropdownMenu(value.id);
+    		}
+    	});
     };
  
 }(jQuery));

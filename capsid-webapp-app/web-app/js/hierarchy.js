@@ -83,6 +83,7 @@ function hierarchyChart() {
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = 400,
       height = 400,
+      labelHandler = function(_) {},
       duration = 1000;
 
   function annotate(node, parent, context, left) {
@@ -138,6 +139,8 @@ function hierarchyChart() {
         .attr("id", function(d, i) { return "path-" + i; })
         .attr("d", arc)
         .style("fill", colour)
+        .attr("class", tooltipClass)
+        .attr("data-tooltip", textLabel)
         .on("click", click);
 
       var labels = svg.selectAll("text").data(nodes);
@@ -146,6 +149,7 @@ function hierarchyChart() {
         .style("visibility", function(d) { return (visibleLabel(rootNode, d) ? "visible" : "hidden"); })
         .style("font-size", "12px")
         .style("fill", "black")
+        .style("cursor", "pointer")
         .attr("dx", "5px")
         .attr("dy", "20px")
         .attr("text-anchor", "middle")
@@ -153,16 +157,18 @@ function hierarchyChart() {
         .attr("xlink:href", function(d, i) { return "#path-" + i; })
         .attr("startOffset", "25%")
         .text(textLabel)
-        .on("click", click);
-
-      var overlayPath = svg.selectAll("path.hierarchyLabel").data(nodes);
-      overlayPath.enter().append("path")
         .attr("class", tooltipClass)
-        .attr("id", function(d, i) { return "npath-" + i; })
-        .attr("d", arc)
-        .style("fill", "rgba(255, 255, 255, 0.0)")
         .attr("data-tooltip", textLabel)
-        .on("click", click);
+        .on("click", labelHandler);
+
+      // var overlayPath = svg.selectAll("path.hierarchyLabel").data(nodes);
+      // overlayPath.enter().append("path")
+      //   .attr("class", tooltipClass)
+      //   .attr("id", function(d, i) { return "npath-" + i; })
+      //   .attr("d", arc)
+      //   .style("fill", "rgba(255, 255, 255, 0.0)")
+      //   .attr("data-tooltip", textLabel)
+      //   .on("click", click);
 
       // Colour handling really would be better by mapping colours recursively. We want a
       // colour for the top-level nodes, and can then use gradations at lower levels. This
@@ -208,16 +214,20 @@ function hierarchyChart() {
         return rgb.r * .299 + rgb.g * .587 + rgb.b * .114;
       }
 
+      function labelClick(d) {
+        alert(d);
+      }
+
       function click(d) {
         jQuery('.hierarchyLabel').qtip('hide');
         path
           .transition()
           .duration(duration)
           .attrTween("d", arcTween(d));
-        overlayPath
-          .transition()
-          .duration(duration)
-          .attrTween("d", arcTween(d));
+        // overlayPath
+        //   .transition()
+        //   .duration(duration)
+        //   .attrTween("d", arcTween(d));
         labels.style("visibility", function(e) {
           return (visibleLabel(d, e) && isParentOf(d, e)) ? "visible" : "hidden";
           });
@@ -286,6 +296,12 @@ function hierarchyChart() {
     height = _;
     return chart;
   };
+
+  chart.labelHandler = function(_) {
+    if (!arguments.length) return labelHandler;
+    labelHandler = _;
+    return chart;
+  }
 
   return chart;
 }     

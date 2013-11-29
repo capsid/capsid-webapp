@@ -41,7 +41,7 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<ul class="nav nav-tabs">
+				<ul id="nav-tab-controller" class="nav nav-tabs">
 			    	<li class="active"><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
 				    <li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
 			    </ul>
@@ -51,7 +51,7 @@
 						<div class="row-fluid">
 							<h2>Genome Relative Abundance</h2>
 							<div class="span4">
-								<g:zoomableSunburst display="${alignmentInstance}"/>
+								<div id="vis"></div>
 							</div>
 							<div class="span6">
 								<dl class="dl-horizontal">
@@ -130,6 +130,30 @@
 		<div id="tooltip-container"></div>
 
 		<g:javascript>
+		var actionUrl = 
+			"${g.createLink(
+				controller: 'alignment', 
+				action: 'taxonomy', 
+				id: alignmentInstance.name, 
+				params: [projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]
+			)}";
+
+		function labelHandler(_) {
+			var id = _.id;
+			var result = /^ti:(\d+)/.exec(id);
+			if (result) {
+				jQuery("#hierarchy-chooser").trigger('change', {id: parseInt(result[1])});
+				jQuery('#nav-tab-controller a[href="#genomes-tab"]').tab('show');
+			}
+		}
+
+		buildHierarchy(actionUrl, function(data) {
+  			var chart = hierarchyChart().width(360).height(360).labelHandler(labelHandler);
+  			d3.select("#vis")
+    			.datum(data)
+    			.call(chart);
+		});
+
 		var url = "${resource(dir: '/taxon/api')}";
 		var selfUrl = "${forwardURI}";
 		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: url, taxonRootId: 1});
