@@ -114,11 +114,16 @@ function hierarchyChart() {
 
       var rootNode = nodes[0];
 
+      function arcStartAngle(d) { return Math.PI/2 - Math.max(0, Math.min(2 * Math.PI, x(d.x))); };
+      function arcEndAngle(d) { return Math.PI/2 - Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); };
+      function arcInnerRadius(d) { return Math.max(0, d.y ? y(d.y) : d.y); };
+      function arcOuterRadius(d) { return Math.max(0, y(d.y + d.dy)); };
+
       var arc = d3.svg.arc()
-        .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-        .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
-        .innerRadius(function(d) { return Math.max(0, d.y ? y(d.y) : d.y); })
-        .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+        .startAngle(arcStartAngle)
+        .endAngle(arcEndAngle)
+        .innerRadius(arcInnerRadius)
+        .outerRadius(arcOuterRadius);
 
       var padding = 5;
       var radius = width / 2 - padding;
@@ -155,7 +160,7 @@ function hierarchyChart() {
         .attr("text-anchor", "middle")
         .append("textPath")
         .attr("xlink:href", function(d, i) { return "#path-" + i; })
-        .attr("startOffset", "25%")
+        .attr("startOffset", "40%")
         .text(textLabel)
         .attr("class", tooltipClass)
         .attr("data-tooltip", textLabel)
