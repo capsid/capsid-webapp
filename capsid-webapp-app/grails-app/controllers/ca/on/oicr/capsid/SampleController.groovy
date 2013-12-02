@@ -43,7 +43,7 @@ class SampleController {
     def show() {
 
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
-        params.sort = params.sort ?: "geneCoverageMax"
+        params.sort = params.sort ?: "geneCoverageAvg"
         params.order = params.order ?: "desc"
         params.offset = params.offset ?: 0
 
