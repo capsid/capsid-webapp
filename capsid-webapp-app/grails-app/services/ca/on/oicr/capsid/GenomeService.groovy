@@ -94,7 +94,7 @@ class GenomeService {
 	    // we use gmongo directly. This appars to be about an order of magnitude faster for
 	    // the purposes of building a histogram. Using aggregation would probably be faster
 	    // still, but that can wait. 
-	    def cursor = Feature.collection.find(genome: genome.gi, type: "gene", start: [$lte: end], end: [$gte: start]).hint(["genome":1, "start":1])
+	    def cursor = Feature.collection.find(genome: genome.gi, type: "gene", start: [$lte: end], end: [$gte: start]).hint(["genome":1, "type":1, "start":1])
 	    cursor.each { f ->
 		      def bin = Math.floor((f['start'] - start) / interval).toInteger()
 		      data[bin]++
