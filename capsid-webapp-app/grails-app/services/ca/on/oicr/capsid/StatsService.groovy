@@ -37,6 +37,7 @@ class StatsService {
 
 		List results = criteria.list(params) {
 			and {
+				
 				// Security Check
                 //'in'("label", projectService.list([:]).label)
             
@@ -46,13 +47,17 @@ class StatsService {
 				// 		eq("label",params.label)
 				// 	}
 				// }
-				if (params.projectId) {
-					if (params.projectId instanceof ObjectId) {
-						eq("projectId", params.projectId)
-					}
-					else if (params.projectId instanceof ObjectId[]) {
-						'in'("projectId", params.projectId)
-					}
+
+				if (params.ownerId && params.ownerId instanceof ObjectId) {
+					eq("ownerId", params.ownerId)
+				}
+
+				if (params.ownerType) {
+					eq("ownerType", params.ownerType)
+				}
+
+				if (params.projectId && params.projectId instanceof ObjectId) {
+					eq("projectId", params.projectId)
 				}
 
 				// And this adds the filter on taxon range, if we need it. 
@@ -60,50 +65,10 @@ class StatsService {
 					between("left", tx.left, tx.right);
 				}
 
-				// Alignment
-				if (params.alignmentId) {
-					if (params.alignmentId == 'only') {
-						isNotNull('alignmentId')
-					}
-					else if (params.alignmentId == 'none') {
-						isNull('alignmentId')
-					}
-					else if (params.alignmentId instanceof ObjectId) {
-						eq("alignmentId", params.alignmentId)
-					}
-					else if (params.alignmentId instanceof ObjectId[]) {
-						'in'("alignmentId", params.alignmentId)
-					}
+				// Genome identifier
+				if (params.gi) {
+					eq("gi", params.gi)
 				}
-
-				// Sample
-				if (params.sampleId) {
-					if (params.sampleId == 'only') {
-						isNotNull('sampleId')
-					}
-					else if (params.sampleId == 'none') {
-						isNull('sampleId')
-					}
-					else if (params.sampleId instanceof ObjectId) {
-						eq("sampleId", params.sampleId)
-					}
-					else if (params.sampleId instanceof ObjectId[]) {
-						'in'("sampleId", params.sampleId)
-					}
-				}
-
-				// Genome
-				if (params.accession) {
-					if (params.accession instanceof String) {
-						eq("accession", params.accession)
-					}
-					else if (params.name instanceof String[]) {
-						'in'("accession", params.accession)
-					}
-				}
-				if (params.genome) {
-					ilike("genome", '%' + params.genome + '%')
-				}	
 
 				// Text
 				if (params.text) {

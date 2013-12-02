@@ -53,7 +53,7 @@ class ProjectController {
 
         Project projectInstance = findInstance()
         
-        List statistics = statsService.list(projectId: projectInstance.id, sample: "none", text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+        List statistics = statsService.list(ownerId: projectInstance.id, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
         List samples = sampleService.list(projectId: projectInstance.id, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
 
         [projectInstance: projectInstance, statistics: statistics, samples: samples]

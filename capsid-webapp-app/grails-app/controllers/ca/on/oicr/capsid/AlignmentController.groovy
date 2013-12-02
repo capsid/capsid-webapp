@@ -54,11 +54,9 @@ class AlignmentController {
 
         Map model = findModel()
 
-        Project projectInstance = model['projectInstance']
-        assert projectInstance != null
         Alignment alignmentInstance = model['alignmentInstance']
         assert alignmentInstance != null
-        model['statistics'] = statsService.list(projectId: projectInstance.id, taxonRootId: taxonRootId, alignmentId: alignmentInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['statistics'] = statsService.list(taxonRootId: taxonRootId, ownerId: alignmentInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
         model['forwardURI'] = request.forwardURI;
 
         model

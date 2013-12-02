@@ -25,6 +25,7 @@ class GenomeController {
     ]
 
     def genomeService
+    def projectService
     def featureService
     def statsService
 
@@ -48,10 +49,12 @@ class GenomeController {
 
         Genome genomeInstance = findInstance()
 
-        params.sampleId = 'none'
-        List pStatistics = statsService.list params 
-        params.sampleId = 'only'
-        List sStatistics = statsService.list params 
+        Project projectInstance = projectService.get(params.projectLabel)
+        assert projectInstance != null
+
+        List pStatistics = statsService.list(ownerId: projectInstance.id, gi: genomeInstance.gi, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset) 
+        List sStatistics = statsService.list(projectId: projectInstance.id, gi: genomeInstance.gi, ownerType: "sample", text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset) 
+
         params.genome = genomeInstance.gi
         List features = featureService.list params
 
