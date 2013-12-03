@@ -53,7 +53,7 @@ class SampleController {
         Sample sampleInstance = model['sampleInstance']
         assert sampleInstance != null
 
-        model['statistics'] = statsService.list(ownerId: sampleInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['statistics'] = statsService.list(ownerId: sampleInstance.id, filters: params.filters, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
         model['alignments'] = alignmentService.list(projectId: projectInstance.id, sampleId: sampleInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
 
         model

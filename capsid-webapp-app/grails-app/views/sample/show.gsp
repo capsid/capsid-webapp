@@ -92,7 +92,7 @@
 					<div class="tab-pane active" id="hits">
 						<div class="row-fluid">
 							<h2 class="pull-left">Genome Hits</h2>
-							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
+							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label, 'buttons': 'true']"/>
 						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
