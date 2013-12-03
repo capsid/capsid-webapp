@@ -37,7 +37,7 @@ jQuery(function($) {
         form = $(e.target);
 
         $('.btn-group button.active', id).each(function(){
-          filters = filters + '&filters=' + $(this).val();
+          filters = filters + '&filters=' + $(this).data('filterName');
         });
 
         $(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize() + filters);

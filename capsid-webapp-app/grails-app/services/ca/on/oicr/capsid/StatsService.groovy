@@ -70,6 +70,14 @@ class StatsService {
 					eq("gi", params.gi)
 				}
 
+				// Add the filters
+				if (params.filters) {
+					def filters = (params.filters instanceof String ? [params.filters] : params.filters)
+					for (filter in filters) {
+						ne("tags", filter)
+					}
+				}
+
 				// Text
 				if (params.text) {
 					String text = '%' + params.text + '%'
@@ -79,11 +87,6 @@ class StatsService {
 						ilike("project", text)
 					}
 				}
-
-				// Filters
-				if (params.filters && params.filters != "false") {
-					'in'("filter", params.filters)
-				}		
 			}
 		}
 
