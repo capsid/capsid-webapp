@@ -3,9 +3,10 @@
 	<div class="pull-left filter">
 		<input type="hidden" name="filter" value="false">
 		<div class="btn-group" data-toggle="buttons-checkbox">
-			<button class="btn" data-filter-name="lowMaxCover" rel="tooltip" data-original-title="Filter viral genomes with low coverage (only those with max gene coverage >50% are returned)">Coverage</button>
 			<button class="btn" data-filter-name="phage" rel="tooltip" data-original-title="Return bacteriophage viral genome sequences">Bacteriophage</button>
-			<button class="btn" data-filter-name="humanbg" rel="tooltip" data-original-title="Use a human background model to report only viruses with read composition significantly different from those expected from the human mRNA">Human</button>
+			<button class="btn" data-filter-name="lowMaxCover" rel="tooltip" data-original-title="Filter viral genomes with low coverage (only those with max gene coverage >50% are returned)">Low max gene coverage</button>
+			<button class="btn" data-filter-name="lowgeneCoverageAvg" rel="tooltip" data-original-title="Filter viral genomes with low coverage (only those with average gene coverage > human background average gene coverage are returned)">Average gene coverage &lt; bg</button>
+			<button class="btn" data-filter-name="lowgenomeCoverage" rel="tooltip" data-original-title="Use a human background model to report only viruses with read composition significantly different from those expected from the human mRNA">Genome coverage &lt; bg</button>
 		</div>
 	</div>
 	</g:if>
