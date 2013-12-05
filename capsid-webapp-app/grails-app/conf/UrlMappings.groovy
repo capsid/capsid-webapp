@@ -6,7 +6,6 @@ class UrlMappings {
 		"/sample/$action?/$projectLabel?/$id?"(controller: "sample")
 
 		"/genome/$action/$projectLabel/$id"(controller: "genome")
-		"/genome/$action/$id"(controller: "genome")
 		"/genome/$action"(controller: "genome")
 
 		"/browse/$action/$id/$projectLabel?/$sampleName?"(controller: "browse")
