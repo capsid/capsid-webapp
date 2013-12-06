@@ -244,11 +244,11 @@
 
                     <exec executable="unzip">
                       <arg value="-o" />
-                      <arg value="${project.build.directory}/${project.build.finalName}.zip" />
+                      <arg value="${project.build.directory}/${project.build.finalName}-dist.zip" />
                       <arg value="-d" />
                       <arg value="${deb.dir}/usr/share" />
                     </exec>
-                    
+
                     <move todir="${deb.dir}/etc/capsid">
                       <fileset dir="${deb.dir}/usr/share/capsid-webapp-httpd-${project.version}/conf" />
                     </move>
