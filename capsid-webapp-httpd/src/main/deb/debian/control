@@ -10,9 +10,11 @@ Package: capsid
 Architecture: all
 Pre-Depends: debconf, coreutils (>= 6.10)
 Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, daemon, psmisc, openjdk-7-jre, dbconfig-common
-Description: A pipeline and web application for pathogen identification
+Description: Pipeline and web application for pathogen identification
  .
- This is a comprehensive open source platform which integrates a high-performance computational 
- pipeline for pathogen sequence identification and characterization in human genomes and 
- transcriptomes together with a scalable results database and a user-friendly web-based 
- software application for managing, querying and visualizing results.
+ This is a comprehensive open source platform which integrates a 
+ high-performance computational  pipeline for pathogen sequence 
+ identification and characterization in human genomes and 
+ transcriptomes together with a scalable results database and 
+ a user-friendly web-based software application for managing, 
+ querying and visualizing results.
