@@ -1,18 +1,18 @@
 This work was packaged for Debian by:
 
-    OBiBa <info@obiba.org> on Fri, 04 Mar 2011 14:40:07 -0500
+    OICR <info@oicr.on.ca> on Fri, 04 Mar 2011 14:40:07 -0500
 
 It was downloaded from:
 
-    <http://www.obiba.org>
+    <https://github.com/capsid>
 
 Upstream Authors:
 
-    info@obiba.org
+    info@oicr.on.ca
 
 Copyright:
 
-    <Copyright (C) 2011 OBiBa>
+    <Copyright (C) 2013 OICR>
 
 License:
 
@@ -34,4 +34,4 @@ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
 
 The Debian packaging is:
 
-    Copyright (C) 2011 OBiBa <info@obiba.org> and is licensed under the GPL version 3, see above.
+    Copyright (C) 2013 OICR <info@oicr.on.ca> and is licensed under the GPL version 3, see above.

@@ -12,14 +12,12 @@ environments {
     	grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = "memberUid={1}"
     	grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
 
-        grails.mail.host = "smtp.oicr.on.ca"
-
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:_DBC_DBTYPE_://_DBC_DBSERVER_/_DBC_DBNAME_?characterEncoding=UTF-8&sessionVariables=sql_Mode=ANSI"
-            username='_DBC_DBUSER_'
-            password='_DBC_DBPASS_'
-        }
+        grails.mongo.host = "_DBC_DBSERVER_"
+        grails.mongo.databaseName = "_DBC_DBNAME_"
+        grails.mongo.port = 27017
+        grails.mongo.username = "_DBC_DBUSER_"
+        grails.mongo.password = "_DBC_DBPASS_"
+        datasource.grails.gridfs = grails.mongo.databaseName
     }
 }
 

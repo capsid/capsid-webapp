@@ -6,19 +6,19 @@
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Capsid
-# Description:       Capsid clinical genomics web application
+# Description:       CaPSID: Computational Pathogen Sequence IDentification
 ### END INIT INFO
 
 # Author: OBiBa <info@obiba.org>
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC=heliotrope             # Introduce a short description here
-NAME=heliotrope             # Introduce the short server's name here
-HELIOTROPE_USER=heliotrope  # User to use to run the service
+DESC=capsid             # Introduce a short description here
+NAME=capsid             # Introduce the short server's name here
+CAPSID_USER=capsid  # User to use to run the service
 DAEMON=/usr/bin/daemon      # Introduce the server's location here
 DAEMON_ARGS=""              # Arguments to run the daemon with
-MAIN_CLASS=org.obiba.heliotrope.server.httpd.HeliotropeJettyServer
+MAIN_CLASS=ca.on.oicr.capsid.server.httpd.CapsidJettyServer
 TMPDIR=/var/run/$NAME
 PIDFILE=$TMPDIR/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
@@ -36,8 +36,8 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
 
-DAEMON_ARGS="--name=$NAME --user=$HELIOTROPE_USER --pidfile=$PIDFILE --inherit --env=HELIOTROPE_HOME=$HELIOTROPE_HOME --env=HELIOTROPE_LOG=$HELIOTROPE_LOG --output=$HELIOTROPE_LOG/stdout.log --chdir=$HELIOTROPE_HOME"
-CLASSPATH="$HELIOTROPE_HOME/conf:$HELIOTROPE_DIST/lib/*"
+DAEMON_ARGS="--name=$NAME --user=$CAPSID_USER --pidfile=$PIDFILE --inherit --env=CAPSID_HOME=$CAPSID_HOME --env=CAPSID_LOG=$CAPSID_LOG --output=$CAPSID_LOG/stdout.log --chdir=$CAPSID_HOME"
+CLASSPATH="$CAPSID_HOME/conf:$CAPSID_DIST/lib/*"
 
 # Get the status of the daemon process
 get_daemon_status()
@@ -47,19 +47,19 @@ get_daemon_status()
 
 get_running() 
 {
-    return `ps -U $HELIOTROPE_USER --no-headers -f | egrep -e '(java|daemon)' | grep -c . `
+    return `ps -U $CAPSID_USER --no-headers -f | egrep -e '(java|daemon)' | grep -c . `
 }
 
 get_running_daemon() 
 {
-    return `ps -U $HELIOTROPE_USER --no-headers -f | egrep -e '(daemon)' | grep -c . `
+    return `ps -U $CAPSID_USER --no-headers -f | egrep -e '(daemon)' | grep -c . `
 }
 
 force_stop() 
 {
     get_running
     if [ $? -ne 0 ]; then 
-        killall -u $HELIOTROPE_USER java || return 3
+        killall -u $CAPSID_USER java || return 3
     fi
 }
 
@@ -78,7 +78,7 @@ do_start()
         ulimit -n $MAXOPENFILES
     fi
     
-    $DAEMON $DAEMON_ARGS -- $JAVA $JAVA_ARGS -cp $CLASSPATH -DHELIOTROPE_HOME=$HELIOTROPE_HOME -DHELIOTROPE_DIST=$HELIOTROPE_DIST -DHELIOTROPE_LOG=$HELIOTROPE_LOG $MAIN_CLASS $HELIOTROPE_ARGS || return 2
+    $DAEMON $DAEMON_ARGS -- $JAVA $JAVA_ARGS -cp $CLASSPATH -DCAPSID_HOME=$CAPSID_HOME -DCAPSID_DIST=$CAPSID_DIST -DCAPSID_LOG=$CAPSID_LOG $MAIN_CLASS $CAPSID_ARGS || return 2
 }
 
 #
@@ -131,11 +131,11 @@ do_reload() {
 }
 
 #
-# Make sure heliotrope tmp dir exists, otherwise daemon calls will fail
+# Make sure capsid tmp dir exists, otherwise daemon calls will fail
 #
 if [ ! -d $TMPDIR ]; then 
   mkdir $TMPDIR
-  chown -R heliotrope:adm $TMPDIR
+  chown -R capsid:adm $TMPDIR
   chmod -R 750 $TMPDIR
 fi
 
@@ -193,10 +193,10 @@ case "$1" in
                       echo
                   fi
               elif [ $procs -eq 1 ]; then 
-                  echo "An instance of heliotrope is running at the moment"
+                  echo "An instance of capsid is running at the moment"
                   echo "but the pidfile $PIDFILE is missing"
               else 
-                  echo "$procs instances of heliotrope are running at the moment"
+                  echo "$procs instances of capsid are running at the moment"
                   echo "but the pidfile $PIDFILE is missing"
               fi
               ;;

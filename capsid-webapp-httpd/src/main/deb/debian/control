@@ -1,23 +1,16 @@
 Source: capsid
 Section: devel
 Priority: extra
-Maintainer: OBiBa <info@obiba.org>
+Maintainer: OICR <info@oicr.on.ca>
 Build-Depends: debhelper (>= 7.0.15)
 Standards-Version: 3.8.4
-Homepage: http://www.obiba.org
+Homepage: https://github.com/capsid
 
 Package: capsid
 Architecture: all
 Pre-Depends: debconf, coreutils (>= 6.10)
-Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, daemon, psmisc, openjdk-7-jre, dbconfig-common, mysql-client
-Recommends: mysql-server
-Description: OBiBa Web application for genomic trials
- Heliotrope is OBiBa's genomic trial platform, allowing participants data to be 
- securely tracked through a clinical trial. 
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser, daemon, psmisc, openjdk-7-jre, dbconfig-common
+Description: CaPSID: Computational Pathogen Sequence IDentification
+ CaPSID is a pipeline and web application that enable pathogen identification in sequencing data. 
  .
- OBiBa is an international software development project committed to building a
- full suite of open source software for biobanks. It is comprised of several
- independent and self-funded teams around the world, each of which is producing
- stand-alone applications that support particular biobank activities. The
- applications can be customized and integrated to create a complete biobank
- information management system.
+ CaPSID (Computational Pathogen Sequence IDentification) is a comprehensive open source platform which integrates a high-performance computational pipeline for pathogen sequence identification and characterization in human genomes and transcriptomes together with a scalable results database and a user-friendly web-based software application for managing, querying and visualizing results.

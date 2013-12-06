@@ -1,4 +1,4 @@
-# This is where HELIOTROPE_HOME is located
+# This is where CAPSID_HOME is located
 var/lib/capsid
 
 # Store heliotrope log here

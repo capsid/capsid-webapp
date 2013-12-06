@@ -113,9 +113,12 @@ def defaultConfigFiles = [
     "${userHome}/.grails/capsid-config.groovy"
 ]
 
-if (System.getenv("CAPSID_HOME")) {
-  defaultConfigFiles.unshift(System.getenv("CAPSID_HOME") + "/capsid-config.groovy");
-  defaultConfigFiles.unshift(System.getenv("CAPSID_HOME") + "/capsid-config.properties");
+if (System.getProperty("CAPSID_HOME")) {
+    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.groovy";
+    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.properties";  
+} else if (System.getenv("CAPSID_HOME")) {
+    defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.groovy";
+    defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.properties";
 }
 
 defaultConfigFiles.each { filePath ->
