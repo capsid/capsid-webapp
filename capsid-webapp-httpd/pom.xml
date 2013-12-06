@@ -175,6 +175,78 @@
         </plugins>                                                                                                                
       </build>                                                                                                                    
     </profile>                                                                                                                    
-  </profiles>     
+
+    <profile>
+      <!-- A profile for the builds performed by the continuous integration server -->
+      <id>ci-build</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>make-deb</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="deb.dir" value="${basedir}/target/deb" />
+                    <property name="deb.version" value="${project.version}" />
+                    <tstamp>
+                      <!-- http://www.debian.org/doc/debian-policy/ch-source.html -->
+                      <format property="deb.date" pattern="EEE, d MMM yyyy HH:mm:ss Z" locale="en" />
+                    </tstamp>
+
+                    <mkdir dir="${deb.dir}" />
+                    <mkdir dir="${deb.dir}/usr/share" />
+                    <mkdir dir="${deb.dir}/etc" />
+
+                    <copy todir="${deb.dir}">
+                      <fileset dir="src/main/deb" />
+                      <filterset>
+                        <filter token="project.version" value="${deb.version}" />
+                        <filter token="date" value="${deb.date}" />
+                      </filterset>
+                    </copy>
+
+                    <unzip src="${basedir}/target/capsid-webapp-httpd-${project.version}-dist.zip" dest="${deb.dir}/usr/share" />
+                    <move todir="${deb.dir}/etc/capsid">
+                      <fileset dir="${deb.dir}/usr/share/capsid-webapp-httpd-${project.version}/conf" />
+                    </move>
+
+                    <exec executable="debuild" dir="${deb.dir}" failonerror="true" osfamily="unix">
+                      <arg value="-b" />
+                      
+                      <!-- Turn off signing for now, until we move to a continuous integration server -->
+                      <arg value="-us" />
+                      <arg value="-uc" />
+                    </exec>
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <id>deploy-deb</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="deb.version" value="${project.version}" />
+                    <!-- Deploy deb file in deb repo -->
+                    <copy todir="${obiba.deb.dir}" file="target/gps_${deb.version}_all.deb" />
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+    </profile>
+  </profiles>   
 
 </project>
