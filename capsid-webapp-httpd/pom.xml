@@ -243,7 +243,7 @@
                     </copy>
 
                     <unzip src="${basedir}/target/capsid-webapp-httpd-${project.version}-dist.zip" dest="${deb.dir}/usr/share" />
-                    <chmod dir="${deb.dir}/usr/share/bin" perm="ugo+rx" />
+                    <chmod dir="${deb.dir}/usr/share/capsid-webapp-httpd-${project.version}/bin" perm="ugo+rx" />
                     <move todir="${deb.dir}/etc/capsid">
                       <fileset dir="${deb.dir}/usr/share/capsid-webapp-httpd-${project.version}/conf" />
                     </move>
