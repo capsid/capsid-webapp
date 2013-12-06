@@ -13,45 +13,45 @@ then
   export JAVA_OPTS
 fi
 
-# The directory containing the heliotrope shell script
-HELIOTROPE_BIN_DIR=`dirname $0`
+# The directory containing the CAPSID shell script
+CAPSID_BIN_DIR=`dirname $0`
 # resolve links - $0 may be a softlink
-HELIOTROPE_DIST=$(readlink -f $HELIOTROPE_BIN_DIR/..)
+CAPSID_DIST=$(readlink -f $CAPSID_BIN_DIR/..)
 
-export HELIOTROPE_DIST
+export CAPSID_DIST
 
-export HELIOTROPE_LOG=$HELIOTROPE_HOME/logs
+export CAPSID_LOG=$CAPSID_HOME/logs
 
 echo "JAVA_OPTS=$JAVA_OPTS"
-echo "HELIOTROPE_HOME=$HELIOTROPE_HOME"
-echo "HELIOTROPE_DIST=$HELIOTROPE_DIST"
+echo "CAPSID_HOME=$CAPSID_HOME"
+echo "CAPSID_DIST=$CAPSID_DIST"
 
-if [ -z "$HELIOTROPE_HOME" ]
+if [ -z "$CAPSID_HOME" ]
 then
-  echo "HELIOTROPE_HOME not set."
+  echo "CAPSID_HOME not set."
   exit 2;
 fi
 
 if $cygwin; then
   # For Cygwin, ensure paths are in UNIX format before anything is touched
-  [ -n "$HELIOTROPE_DIST" ] && HELIOTROPE_BIN=`cygpath --unix "$HELIOTROPE_DIST"`
-  [ -n "$HELIOTROPE_HOME" ] && HELIOTROPE_HOME=`cygpath --unix "$HELIOTROPE_HOME"`
+  [ -n "$CAPSID_DIST" ] && CAPSID_BIN=`cygpath --unix "$CAPSID_DIST"`
+  [ -n "$CAPSID_HOME" ] && CAPSID_HOME=`cygpath --unix "$CAPSID_HOME"`
   
   # For Cygwin, switch paths to Windows format before running java  
-  export HELIOTROPE_DIST=`cygpath --absolute --windows "$HELIOTROPE_DIST"`
-  export HELIOTROPE_HOME=`cygpath --absolute --windows "$HELIOTROPE_HOME"`
+  export CAPSID_DIST=`cygpath --absolute --windows "$CAPSID_DIST"`
+  export CAPSID_HOME=`cygpath --absolute --windows "$CAPSID_HOME"`
 fi
 
 # Java 6 supports wildcard classpath entries
 # http://download.oracle.com/javase/6/docs/technotes/tools/solaris/classpath.html
-CLASSPATH=$HELIOTROPE_HOME/conf:"$HELIOTROPE_DIST/lib/*"
+CLASSPATH=$CAPSID_HOME/conf:"$CAPSID_DIST/lib/*"
 if $cygwin; then
-  CLASSPATH=$HELIOTROPE_HOME/conf;"$HELIOTROPE_DIST/lib/*"
+  CLASSPATH=$CAPSID_HOME/conf;"$CAPSID_DIST/lib/*"
 fi
 
-[ -e "$HELIOTROPE_HOME/logs" ] || mkdir "$HELIOTROPE_HOME/logs"
+[ -e "$CAPSID_HOME/logs" ] || mkdir "$CAPSID_HOME/logs"
 
 JAVA_DEBUG=-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n
 
 # Add $JAVA_DEBUG to this line to enable remote JVM debugging (for developers)
-java $JAVA_OPTS -cp "$CLASSPATH" -DHELIOTROPE_HOME="${HELIOTROPE_HOME}" -DHELIOTROPE_DIST=${HELIOTROPE_DIST} -DHELIOTROPE_LOG=${HELIOTROPE_LOG} org.obiba.heliotrope.server.HeliotropeServer $@
+java $JAVA_OPTS -cp "$CLASSPATH" -DCAPSID_HOME="${CAPSID_HOME}" -DCAPSID_DIST=${CAPSID_DIST} -DCAPSID_LOG=${CAPSID_LOG} ca.on.oicr.capsid.server.CapsidServer $@
