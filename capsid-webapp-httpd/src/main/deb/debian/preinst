@@ -8,9 +8,9 @@ set -e
 . /usr/share/debconf/confmodule
 
 # Added fix for #608500 - include common before preinst, because preinst doesn't in old deployments
-. /usr/share/dbconfig-common/dpkg/common
-. /usr/share/dbconfig-common/dpkg/preinst 
-dbc_go capsid $@
+# . /usr/share/dbconfig-common/dpkg/common
+# . /usr/share/dbconfig-common/dpkg/preinst 
+# dbc_go capsid $@
 
 # summary of how this script can be called:
 #        * <new-preinst> `install'

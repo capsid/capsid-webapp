@@ -3,7 +3,3 @@ var/lib/capsid
 
 # Store heliotrope log here
 var/log/capsid
-
-# And dbcommon-config directories
-usr/share/dbconfig-common/data/capsid/install
-usr/share/dbconfig-common/data/capsid/upgrade/mysql

@@ -7,8 +7,8 @@ set -e
 
 . /usr/share/debconf/confmodule
 
-. /usr/share/dbconfig-common/dpkg/postrm
-dbc_go capsid $@
+# . /usr/share/dbconfig-common/dpkg/postrm
+# dbc_go capsid $@
 
 # summary of how this script can be called:
 #        * <postrm> `remove'
