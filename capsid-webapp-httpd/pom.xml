@@ -242,7 +242,7 @@
                       </filterset>
                     </copy>
 
-                    <exec executable="unzip" spawn="true">
+                    <exec executable="unzip">
                       <arg value="-o" />
                       <arg value="${project.build.directory}/${project.build.finalName}.zip" />
                       <arg value="-d" />
