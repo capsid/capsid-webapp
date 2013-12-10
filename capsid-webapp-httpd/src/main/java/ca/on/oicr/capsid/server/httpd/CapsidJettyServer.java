@@ -26,7 +26,7 @@ public class CapsidJettyServer {
 		
 		String config = System.getProperty("CAPSID_CONFIG");
 		if (config == null) {
-			config = System.getProperty("CAPSID_HOME");
+			config = System.getProperty("CAPSID_HOME") + "/conf";
 			if (config == null) {
 				config = System.getProperty("user.dir");
 			}
