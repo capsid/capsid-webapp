@@ -30,6 +30,35 @@ set -e
 case "$1" in
     configure)
 
+        if [ ! -e /etc/capsid/capsid-config.groovy ] ; then
+          cp /etc/capsid/capsid-config.groovy.template /etc/capsid/capsid-config.groovy
+        fi
+
+        RET=""
+        db_get capsid-server/database_host
+        DB_HOST=$RET
+        sed -i "s/_DBC_DBSERVER_/$DB_HOST/" /etc/capsid/capsid-config.groovy
+
+        RET=""
+        db_get capsid-server/database_port
+        DB_PORT=$RET
+        sed -i "s/_DBC_DBPORT_/$DB_PORT/" /etc/capsid/capsid-config.groovy
+
+        RET=""
+        db_get capsid-server/database_name
+        DB_NAME=$RET
+        sed -i "s/_DBC_DBNAME_/$DB_NAME/" /etc/capsid/capsid-config.groovy
+
+        RET=""
+        db_get capsid-server/database_username
+        DB_USER=$RET
+        sed -i "s/_DBC_DBUSER_/$DB_USER/" /etc/capsid/capsid-config.groovy
+
+        RET=""
+        db_get capsid-server/database_password
+        DB_PASSWORD=$RET
+        sed -i "s/_DBC_DBPASS_/$DB_PASSWORD/" /etc/capsid/capsid-config.groovy
+
     	RET=""
         db_get capsid-server/admin_password
 

@@ -7,6 +7,19 @@ ${DEBIAN_SCRIPT_TRACE:+ echo "#42#DEBUG# RUNNING $0 $*" 1>&2 }
 
 # only ask this question on fresh installs ($2 is empty), during "reconfiguration"
 if [ "$1" = "configure" ] && [ -z "$2" ] || [ "$1" = "reconfigure" ]; then
+
+  RET=""
+  db_input high capsid-server/database_host || true
+  db_go
+  db_input high capsid-server/database_port || true
+  db_go
+  db_input high capsid-server/database_name || true
+  db_go
+  db_input high capsid-server/database_username || true
+  db_go
+  db_input high capsid-server/database_password || true
+  db_go
+
   while :; do
     RET=""
     db_input high capsid-server/admin_password || true
@@ -14,8 +27,6 @@ if [ "$1" = "configure" ] && [ -z "$2" ] || [ "$1" = "reconfigure" ]; then
     db_get capsid-server/admin_password
     # if password isn't empty we ask for password verification
     if [ -z "$RET" ]; then
-      db_fset capsid-server/admin_password seen false
-      db_fset capsid-server/admin_password_again seen false
       break
     fi
     ROOT_PW="$RET"
@@ -28,6 +39,5 @@ if [ "$1" = "configure" ] && [ -z "$2" ] || [ "$1" = "reconfigure" ]; then
     fi
     db_set capsid-server/admin_password "" 
     db_set capsid-server/admin_password_again ""
-    db_go
   done
 fi

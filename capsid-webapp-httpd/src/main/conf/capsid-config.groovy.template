@@ -14,7 +14,7 @@ environments {
 
         grails.mongo.host = "_DBC_DBSERVER_"
         grails.mongo.databaseName = "_DBC_DBNAME_"
-        grails.mongo.port = 27017
+        grails.mongo.port = _DBC_DBPORT_
         grails.mongo.username = "_DBC_DBUSER_"
         grails.mongo.password = "_DBC_DBPASS_"
         datasource.grails.gridfs = grails.mongo.databaseName
