@@ -11,3 +11,4 @@ web-app/js/release/
 target-eclipse/
 plugins/
 .settings
+*.sublime-*
