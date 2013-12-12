@@ -17,7 +17,6 @@ import org.bson.types.ObjectId
 import org.bson.types.ObjectId
 import com.mongodb.BasicDBObject
 
-import ca.on.oicr.capsid.browse.Histogram
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
