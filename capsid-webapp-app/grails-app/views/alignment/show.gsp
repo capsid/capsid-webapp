@@ -27,7 +27,7 @@
 					<div class="pull-left">
 						<h1><small>ALIGNMENT</small> ${alignmentInstance.name}</h1>
 					</div>
-					<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
+					<auth:ifAnyGranted access="[(alignmentInstance?.projectLabel):['collaborator', 'owner']]">
 					<div class="pull-right">
 						<g:link class="btn" action="edit" id="${alignmentInstance?.name}">
 							<i class="icon-pencil"></i>

@@ -44,7 +44,7 @@
 					</g:form>
 				</fieldset>
 			</section>
-			<auth:ifAnyGranted access="[(alignmentInstance?.project):['collaborator', 'owner']]">
+			<auth:ifAnyGranted access="[(alignmentInstance?.projectLabel):['collaborator', 'owner']]">
 			<section>
 				<div class="page-header">
 					<h1>Delete Alignment</h1>

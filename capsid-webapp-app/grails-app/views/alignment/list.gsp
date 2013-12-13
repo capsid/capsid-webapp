@@ -37,7 +37,7 @@
 							<tr>
 								<td><g:link action="show" id="${alignmentInstance.name}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
 								<td><g:link controller="sample" action="show" id="${alignmentInstance.sample}">${fieldValue(bean: alignmentInstance, field: "sample")}</g:link></td>
-								<td><g:link controller="project" action="show" id="${alignmentInstance.project}">${fieldValue(bean: alignmentInstance, field: "project")}</g:link></td>
+								<td><g:link controller="project" action="show" id="${alignmentInstance.projectLabel}">${fieldValue(bean: alignmentInstance, field: "project")}</g:link></td>
 								<td>${fieldValue(bean: alignmentInstance, field: "aligner")}</td>
 								<td>${fieldValue(bean: alignmentInstance, field: "platform")}</td>
 								<td>${fieldValue(bean: alignmentInstance, field: "type")}</td>

@@ -13,7 +13,7 @@
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${sampleInstance.project}">${Project.findById(sampleInstance.projectId).name}</g:link> 
+						<g:link controller="project" action="show" id="${sampleInstance.projectLabel}">${Project.findById(sampleInstance.projectId).name}</g:link> 
 						<span class="divider">/</span>
 					</li>
 				</ul>
@@ -22,7 +22,8 @@
 						<h1 id="${sampleInstance.name}"><small>SAMPLE</small> <g:fieldValue bean="${sampleInstance}" field="name"/><br>
 						<small><g:fieldValue bean="${sampleInstance}" field="description"/></small></h1>
 					</div>
-					<auth:ifAnyGranted access="[(sampleInstance?.project):['collaborator', 'owner']]">
+
+					<auth:ifAnyGranted access="[(sampleInstance?.projectLabel):['collaborator', 'owner']]">
 					<div class="pull-right">
 						<div class="modal hide fade" id="create">
 				            <div class="modal-header">
@@ -31,7 +32,7 @@
 				            </div>
 							<g:form class="form-horizontal" controller="alignment" action="save" style="margin:0">
 								<fieldset>
-									<g:render template="/alignment/create" model="[alignmentInstance: new Alignment(['sample':sampleInstance.name, 'project':sampleInstance.project])]"/>
+									<g:render template="/alignment/create" model="[alignmentInstance: new Alignment(['sample':sampleInstance.name, 'project':sampleInstance.projectLabel])]"/>
 								</fieldset>
 							</g:form>
 				        </div>
@@ -39,7 +40,7 @@
 							<i class="icon-pencil"></i>
 							<g:message code="default.button.edit.label" default="Edit" />
 						</g:link>
-						<g:link controller="alignment" action="create" params="[project:sampleInstance.project, sample:sampleInstance.name]"  class="btn btn-primary" data-target="#create" data-toggle="modal">
+						<g:link controller="alignment" action="create" params="[project:sampleInstance.projectLabel, sample:sampleInstance.name]"  class="btn btn-primary" data-target="#create" data-toggle="modal">
 							<i class="icon-plus icon-white"></i>
 							Alignment
 						</g:link>
