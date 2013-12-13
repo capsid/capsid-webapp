@@ -50,14 +50,17 @@ class User {
     }
 
     Set<Role> getAuthorities() {
+        log.debug("Requesting authorities for: " + username + " using " + id.toString())
         UserRole.findAllByUser(this).collect { it.role } as Set
     }
 
     Map accessLevels() {
+        log.debug("Requesting access levels for: " + username)
         Map ret = [:]
         UserRole.findAllByUser(this).each {
             ret[(it.role.authority)] =  it.access
         }
+        log.debug("Access levels for: " + username + " are " + ret)
         ret
     }
 }

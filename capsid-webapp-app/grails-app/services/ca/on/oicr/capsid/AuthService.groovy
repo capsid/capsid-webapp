@@ -17,7 +17,10 @@ class AuthService {
   static transactional = false
 
   List getRoles() {
-    springSecurityService.principal.authorities.toString().replaceAll(~"[\\[\\] ]", "").tokenize(',')
+    String authorities = springSecurityService.principal.authorities.toString()
+    List result = authorities.replaceAll(~"[\\[\\] ]", "").tokenize(',')
+    log.debug("Calling getRoles: authorities: " + authorities + " => " + result)
+    return result
   }
 
   User getCurrentUser() {
@@ -50,9 +53,11 @@ class AuthService {
 
   List getRolesWithAccess(List level) {
     Map accessLevels = getAccessLevels()
-    accessLevels.findAll {
+    List result = accessLevels.findAll {
       it.value in level
     }.keySet() as List
+    log.debug("getRolesWithAccess: result: " + result.toString())
+    return result
   }
 
   List<UserRole> getUsersWithRole(String roleName) {
