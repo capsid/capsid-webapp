@@ -43,7 +43,7 @@
 		</div>
 
 		<g:javascript>
-var genomeViewer = initializeGenomeViewer();
+var genomeViewer = initializeGenomeViewer(${genomeInstance.length});
 var urlBase = "${resource(dir: '/browse/api')}";
 addGeneTrack(genomeViewer, urlBase, {
 	accession: "${genomeInstance.accession}"

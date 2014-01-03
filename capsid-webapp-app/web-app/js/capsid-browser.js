@@ -132,8 +132,11 @@ function bootstrapGenomeViewer(genomeViewer) {
 	jQuery("#gv-tracks").on('drop', handleDropMove);
 }
 
-function initializeGenomeViewer() {
-	var regionObj = new Region({chromosome: '1', start: 1, end: 800000});
+function initializeGenomeViewer(genomeLength) {
+	var start = 1;
+	var end = typeof genomeLength !== 'undefined' ? genomeLength : 800000;
+
+	var regionObj = new Region({chromosome: '1', start: start, end: end});
 
 	var genomeViewer = new GenomeViewer({
 	    width: 800,
