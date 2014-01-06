@@ -106,9 +106,7 @@
 					<div class="tab-pane" id="genomes-tab">
 						<div class="row-fluid">
 							<h2 class="pull-left">Genomes</h2>
-							<div class="pull-right">
 							<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
-							</div>
 						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -148,7 +146,7 @@
 					<div class="tab-pane" id="alignments-tab">
 						<div class="row-fluid">
 							<h2 class="pull-left">Alignments</h2>
-							<g:render template="/layouts/filter" model="['id':sampleInstance.name]"/>
+							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
 						</div>
 						<div id="alignments-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -197,12 +195,6 @@
     				.call(chart);
 			});
 		}
-
-//		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
-//		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
-//			jQuery("#stats-table").load("${forwardURI}" + "?taxonRootId=" + encodeURIComponent(value.id) + " #stats-table");
-//			console.log (evt, value); 
-//		});
 		</g:javascript>
 
 		<g:each in="${alignments}" var="alignmentInstance" status="i">

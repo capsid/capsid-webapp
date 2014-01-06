@@ -47,13 +47,18 @@ class SampleController {
         params.order = params.order ?: "desc"
         params.offset = params.offset ?: 0
 
+        // We might also specify a root taxon identifier. This will default to 
+        // a root identifier of one. We can inject this into the request if we
+        // like to filter. 
+        Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
+
         Map model = findModel()
         Project projectInstance = model['projectInstance']
         assert projectInstance != null
         Sample sampleInstance = model['sampleInstance']
         assert sampleInstance != null
 
-        model['statistics'] = statsService.list(ownerId: sampleInstance.id, filters: params.filters, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
+        model['statistics'] = statsService.list(taxonRootId: taxonRootId, ownerId: sampleInstance.id, filters: params.filters, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
         model['alignments'] = alignmentService.list(projectId: projectInstance.id, sampleId: sampleInstance.id, text: params.text, offset: params.offset, max: params.max, sort: params.sort, order: params.order)
 
         model
