@@ -51,9 +51,14 @@ class ProjectController {
         params.sample = "none"
         params.offset = params.offset ?: 0
 
+        // We might also specify a root taxon identifier. This will default to 
+        // a root identifier of one. We can inject this into the request if we
+        // like to filter. 
+        Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
+
         Project projectInstance = findInstance()
         
-        List statistics = statsService.list(ownerId: projectInstance.id, filters: params.filters, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+        List statistics = statsService.list(taxonRootId: taxonRootId, ownerId: projectInstance.id, filters: params.filters, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
         List samples = sampleService.list(projectId: projectInstance.id, filters: params.filters, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
 
         [projectInstance: projectInstance, statistics: statistics, samples: samples]

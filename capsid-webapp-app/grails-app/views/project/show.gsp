@@ -55,7 +55,7 @@
 						<div class="tab-pane active" id="hits">
 							<div class="row-fluid">
 								<h2 class="pull-left">Genome Hits</h2>
-								<g:render template="/layouts/filter" model="['id':projectInstance.label, 'buttons': 'true']"/>
+								<g:render template="/layouts/genomeFilter" model="['id':projectInstance.label]"/>
 							</div>
 							<div id="hits-results" class="results">
 								<table class="table table-striped table-condensed">

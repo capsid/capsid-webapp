@@ -7,6 +7,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title>${sampleInstance.name}</title>
+		<r:require modules="charts"/>
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -85,15 +86,29 @@
 				</div>
 
 				<ul class="nav nav-tabs">
-			    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits</a></li>
-				    <li><a href="#alignments" data-toggle="tab">Alignments</a></li>
+			    	<li class="active"><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
+			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
+				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
 			    </ul>
 
 				<div class="tab-content">
-					<div class="tab-pane active" id="hits">
+					<div class="tab-pane active" id="gra-tab">
 						<div class="row-fluid">
-							<h2 class="pull-left">Genome Hits</h2>
-							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label, 'buttons': 'true']"/>
+							<h2>Genome Relative Abundance</h2>
+							<div class="span4">
+								<g:each in="${alignments}" var="alignmentInstance" status="i">
+								<div id="gra-vis-${i}"></div>
+								</g:each>
+							</div>
+						</div>
+					</div>
+
+					<div class="tab-pane" id="genomes-tab">
+						<div class="row-fluid">
+							<h2 class="pull-left">Genomes</h2>
+							<div class="pull-right">
+							<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
+							</div>
 						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -129,7 +144,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane" id="alignments">
+					
+					<div class="tab-pane" id="alignments-tab">
 						<div class="row-fluid">
 							<h2 class="pull-left">Alignments</h2>
 							<g:render template="/layouts/filter" model="['id':sampleInstance.name]"/>
@@ -163,5 +179,43 @@
 				</div>
 			</div>
 		</div>
+		<div id="tooltip-container"></div>
+
+		<g:javascript>
+		function addChart(i, actionUrl) {
+			function labelHandler(_) {
+				var id = _.id;
+				var result = /^ti:(\d+)/.exec(id);
+				if (result) {
+					console.log("Selected taxon", _, parseInt(result[1]));
+				}
+			}
+			buildHierarchy(actionUrl, function(data) {
+  				var chart = hierarchyChart().width(360).height(360).labelHandler(labelHandler);
+  				d3.select("#gra-vis-" + i.toString())
+    				.datum(data)
+    				.call(chart);
+			});
+		}
+
+//		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
+//		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
+//			jQuery("#stats-table").load("${forwardURI}" + "?taxonRootId=" + encodeURIComponent(value.id) + " #stats-table");
+//			console.log (evt, value); 
+//		});
+		</g:javascript>
+
+		<g:each in="${alignments}" var="alignmentInstance" status="i">
+		<g:javascript>
+
+		addChart(${i}, "${g.createLink(
+			controller: 'alignment', 
+			action: 'taxonomy', 
+			id: alignmentInstance.name, 
+			params: [projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]
+		)}");
+
+		</g:javascript>
+		</g:each>
 	</body>
 </html>

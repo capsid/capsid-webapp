@@ -46,7 +46,6 @@ jQuery(function($) {
 
       // search if this a saved term
       if($('input[type="search"]', this).val()) {
-        console.log($(this));
         $(this).submit();
       }
     });
