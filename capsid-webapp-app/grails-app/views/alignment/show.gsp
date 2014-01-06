@@ -87,7 +87,7 @@
 					<div class="tab-pane" id="genomes-tab">
 						<div class="row-fluid">
 							<h2 class="pull-left">Genomes</h2>
-							<div id="hierarchy-chooser"></div>
+							<g:render template="/layouts/genomeFilter" model="['id':alignmentInstance.name, 'sampleName': alignmentInstance.sample, 'projectLabel': projectInstance.label]"/>
 						</div>
 						<div id="stats-table" class="results">
 							<table class="table table-striped table-condensed">
@@ -152,14 +152,6 @@
   			d3.select("#vis")
     			.datum(data)
     			.call(chart);
-		});
-
-		var url = "${resource(dir: '/taxon/api')}";
-		var selfUrl = "${forwardURI}";
-		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: url, taxonRootId: 1});
-		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
-			jQuery("#stats-table").load(selfUrl + "?taxonRootId=" + encodeURIComponent(value.id) + " #stats-table");
-			console.log (evt, value); 
 		});
 		</g:javascript>
 	</body>

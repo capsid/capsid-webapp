@@ -1,4 +1,4 @@
-<g:form action="${id?'show':'list'}" id="${id}" params="${projectLabel ? [projectLabel: projectLabel] : []}" class="form-horizontal pull-right search">
+<g:form action="${id?'show':'list'}" id="${id}" params="${(projectLabel ? [projectLabel: projectLabel] : [:]).plus(sampleName ? [sampleName: sampleName] : [:])}" class="form-horizontal pull-right search">
 	<div class="pull-left filter">
 		<input type="hidden" name="taxonRootId" value="">
 		<div class="btn-group" data-toggle="buttons-checkbox">
@@ -20,6 +20,5 @@ jQuery("#hierarchy-chooser").bind('change', function(evt, value) {
     form.find("input[name=taxonRootId]").val(value.id);
     form.trigger("submit");
 //	jQuery("#stats-table").load("${forwardURI}" + "?taxonRootId=" + encodeURIComponent(value.id) + " #stats-table");
-//	console.log ("Taxon ID", value.id, form); 
 });
 </g:javascript>
