@@ -46,7 +46,7 @@
 					<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 					</g:if>
 					
-					<ul class="nav nav-tabs">
+					<ul id="nav-tab-controller" class="nav nav-tabs">
 				    	<li class="active"><a href="#hits" data-toggle="tab">Genome Hits</a></li>
 					    <li><a href="#samples" data-toggle="tab">Samples</a></li>
 				    </ul>

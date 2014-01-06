@@ -85,7 +85,7 @@
 					</div>
 				</div>
 
-				<ul class="nav nav-tabs">
+				<ul id="nav-tab-controller" class="nav nav-tabs">
 			    	<li class="active"><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
 			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
 				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
@@ -186,6 +186,8 @@
 				var result = /^ti:(\d+)/.exec(id);
 				if (result) {
 					console.log("Selected taxon", _, parseInt(result[1]));
+					jQuery("#hierarchy-chooser").trigger('change', {id: parseInt(result[1])});
+					jQuery('#nav-tab-controller a[href="#genomes-tab"]').tab('show');
 				}
 			}
 			buildHierarchy(actionUrl, function(data) {
