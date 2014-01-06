@@ -155,16 +155,14 @@ function hierarchyChart() {
         .style("font-size", "12px")
         .style("fill", "black")
         .style("cursor", "pointer")
+        .style("pointer-events", "none")
         .attr("dx", "5px")
         .attr("dy", "20px")
         .attr("text-anchor", "middle")
         .append("textPath")
         .attr("xlink:href", function(d, i) { return "#path-" + i; })
         .attr("startOffset", "40%")
-        .text(textLabel)
-        .attr("class", tooltipClass)
-        .attr("data-tooltip", textLabel)
-        .on("click", labelHandler);
+        .text(textLabel);
 
       // var overlayPath = svg.selectAll("path.hierarchyLabel").data(nodes);
       // overlayPath.enter().append("path")
