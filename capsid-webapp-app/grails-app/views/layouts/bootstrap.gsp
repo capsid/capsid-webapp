@@ -4,7 +4,6 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<g:set var="user" value="${User.findByUsername(sec?.username())}" />
 		<title><g:layoutTitle default="${meta(name: 'app.name')}"/></title>
 		<meta name="description" content="">
 		<meta name="author" content="">
@@ -37,12 +36,13 @@
 					<a class="brand" href="${createLink(uri: '/')}">CaPSIDv${grailsApplication.metadata.'app.version'}</a>
 					
 					<sec:ifLoggedIn>
+					<g:set var="user" value="${User.findByUsername(sec?.username())}" />
 					<div class="modal hide fade" id="add-bookmark-modal" style="display: none;">
 				        <div class="modal-header">
 				          <a data-dismiss="modal" class="close">×</a>
 				          <h3>Add Bookmark</h3>
 				        </div>
-				        <g:form controller="user" action="add_bookmark" id="${user?.username}" class="form-horizontal" style="margin:0">
+				        <g:form controller="user" action="add_bookmark" id="${sec.username()}" class="form-horizontal" style="margin:0">
 					        <fieldset>
 						    
 				        	<div class="modal-body">
@@ -86,9 +86,9 @@
 					                <li>
 						                <a href="#" data-target="#add-bookmark-modal" data-toggle="modal" id="add-bookmark"><i class="icon-plus"></i> Add Bookmark</a>
 									</li>
-					                <li><g:link controller="user" action="show" id="${user.username}"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
+					                <li><g:link controller="user" action="show" id="${sec.username()}"><i class="icon-book"></i> Organize Bookmarks</g:link></li>
 					                <li class="divider"></li>
-					                <g:each var="bookmark" in="${user.bookmarks}">
+					                <g:each var="bookmark" in="${user?.bookmarks ?: []}">
 					                	<li><a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a></li>
 					            	</g:each>
 					            </ul>
