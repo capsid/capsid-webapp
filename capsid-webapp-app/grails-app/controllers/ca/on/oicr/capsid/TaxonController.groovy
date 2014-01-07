@@ -30,7 +30,6 @@ class TaxonController {
     			return difference;
     		}.collect { it.right - it.left }
 
-    		log.info("result: " + result);
     		render result as JSON  
 
     	} else if (params.ancestors) {
