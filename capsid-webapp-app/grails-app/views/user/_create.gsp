@@ -7,7 +7,7 @@
 		<div class="controls">
 			<g:hiddenField name="is_admin" id="is_admin" value="${params.is_admin?:false}" />			
 			<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_admin">
-				<button type="button" value="false" class="btn"><i class="icon-user"></i> User</button>
+				<button type="button" value="false" class="btn active"><i class="icon-user"></i> User</button>
 				<button rel="tooltip" title="Make this user a CaPSID administrator" type="button" value="true" class="btn"><i class="icon-lock"></i> Admin</button>
 			</div>
 		</div>
@@ -18,7 +18,7 @@
 			<g:hiddenField name="is_ldap" id="is_ldap" value="${params.is_ldap?:false}" />
 			
 			<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="is_ldap">
-				<button rel="tooltip" title="CaPSID will use the Database for authorization" type="button" value="false" class="btn">No</button>
+				<button rel="tooltip" title="CaPSID will use the Database for authorization" type="button" value="false" class="btn active">No</button>
 				<button rel="tooltip" title="CaPSID will use LDAP for authorization" type="button" value="true" class="btn">LDAP</button>
 			</div>
 		</div>

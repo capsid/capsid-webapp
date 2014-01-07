@@ -83,7 +83,7 @@ class UserController {
           UserRole.create userInstance, roleInstance, 'user'
         }
 
-        if (!params.is_ldap.toBoolean()) {
+        if (!params.is_ldap.toBoolean() && userInstance.email) {
             sendMail {
                 to userInstance.email
                 subject "[capsid] CaPSID User Created"

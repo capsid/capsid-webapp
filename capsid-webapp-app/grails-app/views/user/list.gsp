@@ -23,7 +23,7 @@
 				            <fieldset>
 								<g:form class="form-horizontal" action="save" style="margin:0">
 									<fieldset>
-							            <g:render template="/user/create" model="[userInstance: new User(params)]"/>
+							            <g:render template="create" model="[userInstance: new User(params)]" layout="none"/>
 							       	</fieldset>
 								</g:form>
 							</fieldset>
