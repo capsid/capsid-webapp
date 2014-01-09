@@ -14,10 +14,20 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the sample controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class SampleController {
 
+    /**
+     * The allowed methods.
+     */
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+
+    /**
+     * Navigation and menu data.
+     */
 	static navigation = [
         group:'sample', 
         order:10, 
@@ -25,13 +35,34 @@ class SampleController {
         action:'list'
     ]
 
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the SampleService.
+     */
     def sampleService
+
+    /**
+     * Dependency injection for the AlignmentService.
+     */
     def alignmentService
+
+    /**
+     * Dependency injection for the StatsService.
+     */
     def statsService
 
+    /**
+     * The index action. Redirects to the list action. 
+     */
     def index() { redirect action: 'list', params: params }
 
+    /**
+     * The list action. 
+     */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 
@@ -40,6 +71,9 @@ class SampleController {
         [samples: samples]
     }
 
+    /**
+     * The show action. 
+     */
     def show() {
 
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
@@ -64,11 +98,17 @@ class SampleController {
         model
     }
 
+    /**
+     * The create action. 
+     */
     def create() { 
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
         [sampleInstance: new Sample(params)] 
     }
 
+    /**
+     * The save action. 
+     */
 	def save() {
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])	
         Sample sampleInstance = new Sample(params)
@@ -82,10 +122,16 @@ class SampleController {
         redirect action: 'show', id: sampleInstance.name
     }
 
+    /**
+     * The edit action. 
+     */
     def edit() {
         findModel()
 	}
 
+    /**
+     * The update action. 
+     */
     def update() {
         Map model = findModel(['collaborator', 'owner'])
         Sample sampleInstance = model['sampleInstance']
@@ -103,6 +149,9 @@ class SampleController {
         redirect action: 'show', id: sampleInstance.name
 	}
 
+    /**
+     * The delete action. 
+     */
     def delete() {
         Map model = findModel(['collaborator', 'owner'])
         Sample sampleInstance = model['sampleInstance']
@@ -120,6 +169,12 @@ class SampleController {
         }
     }
 
+    /**
+     * Builds a basic model comprising the alignment, sample, and project in a basic map
+     * that can be extended after return. 
+     * 
+     * @return Map containing the model.
+     */
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
 
         Project projectInstance = Project.findByLabel(params.projectLabel)
@@ -135,12 +190,21 @@ class SampleController {
         }
 	}
 
+    /**
+     * Checks authorization and redirects to the login denied page if not.
+     */
 	private void authorize(def auth, List access) {
 		if (!authService.authorize(auth, access)) {
 		  render view: '../login/denied'
 		}
 	}
 
+    /**
+     * Checks the stored object version for optimistic locking control.
+     * 
+     * @param alignmentInstance the alignment. 
+     * @param params the received new form values.
+     */
     private void checkVersion(Sample sampleInstance, def params) {
         if (params.version) {
             Long version = params.version.toLong()

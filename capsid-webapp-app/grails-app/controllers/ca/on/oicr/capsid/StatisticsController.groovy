@@ -12,10 +12,20 @@ package ca.on.oicr.capsid
 
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the statistics controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class StatisticsController {
 
+    /**
+     * Enable scaffolding.
+     */
 	static scaffold = true
+
+    /**
+     * Navigation and menu data.
+     */
 	static navigation = [
 		group:'statistics', 
 		order:10, 
@@ -23,6 +33,9 @@ class StatisticsController {
 		action:'list'
 	]
 
+    /**
+     * The list action. 
+     */
 	def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [statisticsInstanceList: Statistics.list(params), statisticsInstanceTotal: Statistics.count()]

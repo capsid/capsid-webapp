@@ -13,12 +13,15 @@ package ca.on.oicr.capsid
 import grails.converters.JSON
 
 /**
- * This is primarily a controller for some of the api associated with taxonomy data.
+ * Controller class for the taxon controller.
  */
 class TaxonController {
 
 	/**
-	 * Main API entry point.
+	 * The api action.
+     * 
+     * If the parent parameter is set, returns JSON for all the child taxa. If the
+     * ancestors parameter is set, returns JSON for all the ancestor taxa. 
 	 */
     def api() {
 

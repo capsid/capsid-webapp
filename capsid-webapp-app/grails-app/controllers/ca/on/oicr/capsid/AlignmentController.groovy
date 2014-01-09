@@ -14,18 +14,45 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the alignment controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class AlignmentController {
 
+    /**
+     * The allowed methods.
+     */
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
 
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the AlignmentService.
+     */
     def alignmentService
+
+    /**
+     * Dependency injection for the StatsService.
+     */
 	def statsService
+
+    /**
+     * Dependency injection for the SampleService.
+     */
     def sampleService
 
+    /**
+     * The index action. Redirects to the list action. 
+     */
     def index() { redirect action: 'list', params: params }
 
+    /**
+     * The list action.
+     */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = alignmentService.list params
@@ -41,6 +68,9 @@ class AlignmentController {
         }
     }
 
+    /**
+     * The show action.
+     */
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageAvg"
@@ -62,10 +92,16 @@ class AlignmentController {
         model
     }
 
+    /**
+     * The create action.
+     */
     def create() { 
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
         [alignmentInstance: new Alignment(params)] }
 
+    /**
+     * The save action.
+     */
 	def save() {
 	    Alignment alignmentInstance = new Alignment(params)
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
@@ -79,11 +115,17 @@ class AlignmentController {
         redirect action: 'show', id: alignmentInstance.name
     }
 
+    /**
+     * The edit action.
+     */
     def edit() {
         Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
         [alignmentInstance: alignmentInstance]
 	}
 
+    /**
+     * The update action.
+     */
     def update() {
         Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
@@ -100,6 +142,9 @@ class AlignmentController {
         redirect action: 'show', id: alignmentInstance.name
 	}
 
+    /**
+     * The delete action.
+     */
     def delete() {
         Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
@@ -116,6 +161,9 @@ class AlignmentController {
         }
     }
 
+    /**
+     * The taxonomy action.
+     */
     def taxonomy() {
         Map model = findModel()
         Alignment alignmentInstance = model.alignmentInstance
@@ -123,6 +171,12 @@ class AlignmentController {
         render(contentType: "application/json", text: alignmentInstance.gra.toString())
     }
 
+    /**
+     * Builds a basic model comprising the alignment, sample, and project in a basic map
+     * that can be extended after return. 
+     * 
+     * @return Map containing the model.
+     */
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
 
         Project projectInstance = Project.findByLabel(params.projectLabel)
@@ -140,12 +194,21 @@ class AlignmentController {
 		[alignmentInstance: alignmentInstance, sampleInstance: sampleInstance, projectInstance: projectInstance]
 	}
 
+    /**
+     * Checks authorization and redirects to the login denied page if not.
+     */
 	private void authorize(def auth, List access) {
 		if (!authService.authorize(auth, access)) {
 		  render view: '../login/denied'
 		}
 	}
 
+    /**
+     * Checks the stored object version for optimistic locking control.
+     * 
+     * @param alignmentInstance the alignment. 
+     * @param params the received new form values.
+     */
     private void checkVersion(Alignment alignmentInstance, def params) {
         if (params.version) {
             Long version = params.version.toLong()

@@ -20,17 +20,45 @@ import com.mongodb.BasicDBObject
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the browser controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class BrowseController {
 
+  /**
+   * Dependency injection for the AuthService.
+   */
   def authService
+
+  /**
+   * Dependency injection for the ProjectService.
+   */
   def projectService
+
+  /**
+   * Dependency injection for the GenomeService.
+   */
   def genomeService
+
+  /**
+   * Dependency injection for the MappedService.
+   */
   def mappedService
+
+  /**
+   * Dependency injection for the SampleService.
+   */
   def sampleService
 
+  /**
+   * The index action. Redirects to the list action. 
+   */
   def index = {redirect(action: "show", params: params)}
 
+  /**
+   * The show action.
+   */
   def show = {
     String accession = params.id
     assert accession != null
@@ -58,6 +86,11 @@ class BrowseController {
     return model
   }
 
+  /**
+   * The apiGeneTrack action.
+   * 
+   * Called when the action has its track parameter set to 'gene'.
+   */
   def apiGeneTrack() {
 
     String segment = params.segment
@@ -88,6 +121,11 @@ class BrowseController {
     }
   }
 
+  /**
+   * The apiFeatureTrack action handler method.
+   * 
+   * Called when the action has its track parameter set to 'feature'.
+   */
   def apiFeatureTrack() {
 
     String segment = params.segment
@@ -128,6 +166,9 @@ class BrowseController {
     }
   }
 
+  /**
+   * The api action.
+   */
   def api = {
     if (params.track == 'gene') {
       apiGeneTrack();

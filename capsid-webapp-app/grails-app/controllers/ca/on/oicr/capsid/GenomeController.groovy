@@ -14,9 +14,15 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the genome controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class GenomeController {
 
+    /**
+     * Navigation and menu data.
+     */
     static navigation = [
         group:'genome', 
         order:10, 
@@ -24,13 +30,34 @@ class GenomeController {
         action:'list'
     ]
 
+    /**
+     * Dependency injection for the GenomeService.
+     */
     def genomeService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
     def projectService
+
+    /**
+     * Dependency injection for the FeatureService.
+     */
     def featureService
+
+    /**
+     * Dependency injection for the StatsService.
+     */
     def statsService
 
+    /**
+     * The index action. Redirects to the list action. 
+     */
     def index() { redirect action: 'list', params: params }
 
+    /**
+     * The list action.
+     */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "sampleCount"
@@ -41,6 +68,9 @@ class GenomeController {
         [genomes: genomes]
     }
 
+    /**
+     * The show action.
+     */
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageAvg"
@@ -68,6 +98,9 @@ class GenomeController {
          features: features]
     }
 
+    /**
+     * Finds a genome instance using the specified identifier in the form parameters. 
+     */
 	private Genome findInstance() {
 		Genome genomeInstance = genomeService.get(params.id)
 		if (!genomeInstance) {

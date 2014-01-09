@@ -14,10 +14,20 @@ import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Controller class for the project controller. 
+ */
 @Secured(['ROLE_CAPSID'])
 class ProjectController {
 
+    /**
+     * The allowed methods.
+     */
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+
+    /**
+     * Navigation and menu data.
+     */
 	static navigation = [
 		group:'project',
 		order:10,
@@ -25,14 +35,39 @@ class ProjectController {
 		action:'list'
 	]
 	
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
     def projectService
+
+    /**
+     * Dependency injection for the SampleService.
+     */
     def sampleService
+
+    /**
+     * Dependency injection for the StatsService.
+     */
     def statsService
+
+    /**
+     * Dependency injection for the UserService.
+     */
     def userService
 	
+    /**
+     * The index action. Redirects to the list action. 
+     */
     def index() { redirect action: 'list', params: params }
 
+    /**
+     * The list action. 
+     */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List projects = projectService.list params
@@ -44,6 +79,9 @@ class ProjectController {
 		[projects: projects]
     }
 
+    /**
+     * The show action. 
+     */
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         params.sort = params.sort ?: "geneCoverageAvg"
@@ -64,11 +102,17 @@ class ProjectController {
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 
+    /**
+     * The create action. 
+     */
     def create() { 
         isCapsidAdmin()
         [projectInstance: new Project(params)] 
     }
 
+    /**
+     * The save action. 
+     */
 	def save() {
         isCapsidAdmin()
 	    Project projectInstance = new Project(params)
@@ -100,6 +144,9 @@ class ProjectController {
         redirect action: 'show', id: projectInstance.label 
     }
 
+    /**
+     * The edit action. 
+     */
     def edit() {
         Project projectInstance = findInstance()
         
@@ -109,6 +156,9 @@ class ProjectController {
         [projectInstance: projectInstance, userRoles: userRoles, unassignedUsers: unassignedUsers as JSON]
 	}
 
+    /**
+     * The update action. 
+     */
     def update() {
         Project projectInstance = findInstance()
 
@@ -131,6 +181,9 @@ class ProjectController {
         redirect action: 'show', id: projectInstance.label
 	}
 
+    /**
+     * The delete action. 
+     */
     def delete() {
         Project projectInstance = findInstance()
 
@@ -147,6 +200,9 @@ class ProjectController {
         }
     }
 
+    /**
+     * Finds a project instance using the specified identifier in the form parameters. 
+     */
 	private Project findInstance() {
 		Project projectInstance = projectService.get(params.id)
 		authorize(projectInstance, ['user', 'collaborator', 'owner'])
@@ -157,12 +213,21 @@ class ProjectController {
 		projectInstance
 	}
 
+    /**
+     * Checks authorization and redirects to the login denied page if not.
+     */
 	private void authorize(def auth, List access) {
 		if (!authService.authorize(auth, access)) {
 		  render view: '../login/denied'
 		}
 	}
 
+    /**
+     * Checks the stored object version for optimistic locking control.
+     * 
+     * @param alignmentInstance the alignment. 
+     * @param params the received new form values.
+     */
     private void checkVersion(Project projectInstance, def params) {
         if (params.version) {
             Long version = params.version.toLong()
@@ -176,6 +241,9 @@ class ProjectController {
         }
     } 
 
+    /**
+     * Checks if an administrator and redirects to the login denied page if not.
+     */
 	private boolean isCapsidAdmin() {
 		if (!authService.isCapsidAdmin()) {
 		  render view: '../login/denied'

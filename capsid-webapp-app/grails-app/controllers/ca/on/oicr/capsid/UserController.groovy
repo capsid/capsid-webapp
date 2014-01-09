@@ -16,17 +16,40 @@ import grails.plugins.springsecurity.Secured
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.bson.types.ObjectId
 
+/**
+ * Controller class for the user controller.
+ */
 @Secured(['ROLE_CAPSID'])
 class UserController {
 
+    /**
+     * The allowed methods.
+     */
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
 
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the UserService.
+     */
     def userService
+
+    /**
+     * Dependency injection for the SpringSecurityService.
+     */
 	def springSecurityService
 
+    /**
+     * The index action. Redirects to the list action. 
+     */
     def index() { redirect action: 'list', params: params }
 
+    /**
+     * The list action. 
+     */
     def list() {
         isCapsidAdmin()
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
@@ -43,6 +66,9 @@ class UserController {
         }
     }
 
+    /**
+     * The show action. 
+     */
     def show() {
         User userInstance = findInstance()
         isCurrentUser(userInstance)
@@ -53,11 +79,17 @@ class UserController {
         }
     }
 
+    /**
+     * The create action. 
+     */
     def create() {
         isCapsidAdmin()
         [userInstance: new User(params)] 
     }
 
+    /**
+     * The save action. 
+     */
 	def save() {
         isCapsidAdmin()
 
@@ -95,11 +127,17 @@ class UserController {
         redirect action: 'list'
     }
 
+    /**
+     * The edit action. 
+     */
     def edit() {
         User userInstance = findInstance()
         [userInstance: userInstance, admin: authService.isCapsidAdmin(userInstance)]
 	}
 
+    /**
+     * The update action. 
+     */
     def update() {
         User userInstance = findInstance()
 
@@ -116,6 +154,9 @@ class UserController {
         redirect action: 'show', id: userInstance.username
 	}
 
+    /**
+     * The update_status action. 
+     */
     def update_status() {
         User userInstance = findInstance()
 
@@ -143,6 +184,9 @@ class UserController {
         redirect action: 'list'
     }
 
+    /**
+     * The add_bookmark action. 
+     */
     def add_bookmark() {
         User userInstance = findInstance()
 		Map bookmark = [title: params.title, address: params.address, _id: new ObjectId()]
@@ -157,6 +201,9 @@ class UserController {
         render bookmark as JSON
     }
 
+    /**
+     * The remove_bookmark action. 
+     */
     def remove_bookmark() {
         User userInstance = findInstance()
         
@@ -166,6 +213,9 @@ class UserController {
         render userInstance.bookmarks as JSON
     }
 
+    /**
+     * The delete action. 
+     */
     def delete() {
         User userInstance = findInstance()
 
@@ -182,11 +232,17 @@ class UserController {
         }
     }
 
+    /**
+     * The unassigned action. 
+     */
     def unassigned() {
         Set users = userService.unassigned params
         render users as JSON
     }
 
+    /**
+     * The promote action. 
+     */
     def promote() {
         Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
         User userInstance = User.findByUsername(params.username)
@@ -196,6 +252,9 @@ class UserController {
         render template:"/project/user", model:[username:params.username, label:params.id]
     }
 
+    /**
+     * The demote action. 
+     */
     def demote() {
         Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
         User userInstance = User.findByUsername(params.username)
@@ -204,6 +263,9 @@ class UserController {
         render userInstance as JSON
     }
 
+    /**
+     * Finds a user instance using the specified identifier in the form parameters. 
+     */
 	private User findInstance() {
 		User userInstance = userService.get(params.id)
 		authorize(userInstance)
@@ -214,12 +276,21 @@ class UserController {
 		userInstance
 	}
 
+    /**
+     * Checks authorization and redirects to the login denied page if not.
+     */
 	private void authorize(def auth) {
 		if (!authService.authorize(auth)) {
 		  render view: '../login/denied'
 		}
 	}
 
+    /**
+     * Checks the stored object version for optimistic locking control.
+     * 
+     * @param alignmentInstance the alignment. 
+     * @param params the received new form values.
+     */
     private void checkVersion(User userInstance, def params) {
         if (params.version) {
             Long version = params.version.toLong()
@@ -233,17 +304,21 @@ class UserController {
         }
     } 
 
+    /**
+     * Checks if adminstrator and redirects to the login denied page if not.
+     */
     private void isCapsidAdmin() {
         if (!authService.isCapsidAdmin()) {
           render view: '../login/denied'
         }
     }
 
+    /**
+     * Checks if the current user and redirects to the login denied page if not.
+     */
     private void isCurrentUser(User userInstance) {
         if (!authService.isCurrentUser(userInstance)) {
           render view: '../login/denied'
         }
     }
-
-
 }
