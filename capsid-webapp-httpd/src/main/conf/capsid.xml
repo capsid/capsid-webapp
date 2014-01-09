@@ -5,7 +5,7 @@
     <Call name="addConnector">
         <Arg>
             <New class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                <Set name="port">8080</Set>
+                <Set name="port">3000</Set>
                 <Set name="forwarded">true</Set>
 
                 <!-- Uncomment this if using SSL
@@ -38,7 +38,7 @@
 
     <New id="webApp" class="org.eclipse.jetty.webapp.WebAppContext">
         <Set name="contextPath">/</Set>
-        <Set name="war">${project.build.directory}/capsid-webapp-app-${project.version}.war</Set>
+        <Set name="war">/usr/share/capsid/lib/capsid-webapp-app-${project.version}.war</Set>
     </New>
     
     <Set name="handler"><Ref id="webApp"/></Set>
