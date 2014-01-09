@@ -12,22 +12,79 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
+/**
+ * A genome.
+ */
 class Genome {
 
+    /**
+     * Unique identifier.
+     */
     ObjectId id
+
+    /**
+     * The taxonomy, a path of ancestors.
+     */
     List<String> taxonomy
+
+    /**
+     * List of associated samples.
+     */
     List<ObjectId> samples
+
+    /**
+     * Count of associated samples.
+     */
     Integer sampleCount
+
+    /**
+     * Accession string.
+     */
     String accession
+
+    /**
+     * Version string.
+     */
     String version
+
+    /**
+     * Genome name.
+     */
     String name
+
+    /**
+     * Genome strand.
+     */
     String strand
+
+    /**
+     * Genome length.
+     */
     Long length
+
+    /**
+     * Genome numeric identifier.
+     */
     Long gi
+
+    /**
+     * Organism name.
+     */
     String organism
 
+    /**
+     * Use MongoDB for mapping.
+     */
     static mapWith = "mongo"
+
+    /**
+     * Define the field constraints.
+     */
     static constraints = {}
+
+    /**
+     * Mapping attributes.
+     */
     static mapping = {
         version false
         stateless true

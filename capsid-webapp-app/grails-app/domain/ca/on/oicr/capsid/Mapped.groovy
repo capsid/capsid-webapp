@@ -12,47 +12,166 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
+/**
+ * A mapped read.
+ */
 class Mapped {
 
-	ObjectId id
-	String readId
-        Float avgQual
-        Float minQual
-        Integer mapq
-        Integer miscalls
-        Integer mismatch
-        Integer refStrand
-        Integer readLength
-        Integer alignLength
-        Integer refStart
-        Integer refEnd
-        String sequencingType
-        String platform
-        List mapsGene
-        String sequence
-        Integer alignScore
-        String MD
-        String PG
+    /**
+     * Unique identifier.
+     */
+    ObjectId id
 
-	Long genome
-	ObjectId alignmentId
-	ObjectId projectId
-	ObjectId sampleId
+    /**
+     * Read identifier.
+     */
+    String readId
 
-        String alignment
-        String projectLabel
-        String sample
+    /**
+     * Average quality.
+     */
+    Float avgQual
 
-        static mapWith = "mongo"
-	static constraints = {
+    /**
+     * Minimum quality.
+     */
+    Float minQual
+
+    /**
+     * The mapq value.
+     */
+    Integer mapq
+
+    /**
+     * Number of miscalls.
+     */
+    Integer miscalls
+
+    /**
+     * Number of mismatches.
+     */
+    Integer mismatch
+
+    /**
+     * Reference strand.
+     */
+    Integer refStrand
+
+    /**
+     * Read length.
+     */
+    Integer readLength
+
+    /**
+     * Aligned length.
+     */
+    Integer alignLength
+
+    /**
+     * Start position on the reference.
+     */
+    Integer refStart
+
+    /**
+     * End position on the reference.
+     */
+    Integer refEnd
+
+    /**
+     * Sequencing type.
+     */
+    String sequencingType
+
+    /**
+     * Sequencing platform.
+     */
+    String platform
+
+    /**
+     * List of mapped genes.
+     */
+    List mapsGene
+
+    /**
+     * The actual sequence.
+     */
+    String sequence
+
+    /**
+     * Alignment score.
+     */
+    Integer alignScore
+
+    /**
+     * The MD value.
+     */
+    String MD
+
+    /**
+     * The PG value.
+     */
+    String PG
+
+    /**
+     * Genome identifier.
+     */
+    Long genome
+
+    /**
+     * Reference to the alignment.
+     */
+    ObjectId alignmentId
+
+    /**
+     * Reference to the project.
+     */
+    ObjectId projectId
+
+    /**
+     * Reference to the sample.
+     */
+    ObjectId sampleId
+
+    /**
+     * Alignment name.
+     */
+    String alignment
+
+    /**
+     * Project label.
+     */
+    String projectLabel
+
+    /**
+     * Sample name.
+     */
+    String sample
+
+    /**
+     * Use MongoDB for mapping.
+     */
+    static mapWith = "mongo"
+
+    /**
+     * Define the field constraints.
+     */
+    static constraints = {
                 
-        }
-	static mapping = {
-                cache true
-                version false
-                stateless true
-        }
-	static namedQueries = {
+    }
 
-        }
+    /**
+     * Mapping attributes.
+     */
+    static mapping = {
+            cache true
+            version false
+            stateless true
+    }
+
+    /**
+     * Named queries.
+     */
+    static namedQueries = {
+
+    }
 }

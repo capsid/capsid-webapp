@@ -14,13 +14,30 @@ import org.bson.types.ObjectId
 
 class Role {
 	
+	/**
+	 * Unique identifier.
+	 */
 	ObjectId id
+
+	/**
+	 * String authority name for authorization.
+	 */
 	String authority
 	
+    /**
+     * Define the field constraints.
+     */
 	static constraints = {
 		authority blank: false, unique: true
 	}
 
+	/**
+	 * Use MongoDB for mapping.
+	 */
 	static mapWith = "mongo"
+
+    /**
+     * Mapping attributes.
+     */
 	static mapping = { cache true }
 }

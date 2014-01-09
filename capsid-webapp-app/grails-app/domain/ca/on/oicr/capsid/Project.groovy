@@ -12,13 +12,39 @@ package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
 
+/**
+ * A project.
+ */
 class Project {
 
+    /**
+     * Unique identifier.
+     */
     ObjectId id
+
+    /**
+     * The project name.
+     */
     String name
+
+    /**
+     * The project label.
+     */
     String label
+
+    /**
+     * The project description.
+     */
     String description
+
+    /**
+     * Link to the project.
+     */
     String wikiLink
+
+    /**
+     * A set of roles for authorization.
+     */
     Set roles
 
     static constraints = {
@@ -29,7 +55,18 @@ class Project {
         roles blank:false, display:false, editable: false
     }
 
+    /**
+     * Use MongoDB for mapping.
+     */
     static mapWith = "mongo"
+
+    /**
+     * Mapping attributes.
+     */
     static mapping = {}
+
+    /**
+     * Named queries.
+     */
     static namedQueries = {}
 }
