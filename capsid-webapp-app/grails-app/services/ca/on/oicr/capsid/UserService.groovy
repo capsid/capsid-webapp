@@ -10,17 +10,42 @@
 
 package ca.on.oicr.capsid
 
+/**
+ * Service to handle user data access. 
+ */
 class UserService {
 
+  /**
+   * Don't use transactions. 
+   */
   static transactional = false
 
+  /**
+   * Dependency injection for the AuthService.
+   */
   def authService
+
+  /**
+   * Dependency injection for the SpringSecurityService.
+   */
   def springSecurityService
 
+  /**
+   * Finds a requested user
+   *
+   * @param username the user's username.
+   * @return the user.
+   */
   User get(String username) {
 	  User.findByUsername username
 	}
   
+  /**
+   * Finds all users matching the given criteria
+   *
+   * @param params a map of the search criteria from the original request.
+   * @return a list of users.
+   */
   List list(Map params) {
 	  def criteria = User.createCriteria()
 	  
@@ -44,6 +69,12 @@ class UserService {
 	  return results
   }
   
+  /**
+   * Updates a specified user and saves it, handling roles and reauthentication when needed.
+   * 
+   * @param user the specified user
+   * @param params a map of the new values
+   */
   void update(User user, Map params) {
     user.properties = params
 
@@ -61,6 +92,12 @@ class UserService {
     }
   }
 
+  /**
+   * Updates a specified user's password and saves it, handling roles and reauthentication when needed.
+   * 
+   * @param user the specified user
+   * @param params a map of the new values
+   */
   boolean changePassword(User user, Map params) {
     String old = springSecurityService.encodePassword(params.old)
     String password = springSecurityService.encodePassword(params.password)
@@ -76,12 +113,17 @@ class UserService {
     false
   }
 
+  /**
+   * Finds a list of unassigned roles. 
+   * 
+   * @param params a map of the form values
+   */
   Set unassigned(Map params) {
     Role roleInstance = Role.findByAuthority('ROLE_' + params.id.toUpperCase())
     Set roles = UserRole.findAll().user.username
-	if (roleInstance) {
-		roles = roles.minus(UserRole.findAllByRole(roleInstance).user.username)
-	}
-	roles
+	  if (roleInstance) {
+		  roles = roles.minus(UserRole.findAllByRole(roleInstance).user.username)
+	  }
+	  roles
   }    
 }

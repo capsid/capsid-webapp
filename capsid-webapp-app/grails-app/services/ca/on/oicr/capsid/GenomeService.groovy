@@ -12,14 +12,31 @@ package ca.on.oicr.capsid
 
 import java.lang.Math
 
+/**
+ * Service to handle genome data access. 
+ */
 class GenomeService {
 
+    /**
+     * Don't use transactions. 
+     */
     static transactional = false
 
+    /**
+     * Find a genome by accession identifier. 
+     * 
+     * @return a the specified genome.
+     */
     Genome get(String accession) {
         Genome.findByAccession accession
     }
 
+    /**
+     * Finds all genomes matching the given criteria
+     *
+     * @param params a map of the search criteria from the original request.
+     * @return a list of genomes.
+     */
     List list(Map params) {
 		def criteria = Genome.createCriteria()
 
@@ -83,7 +100,15 @@ class GenomeService {
 		return results
 	}
 
-	// Calculate and build a histogram for the gene data across the region.
+	/**
+	 * Calculate and build a histogram for the gene data across the region.
+	 * 
+	 * @param genome the specified genome
+	 * @param start start position within the genome.
+	 * @param end end position within the genome.
+	 * @param interval interval size.
+	 * @return a list of histogram buckets.
+	 */
 	def getHistogramRegion(Genome genome, Integer start, Integer end, Integer interval) {
 
         Integer histogramCount = Math.ceil((end - start) / interval).toInteger()
@@ -116,7 +141,14 @@ class GenomeService {
         return result
 	}
 
-	// Calculate and build a histogram for the gene data across the region.
+	/**
+	 * Retrieve the feature data across the region.
+	 * 
+	 * @param genome the specified genome
+	 * @param start start position within the genome.
+	 * @param end end position within the genome.
+	 * @return a list of feature data records.
+	 */
 	def getGenesRegion(Genome genome, Integer start, Integer end) {
 
 		def criteria = Feature.createCriteria();

@@ -12,17 +12,42 @@ package ca.on.oicr.capsid
 
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Service to handle project data access. 
+ */
 class ProjectService {
 
+  /**
+   * Don't use transactions. 
+   */
   static transactional = false
 
+  /**
+   * Dependency injection for the AuthService.
+   */
   def authService
+
+  /**
+   * Dependency injection for the SpringSecurityService.
+   */
   def springSecurityService
 
+  /**
+   * Finds a requested project
+   *
+   * @param label the project label.
+   * @return the project.
+   */
   Project get(label) {
 	  Project.findByLabel label
 	}
 
+  /**
+   * Finds all projects matching the given criteria
+   *
+   * @param params a map of the search criteria from the original request.
+   * @return a list of projects.
+   */
   List list(Map params) {
 	  def criteria = Project.createCriteria()
 	  
@@ -55,6 +80,11 @@ class ProjectService {
 	  }
   }
 
+  /**
+   * Returns a list of projects the current user is allowed to access.
+   * 
+   * @return a list of projects
+   */
   List<Project> getAllowedProjects() {
     if (authService.isCapsidAdmin()) {
       Project.list()
@@ -63,6 +93,11 @@ class ProjectService {
     }
   }
 
+  /**
+   * Deletes data associated with a given project.
+   * 
+   * @param label the project label.
+   */
   void delete(String label) {
     // Delete the ACL information as well
     Role role = Role.findByAuthority('ROLE_' + label.toUpperCase())

@@ -16,17 +16,43 @@ import java.util.Map;
 import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Service to handle sample data access. 
+ */
 class SampleService {
 
+    /**
+     * Don't use transactions. 
+     */
     static transactional = false
 
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
     def projectService
 
+    /**
+     * Finds a requested sample
+     *
+     * @param name the sample name.
+     * @param projectId the project identifier.
+     * @return the sample.
+     */
     Sample get(String name, ObjectId projectId) {
         Sample.findByNameAndProjectId name, projectId
     }
 
+    /**
+     * Finds all samples matching the given criteria
+     *
+     * @param params a map of the search criteria from the original request.
+     * @return a list of samples.
+     */
 	List list(Map params) {
 		def criteria = Sample.createCriteria()
 
@@ -98,14 +124,11 @@ class SampleService {
 		return results
 	}
 
-    List<Sample> getAllowedSamples() {
-        if (authService.isCapsidAdmin()) {
-            Sample.list()
-        } else {
-            Sample.security(projectService.getAllowedProjects()?.label)?.list()
-        }
-    }
-
+    /**
+     * Deletes data associated with a given sample.
+     * 
+     * @param sample the sample to delete associated data for. 
+     */
     void delete(String sample) {
         Alignment.findAllBySample(sample).each { it.delete(flush: true) }
         Mapped.findAllBySample(sample).each { it.delete(flush: true) }

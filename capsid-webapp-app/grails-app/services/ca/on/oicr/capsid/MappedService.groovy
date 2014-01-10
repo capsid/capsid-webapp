@@ -13,18 +13,42 @@ package ca.on.oicr.capsid
 import groovy.time.*
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Service to handle mapped read data access. 
+ */
 class MappedService {
 
+    /**
+     * Don't use transactions. 
+     */
     static transactional = false
 
-    def mongo
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
     def projectService
 
+    /**
+     * Finds a requested mapped read
+     *
+     * @param id the read identifier.
+     * @return the mapped read.
+     */
     Mapped get(String id) {
         Mapped.get id
     }
 
+    /**
+     * Finds other hits against a mapped read
+     *
+     * @param mappedInstance the mapped read.
+     * @return the list of mapped read records.
+     */
     ArrayList otherHits(Mapped mappedInstance) {
         return Mapped.collection.find(
           "readId": mappedInstance.readId
@@ -40,14 +64,12 @@ class MappedService {
         }
     }
 
-    List<Mapped> getAllowedMappeds() {
-        if (authService.isCapsidAdmin()) {
-            Mapped.list()
-        } else {
-            Mapped.security(projectService.getAllowedProjects()?.label)?.list()
-        }
-    }
-
+  /**
+   * Reads the split alignment for a mapped read.
+   * 
+   * @param mappedInstance the mapped read.
+   * @return a defining the split alignment.
+   */
   Map getSplitAlignment(Mapped mappedInstance) {
 
     String markUp = new String()
@@ -91,10 +113,22 @@ class MappedService {
     formatted
   }
 
+  /**
+   * Turns a sequence string into a set of buckets, splitting by semicolons.
+   * 
+   * @param a sequence string.
+   * @return a list of buckets.
+   */
   List bucket(String string) {
     string.replaceAll(/.{80}/){all -> all + ';'}.split(';')
   }
 
+  /**
+   * Build overlapping read information for a mapped read.
+   * 
+   * @param mappedInstance the mapped read.
+   * @return a list of reads.
+   */
   ArrayList getOverlappingReads(Mapped mappedInstance) {
     ArrayList reads = []
     int start = mappedInstance.refStart
@@ -128,6 +162,13 @@ class MappedService {
     reads.sort{it.refStart}
   }
 
+  /**
+   * Build config information for a set of reads.
+   * 
+   * @param reads a list of reads
+   * @param mappedInstance the mapped read.
+   * @return a list of contig info records.
+   */
   List getContig(ArrayList reads, Mapped mappedInstance) {
 
     Map seq_array = [:]
@@ -152,7 +193,15 @@ class MappedService {
     seq_array.collect { it.value }
   }
 
-  // Calculate and build a histogram for the gene data across the region.
+  /**
+   * Calculate and build a histogram for the gene data across the region.
+   * 
+   * @param genome the specified genome
+   * @param start start position within the genome.
+   * @param end end position within the genome.
+   * @param interval interval size.
+   * @return a list of histogram buckets.
+   */
   def getHistogramRegion(Genome genome, Sample sample, Integer start, Integer end, Integer interval) {
 
     Integer histogramCount = Math.ceil((end - start) / interval).toInteger()
@@ -186,7 +235,15 @@ class MappedService {
   }
 
 
-  // Calculate and build a histogram for the read data across the region.
+  /**
+   * Retrieve the mapped read data across the region.
+   * 
+   * @param genome the specified genome
+   * @param sample the specified sample
+   * @param start start position within the genome.
+   * @param end end position within the genome.
+   * @return a list of mapped read data records.
+   */
   def getMappedRegion(Genome genome, Sample sample, Integer start, Integer end) {
 
     def criteria = Mapped.createCriteria();

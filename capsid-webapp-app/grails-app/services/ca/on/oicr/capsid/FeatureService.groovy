@@ -10,14 +10,32 @@
 
 package ca.on.oicr.capsid
 
+/**
+ * Service to handle feature data access. 
+ */
 class FeatureService {
 
+    /**
+     * Don't use transactions. 
+     */
     static transactional = false
 
+    /**
+     * Finds a requested feature
+     *
+     * @param uid the feature unique identifier.
+     * @return the feature.
+     */
     Feature get(String uid) {
         Feature.findByUid uid
     }
 
+    /**
+     * Finds all features matching the given criteria
+     *
+     * @param params a map of the search criteria from the original request.
+     * @return a list of features.
+     */
     List list(Map params) {
 		def criteria = Feature.createCriteria()
 		

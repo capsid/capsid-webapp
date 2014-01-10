@@ -13,14 +13,39 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Service to handle alignment data access. 
+ */
 class AlignmentService {
 
+    /**
+     * Don't use transactions. 
+     */
     static transactional = false
 
+    /**
+     * Dependency injection for the AuthService.
+     */
     def authService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
     def projectService
+
+    /**
+     * Dependency injection for the SpringSecurityService.
+     */
     def springSecurityService
 
+    /**
+     * Finds a requested alignment
+     *
+     * @param name the alignment name.
+     * @param projectId the project identifier.
+     * @param sampleId the sample identifier
+     * @return the alignment.
+     */
     Alignment get(String name, ObjectId projectId, ObjectId sampleId) {
         return Alignment.createCriteria().get {
             eq("projectId", projectId)
@@ -29,6 +54,12 @@ class AlignmentService {
         }
     }
 
+    /**
+     * Finds all alignments matching the given criteria
+     *
+     * @param params a map of the search criteria from the original request.
+     * @return a list of alignments.
+     */
     List list(Map params) {
         def criteria = Alignment.createCriteria()
 
@@ -65,14 +96,11 @@ class AlignmentService {
         return results
     }
 
-    List<Alignment> getAllowedAlignments() {
-        if (authService.isCapsidAdmin()) {
-            Alignment.list()
-        } else {
-            Alignment.security(authService.getRolesWithAccess(['user', 'collaborator', 'owner'])).list()
-        }
-    }
-
+    /**
+     * Deletes all mapped reads relating to a given alignment.
+     *
+     * @param alignment the alignment to search for.
+     */
     void delete(String alignment) {
         Mapped.findAllByAlignment(alignment).each { it.delete(flush: true) }
     }

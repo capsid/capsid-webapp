@@ -13,14 +13,37 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 import grails.plugins.springsecurity.Secured
 
+/**
+ * Service to handle statistics record data access. 
+ */
 class StatsService {
 
+    /**
+     * Don't use transactions. 
+     */
 	static transactional = false
 
+    /**
+     * Dependency injection for the AuthService.
+     */
 	def authService
+
+    /**
+     * Dependency injection for the ProjectService.
+     */
 	def projectService
+
+    /**
+     * Dependency injection for the SpringSecurityService.
+     */
 	def springSecurityService
 
+    /**
+     * Finds all statistics records matching the given criteria
+     *
+     * @param params a map of the search criteria from the original request.
+     * @return a list of statistics records.
+     */
 	List list(Map params) {
 
 		// If we have a taxon identifier, we should use this as a filter. To do so, we
