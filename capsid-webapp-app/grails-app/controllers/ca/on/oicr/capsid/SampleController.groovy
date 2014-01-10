@@ -177,7 +177,9 @@ class SampleController {
      */
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
 
+        assert params.projectLabel, "Missing project label"
         Project projectInstance = Project.findByLabel(params.projectLabel)
+        assert projectInstance != null, "Can't find specified project"
         authorize(projectInstance, roles)
 
 		Sample sampleInstance = sampleService.get(params.id, projectInstance.id)
