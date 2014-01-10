@@ -53,10 +53,18 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 
-				<div class="row-fluid">
-					<div class="span6">
-						<ul class="nav nav-list">
-							<li class="nav-header">Details</li>
+				<ul id="nav-tab-controller" class="nav nav-tabs">
+					<li class="active"><a href="#details-tab" data-toggle="tab">Details</a></li>
+			    	<li><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
+			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
+				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
+			    </ul>
+
+				<div class="tab-content">
+
+					<div class="tab-pane active" id="details-tab">
+						<div class="row-fluid">
+							<h2>Details</h2>
 							<table class="table">
 								<tbody>
 								<g:if test="${sampleInstance?.cancer}">
@@ -81,18 +89,10 @@
 								</g:if>
 								</tbody>
 							</table>
-						</ul>
+						</div>
 					</div>
-				</div>
 
-				<ul id="nav-tab-controller" class="nav nav-tabs">
-			    	<li class="active"><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
-			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
-				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
-			    </ul>
-
-				<div class="tab-content">
-					<div class="tab-pane active" id="gra-tab">
+					<div class="tab-pane" id="gra-tab">
 						<div class="row-fluid">
 							<h2>Genome Relative Abundance</h2>
 							<div class="span4">
