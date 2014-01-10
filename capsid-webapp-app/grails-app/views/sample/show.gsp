@@ -37,7 +37,7 @@
 								</fieldset>
 							</g:form>
 				        </div>
-						<g:link action="edit" class="btn" id="${sampleInstance?.name}">
+						<g:link action="edit" class="btn" id="${sampleInstance?.name}" params="[projectLabel:sampleInstance.projectLabel]">
 							<i class="icon-pencil"></i>
 							<g:message code="default.button.edit.label" default="Edit" />
 						</g:link>
