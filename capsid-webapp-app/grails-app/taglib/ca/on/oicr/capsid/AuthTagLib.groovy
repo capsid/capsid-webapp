@@ -16,6 +16,7 @@ package ca.on.oicr.capsid
 */
 class AuthTagLib {
 
+    /** Set the namespace. */
     static namespace = 'auth'
 
     /** Dependency injection for AuthService. */
@@ -24,12 +25,12 @@ class AuthTagLib {
     /** Dependency injection for springSecurityService. */
     def springSecurityService
 
-/**
-* Renders the body if any of the specified roles are granted to the user. Roles are
-* specified in the 'roles' attribute which is a comma-delimited string.
-*
-* @attr roles REQUIRED the role name(s)
-*/
+    /**
+    * Renders the body if any of the specified roles are granted to the user. Roles are
+    * specified in the 'roles' attribute which is a comma-delimited string.
+    *
+    * @attr roles REQUIRED the role name(s)
+    */
     def ifAnyGranted = { attrs, body ->
         boolean access = false
         Map roles = assertAttribute('access', attrs, 'ifAnyGranted')
@@ -50,12 +51,18 @@ class AuthTagLib {
         }
     }
 
+    /**
+     * Checks if an administrator and includes the body if so.
+     */
     def ifCapsidAdmin = { attrs, body ->
         if (authService.isCapsidAdmin()) {
             out << body()
         }
     }
 
+    /**
+     * Checks if the current user matches and includes the body if so.
+     */
     def ifCurrentUser = { attrs, body ->
         String username = assertAttribute('username', attrs, 'ifCurrentUser')
         User userInstance = User.findByUsername(username)
@@ -64,6 +71,9 @@ class AuthTagLib {
         }
     }
 
+    /**
+     * Asserts that a given attribute is present.
+     */
     protected assertAttribute(String name, attrs, String tag) {
         if (!attrs.containsKey(name)) {
             throwTagError "Tag [$tag] is missing required attribute [$name]"

@@ -4,10 +4,17 @@ import org.springframework.validation.Errors
 import org.springframework.validation.FieldError
 import org.springframework.web.servlet.support.RequestContextUtils as RCU
 
+/**
+ * Bootstrap alerts tags.
+ */
 class PaginationTagLib {
 
+    /** Set the namespace. */
 	static namespace = "bootstrap"
 	
+    /**
+     * Generates a table pagination component from the given attributes.
+     */
 	def paginate = { attrs ->
 		def writer = out
         if (attrs.total == null) {
