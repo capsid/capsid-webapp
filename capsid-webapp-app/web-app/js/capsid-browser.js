@@ -149,7 +149,7 @@ function initializeGenomeViewer(genomeLength) {
 	    drawNavigationBar: false,
 	    drawChromosomePanel: false,
 	    drawKaryotypePanel: false,
-	    drawRegionOverviewPanel: true,
+	    drawRegionOverviewPanel: false,
 	    version: ''
 	});
 
