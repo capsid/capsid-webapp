@@ -104,34 +104,40 @@
 
 						<div class="tab-pane" id="samples">
 							<div class="row-fluid">
-								<h2 class="pull-left">Samples</h2>
-								<g:render template="/layouts/filter" model="${['id':projectInstance.label]}"/>
-							</div>
-							<div id="samples-results" class="results">
-								<table class="table table-striped table-condensed">
-									<thead>
-										<tr>
-											<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />
-											<g:sortableColumn params="${params}" property="description" title="${message(code: 'sample.description.label', default: 'Description')}" />
-											<g:sortableColumn params="${params}" property="cancer" title="${message(code: 'sample.cancer.label', default: 'Cancer')}" />
-											<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />								
-											<g:sortableColumn params="${params}" property="source" title="${message(code: 'sample.source.label', default: 'Source')}" />
-										</tr>
-									</thead>
-									<tbody>
-									<g:each in="${samples}" var="sampleInstance">
-										<tr>		
-											<td><g:link controller="sample" action="show" id="${sampleInstance.name}" params="${[projectLabel: sampleInstance.projectLabel]}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
-											<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
-											<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
-											<td>${fieldValue(bean: sampleInstance, field: "role")}</td>
-											<td>${fieldValue(bean: sampleInstance, field: "source")}</td>
-										</tr>
-									</g:each>
-									</tbody>
-								</table>
-								<div class="pagination">
-									<bootstrap:paginate action="show" id="${projectInstance?.label}" total="${samples.totalCount}" params="${params}" />
+
+								<div class="span2">
+									<g:render template="/layouts/filter" model="['id':projectInstance.label]"/>
+								</div>
+								<div class="span10">
+									
+									<div id="samples-table" class="results">
+										<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
+										<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />
+													<g:sortableColumn params="${params}" property="description" title="${message(code: 'sample.description.label', default: 'Description')}" />
+													<g:sortableColumn params="${params}" property="cancer" title="${message(code: 'sample.cancer.label', default: 'Cancer')}" />
+													<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />								
+													<g:sortableColumn params="${params}" property="source" title="${message(code: 'sample.source.label', default: 'Source')}" />
+												</tr>
+											</thead>
+											<tbody>
+											<g:each in="${samples}" var="sampleInstance">
+												<tr>		
+													<td><g:link controller="sample" action="show" id="${sampleInstance.name}" params="${[projectLabel: sampleInstance.projectLabel]}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
+													<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
+													<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
+													<td>${fieldValue(bean: sampleInstance, field: "role")}</td>
+													<td>${fieldValue(bean: sampleInstance, field: "source")}</td>
+												</tr>
+											</g:each>
+											</tbody>
+										</table>
+										<div class="pagination">
+											<bootstrap:paginate action="show" id="${projectInstance?.label}" total="${samples.totalCount}" params="${params}" />
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

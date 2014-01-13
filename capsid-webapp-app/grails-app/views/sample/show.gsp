@@ -143,31 +143,36 @@
 					
 					<div class="tab-pane" id="alignments-tab">
 						<div class="row-fluid">
-							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
-						</div>
-						<div id="alignments-table" class="results">
-							<table class="table table-striped table-condensed">
-								<thead>
-									<tr>
-										<g:sortableColumn params="${params}" property="name" title="${message(code: 'alignment.name.label', default: 'Name')}" />
-										<g:sortableColumn params="${params}" property="aligner" title="${message(code: 'alignment.aligner.label', default: 'Aligner')}" />
-										<g:sortableColumn params="${params}" property="platform" title="${message(code: 'alignment.platform.label', default: 'Platform')}" />
-										<g:sortableColumn params="${params}" property="type" title="${message(code: 'alignment.type.label', default: 'Type')}" />
-									</tr>
-								</thead>
-								<tbody>
-								<g:each in="${alignments}" var="alignmentInstance">
-									<tr>
-										<td><g:link controller="alignment" action="show" id="${alignmentInstance.name}" params="${[projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
-										<td>${fieldValue(bean: alignmentInstance, field: "aligner")}</td>
-										<td>${fieldValue(bean: alignmentInstance, field: "platform")}</td>
-										<td>${fieldValue(bean: alignmentInstance, field: "type")}</td>
-									</tr>
-								</g:each>
-								</tbody>
-							</table>
-							<div class="pagination">
-								<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${alignments.totalCount}" params="${params}" />
+							<div class="span2">
+								<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
+							</div>
+							<div class="span10">
+								<div id="alignments-table" class="results">
+									<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<g:sortableColumn params="${params}" property="name" title="${message(code: 'alignment.name.label', default: 'Name')}" />
+												<g:sortableColumn params="${params}" property="aligner" title="${message(code: 'alignment.aligner.label', default: 'Aligner')}" />
+												<g:sortableColumn params="${params}" property="platform" title="${message(code: 'alignment.platform.label', default: 'Platform')}" />
+												<g:sortableColumn params="${params}" property="type" title="${message(code: 'alignment.type.label', default: 'Type')}" />
+											</tr>
+										</thead>
+										<tbody>
+										<g:each in="${alignments}" var="alignmentInstance">
+											<tr>
+												<td><g:link controller="alignment" action="show" id="${alignmentInstance.name}" params="${[projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]}">${fieldValue(bean: alignmentInstance, field: "name")}</g:link></td>
+												<td>${fieldValue(bean: alignmentInstance, field: "aligner")}</td>
+												<td>${fieldValue(bean: alignmentInstance, field: "platform")}</td>
+												<td>${fieldValue(bean: alignmentInstance, field: "type")}</td>
+											</tr>
+										</g:each>
+										</tbody>
+									</table>
+									<div class="pagination">
+										<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${alignments.totalCount}" params="${params}" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

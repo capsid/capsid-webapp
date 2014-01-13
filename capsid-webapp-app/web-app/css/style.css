@@ -367,3 +367,6 @@ pre.snippet .error {
   display: table;
 }
 
+form.search {
+  width: 100%;
+}
