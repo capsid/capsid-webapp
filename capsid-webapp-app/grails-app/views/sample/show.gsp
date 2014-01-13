@@ -196,14 +196,12 @@
 
 		<g:each in="${alignments}" var="alignmentInstance" status="i">
 		<g:javascript>
-
 		addChart(${i}, "${g.createLink(
 			controller: 'alignment', 
 			action: 'taxonomy', 
 			id: alignmentInstance.name, 
 			params: [projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]
 		)}");
-
 		</g:javascript>
 		</g:each>
 		<g:javascript>
