@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="row-fluid">
-			<div class="content" id="project-list">
+			<div class="content tab-pane" id="project-list">
 				<div class="row-fluid page-header">
 					<div class="pull-left">
 						<h1><g:message code="default.list.label" args="[entityName]" /></h1>
@@ -40,32 +40,38 @@
 				<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 				</g:if>
 				<div class="row-fluid">
-					<g:render template="/layouts/filter"/>
-				</div>
-				<div id="projects" class="results">
-					<table class="table table-striped table-condensed">
-						<thead>
-							<tr>
-								<g:sortableColumn params="${params}" property="name" title="${message(code: 'project.name.label', default: 'Name')}" />						
-								<g:sortableColumn params="${params}" property="description" title="${message(code: 'project.description.label', default: 'Description')}" />							
-								<th>Samples</th>						
-							</tr>
-						</thead>
-						<tbody>
-						<g:each in="${projects}" var="projectInstance">
-							<tr>
-								<td>
-									<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
-									<i rel="tooltip" title="${is_private?'Private':'Public'}" class="${is_private?'icon-lock':'icon-eye-open'}"></i>
-									<g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
-								<td>${fieldValue(bean: projectInstance, field: "description")}</td>
-								<td>${projectInstance["sampleCount"]}</td>
-							</tr>
-						</g:each>
-						</tbody>
-					</table>
-					<div class="pagination">
-						<bootstrap:paginate total="${projects.totalCount}" params="${params}"/>
+
+					<div class="span2">
+						<g:render template="/layouts/filter" model="[]"/>
+					</div>
+					<div class="span10">
+						<div id="projects" class="results">
+							<div class="pull-right"><bootstrap:pageSummary total="${projects.totalCount}" params="${params}" /></div>
+							<table class="table table-striped table-condensed">
+								<thead>
+									<tr>
+										<g:sortableColumn params="${params}" property="name" title="${message(code: 'project.name.label', default: 'Name')}" />						
+										<g:sortableColumn params="${params}" property="description" title="${message(code: 'project.description.label', default: 'Description')}" />							
+										<th>Samples</th>						
+									</tr>
+								</thead>
+								<tbody>
+								<g:each in="${projects}" var="projectInstance">
+									<tr>
+										<td>
+											<g:set var="is_private" value="${!('ROLE_CAPSID' in projectInstance.roles)}" />
+											<i rel="tooltip" title="${is_private?'Private':'Public'}" class="${is_private?'icon-lock':'icon-eye-open'}"></i>
+											<g:link action="show" id="${projectInstance.label}">${fieldValue(bean: projectInstance, field: "name")}</g:link>
+										<td>${fieldValue(bean: projectInstance, field: "description")}</td>
+										<td>${projectInstance["sampleCount"]}</td>
+									</tr>
+								</g:each>
+								</tbody>
+							</table>
+							<div class="pagination">
+								<bootstrap:paginate total="${projects.totalCount}" params="${params}"/>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
