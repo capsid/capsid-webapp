@@ -11,6 +11,24 @@ class PaginationTagLib {
 
     /** Set the namespace. */
 	static namespace = "bootstrap"
+
+    /**
+     * Generates a pagination summary from the given attributes.
+     */
+    def pageSummary = { attrs ->
+        def writer = out
+        def offset = params.int('offset') ?: 0
+        def max = params.int('max')
+        def total = attrs.int('total') ?: 0
+
+        writer << '<div class="pull-right" style="line-height:34px">Showing <strong>'
+        writer << Math.min(offset + 1, total)
+        writer << '</strong> to <strong>'
+        writer << Math.min(offset + max, total)
+        writer << '</strong> of <strong>'
+        writer << total
+        writer << '</strong> </div>'
+    }
 	
     /**
      * Generates a table pagination component from the given attributes.
