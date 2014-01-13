@@ -55,7 +55,6 @@
 
 				<ul id="nav-tab-controller" class="nav nav-tabs">
 					<li class="active"><a href="#details-tab" data-toggle="tab">Details</a></li>
-			    	<li><a href="#gra-tab" data-toggle="tab">Genome Relative Abundance</a></li>
 			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
 				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
 			    </ul>
@@ -64,7 +63,6 @@
 
 					<div class="tab-pane active" id="details-tab">
 						<div class="row-fluid">
-							<h2>Details</h2>
 							<table class="table">
 								<tbody>
 								<g:if test="${sampleInstance?.cancer}">
@@ -92,60 +90,59 @@
 						</div>
 					</div>
 
-					<div class="tab-pane" id="gra-tab">
-						<div class="row-fluid">
-							<h2>Genome Relative Abundance</h2>
-							<div class="span4">
-								<g:each in="${alignments}" var="alignmentInstance" status="i">
-								<div id="gra-vis-${i}"></div>
-								</g:each>
-							</div>
-						</div>
-					</div>
-
 					<div class="tab-pane" id="genomes-tab">
 						<div class="row-fluid">
-							<h2 class="pull-left">Genomes</h2>
-							<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
-						</div>
-						<div id="stats-table" class="results">
-							<table class="table table-striped table-condensed">
-								<thead>
-									<tr>
-										<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Avg Gene Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Max Gene Coverage')}" />
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-								<g:each in="${statistics}" var="statisticsInstance">
-									<tr>
-										<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
-										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
-										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
-										<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
-											<i class="icon-share"></i> View Reads
-										</g:link></td>
-									</tr>
+							<div class="span2">
+								<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
+							</div>
+							<div class="span10">
+								<g:each in="${alignments}" var="alignmentInstance" status="i">
+									<div id="gra-vis-${i}"></div>
 								</g:each>
-								</tbody>
-							</table>
-							<div class="pagination">
-								<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
+
+								<div id="hierarchy-chooser"></div>
+
+								<div id="stats-table" class="results">
+
+									<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'project.genome.label', default: 'Hits')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'project.genome.label', default: 'Hits on Genes')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'project.genome.label', default: 'Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'project.genome.label', default: 'Avg Gene Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'project.genome.label', default: 'Max Gene Coverage')}" />
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										<g:each in="${statistics}" var="statisticsInstance">
+											<tr>
+												<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+												<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+												<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+												<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
+													<i class="icon-share"></i> View Reads
+												</g:link></td>
+											</tr>
+										</g:each>
+										</tbody>
+									</table>
+									<div class="pagination">
+										<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					
 					<div class="tab-pane" id="alignments-tab">
 						<div class="row-fluid">
-							<h2 class="pull-left">Alignments</h2>
 							<g:render template="/layouts/filter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
 						</div>
 						<div id="alignments-table" class="results">
@@ -186,11 +183,10 @@
 				var result = /^ti:(\d+)/.exec(id);
 				if (result) {
 					jQuery("#hierarchy-chooser").trigger('change', {id: parseInt(result[1])});
-					jQuery('#nav-tab-controller a[href="#genomes-tab"]').tab('show');
 				}
 			}
 			buildHierarchy(actionUrl, function(data) {
-  				var chart = hierarchyChart().width(360).height(360).handler(handler);
+  				var chart = hierarchyChart().width(300).height(300).handler(handler);
   				d3.select("#gra-vis-" + i.toString())
     				.datum(data)
     				.call(chart);
@@ -210,5 +206,13 @@
 
 		</g:javascript>
 		</g:each>
+		<g:javascript>
+		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
+		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
+			var form = jQuery("#genomes-tab form.form-filters");
+		    form.find("input[name=taxonRootId]").val(value.id);
+		    form.trigger("submit");
+		});
+		</g:javascript>
 	</body>
 </html>
