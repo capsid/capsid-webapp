@@ -181,17 +181,16 @@
 
 		<g:javascript>
 		function addChart(i, actionUrl) {
-			function labelHandler(_) {
+			function handler(_) {
 				var id = _.id;
 				var result = /^ti:(\d+)/.exec(id);
 				if (result) {
-					console.log("Selected taxon", _, parseInt(result[1]));
 					jQuery("#hierarchy-chooser").trigger('change', {id: parseInt(result[1])});
 					jQuery('#nav-tab-controller a[href="#genomes-tab"]').tab('show');
 				}
 			}
 			buildHierarchy(actionUrl, function(data) {
-  				var chart = hierarchyChart().width(360).height(360).labelHandler(labelHandler);
+  				var chart = hierarchyChart().width(360).height(360).handler(handler);
   				d3.select("#gra-vis-" + i.toString())
     				.datum(data)
     				.call(chart);

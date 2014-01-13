@@ -83,7 +83,7 @@ function hierarchyChart() {
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = 400,
       height = 400,
-      labelHandler = function(_) {},
+      handler = function(_) {},
       duration = 1000;
 
   function annotate(node, parent, context, left) {
@@ -146,7 +146,7 @@ function hierarchyChart() {
         .style("fill", colour)
         .attr("class", tooltipClass)
         .attr("data-tooltip", textLabel)
-        .on("click", click);
+        .on("click", handler);
 
       var labels = svg.selectAll("text").data(nodes);
       var labelsEnter = labels.enter()
@@ -221,7 +221,7 @@ function hierarchyChart() {
         alert(d);
       }
 
-      function click(d) {
+      function taxonClick(d) {
         jQuery('.hierarchyLabel').qtip('hide');
         path
           .transition()
@@ -300,11 +300,11 @@ function hierarchyChart() {
     return chart;
   };
 
-  chart.labelHandler = function(_) {
-    if (!arguments.length) return labelHandler;
-    labelHandler = _;
+  chart.handler = function(_) {
+    if (!arguments.length) return handler;
+    handler = _;
     return chart;
   }
 
   return chart;
-}     
+}
