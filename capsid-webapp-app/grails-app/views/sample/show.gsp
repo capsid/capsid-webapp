@@ -54,14 +54,14 @@
 				</g:if>
 
 				<ul id="nav-tab-controller" class="nav nav-tabs">
-					<li class="active"><a href="#details-tab" data-toggle="tab">Details</a></li>
-			    	<li><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
+					<li><a href="#details-tab" data-toggle="tab">Details</a></li>
+			    	<li class="active"><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
 				    <li><a href="#alignments-tab" data-toggle="tab">Alignments</a></li>
 			    </ul>
 
 				<div class="tab-content">
 
-					<div class="tab-pane active" id="details-tab">
+					<div class="tab-pane" id="details-tab">
 						<div class="row-fluid">
 							<table class="table">
 								<tbody>
@@ -90,7 +90,7 @@
 						</div>
 					</div>
 
-					<div class="tab-pane" id="genomes-tab">
+					<div class="tab-pane active" id="genomes-tab">
 						<div class="row-fluid">
 							<div class="span2">
 								<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
