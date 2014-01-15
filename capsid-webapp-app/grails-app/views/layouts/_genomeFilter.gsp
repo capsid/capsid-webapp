@@ -11,12 +11,12 @@
 	</fieldset>
 </g:form>
 <g:javascript>
-function submitFilterText(element, evt) {
-	var form = element.parents("form");
-	form.trigger("submit");
-}
 jQuery("fieldset.filter-fields.filter-advanced input.filter-search").bind('keyup', function(evt) { 
 	var _this = jQuery(this);
+	function submitFilterText(element, evt) {
+		var form = element.parents("form");
+		form.trigger("submit");
+	}
 	clearTimeout(_this.data('timeout'));
 	_this.data('timeout', setTimeout(function() { submitFilterText(_this, evt) }, 500));
 });
