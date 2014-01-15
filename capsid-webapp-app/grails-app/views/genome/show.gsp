@@ -5,7 +5,7 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-		<g:set var="projectInstance" value="${params?.label?Project.findByLabel(params?.label):null}" />
+		<g:set var="projectInstance" value="${params?.projectLabel ? Project.findByLabel(params?.projectLabel) : null}" />
 		
 		<title>${genomeInstance.accession.replaceAll('_',' ')} - ${genomeInstance.name}</title>
 	</head>
@@ -81,122 +81,133 @@
 			    <div class="tab-content">
 					<div class="tab-pane active" id="sample-stats">
 						<div class="row-fluid">
-							<h2 class="pull-left">Sample Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'query': projectInstance?.name]"/>
-						</div>
-						<div id="sample-stats-table" class="results">
-							<table class="table table-striped table-condensed">
-								<thead>
-									<tr>
-										<g:sortableColumn params="${params}" property="sample" title="${message(code: 'statistics.sample.label', default: 'Sample')}" />
-										<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Avg Gene Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Max Gene Coverage')}" />
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-								<g:each in="${sStatistics}" var="statisticsInstance">
-									<tr>
-										<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
-										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
-			
-										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
-			
-										<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
-			
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
-			
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-										<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
-											<i class="icon-share"></i> View Reads
-										</g:link></td>
-									</tr>
-								</g:each>
-								</tbody>
-							</table>
-							<div class="pagination">
-								<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${sStatistics.totalCount}" params="${params}" />
+							<div class="span2">
+								<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'projectLabel': projectInstance?.label]"/>
+							</div>
+							<div class="span10">
+								<div id="sample-stats-table" class="results">
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<g:sortableColumn params="${params}" property="sample" title="${message(code: 'statistics.sample.label', default: 'Sample')}" />
+												<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Avg Gene Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Max Gene Coverage')}" />
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										<g:each in="${sStatistics}" var="statisticsInstance">
+											<tr>
+												<td><g:link controller="sample" action="show" id="${statisticsInstance.sample}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "sample")}</g:link>
+												<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+												<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+					
+												<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+					
+												<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+					
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+					
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:link controller="browse" action="show" id="${statisticsInstance.accession}" params="[projectLabel: statisticsInstance.projectLabel, sampleName:statisticsInstance.sample]">
+													<i class="icon-share"></i> View Reads
+												</g:link></td>
+											</tr>
+										</g:each>
+										</tbody>
+									</table>
+									<div class="pagination">
+										<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${sStatistics.totalCount}" params="${params}" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+
 					<div class="tab-pane" id="project-stats">
 						<div class="row-fluid">
-							<h2 class="pull-left">Project Statistics</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'query': projectInstance?.name]"/>
-						</div>
-						<div id="project-stats-table" class="results">
-							<table class="table table-striped table-condensed">
-								<thead>
-									<tr>
-										<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Avg Gene Coverage')}" />
-										<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Max Gene Coverage')}" />
-									</tr>
-								</thead>
-								<tbody>
-								<g:each in="${pStatistics}" var="statisticsInstance">
-									<tr>
-										<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
-										<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
+							<div class="span2">
+								<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'projectLabel': projectInstance?.label]"/>
+							</div>
+							<div class="span10">
+								<div id="project-stats-table" class="results">
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeHits" title="${message(code: 'statistics.genomeHits.label', default: 'Hits')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneHits" title="${message(code: 'statistics.geneHits.label', default: 'Hits on Genes')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="genomeCoverage" title="${message(code: 'statistics.genomeCoverage.label', default: 'Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageAvg" title="${message(code: 'statistics.geneCoverageAvg.label', default: 'Avg Gene Coverage')}" />
+												<g:sortableColumn params="${params}" defaultOrder="desc" property="geneCoverageMax" title="${message(code: 'statistics.geneCoverageMax.label', default: 'Max Gene Coverage')}" />
+											</tr>
+										</thead>
+										<tbody>
+										<g:each in="${pStatistics}" var="statisticsInstance">
+											<tr>
+												<td><g:link controller="project" action="show" id="${statisticsInstance.projectLabel}">${fieldValue(bean: statisticsInstance, field: "project")}</g:link>
+												<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 
-										<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
+												<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
 
-										<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
 
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
 
-										<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
-									</tr>
-								</g:each>
-								</tbody>
-							</table>
-							<div class="pagination">
-								<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${pStatistics.totalCount}" params="${params}" />
+												<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
+											</tr>
+										</g:each>
+										</tbody>
+									</table>
+									<div class="pagination">
+										<bootstrap:paginate action="show" id="${genomeInstance?.accession}" total="${pStatistics.totalCount}" params="${params}" />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+
 					<div class="tab-pane" id="features">
 						<div class="row-fluid">
-							<h2 class="pull-left">Features</h2>
-							<g:render template="/layouts/filter" model="['id':genomeInstance.accession]"/>
-						</div>
-						<div id="features-table" class="results">
-							<table class="table table-striped table-condensed">
-								<thead>
-									<tr>
-										<g:sortableColumn params="${params}" property="name" title="${message(code: 'feature.name.label', default: 'Name')}" />
-										<g:sortableColumn params="${params}" property="genome" title="${message(code: 'feature.genome.label', default: 'Genome')}" />
-										<g:sortableColumn params="${params}" property="geneId" title="${message(code: 'feature.geneId.label', default: 'Gene Id')}" />
-										<g:sortableColumn params="${params}" property="locusTag" title="${message(code: 'feature.locusTag.label', default: 'Locus Tag')}" />
-										<g:sortableColumn params="${params}" property="start" title="${message(code: 'feature.start.label', default: 'Start')}" />
-										<g:sortableColumn params="${params}" property="end" title="${message(code: 'feature.end.label', default: 'End')}" />
-										<th>${message(code: 'feature.length.label', default: 'Length')}</th>
-									</tr>
-								</thead>
-								<tbody>
-								<g:each in="${features}" var="featureInstance">
-									<tr>
-										<td><g:link controller="feature" action="show" id="${featureInstance.uid}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
-										<td><g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></td>
-										<td>${featureInstance.geneId}</td>
-										<td>${fieldValue(bean: featureInstance, field: "locusTag")}</td>
-										<td>${fieldValue(bean: featureInstance, field: "start")}</td>
-										<td>${fieldValue(bean: featureInstance, field: "end")}</td>
-										<td>${featureInstance.end - featureInstance.start}</td>
-									</tr>
-								</g:each>
-								</tbody>
-							</table>
-							<div class="pagination">
-								<bootstrap:paginate total="${features.totalCount}" params="${params}"/>
+							<div class="span2">
+								<g:render template="/layouts/filter" model="['id':genomeInstance.accession, 'projectLabel': projectInstance?.label]"/>
+							</div>
+							<div class="span10">
+								<div id="features-table" class="results">
+									<table class="table table-striped table-condensed">
+										<thead>
+											<tr>
+												<g:sortableColumn params="${params}" property="name" title="${message(code: 'feature.name.label', default: 'Name')}" />
+												<g:sortableColumn params="${params}" property="genome" title="${message(code: 'feature.genome.label', default: 'Genome')}" />
+												<g:sortableColumn params="${params}" property="geneId" title="${message(code: 'feature.geneId.label', default: 'Gene Id')}" />
+												<g:sortableColumn params="${params}" property="locusTag" title="${message(code: 'feature.locusTag.label', default: 'Locus Tag')}" />
+												<g:sortableColumn params="${params}" property="start" title="${message(code: 'feature.start.label', default: 'Start')}" />
+												<g:sortableColumn params="${params}" property="end" title="${message(code: 'feature.end.label', default: 'End')}" />
+												<th>${message(code: 'feature.length.label', default: 'Length')}</th>
+											</tr>
+										</thead>
+										<tbody>
+										<g:each in="${features}" var="featureInstance">
+											<tr>
+												<td><g:link controller="feature" action="show" id="${featureInstance.uid}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
+												<td><g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></td>
+												<td>${featureInstance.geneId}</td>
+												<td>${fieldValue(bean: featureInstance, field: "locusTag")}</td>
+												<td>${fieldValue(bean: featureInstance, field: "start")}</td>
+												<td>${fieldValue(bean: featureInstance, field: "end")}</td>
+												<td>${featureInstance.end - featureInstance.start}</td>
+											</tr>
+										</g:each>
+										</tbody>
+									</table>
+									<div class="pagination">
+										<bootstrap:paginate total="${features.totalCount}" params="${params}"/>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
