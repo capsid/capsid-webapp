@@ -148,31 +148,6 @@ function hierarchyChart() {
         .attr("data-tooltip", textLabel)
         .on("click", handler);
 
-      var labels = svg.selectAll("text").data(nodes);
-      var labelsEnter = labels.enter()
-        .append("text")
-        .style("visibility", function(d) { return (visibleLabel(rootNode, d) ? "visible" : "hidden"); })
-        .style("font-size", "12px")
-        .style("fill", "black")
-        .style("cursor", "pointer")
-        .style("pointer-events", "none")
-        .attr("dx", "5px")
-        .attr("dy", "20px")
-        .attr("text-anchor", "middle")
-        .append("textPath")
-        .attr("xlink:href", function(d, i) { return "#path-" + i; })
-        .attr("startOffset", "40%")
-        .text(textLabel);
-
-      // var overlayPath = svg.selectAll("path.hierarchyLabel").data(nodes);
-      // overlayPath.enter().append("path")
-      //   .attr("class", tooltipClass)
-      //   .attr("id", function(d, i) { return "npath-" + i; })
-      //   .attr("d", arc)
-      //   .style("fill", "rgba(255, 255, 255, 0.0)")
-      //   .attr("data-tooltip", textLabel)
-      //   .on("click", click);
-
       // Colour handling really would be better by mapping colours recursively. We want a
       // colour for the top-level nodes, and can then use gradations at lower levels. This
       // is probably better coded into the nodes. The down-side is that small gradations can
@@ -221,25 +196,6 @@ function hierarchyChart() {
         alert(d);
       }
 
-      function taxonClick(d) {
-        jQuery('.hierarchyLabel').qtip('hide');
-        path
-          .transition()
-          .duration(duration)
-          .attrTween("d", arcTween(d));
-        // overlayPath
-        //   .transition()
-        //   .duration(duration)
-        //   .attrTween("d", arcTween(d));
-        labels.style("visibility", function(e) {
-          return (visibleLabel(d, e) && isParentOf(d, e)) ? "visible" : "hidden";
-          });
-        setTimeout(function() {
-          jQuery('.hierarchyLabel').qtip('reposition');
-        }, duration + 50);
-        
-      }
-
       function arcTween(d) {
         var my = maxY(d),
             xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
@@ -263,18 +219,6 @@ function hierarchyChart() {
         }
         return false;
       }
-
-
-      // var svg = d3.select(this).selectAll("svg").data([data]);
-
-      // // Otherwise, create the skeletal chart.
-      // var gEnter = svg.enter().append("svg").append("g");
-      // gEnter.append("path").attr("class", "area");
-      // gEnter.append("path").attr("class", "line");
-      // gEnter.append("g").attr("class", "x axis");
-
-      // svg.attr("width", width)
-      //    .attr("height", height);
 
       jQuery('.hierarchyLabel').qtip({
         content:{attr: 'data-tooltip'}, 
