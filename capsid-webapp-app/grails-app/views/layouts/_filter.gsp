@@ -23,7 +23,7 @@ jQuery("fieldset.filter-fields.filter-basic").parent().bind('submit', function(e
     jQuery(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize());
     return false;
 });
-jQuery("span.userclear").bind('click', function(evt){
+jQuery("fieldset.filter-fields.filter-basic span.userclear").bind('click', function(evt){
     evt.preventDefault();
     var form = jQuery(evt.target).parents("form");
     form.find("input.search-query").val("").focus();

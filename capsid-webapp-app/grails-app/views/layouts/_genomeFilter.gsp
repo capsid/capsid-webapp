@@ -1,5 +1,5 @@
 <g:form action="${id?'show':'list'}" id="${id}" params="${(projectLabel ? [projectLabel: projectLabel] : [:]).plus(sampleName ? [sampleName: sampleName] : [:])}" class="form-filters">
-	<fieldset class="filter-fields">
+	<fieldset class="filter-fields filter-advanced">
 		<legend>Filters</legend>
 		<input type="hidden" name="taxonRootId" value="">
 		<label class="checkbox"><input type="checkbox" data-filter-name="phage"> Bacteriophages</label>
@@ -15,15 +15,15 @@ function submitFilterText(element, evt) {
 	var form = element.parents("form");
 	form.trigger("submit");
 }
-jQuery("input.filter-search").bind('keyup', function(evt) { 
+jQuery("fieldset.filter-fields.filter-advanced input.filter-search").bind('keyup', function(evt) { 
 	var _this = jQuery(this);
 	clearTimeout(_this.data('timeout'));
 	_this.data('timeout', setTimeout(function() { submitFilterText(_this, evt) }, 500));
 });
-jQuery("fieldset.filter-fields input[type=checkbox]").bind('change', function(evt) {
+jQuery("fieldset.filter-fields.filter-advanced input[type=checkbox]").bind('change', function(evt) {
 	var form = jQuery(evt.target).parents("form").trigger("submit");
 });
-jQuery("fieldset.filter-fields").parent().bind('submit', function(evt) {
+jQuery("fieldset.filter-fields.filter-advanced").parent().bind('submit', function(evt) {
 	var id = '#' + jQuery(this).parents(".tab-pane").attr('id');
 	var form, filters = '';
     form = jQuery(evt.target);
@@ -35,7 +35,7 @@ jQuery("fieldset.filter-fields").parent().bind('submit', function(evt) {
     jQuery(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize() + filters);
     return false;
 });
-jQuery("span.userclear").bind('click', function(evt){
+jQuery("fieldset.filter-fields.filter-advanced span.userclear").bind('click', function(evt){
     evt.preventDefault();
     var form = jQuery(evt.target).parents("form");
     form.find("input.search-query").val("").focus();
