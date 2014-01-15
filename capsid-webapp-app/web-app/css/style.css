@@ -370,3 +370,8 @@ pre.snippet .error {
 form.search {
   width: 100%;
 }
+
+span.userclear {
+  position: relative;
+  left: -20px;
+}

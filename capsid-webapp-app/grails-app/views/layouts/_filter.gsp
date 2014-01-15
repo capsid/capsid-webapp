@@ -1,7 +1,7 @@
 <g:form action="${id?'show':'list'}" id="${id}" params="${(projectLabel ? [projectLabel: projectLabel] : [:]).plus(sampleName ? [sampleName: sampleName] : [:])}" class="form-horizontal pull-right search">
 	<fieldset class="filter-fields filter-basic">
 		<legend>Filters</legend>
-		<label><input type="text" name="text" class="input-small search-query filter-search"> Search</label>
+		<label><input type="text" name="text" class="input-small search-query filter-search"><span class="userclear">&times;</span> Search</label>
 	</fieldset>
 </g:form>
 <g:javascript>
@@ -21,6 +21,13 @@ jQuery("fieldset.filter-fields.filter-basic").parent().bind('submit', function(e
 	var form = jQuery(evt.target);
 
     jQuery(id + ' .results').load(form.attr('action') + ' ' + id + ' .results', form.serialize());
+    return false;
+});
+jQuery("span.userclear").bind('click', function(evt){
+    evt.preventDefault();
+    var form = jQuery(evt.target).parents("form");
+    form.find("input.search-query").val("").focus();
+    form.trigger("submit");
     return false;
 });
 </g:javascript>
