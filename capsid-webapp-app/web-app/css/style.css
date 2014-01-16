@@ -375,3 +375,11 @@ span.userclear {
   position: relative;
   left: -20px;
 }
+
+label.checkbox.explained {
+  margin-bottom: 0px;
+}
+
+div.help-block.explanation {
+  margin-bottom: 10px;
+}
