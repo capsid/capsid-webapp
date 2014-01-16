@@ -383,3 +383,11 @@ label.checkbox.explained {
 div.help-block.explanation {
   margin-bottom: 10px;
 }
+
+fieldset.filter-fields legend {
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
