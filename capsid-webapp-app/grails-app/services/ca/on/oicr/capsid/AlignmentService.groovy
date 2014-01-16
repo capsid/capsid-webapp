@@ -63,9 +63,6 @@ class AlignmentService {
     List list(Map params) {
         def criteria = Alignment.createCriteria()
 
-        System.err.println("list()")
-        System.err.println(params)
-        
         List results = criteria.list(params) {
             and {
                 // Security Check
