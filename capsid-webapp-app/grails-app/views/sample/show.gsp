@@ -96,9 +96,14 @@
 								<g:render template="/layouts/genomeFilter" model="['id':sampleInstance.name, 'projectLabel': projectInstance.label]"/>
 							</div>
 							<div class="span10">
-								<g:each in="${alignments}" var="alignmentInstance" status="i">
-									<div id="gra-vis-${i}"></div>
-								</g:each>
+								<div>
+									<g:each in="${alignments}" var="alignmentInstance" status="i">
+										<div class="alignment-gra">
+											<p class="alignment-gra-heading">${alignmentInstance.name}</p>
+											<div id="gra-vis-${i}"></div>
+										</div>
+									</g:each>
+								</div>
 
 								<div id="hierarchy-chooser"></div>
 

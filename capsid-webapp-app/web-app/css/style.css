@@ -391,3 +391,12 @@ fieldset.filter-fields legend {
   margin-bottom: 5px;
   font-weight: bold;
 }
+
+.alignment-gra {
+  display: inline-block;
+}
+
+.alignment-gra .alignment-gra-heading {
+  text-align: center;
+  font-weight: bold;
+}
