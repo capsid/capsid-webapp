@@ -168,7 +168,9 @@ class AlignmentController {
         Map model = findModel()
         Alignment alignmentInstance = model.alignmentInstance
 
-        render(contentType: "application/json", text: alignmentInstance.gra.toString())
+        String abundance = alignmentService.genomeRelativeAbundance(alignmentInstance)
+
+        render(contentType: "application/json", text: abundance)
     }
 
     /**

@@ -11,6 +11,7 @@
 package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
+import com.mongodb.BasicDBList
 import grails.plugins.springsecurity.Secured
 
 /**
@@ -100,5 +101,50 @@ class AlignmentService {
      */
     void delete(String alignment) {
         Mapped.findAllByAlignment(alignment).each { it.delete(flush: true) }
+    }
+
+    /**
+     * Reads the genome relative abundance data from a gven alignment.
+     *
+     * @param alignment the alignment.
+     */
+    String genomeRelativeAbundance(Alignment alignment) {
+
+        // The logic here does make a few assumptions about the basic format of the
+        // data, in particular that it is ordered and in bands by rank.
+
+        Integer maxCount = 10
+        BasicDBList result = [] as BasicDBList
+        Integer i = 0
+        Integer count = 0
+        String currentRank
+        Boolean accumulating = false
+        List input = alignment.gra
+
+        for(element in input) {
+            String rank = element["level"]
+            if (rank == "SEQUENCE")
+                continue;
+
+            if (rank == currentRank) {
+                if (accumulating) {
+                    result.last()["score"] += element["score"]
+                } else if (count++ == maxCount) {
+                    result << element
+                    result.last()["name"] = "Other"
+                    result.last()["id"] = "oi:"
+                    accumulating = true
+                } else {
+                    result << element
+                }
+            } else {
+                count = 0
+                accumulating = false
+                currentRank = rank
+                result << element
+            }
+        }
+
+        return result.toString()
     }
 }
