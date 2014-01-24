@@ -8,13 +8,11 @@ function buildHierarchy(filename, callback) {
       "SPECIES": [],
       "GENUS": [],
       "FAMILY": [],
-      "PHYLUM": [],
-      "ORDER": [],
-      "CLASS": []
+      "ORDER": []
   }
 
   var levels = [
-    "PHYLUM", "CLASS", "ORDER", "FAMILY", "GENUS", "SPECIES"
+    "ORDER", "FAMILY", "GENUS", "SPECIES"
   ]
 
   var identifiers = {0: {children: []}};
