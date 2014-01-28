@@ -8,13 +8,11 @@ function buildHierarchy(filename, callback) {
       "SPECIES": [],
       "GENUS": [],
       "FAMILY": [],
-      "PHYLUM": [],
-      "ORDER": [],
-      "CLASS": []
+      "ORDER": []
   }
 
   var levels = [
-    "PHYLUM", "CLASS", "ORDER", "FAMILY", "GENUS", "SPECIES"
+    "ORDER", "FAMILY", "GENUS", "SPECIES"
   ]
 
   var identifiers = {0: {children: []}};
@@ -93,7 +91,8 @@ function hierarchyChart() {
     var right = left + 1;
     if (node.children) {
       node.children.forEach(function(child, i) {
-        right = annotate(child, node, (context) ? (context + "." + i.toString()) : i.toString(), right) + 1;
+        var subContext = (context && !child.placeholder) ? (context + "." + i.toString()) : i.toString();
+        right = annotate(child, node, subContext, right) + 1;
       })
     }
     node.left = left;
@@ -176,8 +175,10 @@ function hierarchyChart() {
       function colour(d) {
         if (d.placeholder) {
           return "white";
+        } else if (d.name == "Other") {
+          return "#aaa";
         } else if (d.context == "") {
-          return "red";
+          return "#ddd";
         } else {
           var category = parseInt(d.context);
           var base = scale(category);
