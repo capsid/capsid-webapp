@@ -5,7 +5,6 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'genome.label', default: 'Genome')}" />
-		<g:set var="projectInstance" value="${params?.projectLabel ? Project.findByLabel(params?.projectLabel) : null}" />
 		
 		<title>${genomeInstance.accession.replaceAll('_',' ')} - ${genomeInstance.name}</title>
 	</head>
@@ -67,7 +66,7 @@
 				            <li><a href="http://www.ncbi.nlm.nih.gov/mapview/maps.cgi?taxid=9606&amp;chr=${genomeInstance.name.minus('chr')}" target="_blank">NCBI Map Viewer</a></li>
 				          	</g:if>
 				          	<li><a href="http://www.ncbi.nlm.nih.gov/sites/gquery?term=${genomeInstance.accession}" target="_blank">Search NCBI</a></li>
-				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}">View in genome browser</g:link></li>
+				          	<li><g:link controller="browse" action="show" id="${genomeInstance.accession}" params="${[projectLabel: projectInstance?.label]}">View in genome browser</g:link></li>
 				          </ul>
 					</div>
 				</div>
@@ -193,7 +192,7 @@
 										<tbody>
 										<g:each in="${features}" var="featureInstance">
 											<tr>
-												<td><g:link controller="feature" action="show" id="${featureInstance.uid}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
+												<td><g:link controller="feature" action="show" id="${featureInstance.uid}" params="${[projectLabel: projectInstance?.label]}">${fieldValue(bean: featureInstance, field: "name")}</g:link></td>
 												<td>${genomeInstance.name}</td>
 												<td>${featureInstance.geneId}</td>
 												<td>${fieldValue(bean: featureInstance, field: "locusTag")}</td>

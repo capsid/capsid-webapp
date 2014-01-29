@@ -91,11 +91,14 @@ class GenomeController {
         // These appear to be pointless - SNW
         params.remove('sample')
         params.remove('genome')
-        
-        [genomeInstance: genomeInstance, 
-         pStatistics: pStatistics, 
-         sStatistics: sStatistics,
-         features: features]
+
+        [
+            genomeInstance: genomeInstance, 
+            projectInstance: projectInstance,
+            pStatistics: pStatistics, 
+            sStatistics: sStatistics,
+            features: features
+        ]
     }
 
     /**

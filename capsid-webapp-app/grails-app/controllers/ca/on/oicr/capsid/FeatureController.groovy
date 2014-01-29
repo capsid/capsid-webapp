@@ -41,6 +41,11 @@ class FeatureController {
     def authService
 
     /**
+     * Dependency injection for the ProjectService.
+     */
+    def projectService
+
+    /**
      * Dependency injection for the FeatureService.
      */
     def featureService
@@ -73,7 +78,13 @@ class FeatureController {
 
         Feature featureInstance = findInstance()
 
-        [featureInstance: featureInstance]
+        Project projectInstance = projectService.get(params.projectLabel)
+        assert projectInstance != null
+
+        [
+            featureInstance: featureInstance, 
+            projectInstance: projectInstance
+        ]
     }
 
     /**

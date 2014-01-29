@@ -72,15 +72,18 @@ class BrowseController {
     String projectLabel = params.projectLabel
     String sampleName = params.sampleName
 
-    if (sampleName && projectLabel) {
-
+    if (projectLabel) {
       Project projectInstance = Project.findByLabel(projectLabel)
       assert projectInstance != null
-      Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
-      assert sampleInstance != null
-
+      
       model['projectInstance'] = projectInstance
-      model['sampleInstance'] = sampleInstance
+
+      if (sampleName) {
+        Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
+        assert sampleInstance != null
+
+        model['sampleInstance'] = sampleInstance        
+      }   
     }
 
     return model
