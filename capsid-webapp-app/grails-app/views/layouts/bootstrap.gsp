@@ -99,11 +99,11 @@
 						<ul class="nav pull-right">
 							<li><span class="capsid-username">${sec.username()}</span></li>
 							<li class="divider-vertical"></li>
-							<li><g:link controller="user" action="edit" id="${sec.username()}" rel="tooltip" title="Account Settings" data-placement="bottom"><i class="icon-pencil nav-icon"></i></g:link></li>
+							<li><g:link controller="user" action="edit" id="${sec.username()}" rel="tooltip" title="Account Settings" data-placement="bottom"><i class="icon-cog nav-icon"></i></g:link></li>
 							<auth:ifCapsidAdmin>
-			                <li><g:link controller="user" action="list" rel="tooltip" title="Administration" data-placement="bottom"><i class="icon-cog nav-icon"></i></g:link></li>
+			                <li><g:link controller="user" action="list" rel="tooltip" title="Administration" data-placement="bottom"><i class="icon-list-alt nav-icon"></i></g:link></li>
 			                </auth:ifCapsidAdmin>
-			                <li><g:link controller="logout" action="index" rel="tooltip" title="Log Out" data-placement="bottom"><i class="icon-share-alt nav-icon"></i></g:link></li>
+			                <li><g:link controller="logout" action="index" rel="tooltip" title="Log Out" data-placement="bottom"><i class="icon-off nav-icon"></i></g:link></li>
 						</ul>
 					</div>
 					</sec:ifLoggedIn>
