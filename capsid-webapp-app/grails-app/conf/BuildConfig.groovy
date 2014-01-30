@@ -29,12 +29,15 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+
+        mavenRepo "https://oss.sonatype.org/content/repositories/snapshots"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.16'
         // provided 'org.mortbay.jetty:jetty:6.1.26'
+        runtime 'org.mongodb:mongo-java-driver:2.12.0-SNAPSHOT'
     }
 
     plugins {
