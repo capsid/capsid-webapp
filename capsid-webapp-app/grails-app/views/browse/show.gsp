@@ -32,7 +32,7 @@
 						<li><input type="checkbox" id="item-${p}" /><label for="item-${p}">${project.name}</label>
 							<ul>
 							<g:each var="sample" status="s" in="${sampleService.list([projectId: project.id])}">
-								<li class="capsid-draggable-track-title" draggable="true" data-track-identifier="${project.label}-${sample.name}">${sample.name}</li>
+								<li class="capsid-draggable-track-title" draggable="true" data-track-identifier="${project.label},${sample.name}">${sample.name}</li>
 							</g:each>
 							</ul>
 					</g:each>

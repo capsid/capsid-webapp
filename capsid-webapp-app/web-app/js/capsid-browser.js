@@ -91,9 +91,13 @@ function handleDrop(e, genomeViewer) {
 
 		var urlBase = jQuery("#gv-application").attr('data-capsid-url-base');
 		var accession = jQuery("#gv-application").attr('data-capsid-accession');
-		var items = currentTrack.split("-", 2);
+
+		// Issue #53 - String.split doesn't work like Perl split, sadly. Don't limit and re-join. 
+		// Also use comma rather than hyphen, as it's less likely to be a delimiter in a project
+		// name. 
+		var items = currentTrack.split(",");
 		var projectLabel = items[0];
-		var sampleName = items[1];
+		var sampleName = items.slice(1).join(",");
 		var params = {
 			accession: accession,
 			projectLabel: projectLabel,
@@ -133,7 +137,6 @@ function bootstrapGenomeViewer(genomeViewer) {
             return true;
         };
         if (checkAllTrackListStatus('ready')) {
-            console.log('-------------all tracklist ready')
             _this.trigger('tracks:ready', {sender: _this});
         }
     }
