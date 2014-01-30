@@ -127,7 +127,7 @@
 										</tbody>
 									</table>
 									<div class="pagination">
-										<bootstrap:paginate action="show" id="${sampleInstance?.name}" total="${statistics.totalCount}" params="${params}" />
+										<bootstrap:paginate action="show" id="${alignmentInstance?.name}" total="${statistics.totalCount}" params="${params}" />
 									</div>
 								</div>
 							</div>
