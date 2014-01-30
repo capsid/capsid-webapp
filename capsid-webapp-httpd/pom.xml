@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>ca.on.oicr.capsid</groupId>
+    <artifactId>capsid-webapp</artifactId>
+    <version>1.6-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>capsid-webapp-httpd</artifactId>
+  <packaging>jar</packaging>
+  
+  <name>capsid-webapp-httpd</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>ca.on.oicr.capsid</groupId>
+      <artifactId>capsid-webapp-app</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-util</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlets</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-continuation</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-io</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-http</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-security</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-xml</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>${jetty.version}</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.6.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>
+    	<version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <jetty.version>8.1.11.v20130520</jetty.version>
+    <pmd.ruleset.dir>${basedir}/..</pmd.ruleset.dir>
+  </properties>
+
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/conf</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>ca.on.oicr.capsid</groupId>
+                  <artifactId>capsid-webapp-app</artifactId>
+                  <version>${project.version}</version>
+                  <type>war</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/main/assembly/capsid-server.xml</descriptor>
+          </descriptors>
+          <archive>
+            <manifestSections>
+              <manifestSection>
+                <name>webapp</name>
+                <manifestEntries>
+                  <key>/</key>
+                  <key>capsid-webapp-app-${project.version}</key>
+                </manifestEntries>
+              </manifestSection>
+            </manifestSections>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <profiles>                                                                                                                      
+    <profile>                                                                                                                     
+      <id>run-server</id>                                                                                                          
+      <build>                                                                                                                     
+        <plugins>                                                                                                                 
+          <plugin>                                                                                                                
+            <groupId>org.codehaus.mojo</groupId>                                                                                  
+            <artifactId>exec-maven-plugin</artifactId>                                                                            
+            <version>1.2.1</version>                                                                                              
+            <executions>                                                                                                          
+              <execution>                                                                                                         
+                <phase>verify</phase>                                                                                               
+                <goals>                                                                                                           
+                  <goal>exec</goal>                                                                                               
+                </goals>                                                                                                          
+                <configuration>
+                  <executable>java</executable>
+                  <arguments>
+                    <argument>-DCAPSID_CONFIG=${project.build.directory}/classes/capsid.xml</argument>
+                    <argument>-cp</argument>
+                    <classpath>
+                      <dependency>org.eclipse.jetty:jetty-server</dependency>
+                      <dependency>org.eclipse.jetty:jetty-util</dependency>
+                      <dependency>org.eclipse.jetty:jetty-xml</dependency>
+                      <dependency>org.eclipse.jetty:jetty-http</dependency>
+                      <dependency>org.eclipse.jetty:jetty-io</dependency>
+                      <dependency>org.eclipse.jetty:jetty-webapp</dependency>
+                      <dependency>org.eclipse.jetty:jetty-servlet</dependency>
+                      <dependency>org.eclipse.jetty:jetty-security</dependency>
+                      <dependency>org.eclipse.jetty:jetty-continuation</dependency>
+                      <dependency>org.slf4j:slf4j-api</dependency>
+                      <dependency>org.slf4j:slf4j-simple</dependency>
+                      <dependency>javax.servlet:javax.servlet-api</dependency>
+                    </classpath>
+                    <argument>ca.on.oicr.capsid.server.httpd.CapsidJettyServer</argument>
+                  </arguments>
+                </configuration>
+              </execution>                                                                                                        
+            </executions>                                                                                                         
+          </plugin>                                                                                                               
+        </plugins>                                                                                                                
+      </build>                                                                                                                    
+    </profile>                                                                                                                    
+
+    <profile>
+      <!-- A profile for the builds performed by the continuous integration server -->
+      <id>ci-build</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>make-deb</id>
+                <phase>install</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="deb.dir" value="${basedir}/target/deb" />
+                    <property name="deb.version" value="${project.version}" />
+                    <tstamp>
+                      <!-- http://www.debian.org/doc/debian-policy/ch-source.html -->
+                      <format property="deb.date" pattern="EEE, d MMM yyyy HH:mm:ss Z" locale="en" />
+                    </tstamp>
+
+                    <mkdir dir="${deb.dir}" />
+                    <mkdir dir="${deb.dir}/usr/share" />
+                    <mkdir dir="${deb.dir}/etc" />
+
+                    <copy todir="${deb.dir}">
+                      <fileset dir="src/main/deb" />
+                      <filterset>
+                        <filter token="project.version" value="${deb.version}" />
+                        <filter token="date" value="${deb.date}" />
+                      </filterset>
+                    </copy>
+
+                    <exec executable="unzip">
+                      <arg value="-o" />
+                      <arg value="${project.build.directory}/${project.build.finalName}-dist.zip" />
+                      <arg value="-d" />
+                      <arg value="${deb.dir}/usr/share" />
+                    </exec>
+
+                    <move todir="${deb.dir}/etc/capsid">
+                      <fileset dir="${deb.dir}/usr/share/capsid-webapp-httpd-${project.version}/conf" />
+                    </move>
+
+                    <exec executable="debuild" dir="${deb.dir}" failonerror="true" osfamily="unix">
+                      <arg value="-b" />
+                      
+                      <!-- Turn off signing for now, until we move to a continuous integration server -->
+                      <arg value="-us" />
+                      <arg value="-uc" />
+                    </exec>
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <id>deploy-deb</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <property name="deb.version" value="${project.version}" />
+                    <!-- Deploy deb file in deb repo -->
+                    <copy todir="${obiba.deb.dir}" file="target/gps_${deb.version}_all.deb" />
+                  </target>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+
+    </profile>
+  </profiles>   
+
+</project>

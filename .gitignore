@@ -1,11 +1,14 @@
 stacktrace.log
 target/
 build/
-web-app/js/src/dojo-sdk/
 web-app/js/release/
 .DS_Store
+.idea/
+*.iml
 .classpath
 .project
 *.log
 target-eclipse/
+plugins/
 .settings
+*.sublime-*

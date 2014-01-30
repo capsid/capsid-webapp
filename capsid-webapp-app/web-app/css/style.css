@@ -1,0 +1,402 @@
+@charset "UTF-8";
+/*
+ *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
+ *
+ *  This program and the accompanying materials are made available under the
+ *  terms of the GNU Public License v3.0.
+ *
+ *  You should have received a copy of the GNU General Public License along with
+ *  this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+body {
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background: none repeat scroll 0 0 #FEFEFE;
+}
+
+.container-fluid {
+  padding: 0;
+}
+h1 {font-size: 24px;}
+h1 small {font-size: 18px;}
+h2 {font-size: 18px;}
+h2 small {font-size: 16px;}
+
+/* Nav */
+.navbar {margin-bottom: 11px;}
+.navbar .navbar-inner .brand {
+  font-weight: 800;
+  text-shadow: 0px -1px 0px rgba(91, 192, 222, 0.5);
+  padding: 8px 10px 12px;
+}
+.navbar .navbar-inner .dropdown-toggle.active {color: #ffffff;}
+.navbar .nav-icon:hover{background-image: url(../img/glyphicons-halflings-white.png);}
+
+.navbar-inner {
+  background-color: #446688; /* fallback color, place your own */
+
+  /* Gradients for modern browsers, replace as you see fit */
+  background-image: -moz-linear-gradient(top, #446688, #557799);
+  background-image: -ms-linear-gradient(top, #446688, #557799);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#446688), to(#557799));
+  background-image: -webkit-linear-gradient(top, #446688, #557799);
+  background-image: -o-linear-gradient(top, #446688, #557799);
+  background-image: linear-gradient(top, #446688, #557799);
+  background-repeat: repeat-x;
+
+  /* IE8-9 gradient filter */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#446688', endColorstr='#557799', GradientType=0);
+
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  border: none;
+}
+
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus {
+  color: #EEEEEE;
+  text-decoration: none;
+  background-color: #6080A0;
+  -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+     -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+          box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}
+
+.navbar .nav>li>a:focus, .navbar .nav>li>a:hover {
+  color: #FFFFFF;
+}
+.navbar .nav li.dropdown>a:hover .caret, .navbar .nav li.dropdown>a:focus .caret {
+  border-top-color: #FFFFFF;
+  border-bottom-color: #FFFFFF;
+}
+
+.navbar .nav-icon {
+  background-image: url(../img/glyphicons-halflings-white.png);
+}
+
+.navbar .nav li.dropdown>.dropdown-toggle .caret {
+  border-top-color: #EEEEEE;
+  border-bottom-color: #EEEEEE;
+}
+
+.navbar .nav>li>a {
+  color: #EEEEEE;
+  text-shadow: none;
+}
+
+.navbar .brand {
+  color: #EEEEEE;
+}
+
+.navbar .nav .capsid-username {
+  color: #EEEEEE;
+  float: none;
+  line-height: 19px;
+  padding: 10px 10px 11px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  display:block;
+  font-weight:bold
+}
+
+.nav-list .divider {
+  background-color: #E5E5E5;
+  border-bottom: 1px solid #FFFFFF;
+  height: 1px;
+  margin: 8px 1px;
+  overflow: hidden;
+}
+
+.navbar .divider-vertical {
+height: 40px;
+margin: 0 9px;
+border-right: 1px solid #6688AA;
+border-left: 1px solid #446688;
+}
+
+/* content */
+.content {
+  background: none repeat scroll 0 0 #FEFEFE;
+  border-radius: 0px;
+  padding: 10px;
+}
+
+.page-header {
+  margin: 10px 0 14px;
+  padding-bottom: 14px;
+}
+section {
+  padding-top: 60px;
+}
+section:first-child {
+  padding: 0;
+}
+section .tab-content {
+  margin: 0 -10px;
+}
+section .tab-pane {
+  margin: 10px 10px;
+}
+/* forms */
+.form-horizontal .form-actions {
+  margin: 0 -10px -28px;
+  border-radius: 0 0 4px 4px;
+}
+/* well */
+.well .table {
+  margin: 0;
+}
+.well .table td:first-child {
+  font-weight: bold;
+  vertical-align: top;
+}
+.well dl.nav {
+  margin: 0px;
+}
+.well.well-small {
+  border-radius: 3px;
+  padding: 9px;
+}
+.well.well-small .nav-list {
+  padding: 0 5px;
+}
+.well.well-small input {
+  width: 210px;
+}
+/* modal */
+.modal {
+  max-height: none;
+}
+/* tables */
+.table {
+  /* icons for sorted column headers */
+
+}
+.table td, .table th {
+  border: none;
+  vertical-align: middle;
+}
+.table td {
+  padding: 2px 5px;
+}
+.table td.link {
+  width: 100px;
+  white-space: nowrap;
+}
+.table td.link .dropdown-menu {
+  min-width: 120px;
+}
+.table thead th {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.table th.asc a:after, .table th.desc a:after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.3em;
+  vertical-align: text-top;
+  background-image: url(../img/glyphicons-halflings.png);
+  background-position: 14px 14px;
+  background-repeat: no-repeat;
+}
+.table th.asc a:after {
+  background-position: -288px -120px;
+}
+.table th.desc a:after {
+  background-position: -313px -119px;
+}
+/* bookmarks */
+#sortable-bookmarks li .close {
+  display: none;
+}
+#sortable-bookmarks li:hover .close {
+  display: block;
+}
+/* error page */
+pre.snippet code.line {
+  border: none;
+  display: block;
+}
+pre.snippet .lineNumber {
+  display: inline-block;
+  width: 3em;
+}
+pre.snippet .error {
+  font-weight: bold;
+}
+/* mapped */
+.disabled {
+  color: #ccc;
+}
+#blast {
+  /*margin-top: 15px;*/
+}
+#blast .disabled {
+  line-height: 18px;
+  padding: 3px 15px;
+}
+.seqrow {
+  font-size: 12px;
+  line-height: 18px;
+  word-wrap: break-word;
+  color: #333333;
+  font-family: Menlo, Monaco, "Courier New", monospace;
+}
+.seqlabel {
+  display: inline-block;
+  font-weight: bold;
+  height: 15px;
+  vertical-align: middle;
+  width: 75px;
+}
+.seqpos {
+  display: inline-block;
+  font-weight: bold;
+  height: 15px;
+  vertical-align: top;
+  width: 50px;
+}
+.seqstr {
+  display: inline-block;
+  margin-right: 10px;
+}
+/* @media */
+@media (min-width: 769px) and (max-width: 1124px) {
+  .table td.link .dropdown-menu {
+    min-width: 110px;
+  }
+}
+@media (max-width: 768px) {
+  /* prevent the brand name wrapping or overlapping the menu toggle */
+  .navbar .brand {
+    max-width: 75%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .hero-unit {
+    padding: 20px;
+  }
+  #application-status {
+    display: none;
+  }
+}
+/* optimized display for small devices */
+@media (max-width:480px) {
+  table thead, table td {
+    display: none;
+  }
+  table tr:first-child td {
+    border-top: none;
+  }
+  table td:first-child, table td:last-child {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  table td:last-child {
+    text-align: right;
+  }
+}
+
+
+.capsid-feature {
+    fill: #AA0000;
+    cursor: pointer;
+}
+
+.capsid-feature-label {
+    font-weight: 400;
+    font-size: 1.4ex;
+    cursor: pointer;
+}
+
+.capsid-feature-read {
+    fill: #888888;   
+}
+
+#gv-tracks {
+  margin-top: 1em;
+  width: 20%;
+  min-height: 260px;
+}
+
+#gv-application {
+  width: 80%; 
+  float: right;
+}
+
+#gv-closer {
+  clear: both;
+}
+
+.capsid-track-title {
+  display: inline-block;
+}
+
+.capsid-draggable-track-title {
+  background-color: #CCCCCC;
+  padding: 2px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.capsid-track-block {
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-collapse: collapse;
+}
+
+.capsid-track-insert-below {
+  border-bottom: 3px solid #8888CC;
+}
+
+.capsid-track-insert-above {
+  border-top: 3px solid #8888CC;
+}
+
+.css-treeview li.capsid-draggable-track-title {
+  margin: 3px 0px;
+  padding: 0px 3px;
+  display: table;
+}
+
+form.search {
+  width: 100%;
+}
+
+span.userclear {
+  position: relative;
+  left: -20px;
+}
+
+label.checkbox.explained {
+  margin-bottom: 0px;
+}
+
+div.help-block.explanation {
+  margin-bottom: 10px;
+}
+
+fieldset.filter-fields legend {
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.alignment-gra {
+  display: inline-block;
+}
+
+.alignment-gra .alignment-gra-heading {
+  text-align: center;
+  font-weight: bold;
+}

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# OS specific support.
+cygwin=false
+case "`uname`" in
+CYGWIN*) cygwin=true;;
+esac
+
+if [ -z "$JAVA_OPTS" ]
+then
+  # Set default JAVA_OPTS
+  JAVA_OPTS="-Xmx2G -XX:MaxPermSize=128M"
+  export JAVA_OPTS
+fi
+
+# The directory containing the CAPSID shell script
+CAPSID_BIN_DIR=`dirname $0`
+# resolve links - $0 may be a softlink
+CAPSID_DIST=$(readlink -f $CAPSID_BIN_DIR/..)
+
+export CAPSID_DIST
+
+export CAPSID_LOG=$CAPSID_HOME/logs
+
+echo "JAVA_OPTS=$JAVA_OPTS"
+echo "CAPSID_HOME=$CAPSID_HOME"
+echo "CAPSID_DIST=$CAPSID_DIST"
+
+if [ -z "$CAPSID_HOME" ]
+then
+  echo "CAPSID_HOME not set."
+  exit 2;
+fi
+
+if $cygwin; then
+  # For Cygwin, ensure paths are in UNIX format before anything is touched
+  [ -n "$CAPSID_DIST" ] && CAPSID_BIN=`cygpath --unix "$CAPSID_DIST"`
+  [ -n "$CAPSID_HOME" ] && CAPSID_HOME=`cygpath --unix "$CAPSID_HOME"`
+  
+  # For Cygwin, switch paths to Windows format before running java  
+  export CAPSID_DIST=`cygpath --absolute --windows "$CAPSID_DIST"`
+  export CAPSID_HOME=`cygpath --absolute --windows "$CAPSID_HOME"`
+fi
+
+# Java 6 supports wildcard classpath entries
+# http://download.oracle.com/javase/6/docs/technotes/tools/solaris/classpath.html
+CLASSPATH=$CAPSID_HOME/conf:"$CAPSID_DIST/lib/*"
+if $cygwin; then
+  CLASSPATH=$CAPSID_HOME/conf;"$CAPSID_DIST/lib/*"
+fi
+
+[ -e "$CAPSID_HOME/logs" ] || mkdir "$CAPSID_HOME/logs"
+
+JAVA_DEBUG=-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n
+
+# Add $JAVA_DEBUG to this line to enable remote JVM debugging (for developers)
+java $JAVA_OPTS -cp "$CLASSPATH" -DCAPSID_HOME="${CAPSID_HOME}" -DCAPSID_DIST=${CAPSID_DIST} -DCAPSID_LOG=${CAPSID_LOG} ca.on.oicr.capsid.server.CapsidServer $@

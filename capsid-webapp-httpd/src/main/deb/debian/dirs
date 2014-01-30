@@ -1,0 +1,5 @@
+# This is where CAPSID_HOME is located
+var/lib/capsid
+
+# Store heliotrope log here
+var/log/capsid
