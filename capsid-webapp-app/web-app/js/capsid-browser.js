@@ -124,6 +124,20 @@ function bootstrapGenomeViewer(genomeViewer) {
 		return false;
 	}
 
+	genomeViewer.checkTrackListReady = function() {
+        var _this = this;
+        var checkAllTrackListStatus = function (status) {
+            if(_this.trackListPanel.status != status || (_this.regionOverviewPanel && _this.regionOverviewPanel.status != status)){
+               return false;
+            }
+            return true;
+        };
+        if (checkAllTrackListStatus('ready')) {
+            console.log('-------------all tracklist ready')
+            _this.trigger('tracks:ready', {sender: _this});
+        }
+    }
+
 	jQuery("#gv-tracks li").attr('draggable', 'true');
 	jQuery("#gv-tracks li").on('dragstart', handleDragStart);
 
