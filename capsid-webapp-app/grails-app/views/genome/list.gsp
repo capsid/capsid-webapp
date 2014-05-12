@@ -20,7 +20,7 @@
 					<g:render template="/layouts/filter"/>
 				</div>
 				<div id="genomes" class="results">
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed capsid-results">
 						<thead>
 							<tr>								
 								<g:sortableColumn params="${params}" property="accession" title="${message(code: 'genome.accession.label', default: 'Accession')}" />

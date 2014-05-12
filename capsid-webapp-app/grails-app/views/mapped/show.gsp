@@ -157,7 +157,7 @@
 					<div class="tab-pane" id="other">
 						<div id="other-table" class="results">
 							<h2>Hits on Other Genomes</h2>
-							<table class="table table-striped table-condensed">
+							<table class="table table-striped table-condensed capsid-results">
 								<thead>
 									<tr>
 										<th>Genome</th>

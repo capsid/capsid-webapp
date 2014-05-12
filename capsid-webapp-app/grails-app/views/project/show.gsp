@@ -64,7 +64,7 @@
 									<div id="stats-table" class="results">
 
 										<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
-										<table class="table table-striped table-condensed">
+										<table class="table table-striped table-condensed capsid-results">
 											<thead>
 												<tr>
 													<g:sortableColumn params="${params}" property="genome" title="${message(code: 'project.genome.label', default: 'Genome')}" />
@@ -112,7 +112,7 @@
 									
 									<div id="samples-table" class="results">
 										<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
-										<table class="table table-striped table-condensed">
+										<table class="table table-striped table-condensed capsid-results">
 											<thead>
 												<tr>
 													<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />

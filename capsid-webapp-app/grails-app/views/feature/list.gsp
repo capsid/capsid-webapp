@@ -24,7 +24,7 @@
 					<g:render template="/layouts/filter"/>
 				</div>
 				<div id="genes" class="results">
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed capsid-results">
 						<thead>
 							<tr>
 								<g:sortableColumn params="${params}" property="name" title="${message(code: 'feature.name.label', default: 'Name')}" />

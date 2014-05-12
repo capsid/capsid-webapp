@@ -43,7 +43,7 @@
 					<g:render template="/layouts/filter"/>
 				</div>
 				<div id="users" class="results">
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed capsid-results">
 						<thead>
 							<tr>
 								<g:sortableColumn params="${params}" property="username" title="${message(code: 'user.username.label', default: 'Username')}" />

@@ -21,7 +21,7 @@
 
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed capsid-results">
 						<thead>
 							<tr>
 							<%  excludedProps = Event.allEvents.toList() << 'id' << 'version'
