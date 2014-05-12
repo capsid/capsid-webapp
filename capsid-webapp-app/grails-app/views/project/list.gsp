@@ -47,7 +47,7 @@
 					<div class="span10">
 						<div id="projects" class="results">
 							<div class="pull-right"><bootstrap:pageSummary total="${projects.totalCount}" params="${params}" /></div>
-							<table class="table table-striped table-condensed">
+							<table class="table table-striped table-condensed capsid-results">
 								<thead>
 									<tr>
 										<g:sortableColumn params="${params}" property="name" title="${message(code: 'project.name.label', default: 'Name')}" />						

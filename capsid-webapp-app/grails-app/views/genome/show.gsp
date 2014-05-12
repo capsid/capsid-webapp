@@ -85,7 +85,7 @@
 							</div>
 							<div class="span10">
 								<div id="sample-stats-table" class="results">
-									<table class="table table-striped table-condensed">
+									<table class="table table-striped table-condensed capsid-results">
 										<thead>
 											<tr>
 												<g:sortableColumn params="${params}" property="sample" title="${message(code: 'statistics.sample.label', default: 'Sample')}" />
@@ -134,7 +134,7 @@
 							</div>
 							<div class="span10">
 								<div id="project-stats-table" class="results">
-									<table class="table table-striped table-condensed">
+									<table class="table table-striped table-condensed capsid-results">
 										<thead>
 											<tr>
 												<g:sortableColumn params="${params}" property="project" title="${message(code: 'statistics.project.label', default: 'Project')}" />
@@ -177,7 +177,7 @@
 							</div>
 							<div class="span10">
 								<div id="features-table" class="results">
-									<table class="table table-striped table-condensed">
+									<table class="table table-striped table-condensed capsid-results">
 										<thead>
 											<tr>
 												<g:sortableColumn params="${params}" property="name" title="${message(code: 'feature.name.label', default: 'Name')}" />

@@ -21,7 +21,7 @@
 
 				<div class="visual_search" style="height:32px;"></div>
 				<div id="results">
-					<table class="table table-striped table-condensed">
+					<table class="table table-striped table-condensed capsid-results">
 						<thead>
 							<tr>
 								<g:sortableColumn params="${params}" property="name" title="${message(code: 'alignment.name.label', default: 'Name')}" />

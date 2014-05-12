@@ -400,3 +400,7 @@ fieldset.filter-fields legend {
   text-align: center;
   font-weight: bold;
 }
+
+table.capsid-results {
+  clear: both;
+}
