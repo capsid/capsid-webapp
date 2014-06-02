@@ -404,3 +404,6 @@ fieldset.filter-fields legend {
 table.capsid-results {
   clear: both;
 }
+
+svg { pointer-events: none; }
+svg * { pointer-events: all; }
