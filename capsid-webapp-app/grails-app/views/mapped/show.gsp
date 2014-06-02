@@ -101,13 +101,13 @@
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="sample" action="show" id="${mappedInstance.sample}">
+						<g:link controller="sample" action="show" id="${mappedInstance.sample}" params="${[projectLabel: mappedInstance.projectLabel]}">
 						${mappedInstance.sample}
 						</g:link> 
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}">
+						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}" params="${[projectLabel: mappedInstance.projectLabel, sampleName: mappedInstance.sample]}">
 						${mappedInstance.alignment}
 						</g:link> 
 						<span class="divider">/</span>
