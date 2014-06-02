@@ -157,7 +157,7 @@ class AuthService {
    * @return true if access is allowed.
    */
   boolean authorize(Mapped mapped, List access) {
-    Project project = Project.findByLabel(mapped.project)
+    Project project = Project.findById(mapped.projectId)
     authorize(project, access)
   }
 

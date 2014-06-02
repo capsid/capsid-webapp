@@ -95,8 +95,8 @@
 			<div class="content span9">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${mappedInstance.project}">
-						${Project.findByLabel(mappedInstance.project).name}
+						<g:link controller="project" action="show" id="${mappedInstance.projectLabel}">
+						${Project.findById(mappedInstance.projectId).name}
 						</g:link> 
 						<span class="divider">/</span>
 					</li>

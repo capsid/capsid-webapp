@@ -56,7 +56,7 @@ class MappedService {
         )
         .collect {
           [
-            id: it._id.toString()
+            id: it.id.toString()
             , gi: it.genome 
             , refStart: it.refStart
             , refEnd: it.refEnd
@@ -256,7 +256,7 @@ class MappedService {
     }
 
     List<Map> data = results.collect { Mapped m ->
-      [start: m.refStart, end: m.refEnd, strand: m.refStrand, id: m.readId]
+      [start: m.refStart, end: m.refEnd, strand: m.refStrand, readId: m.readId, id: m.id.toString()]
     }
 
     return [data: data]

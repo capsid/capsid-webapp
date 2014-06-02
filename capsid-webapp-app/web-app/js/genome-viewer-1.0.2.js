@@ -8728,7 +8728,9 @@ Track.prototype = {
             'x': 0,
             'y': 0,
             'width': this.width,
-            'height': this.height
+            'height': this.height,
+            'xmlns': "http://www.w3.org/2000/svg",
+            'xmlns:xlink': "http://www.w3.org/1999/xlink"
         });
 
         if (this.resizable) {
