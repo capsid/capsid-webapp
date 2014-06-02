@@ -76,7 +76,7 @@
 
 							<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
 							<g:if test="${featureInstance}">
-								<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+								<li><g:link controller="feature" action="show" id="${featureInstance.uid}" params="${[projectLabel: mappedInstance.projectLabel]}">${featureInstance.name}</g:link></li>
 							</g:if>
 							<g:else>
 								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid.toInteger(), 'gene')}" />
