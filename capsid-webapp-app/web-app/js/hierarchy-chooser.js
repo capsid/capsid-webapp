@@ -8,11 +8,13 @@
             baseUrl: "http://localhost:3000/"
         }, options);
 
-    	var chooser = '<div class="btn-group">' +
+    	var chooser = '<div class="hierarchy-container"><div class="help-inline">Select by taxonomy:</div>' +
+            '<div class="btn-group">' +
 			'<a class="btn btn-small dropdown-toggle" data-toggle="dropdown" data-taxon-id="1" href="#">/ <span class="caret"></span></a>' +
 			'<ul class="dropdown-menu">' +
 			'</ul>' +
-			'</div>'
+			'</div>' +
+            '</div>'
 
 		var _this = this;
 		var internalChangeEvent = false;

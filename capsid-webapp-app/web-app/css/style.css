@@ -404,3 +404,10 @@ fieldset.filter-fields legend {
 table.capsid-results {
   clear: both;
 }
+
+div.hierarchy-container div.help-inline {
+  padding-right: 1em;
+}
+
+svg { pointer-events: none; }
+svg * { pointer-events: all; }
