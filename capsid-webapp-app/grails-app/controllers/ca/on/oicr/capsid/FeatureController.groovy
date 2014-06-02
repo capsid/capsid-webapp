@@ -78,12 +78,8 @@ class FeatureController {
 
         Feature featureInstance = findInstance()
 
-        Project projectInstance = projectService.get(params.projectLabel)
-        assert projectInstance != null
-
         [
-            featureInstance: featureInstance, 
-            projectInstance: projectInstance
+            featureInstance: featureInstance
         ]
     }
 

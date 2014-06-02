@@ -8,7 +8,7 @@ class UrlMappings {
 		"/genome/$action/$projectLabel/$id"(controller: "genome")
 		"/genome/$action"(controller: "genome")
 
-		"/feature/$action/$projectLabel/$id"(controller: "feature")
+		"/feature/$action/$id"(controller: "feature")
 		"/feature/$action"(controller: "feature")
 
 		"/browse/$action/$id/$projectLabel?/$sampleName?"(controller: "browse")

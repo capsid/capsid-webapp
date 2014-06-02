@@ -10,8 +10,8 @@
 
 package ca.on.oicr.capsid
 
-import groovy.time.*
 import grails.plugins.springsecurity.Secured
+import org.bson.types.ObjectId
 
 /**
  * Service to handle mapped read data access. 
@@ -40,7 +40,7 @@ class MappedService {
      * @return the mapped read.
      */
     Mapped get(String id) {
-        Mapped.get id
+        Mapped.get(new ObjectId(id))
     }
 
     /**

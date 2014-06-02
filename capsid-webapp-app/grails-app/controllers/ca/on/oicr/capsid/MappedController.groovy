@@ -40,6 +40,7 @@ class MappedController {
      */
     def show() {
         Mapped mappedInstance = findInstance()
+        assert mappedInstance
 
         List fasta = mappedService.bucket(mappedInstance.sequence)
         ArrayList otherHits = mappedService.otherHits mappedInstance
