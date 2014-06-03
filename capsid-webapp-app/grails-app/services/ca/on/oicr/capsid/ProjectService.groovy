@@ -43,6 +43,16 @@ class ProjectService {
 	}
 
   /**
+   * Finds a requested project by identifier
+   *
+   * @param identifier the project identifier.
+   * @return the project.
+   */
+  Project getById(identifier) {
+    Project.get identifier
+  }
+
+  /**
    * Finds all projects matching the given criteria
    *
    * @param params a map of the search criteria from the original request.

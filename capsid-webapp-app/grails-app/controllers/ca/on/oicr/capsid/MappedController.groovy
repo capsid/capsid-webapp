@@ -36,6 +36,11 @@ class MappedController {
     def mappedService
 
     /**
+     * Dependency injection for the ProjectService.
+     */
+    def projectService
+
+    /**
      * The show action.
      */
     def show() {
@@ -79,20 +84,23 @@ class MappedController {
      */
 	private Mapped findInstance() {
 		Mapped mappedInstance = mappedService.get(params.id)
-		authorize(mappedInstance, ['user', 'collaborator', 'owner'])
-		if (!mappedInstance) {
-			flash.message = message(code: 'default.not.found.message', args: [message(code: 'mapped.label', default: 'Mapped'), params.id])
-			redirect action: 'list'
-		}
+        if (!mappedInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'mapped.label', default: 'Mapped'), params.id])
+            redirect action: 'list'
+        }
+
+        Project projectInstance = projectService.getById(mappedInstance.projectId)
+		authorize(projectInstance, ['user', 'collaborator', 'owner'])
+
 		mappedInstance
 	}
 
     /**
      * Checks authorization and redirects to the login denied page if not.
      */
-	private void authorize(def auth, List access) {
-		if (!authService.authorize(auth, access)) {
-		  render view: '../login/denied'
-		}
-	}
+    private void authorize(Project auth, List access) {
+        if (!authService.authorize(auth, access)) {
+          render view: '../login/denied'
+        }
+    }
 }
