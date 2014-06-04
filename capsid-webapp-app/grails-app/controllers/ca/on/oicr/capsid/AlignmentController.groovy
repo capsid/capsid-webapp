@@ -182,7 +182,7 @@ class AlignmentController {
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
 
         Project projectInstance = Project.findByLabel(params.projectLabel)
-        authorize(projectInstance, roles)
+        //authorize(projectInstance, roles)
 
         Sample sampleInstance = sampleService.get(params.sampleName, projectInstance.id)
         assert sampleInstance != null

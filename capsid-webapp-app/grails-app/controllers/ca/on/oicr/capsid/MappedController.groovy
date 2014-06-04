@@ -89,8 +89,8 @@ class MappedController {
             redirect action: 'list'
         }
 
-        Project projectInstance = projectService.getById(mappedInstance.projectId)
-		authorize(projectInstance, ['user', 'collaborator', 'owner'])
+        //Project projectInstance = projectService.getById(mappedInstance.projectId)
+		//authorize(projectInstance, ['user', 'collaborator', 'owner'])
 
 		mappedInstance
 	}
