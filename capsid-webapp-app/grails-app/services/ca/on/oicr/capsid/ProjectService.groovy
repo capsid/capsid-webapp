@@ -64,9 +64,9 @@ class ProjectService {
 	  criteria.list(params) {
 		  and {
 			  // Security Check
-			  if (!authService.isCapsidAdmin()) {
-				  'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
-			  }
+			  //if (!authService.isCapsidAdmin()) {
+				//  'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
+			  //}
 
 			  // Filters by label, using project name on client side
 			  if (params?.name) {
