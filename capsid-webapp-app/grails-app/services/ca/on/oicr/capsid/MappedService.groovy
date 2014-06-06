@@ -56,10 +56,10 @@ class MappedService {
         )
         .collect {
           [
-            id: it.id.toString()
-            , gi: it.genome 
-            , refStart: it.refStart
-            , refEnd: it.refEnd
+            id: it["_id"].toString()
+            , gi: it["genome"] 
+            , refStart: it["refStart"]
+            , refEnd: it["refEnd"]
           ]
         }
     }
