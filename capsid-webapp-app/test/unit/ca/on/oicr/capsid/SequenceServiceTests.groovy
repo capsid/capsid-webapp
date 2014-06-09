@@ -43,6 +43,13 @@ class SequenceServiceTests {
     	assert result["reference"] == "AGTGA"
     }
 
+    void testCalculateAlignment4() {
+    	Map result = service.calculateAlignment(sequence, "2C2", "5M") 
+    	assert result["sequence"] ==  "AGTGA"
+    	assert result["markup"] ==    "||.||"
+    	assert result["reference"] == "AGCGA"
+    }
+
 	/*
 	// Check a single deletion against the reference
     void testCalculateAlignmentDelete() {

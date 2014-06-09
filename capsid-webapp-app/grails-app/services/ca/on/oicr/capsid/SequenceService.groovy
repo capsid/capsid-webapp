@@ -131,11 +131,51 @@ class SequenceService {
     			// practice, we might well encounter various MD substitutions along the way, and
     			// we will need to handle these if they exist. 
 
-    			ArrayList firstMdAction = mdActions[0]
+    			// So we should process some pending MD actions. While we can.
+    			while(mdActions.size() > 0) {
+    				ArrayList firstMdAction = mdActions[0]
 
-    			sequence <<  inputSequence[inputSequencePosition..(inputSequencePosition + count - 1)]
-    			markup <<    '|'*count
-    			reference << inputSequence[inputSequencePosition..(inputSequencePosition + count - 1)]
+    				log.error("Action: " + firstMdAction)
+
+    				if (firstMdAction[0] == MD_INSERT) {
+    					throw new RuntimeException("Conflict between CIGAR and MD strings: attempting insert at: " + inputSequencePosition)
+    				}
+
+    				// If we're handling an MD_COPY, we simply do it, and advance the pointers that
+    				// we need to advance.
+
+    				if (firstMdAction[0] == MD_COPY) {
+    					Integer mdCount = firstMdAction[1]
+    					if (mdCount > count) {
+    						firstMdAction[1] -= count
+    						break
+    					}
+
+    					String segment = inputSequence[inputSequencePosition..(inputSequencePosition + mdCount - 1)]
+		    			sequence <<  segment
+		    			markup <<    '|'*mdCount
+		    			reference << segment
+		    			inputSequencePosition += mdCount
+
+		    			mdActions.remove(0)
+		    			continue;
+    				}
+
+    				if (firstMdAction[0] == MD_REPLACE) {
+    					String mdToken = firstMdAction[1]
+    					Integer mdCount = mdToken.size()
+
+    					sequence <<  inputSequence[inputSequencePosition..(inputSequencePosition + mdCount - 1)]
+		    			markup <<    '.'*mdCount
+		    			reference << mdToken
+		    			inputSequencePosition += mdCount
+
+		    			mdActions.remove(0)
+						continue;
+    				}
+
+    				throw new RuntimeException("Unexpected MD command");
+    			}
 
     			// We're done.
     			cigarActions.remove(0)
