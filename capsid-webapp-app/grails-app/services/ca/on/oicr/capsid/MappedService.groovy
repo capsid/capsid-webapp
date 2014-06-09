@@ -134,22 +134,21 @@ class MappedService {
     int start = mappedInstance.refStart
     int end = mappedInstance.refEnd
 
-    ArrayList readsQuery = Mapped.collection.find(
-        [
-        alignment: mappedInstance.alignment
-        , genome: mappedInstance.genome as int
-        , refStrand: mappedInstance.refStrand
-        ]
-      ).collect {
-        [
-          refStart: it.refStart
-          , refEnd: it.refEnd
-          , sequence: it.sequence
-        ]
-      } 
+    def criteria = Mapped.createCriteria();
+    List<Mapped> results = criteria.list {
+      eq("genome", mappedInstance.genome as int)
+      eq("alignmentId", mappedInstance.alignmentId)
+      eq("refStrand", mappedInstance.refStrand)
+    }.collect {
+      [
+        refStart: it.refStart
+        , refEnd: it.refEnd
+        , sequence: it.sequence
+      ]
+    } 
 
     while (true) {
-      reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
+      reads = results.findAll {it.refStart < end && it.refEnd > start }
         
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break
