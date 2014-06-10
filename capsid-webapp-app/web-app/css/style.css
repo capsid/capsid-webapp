@@ -265,6 +265,7 @@ pre.snippet .error {
 .seqstr {
   display: inline-block;
   margin-right: 10px;
+  white-space:pre;
 }
 /* @media */
 @media (min-width: 769px) and (max-width: 1124px) {
