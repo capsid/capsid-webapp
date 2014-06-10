@@ -11,6 +11,7 @@ class SequenceService {
 	public static final String CIGAR_DELETE = "CIGAR_DELETE"
 	public static final String CIGAR_MATCH = "CIGAR_MATCH"
 	public static final String CIGAR_SOFT_CLIPPING = "CIGAR_SOFT"
+	public static final String CIGAR_HARD_CLIPPING = "CIGAR_HARD"
 
 	public static final String MD_COPY = "MD_COPY"
 	public static final String MD_INSERT = "MD_INSERT"
@@ -23,13 +24,15 @@ class SequenceService {
     	matcher.each {
     		Integer count = it[1] as Integer
     		String identifier = it[2]
-    		if (identifier == 'D' || identifier == 'N' || identifier == 'P' || identifier == 'H') {
+    		if (identifier == 'D' || identifier == 'N' || identifier == 'P') {
                 cigarActions << [CIGAR_DELETE, count] 
             } else if (identifier == 'I') {
     			cigarActions << [CIGAR_INSERT, count] 
     		} else if (identifier == 'M' || identifier == '=' || identifier == 'X') {
     			cigarActions << [CIGAR_MATCH, count] 
-    		} else if (identifier == 'S') {
+    		} else if (identifier == 'H') {
+    			cigarActions << [CIGAR_HARD_CLIPPING, count] 
+			} else if (identifier == 'S') {
     			cigarActions << [CIGAR_SOFT_CLIPPING, count] 
 			}
     	}
@@ -82,8 +85,9 @@ class SequenceService {
     	StringBuilder reference = new StringBuilder()
     	StringBuilder markup = new StringBuilder()
 
-    	log.debug("cigar string: " + cigar)
-    	log.debug("MD string:    " + MD)
+    	log.error("sequence:     " + inputSequence)
+    	log.error("cigar string: " + cigar)
+    	log.error("MD string:    " + MD)
 
     	log.debug("cigarActions: " + cigarActions)
 
@@ -98,7 +102,7 @@ class SequenceService {
 
     		log.debug("Handling cigar action: " + action)
 
-    		if (action[0] == CIGAR_SOFT_CLIPPING) {
+    		if (action[0] == CIGAR_SOFT_CLIPPING || action[0] == CIGAR_HARD_CLIPPING) {
     			log.debug("Dropping cigar action")
     			cigarActions.remove(0)
 
@@ -228,6 +232,10 @@ class SequenceService {
    		log.debug("sequence:  " + sequence)
    		log.debug("markup:    " + markup)
    		log.debug("reference: " + reference)
+
+   		while(cigarActions.size() > 0 && cigarActions[0][0] == CIGAR_HARD_CLIPPING) {
+   			cigarActions.remove(0)
+   		}
 
    		assert mdActions.size() == 0
    		assert cigarActions.size() == 0

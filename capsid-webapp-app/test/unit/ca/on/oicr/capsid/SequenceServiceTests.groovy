@@ -80,6 +80,14 @@ class SequenceServiceTests {
     	assert result["reference"] == "GTCCCCCAACTACGACAAGTGGGAAATGGAGCGCACCGACATCACCATGAAGCACAAGTTGGGTGGAGGCCAGTACGGGGAGGTGTACGAGGGCG"
     }
 
+    void testCalculateAlignment9() {
+    	String longSequence = "ACACACGGACACACACACACACACGCACACAGACACACACACA"
+    	Map result = service.calculateAlignment(longSequence, "25G17", "4H43M3H") 
+    	assert result["sequence"] ==  "ACACACGGACACACACACACACACGCACACAGACACACACACA"
+    	assert result["markup"] ==    "|||||||||||||||||||||||||.|||||||||||||||||"
+    	assert result["reference"] == "ACACACGGACACACACACACACACGGACACAGACACACACACA"
+    }
+
     void testTupleToCIGAR1() {
     	String result = service.tupleToCIGAR([[0, 5]])
     	assert result == "5M"
@@ -88,5 +96,10 @@ class SequenceServiceTests {
     void testTupleToCIGAR2() {
     	String result = service.tupleToCIGAR([[0, 5], [2, 10], [1, 3], [0, 20]])
     	assert result == "5M10D3I20M"
+    }
+
+    void testTupleToCIGAR3() {
+    	String result = service.tupleToCIGAR([[5, 4], [0, 43], [5, 3]])
+    	assert result == "4H43M3H"
     }
 }
