@@ -85,9 +85,9 @@ class SequenceService {
     	StringBuilder reference = new StringBuilder()
     	StringBuilder markup = new StringBuilder()
 
-    	log.error("sequence:     " + inputSequence)
-    	log.error("cigar string: " + cigar)
-    	log.error("MD string:    " + MD)
+    	log.debug("sequence:     " + inputSequence)
+    	log.debug("cigar string: " + cigar)
+    	log.debug("MD string:    " + MD)
 
     	log.debug("cigarActions: " + cigarActions)
     	log.debug("mdActions: " + mdActions)
