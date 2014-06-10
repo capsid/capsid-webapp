@@ -74,10 +74,10 @@ class SequenceService {
     	StringBuilder reference = new StringBuilder()
     	StringBuilder markup = new StringBuilder()
 
-    	log.error("cigar string: " + cigar)
-    	log.error("MD string:    " + MD)
+    	log.debug("cigar string: " + cigar)
+    	log.debug("MD string:    " + MD)
 
-    	log.error("cigarActions: " + cigarActions)
+    	log.debug("cigarActions: " + cigarActions)
 
     	// Main loop involves pulling cigar actions. When we are done, we are done. 
     	// During this, we rely a lot on the basic principle that we are dealing entirely 
@@ -88,7 +88,7 @@ class SequenceService {
     		ArrayList action = cigarActions[0]
     		Integer count = action[1]
 
-    		log.error("Handling cigar action: " + action)
+    		log.debug("Handling cigar action: " + action)
 
     		if (action[0] == CIGAR_INSERT) {
 
@@ -109,10 +109,10 @@ class SequenceService {
     			inputSequencePosition += count
 
     			// We're done.
-    			log.error("Dropping cigar action")
+    			log.debug("Dropping cigar action")
     			cigarActions.remove(0)
     			//if (mdActions[0][1] <= 0) {
-    			//	log.error("Dropping MD action")
+    			//	log.debug("Dropping MD action")
     			//	mdActions.remove(0)
     			//}
 
@@ -132,9 +132,9 @@ class SequenceService {
     			reference << mdActions[0][1]
 
     			// We're done.
-    			log.error("Dropping cigar action")
+    			log.debug("Dropping cigar action")
     			cigarActions.remove(0)
-    			log.error("Dropping MD action")
+    			log.debug("Dropping MD action")
     			mdActions.remove(0)
 
     		} else if (action[0] == CIGAR_MATCH) {
@@ -149,9 +149,9 @@ class SequenceService {
     			while(mdActions.size() > 0) {
     				ArrayList firstMdAction = mdActions[0]
 
-    				log.error("About to perform action: " + firstMdAction + ", handled: " + mdHandled + " of " + count)
+    				log.debug("About to perform action: " + firstMdAction + ", handled: " + mdHandled + " of " + count)
     				if (mdHandled >= count) {
-    					log.error("On second thoughts, let's bail out")
+    					log.debug("On second thoughts, let's bail out")
     					break
     				}
 
@@ -168,8 +168,8 @@ class SequenceService {
     						mdCount = count
     					}
     					firstMdAction[1] -= count
-    					
-    					log.error("Copying " + mdCount + " characters")
+
+    					log.debug("Copying " + mdCount + " characters")
 
     					String segment = inputSequence[inputSequencePosition..(inputSequencePosition + mdCount - 1)]
 		    			sequence <<  segment
@@ -178,7 +178,7 @@ class SequenceService {
 		    			inputSequencePosition += mdCount
 
 		    			if (firstMdAction[1] <= 0) {
-		    				log.error("Dropping MD action")
+		    				log.debug("Dropping MD action")
 			    			mdActions.remove(0)
 			    		}
 		    			mdHandled += mdCount
@@ -194,7 +194,7 @@ class SequenceService {
 		    			reference << mdToken
 		    			inputSequencePosition += mdCount
 
-		    			log.error("Dropping MD action")
+		    			log.debug("Dropping MD action")
 		    			mdActions.remove(0)
 		    			mdHandled += mdCount
 						continue;
@@ -204,7 +204,7 @@ class SequenceService {
     			}
 
     			// We're done.
-    			log.error("Dropping cigar action")
+    			log.debug("Dropping cigar action")
     			cigarActions.remove(0)
 
    			} else {
@@ -213,9 +213,9 @@ class SequenceService {
     		}
     	}
 
-   		log.error("sequence:  " + sequence)
-   		log.error("markup:    " + markup)
-   		log.error("reference: " + reference)
+   		log.debug("sequence:  " + sequence)
+   		log.debug("markup:    " + markup)
+   		log.debug("reference: " + reference)
 
    		assert mdActions.size() == 0
    		assert cigarActions.size() == 0

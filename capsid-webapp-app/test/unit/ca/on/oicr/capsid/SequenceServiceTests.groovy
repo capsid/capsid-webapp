@@ -64,68 +64,15 @@ class SequenceServiceTests {
     	assert result["reference"] == "AG-GCTGGTAGCTCAGGGATGTCTCGTCTGTGAGTTACAGCA"
     }
 
-	/*
-	// Check a single deletion against the reference
-    void testCalculateAlignmentDelete() {
-    	String sequence = "AGTGATGGGAGGATGTCTCGTCTGTGAGTTACAGCA"
-    	String MD = "10^GCTCAG26"
-    	String cigar = "10M6D26M"
-
-    	Map result = service.calculateAlignment(sequence, MD, cigar) 
-    	assert result != null
-    	assert result.containsKey("sequence")
-    	assert result.containsKey("reference")
-    	assert result.containsKey("markup")
-
-    	assert result["sequence"] ==  "AGTGATGGGA------GGATGTCTCGTCTGTGAGTTACAGCA"
-    	assert result["markup"] ==    "||||||||||      ||||||||||||||||||||||||||"
-    	assert result["reference"] == "AGTGATGGGAGCTCAGGGATGTCTCGTCTGTGAGTTACAGCA"
+    void testCalculateAlignment7() {
+    	String longSequence = "AAGAAGAGAGAGAGAGAGAGAGAGAGAGAGAAGAGAGAGAGAGAGAGAGAGGGGGGGGGAGAAAGAGAGAGAGAGA"
+    	Map result = service.calculateAlignment(longSequence, "3G27^G20A1A1A1A4G13", "31M1D45M") 
+    	assert result["sequence"] ==  "AAGAAGAGAGAGAGAGAGAGAGAGAGAGAGA-AGAGAGAGAGAGAGAGAGAGGGGGGGGGAGAAAGAGAGAGAGAGA"
+    	assert result["markup"] ==    "|||.||||||||||||||||||||||||||| ||||||||||||||||||||.|.|.|.||||.|||||||||||||"
+    	assert result["reference"] == "AAGGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA"
     }
 
-	// Check an insertion and a deletion against the reference
-    void testCalculateAlignmentDeleteAndInsert() {
-    	String sequence = "AGTGATGGGA"
-    	String MD = "9"
-    	String cigar = "2M1I7M"
-
-    	Map result = service.calculateAlignment(sequence, MD, cigar) 
-    	assert result != null
-    	assert result.containsKey("sequence")
-    	assert result.containsKey("reference")
-    	assert result.containsKey("markup")
-
-    	assert result["sequence"] ==  "AGTGATGGGA"
-    	assert result["markup"] ==    "|| |||||||"
-    	assert result["reference"] == "AG-GATGGGA"
     }
 
-    void testCalculateAlignment1() {
-    	String sequence = "AGTGATGGGAGGATGTCTCGTCTGTGAGTTACAGCA"
-    	String MD = "3C3T1^GCTCAG26"
-    	String cigar = "2M1I7M6D26M"
-
-    	Map result = service.calculateAlignment(sequence, MD, cigar) 
-    	assert result != null
-    	assert result.containsKey("sequence")
-    	assert result.containsKey("reference")
-    	assert result.containsKey("markup")
-
-    	assert result["sequence"] ==  "AGTGATGGGA------GGATGTCTCGTCTGTGAGTTACAGCA"
-    	assert result["markup"] ==    "|| |.|||.|      ||||||||||||||||||||||||||"
-    	assert result["reference"] == "AG-GCTGGTAGCTCAGGGATGTCTCGTCTGTGAGTTACAGCA"
     }
-
-    void testCalculateAlignment3() {
-    	String sequence = "AAGAAGAGAGAGAGAGAGAGAGAGAGAGAGAAGAGAGAGAGAGAGAGAGAGGGGGGGGGAGAAAGAGAGAGAGAGA"
-    	String MD = "3G27^G20A1A1A1A4G13"
-    	String cigar = "31M1D45M"
-
-    	Map result = service.calculateAlignment(sequence, MD, cigar) 
-    	assert result != null
-    	assert result.containsKey("sequence")
-    	assert result.containsKey("reference")
-    	assert result.containsKey("markup")
-
-    }
-    */
 }
