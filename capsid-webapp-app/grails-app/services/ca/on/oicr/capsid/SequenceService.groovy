@@ -90,6 +90,7 @@ class SequenceService {
     	log.error("MD string:    " + MD)
 
     	log.debug("cigarActions: " + cigarActions)
+    	log.debug("mdActions: " + mdActions)
 
     	// Main loop involves pulling cigar actions. When we are done, we are done. 
     	// During this, we rely a lot on the basic principle that we are dealing entirely 
@@ -179,11 +180,19 @@ class SequenceService {
     				// we need to advance.
 
     				if (firstMdAction[0] == MD_COPY) {
-    					Integer mdCount = firstMdAction[1]
-    					if (mdCount > count) {
-    						mdCount = count
+
+    					if (firstMdAction[1] == 0) {
+    						log.debug("Dropping MD action")
+			    			mdActions.remove(0)
+			    			continue;
     					}
-    					firstMdAction[1] -= count
+
+    					Integer remaining = count - mdHandled
+    					Integer mdCount = firstMdAction[1]
+    					if (mdCount > remaining) {
+    						mdCount = remaining
+    					}
+    					firstMdAction[1] -= remaining
 
     					log.debug("Copying " + mdCount + " characters")
 
