@@ -10,6 +10,7 @@ class SequenceService {
 	public static final String CIGAR_INSERT = "CIGAR_INSERT"
 	public static final String CIGAR_DELETE = "CIGAR_DELETE"
 	public static final String CIGAR_MATCH = "CIGAR_MATCH"
+	public static final String CIGAR_SOFT_CLIPPING = "CIGAR_SOFT"
 
 	public static final String MD_COPY = "MD_COPY"
 	public static final String MD_INSERT = "MD_INSERT"
@@ -24,11 +25,13 @@ class SequenceService {
     		String identifier = it[2]
     		if (identifier == 'D' || identifier == 'N' || identifier == 'P' || identifier == 'H') {
                 cigarActions << [CIGAR_DELETE, count] 
-            } else if (identifier == 'I' || identifier == 'S') {
+            } else if (identifier == 'I') {
     			cigarActions << [CIGAR_INSERT, count] 
     		} else if (identifier == 'M' || identifier == '=' || identifier == 'X') {
     			cigarActions << [CIGAR_MATCH, count] 
-    		}
+    		} else if (identifier == 'S') {
+    			cigarActions << [CIGAR_SOFT_CLIPPING, count] 
+			}
     	}
 
     	return cigarActions
@@ -69,6 +72,11 @@ class SequenceService {
     	ArrayList cigarActions = cigarActions(cigar)
     	ArrayList mdActions = mdActions(MD)
 
+    	// Helpfully*, our sequence already has soft clipping removed, so there is nothing
+    	// we can do apart from drop it.
+    	//
+    	// * I lied. It isn't helpful. 
+
     	Integer inputSequencePosition = 0
      	StringBuilder sequence = new StringBuilder()
     	StringBuilder reference = new StringBuilder()
@@ -90,7 +98,11 @@ class SequenceService {
 
     		log.debug("Handling cigar action: " + action)
 
-    		if (action[0] == CIGAR_INSERT) {
+    		if (action[0] == CIGAR_SOFT_CLIPPING) {
+    			log.debug("Dropping cigar action")
+    			cigarActions.remove(0)
+
+    		} else if (action[0] == CIGAR_INSERT) {
 
     			// Case: we're an insert. This is an additional set of chars in the sequence
     			// so we can infer the reference as a subset, by dropping them from the 
