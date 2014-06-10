@@ -221,4 +221,15 @@ class SequenceService {
    		assert cigarActions.size() == 0
     	return [sequence: sequence.toString(), reference: reference.toString(), markup: markup.toString()]    	
     }
+
+    private static final String[] cig_ops = ['M','I','D','N','S','H','P','M','X']
+
+    String tupleToCIGAR(List readcig) {
+    	StringBuilder cigar = new StringBuilder()
+    	for(tuple in readcig) {
+    		cigar << tuple[1]
+    		cigar << cig_ops[tuple[0]]
+    	}
+    	return cigar.toString()    
+    }
 }

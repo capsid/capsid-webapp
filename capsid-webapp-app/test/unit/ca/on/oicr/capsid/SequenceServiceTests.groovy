@@ -72,7 +72,13 @@ class SequenceServiceTests {
     	assert result["reference"] == "AAGGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA"
     }
 
+    void testTupleToCIGAR1() {
+    	String result = service.tupleToCIGAR([[0, 5]])
+    	assert result == "5M"
     }
 
+    void testTupleToCIGAR2() {
+    	String result = service.tupleToCIGAR([[0, 5], [2, 10], [1, 3], [0, 20]])
+    	assert result == "5M10D3I20M"
     }
 }
