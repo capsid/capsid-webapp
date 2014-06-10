@@ -10,7 +10,7 @@ import org.junit.*
 @TestFor(SequenceService)
 class SequenceServiceTests {
 
-   	String sequence = "AGTGATGGGAGGATGTCTCGTCTGTGAGTTACAGCA"
+   	String sequence = "AGTGATGGGAGGATGTCTCGTCTGTGAGTTACAGCAGAGTTACAGCA"
 
 	void testCigarActions() {
 		ArrayList result = service.cigarActions("5I") 
@@ -23,10 +23,10 @@ class SequenceServiceTests {
 	}
 
     void testCalculateAlignment1() {
-    	Map result = service.calculateAlignment(sequence, "5", "5I") 
-    	assert result["sequence"] ==  "AGTGA"
-    	assert result["markup"] ==    "     "
-    	assert result["reference"] == "-----"
+    	Map result = service.calculateAlignment(sequence, "10", "5M5I5M") 
+    	assert result["sequence"] ==  "AGTGATGGGAGGATG"
+    	assert result["markup"] ==    "|||||     |||||"
+    	assert result["reference"] == "AGTGA-----GGATG"
     }
 
     void testCalculateAlignment2() {
@@ -48,6 +48,20 @@ class SequenceServiceTests {
     	assert result["sequence"] ==  "AGTGA"
     	assert result["markup"] ==    "||.||"
     	assert result["reference"] == "AGCGA"
+    }
+
+    void testCalculateAlignment5() {
+    	Map result = service.calculateAlignment(sequence, "2C2^AGTGA5", "5M5D5M") 
+    	assert result["sequence"] ==  "AGTGA-----TGGGA"
+    	assert result["markup"] ==    "||.||     |||||"
+    	assert result["reference"] == "AGCGAAGTGATGGGA"
+    }
+
+    void testCalculateAlignment6() {
+    	Map result = service.calculateAlignment(sequence, "3C3T1^GCTCAG26", "2M1I7M6D26M") 
+    	assert result["sequence"] ==  "AGTGATGGGA------GGATGTCTCGTCTGTGAGTTACAGCA"
+    	assert result["markup"] ==    "|| |.|||.|      ||||||||||||||||||||||||||"
+    	assert result["reference"] == "AG-GCTGGTAGCTCAGGGATGTCTCGTCTGTGAGTTACAGCA"
     }
 
 	/*

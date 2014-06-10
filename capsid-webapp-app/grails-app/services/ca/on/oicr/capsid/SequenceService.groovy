@@ -7,13 +7,13 @@ class SequenceService {
 
 	private static final log = LogFactory.getLog(this)
 
-	public static final int CIGAR_INSERT = -1
-	public static final int CIGAR_DELETE = 1
-	public static final int CIGAR_MATCH = 0
+	public static final String CIGAR_INSERT = "CIGAR_INSERT"
+	public static final String CIGAR_DELETE = "CIGAR_DELETE"
+	public static final String CIGAR_MATCH = "CIGAR_MATCH"
 
-	public static final int MD_COPY = 0
-	public static final int MD_INSERT = 1
-	public static final int MD_REPLACE = 2
+	public static final String MD_COPY = "MD_COPY"
+	public static final String MD_INSERT = "MD_INSERT"
+	public static final String MD_REPLACE = "MD_REPLACE"
 
 	ArrayList cigarActions(String cigar) {
     	ArrayList cigarActions = [] as ArrayList
@@ -27,7 +27,7 @@ class SequenceService {
             } else if (identifier == 'I' || identifier == 'S') {
     			cigarActions << [CIGAR_INSERT, count] 
     		} else if (identifier == 'M' || identifier == '=' || identifier == 'X') {
-    			cigarActions << [0, count] 
+    			cigarActions << [CIGAR_MATCH, count] 
     		}
     	}
 
@@ -74,6 +74,9 @@ class SequenceService {
     	StringBuilder reference = new StringBuilder()
     	StringBuilder markup = new StringBuilder()
 
+    	log.error("cigar string: " + cigar)
+    	log.error("MD string:    " + MD)
+
     	log.error("cigarActions: " + cigarActions)
 
     	// Main loop involves pulling cigar actions. When we are done, we are done. 
@@ -85,7 +88,7 @@ class SequenceService {
     		ArrayList action = cigarActions[0]
     		Integer count = action[1]
 
-    		log.error(action)
+    		log.error("Handling cigar action: " + action)
 
     		if (action[0] == CIGAR_INSERT) {
 
@@ -94,10 +97,11 @@ class SequenceService {
     			// reference, and not matching them. 
 
     			// There *must not* be a corresponding MD action. In fact, the next MD action
-    			// *must* be an MD_COPY, and we decrement its count. 
+    			// *must* be an MD_COPY, and we decrement its count. If that count becomes zero or less
+    			// we drop it.
 
-    			assert mdActions[0][0] == MD_COPY
-    			mdActions[0][1] -= count
+    			//assert mdActions[0][0] == MD_COPY
+    			//mdActions[0][1] -= count
 
     			sequence <<  inputSequence[inputSequencePosition..(inputSequencePosition + count - 1)]
     			markup <<    ' '*count
@@ -105,7 +109,12 @@ class SequenceService {
     			inputSequencePosition += count
 
     			// We're done.
+    			log.error("Dropping cigar action")
     			cigarActions.remove(0)
+    			//if (mdActions[0][1] <= 0) {
+    			//	log.error("Dropping MD action")
+    			//	mdActions.remove(0)
+    			//}
 
     		} else if (action[0] == CIGAR_DELETE) {
 
@@ -123,7 +132,10 @@ class SequenceService {
     			reference << mdActions[0][1]
 
     			// We're done.
+    			log.error("Dropping cigar action")
     			cigarActions.remove(0)
+    			log.error("Dropping MD action")
+    			mdActions.remove(0)
 
     		} else if (action[0] == CIGAR_MATCH) {
 
@@ -131,11 +143,17 @@ class SequenceService {
     			// practice, we might well encounter various MD substitutions along the way, and
     			// we will need to handle these if they exist. 
 
+    			Integer mdHandled = 0
+
     			// So we should process some pending MD actions. While we can.
     			while(mdActions.size() > 0) {
     				ArrayList firstMdAction = mdActions[0]
 
-    				log.error("Action: " + firstMdAction)
+    				log.error("About to perform action: " + firstMdAction + ", handled: " + mdHandled + " of " + count)
+    				if (mdHandled >= count) {
+    					log.error("On second thoughts, let's bail out")
+    					break
+    				}
 
     				if (firstMdAction[0] == MD_INSERT) {
     					throw new RuntimeException("Conflict between CIGAR and MD strings: attempting insert at: " + inputSequencePosition)
@@ -147,9 +165,11 @@ class SequenceService {
     				if (firstMdAction[0] == MD_COPY) {
     					Integer mdCount = firstMdAction[1]
     					if (mdCount > count) {
-    						firstMdAction[1] -= count
-    						break
+    						mdCount = count
     					}
+    					firstMdAction[1] -= count
+    					
+    					log.error("Copying " + mdCount + " characters")
 
     					String segment = inputSequence[inputSequencePosition..(inputSequencePosition + mdCount - 1)]
 		    			sequence <<  segment
@@ -157,7 +177,11 @@ class SequenceService {
 		    			reference << segment
 		    			inputSequencePosition += mdCount
 
-		    			mdActions.remove(0)
+		    			if (firstMdAction[1] <= 0) {
+		    				log.error("Dropping MD action")
+			    			mdActions.remove(0)
+			    		}
+		    			mdHandled += mdCount
 		    			continue;
     				}
 
@@ -170,7 +194,9 @@ class SequenceService {
 		    			reference << mdToken
 		    			inputSequencePosition += mdCount
 
+		    			log.error("Dropping MD action")
 		    			mdActions.remove(0)
+		    			mdHandled += mdCount
 						continue;
     				}
 
@@ -178,6 +204,7 @@ class SequenceService {
     			}
 
     			// We're done.
+    			log.error("Dropping cigar action")
     			cigarActions.remove(0)
 
    			} else {
@@ -189,6 +216,9 @@ class SequenceService {
    		log.error("sequence:  " + sequence)
    		log.error("markup:    " + markup)
    		log.error("reference: " + reference)
+
+   		assert mdActions.size() == 0
+   		assert cigarActions.size() == 0
     	return [sequence: sequence.toString(), reference: reference.toString(), markup: markup.toString()]    	
     }
 }
