@@ -96,6 +96,14 @@ class SequenceServiceTests {
     	assert result["reference"] == "ACACACACACAC-ACACACACACGCACACACACACACACACACACACACACACACACACACACACACACA--CACA"
     }
 
+    void testCalculateAlignmentB() {
+        String longSequence = "TGCATATGATTGTATCTGTTAATTATTTCAATTTGCTTTTAAATATCTAATTCTTGTCTATTGTTTCAACATTTTGTTAAACTGTTTTTCTCTGTTCATGA"
+        Map result = service.calculateAlignment(longSequence,  "7C0A6^GAAC3^CAG1^G0G5G7A6G2T2T2G1G2G3A2^G6T2^CCCA9C0",  "4M1I1M1I8M1I2M4D3M3D1M1D41M4I1M1D3M4I1M1I5M4D2M7I3M2I5M") 
+        assert result["sequence"] ==  "AGAGAGACCCCCTGAAAAAACGCACACACACACACACACACACACACACACACACACACACACACGCACATGCACA"
+        assert result["markup"] ==    "|.|.|.||.|.| ..|.|.||.|.|||||||||||||||||||||||||||||||||||||||||.||||  ||||"
+        assert result["reference"] == "ACACACACACAC-ACACACACACGCACACACACACACACACACACACACACACACACACACACACACACA--CACA"
+    }
+
     void testTupleToCIGAR1() {
     	String result = service.tupleToCIGAR([[0, 5]])
     	assert result == "5M"
@@ -114,5 +122,10 @@ class SequenceServiceTests {
     void testTupleToCIGAR4() {
     	String result = service.tupleToCIGAR([[0, 12], [1, 1], [0, 57], [1, 2], [0, 4]])
     	assert result == "12M1I57M2I4M"
+    }
+
+    void testTupleToCIGAR5() {
+        String result = service.tupleToCIGAR([[0, 4], [1, 1], [0, 1], [1, 1], [0, 8], [1, 1], [0, 2], [2, 4], [0, 3], [2, 3], [0, 1], [2, 1], [0, 41], [1, 4], [0, 1], [2, 1], [0, 3], [1, 4], [0, 1], [1, 1], [0, 5], [2, 4], [0, 2], [1, 7], [0, 3], [1, 2], [0, 5]])
+        assert result == "4M1I1M1I8M1I2M4D3M3D1M1D41M4I1M1D3M4I1M1I5M4D2M7I3M2I5M"
     }
 }
