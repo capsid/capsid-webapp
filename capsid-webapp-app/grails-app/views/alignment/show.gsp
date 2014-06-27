@@ -113,7 +113,7 @@
 										<tbody>
 										<g:each in="${statistics}" var="statisticsInstance">
 											<tr>
-												<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}" params="${[projectLabel: statisticsInstance.projectLabel]}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
+												<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
 												<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
 												<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
 												<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>

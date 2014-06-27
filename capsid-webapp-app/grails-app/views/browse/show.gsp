@@ -10,7 +10,7 @@
 		<div class="content">
 			<div class="page-header">
 				<h1>
-					<g:link controller="genome" action="show" id="${genomeInstance.accession}" params="${[projectLabel: projectInstance.label]}">${fieldValue(bean: genomeInstance, field: "name")} (${fieldValue(bean: genomeInstance, field: "accession")})</g:link>
+					<g:link controller="genome" action="show" id="${genomeInstance.accession}">${fieldValue(bean: genomeInstance, field: "name")} (${fieldValue(bean: genomeInstance, field: "accession")})</g:link>
 					<small> ${fieldValue(bean: genomeInstance, field: "length")}bp</small>
 				</h1>
 				[<a href="http://www.ncbi.nlm.nih.gov/nuccore/${genomeInstance.accession}" target="_blank" style="color:#444">Link to NCBI Nucleotide DB</a>]

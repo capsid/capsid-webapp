@@ -76,12 +76,12 @@
 
 							<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
 							<g:if test="${featureInstance}">
-								<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+								<li><g:link controller="feature" action="show" id="${featureInstance.id.toString()}">${featureInstance.name}</g:link></li>
 							</g:if>
 							<g:else>
 								<g:set var="featureInstance" value="${Feature.findByGeneIdAndType(uid.toInteger(), 'gene')}" />
 								<g:if test="${featureInstance}">
-									<li><g:link controller="feature" action="show" id="${featureInstance.uid}">${featureInstance.name}</g:link></li>
+									<li><g:link controller="feature" action="show" id="${featureInstance.id.toString()}">${featureInstance.name}</g:link></li>
 								</g:if>
 								<g:else>
 								<a href="http://www.ncbi.nlm.nih.gov/gene/${uid}" target="_blank">${uid}</a>
@@ -95,19 +95,19 @@
 			<div class="content span9">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${mappedInstance.project}">
-						${Project.findByLabel(mappedInstance.project).name}
+						<g:link controller="project" action="show" id="${mappedInstance.projectLabel}">
+						${Project.findById(mappedInstance.projectId).name}
 						</g:link> 
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="sample" action="show" id="${mappedInstance.sample}">
+						<g:link controller="sample" action="show" id="${mappedInstance.sample}" params="${[projectLabel: mappedInstance.projectLabel]}">
 						${mappedInstance.sample}
 						</g:link> 
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}">
+						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}" params="${[projectLabel: mappedInstance.projectLabel, sampleName: mappedInstance.sample]}">
 						${mappedInstance.alignment}
 						</g:link> 
 						<span class="divider">/</span>

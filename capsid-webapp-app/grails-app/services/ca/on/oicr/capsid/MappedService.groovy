@@ -10,8 +10,8 @@
 
 package ca.on.oicr.capsid
 
-import groovy.time.*
 import grails.plugins.springsecurity.Secured
+import org.bson.types.ObjectId
 
 /**
  * Service to handle mapped read data access. 
@@ -34,13 +34,18 @@ class MappedService {
     def projectService
 
     /**
+     * Dependency injection for the SequenceService.
+     */
+    def sequenceService
+
+    /**
      * Finds a requested mapped read
      *
      * @param id the read identifier.
      * @return the mapped read.
      */
     Mapped get(String id) {
-        Mapped.get id
+        Mapped.get(new ObjectId(id))
     }
 
     /**
@@ -56,10 +61,10 @@ class MappedService {
         )
         .collect {
           [
-            id: it._id.toString()
-            , gi: it.genome 
-            , refStart: it.refStart
-            , refEnd: it.refEnd
+            id: it["_id"].toString()
+            , gi: it["genome"] 
+            , refStart: it["refStart"]
+            , refEnd: it["refEnd"]
           ]
         }
     }
@@ -72,26 +77,8 @@ class MappedService {
    */
   Map getSplitAlignment(Mapped mappedInstance) {
 
-    String markUp = new String()
-    String genome = new String()
-    int placeholder = 0
-
-    def m = mappedInstance.MD.findAll(/([A-Z]+|\d+)/)
-
-    m.each {
-      if (it.isNumber()) {
-        it = it as int
-        if (it > 0) {
-          genome = genome + mappedInstance.sequence[placeholder..placeholder + (it - 1)]
-          markUp = markUp + '|'*it
-          placeholder = placeholder + it
-        }
-      } else {
-        placeholder++
-        markUp = markUp + '.'
-        genome = genome + it
-      }
-    }
+    String cigar = sequenceService.tupleToCIGAR(mappedInstance['cigar'])
+    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, mappedInstance.MD, cigar)
 
     Map formatted = [
       query: [ seq: [], pos: [] ],
@@ -99,9 +86,9 @@ class MappedService {
       markup: []
     ]
 
-    formatted.query.seq = bucket(mappedInstance.sequence)
-    formatted.ref.seq = bucket(genome)
-    formatted.markup = bucket(markUp)
+    formatted.query.seq = bucket(results['sequence'])
+    formatted.ref.seq = bucket(results['reference'])
+    formatted.markup = bucket(results['markup'])
 
     for (i in 0..<formatted.query.seq.size()) {
       int qc = formatted.query.seq[i].findAll {it ==~ /\w/}.size()
@@ -134,22 +121,21 @@ class MappedService {
     int start = mappedInstance.refStart
     int end = mappedInstance.refEnd
 
-    ArrayList readsQuery = Mapped.collection.find(
-        [
-        alignment: mappedInstance.alignment
-        , genome: mappedInstance.genome as int
-        , refStrand: mappedInstance.refStrand
-        ]
-      ).collect {
-        [
-          refStart: it.refStart
-          , refEnd: it.refEnd
-          , sequence: it.sequence
-        ]
-      } 
+    def criteria = Mapped.createCriteria();
+    List<Mapped> results = criteria.list {
+      eq("genome", mappedInstance.genome as int)
+      eq("alignmentId", mappedInstance.alignmentId)
+      eq("refStrand", mappedInstance.refStrand)
+    }.collect {
+      [
+        refStart: it.refStart
+        , refEnd: it.refEnd
+        , sequence: it.sequence
+      ]
+    } 
 
     while (true) {
-      reads = readsQuery.findAll {it.refStart < end && it.refEnd > start }
+      reads = results.findAll {it.refStart < end && it.refEnd > start }
         
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break
@@ -256,7 +242,7 @@ class MappedService {
     }
 
     List<Map> data = results.collect { Mapped m ->
-      [start: m.refStart, end: m.refEnd, strand: m.refStrand, id: m.readId]
+      [start: m.refStart, end: m.refEnd, strand: m.refStrand, readId: m.readId, id: m.id.toString()]
     }
 
     return [data: data]

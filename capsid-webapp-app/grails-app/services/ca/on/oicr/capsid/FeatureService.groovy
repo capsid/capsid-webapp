@@ -10,6 +10,8 @@
 
 package ca.on.oicr.capsid
 
+import org.bson.types.ObjectId
+
 /**
  * Service to handle feature data access. 
  */
@@ -23,11 +25,11 @@ class FeatureService {
     /**
      * Finds a requested feature
      *
-     * @param uid the feature unique identifier.
+     * @param the feature unique identifier.
      * @return the feature.
      */
-    Feature get(String uid) {
-        Feature.findByUid uid
+    Feature get(String id) {
+        Feature.get(new ObjectId(id))
     }
 
     /**

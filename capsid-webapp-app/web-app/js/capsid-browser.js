@@ -104,10 +104,11 @@ function handleDrop(e, genomeViewer) {
 			sampleName: sampleName
 		}
 		var track = addSampleTrack(genomeViewer, urlBase, params);
+		var trackIdentifier = projectLabel + "-" + sampleName;
 
 		// We can now work out the new index, which ought to be related to the previous one. 
 		var newIndex = (direction == "below") ? (oldIndex + 1) : oldIndex;
-		genomeViewer.setTrackIndex(currentTrack, newIndex);
+		genomeViewer.setTrackIndex(trackIdentifier, newIndex);
 	}
 
 	return true;

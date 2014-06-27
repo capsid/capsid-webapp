@@ -30,6 +30,17 @@ function makePoints(list) {
 
 CapsidFeatureRenderer.prototype.render = function (features, args) {
     var _this = this;
+
+    _this.on("feature:click", function(a) {
+
+        var pathname = location.pathname;
+        var index = pathname.indexOf("/browse");
+        if (index == -1) throw new Error("Internal error: an't locate URL root");
+        pathname = pathname.substr(0, index);
+
+        window.location.pathname = pathname + "/mapped/show/" + encodeURIComponent(a.feature.id);
+    })
+
     var draw = function (feature) {
         //get feature render configuration
         var color = _.isFunction(_this.color) ? _this.color(feature) : _this.color;
@@ -75,6 +86,7 @@ CapsidFeatureRenderer.prototype.render = function (features, args) {
                     feature.strand == 1
                         ? ["M", x, rowY, "l", width, 0, "l", arrowWidthX, arrowMidY, "l", -arrowWidthX, arrowMidY, "l", -width, 0, "z"].join(" ")
                         : ["M", x, rowY, "l", -arrowWidthX, arrowMidY, "l", arrowWidthX, arrowMidY, "l", width, 0, "l", 0, -height, "l", -width, 0, "z"].join(" ")
+
                 var path = SVG.addChild(featureGroup, "path", {
                     'class':_this.blockClass,
                     'd': genePath
@@ -96,6 +108,7 @@ CapsidFeatureRenderer.prototype.render = function (features, args) {
                 $(featureGroup).click(function (event) {
                     _this.trigger('feature:click', {query: feature[infoWidgetId], feature: feature, featureType: feature.featureType, clickEvent: event})
                 });
+
                 break;
             }
             rowY += rowHeight;

@@ -180,7 +180,7 @@ class SampleController {
         assert params.projectLabel, "Missing project label"
         Project projectInstance = Project.findByLabel(params.projectLabel)
         assert projectInstance != null, "Can't find specified project"
-        authorize(projectInstance, roles)
+        //authorize(projectInstance, roles)
 
 		Sample sampleInstance = sampleService.get(params.id, projectInstance.id)
 		if (!sampleInstance) {

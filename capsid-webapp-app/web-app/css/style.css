@@ -265,6 +265,7 @@ pre.snippet .error {
 .seqstr {
   display: inline-block;
   margin-right: 10px;
+  white-space:pre;
 }
 /* @media */
 @media (min-width: 769px) and (max-width: 1124px) {
@@ -404,3 +405,10 @@ fieldset.filter-fields legend {
 table.capsid-results {
   clear: both;
 }
+
+div.hierarchy-container div.help-inline {
+  padding-right: 1em;
+}
+
+svg { pointer-events: none; }
+svg * { pointer-events: all; }

@@ -43,6 +43,16 @@ class ProjectService {
 	}
 
   /**
+   * Finds a requested project by identifier
+   *
+   * @param identifier the project identifier.
+   * @return the project.
+   */
+  Project getById(identifier) {
+    Project.get identifier
+  }
+
+  /**
    * Finds all projects matching the given criteria
    *
    * @param params a map of the search criteria from the original request.
@@ -54,9 +64,9 @@ class ProjectService {
 	  criteria.list(params) {
 		  and {
 			  // Security Check
-			  if (!authService.isCapsidAdmin()) {
-				  'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
-			  }
+			  //if (!authService.isCapsidAdmin()) {
+				//  'in'("roles", authService.getRolesWithAccess(['user', 'collaborator', 'owner']))
+			  //}
 
 			  // Filters by label, using project name on client side
 			  if (params?.name) {

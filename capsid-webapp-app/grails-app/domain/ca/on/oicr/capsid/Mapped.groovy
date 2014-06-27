@@ -108,11 +108,6 @@ class Mapped {
     String MD
 
     /**
-     * The PG value.
-     */
-    String PG
-
-    /**
      * Genome identifier.
      */
     Long genome
