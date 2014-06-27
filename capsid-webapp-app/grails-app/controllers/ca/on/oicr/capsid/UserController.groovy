@@ -12,8 +12,7 @@ package ca.on.oicr.capsid
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import grails.plugin.springsecurity.annotation.Secured
 import org.bson.types.ObjectId
 
 /**
@@ -26,6 +25,11 @@ class UserController {
      * The allowed methods.
      */
     static allowedMethods = [create: 'GET', save: 'POST', update: 'POST', delete: 'POST']
+
+    /**
+     * Dependency injection for the GrailsApplication.
+     */
+    def grailsApplication
 
     /**
      * Dependency injection for the AuthService.
@@ -119,7 +123,7 @@ class UserController {
             sendMail {
                 to userInstance.email
                 subject "[capsid] CaPSID User Created"
-                body 'New user created for CaPSID.\n\nUsername:\t' + userInstance.username + '\nPassword:\t' + password + '\n\nCaPSID - ' + CH.config.grails.serverURL + '\nPlease do not respond to this email'
+                body 'New user created for CaPSID.\n\nUsername:\t' + userInstance.username + '\nPassword:\t' + password + '\n\nCaPSID - ' + grailsApplication.config.grails.serverURL + '\nPlease do not respond to this email'
             }
         }
 		

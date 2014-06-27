@@ -12,7 +12,7 @@ package ca.on.oicr.capsid
 
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 
 /**
  * Controller class for the project controller. 

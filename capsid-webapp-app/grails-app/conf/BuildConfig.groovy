@@ -41,6 +41,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.16'
         // provided 'org.mortbay.jetty:jetty:6.1.26'
         runtime 'org.mongodb:mongo-java-driver:2.12.2'
+        compile "net.sf.ehcache:ehcache-core:2.4.8"
     }
 
     plugins {
@@ -51,10 +52,10 @@ grails.project.dependency.resolution = {
         
         compile ':fields:1.3'
         
-        compile ':navigation:1.3.2'
         compile ':mail:1.0.6'
         compile ':spring-security-core:2.0-RC3'
         compile ":spring-security-ldap:2.0-RC2"
+        compile ":scaffolding:2.1.2" 
 
         runtime ":mongodb:3.0.1"
         

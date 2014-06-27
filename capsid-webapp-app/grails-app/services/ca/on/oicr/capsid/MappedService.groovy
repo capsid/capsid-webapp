@@ -10,7 +10,6 @@
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
 /**
