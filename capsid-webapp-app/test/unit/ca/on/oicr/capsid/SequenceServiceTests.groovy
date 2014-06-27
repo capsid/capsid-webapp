@@ -23,42 +23,42 @@ class SequenceServiceTests {
 	}
 
     void testCalculateAlignment1() {
-    	Map result = service.calculateAlignment(sequence, "10", "5M5I5M") 
+    	Map result = service.calculateAlignment(sequence,  "10",  "5M5I5M") 
     	assert result["sequence"] ==  "AGTGATGGGAGGATG"
     	assert result["markup"] ==    "|||||     |||||"
     	assert result["reference"] == "AGTGA-----GGATG"
     }
 
     void testCalculateAlignment2() {
-    	Map result = service.calculateAlignment(sequence, "^AGTGA", "5D") 
+    	Map result = service.calculateAlignment(sequence,  "^AGTGA",  "5D") 
     	assert result["sequence"] ==  "-----"
     	assert result["markup"] ==    "     "
     	assert result["reference"] == "AGTGA"
     }
 
     void testCalculateAlignment3() {
-    	Map result = service.calculateAlignment(sequence, "5", "5M") 
+    	Map result = service.calculateAlignment(sequence,  "5",  "5M") 
     	assert result["sequence"] ==  "AGTGA"
     	assert result["markup"] ==    "|||||"
     	assert result["reference"] == "AGTGA"
     }
 
     void testCalculateAlignment4() {
-    	Map result = service.calculateAlignment(sequence, "2C2", "5M") 
+    	Map result = service.calculateAlignment(sequence,  "2C2",  "5M") 
     	assert result["sequence"] ==  "AGTGA"
     	assert result["markup"] ==    "||.||"
     	assert result["reference"] == "AGCGA"
     }
 
     void testCalculateAlignment5() {
-    	Map result = service.calculateAlignment(sequence, "2C2^AGTGA5", "5M5D5M") 
+    	Map result = service.calculateAlignment(sequence,  "2C2^AGTGA5",  "5M5D5M") 
     	assert result["sequence"] ==  "AGTGA-----TGGGA"
     	assert result["markup"] ==    "||.||     |||||"
     	assert result["reference"] == "AGCGAAGTGATGGGA"
     }
 
     void testCalculateAlignment6() {
-    	Map result = service.calculateAlignment(sequence, "3C3T1^GCTCAG26", "2M1I7M6D26M") 
+    	Map result = service.calculateAlignment(sequence,  "3C3T1^GCTCAG26",  "2M1I7M6D26M") 
     	assert result["sequence"] ==  "AGTGATGGGA------GGATGTCTCGTCTGTGAGTTACAGCA"
     	assert result["markup"] ==    "|| |.|||.|      ||||||||||||||||||||||||||"
     	assert result["reference"] == "AG-GCTGGTAGCTCAGGGATGTCTCGTCTGTGAGTTACAGCA"
@@ -66,7 +66,7 @@ class SequenceServiceTests {
 
     void testCalculateAlignment7() {
     	String longSequence = "AAGAAGAGAGAGAGAGAGAGAGAGAGAGAGAAGAGAGAGAGAGAGAGAGAGGGGGGGGGAGAAAGAGAGAGAGAGA"
-    	Map result = service.calculateAlignment(longSequence, "3G27^G20A1A1A1A4G13", "31M1D45M") 
+    	Map result = service.calculateAlignment(longSequence,  "3G27^G20A1A1A1A4G13",  "31M1D45M") 
     	assert result["sequence"] ==  "AAGAAGAGAGAGAGAGAGAGAGAGAGAGAGA-AGAGAGAGAGAGAGAGAGAGGGGGGGGGAGAAAGAGAGAGAGAGA"
     	assert result["markup"] ==    "|||.||||||||||||||||||||||||||| ||||||||||||||||||||.|.|.|.||||.|||||||||||||"
     	assert result["reference"] == "AAGGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA"
@@ -74,7 +74,7 @@ class SequenceServiceTests {
 
     void testCalculateAlignment8() {
     	String longSequence = "GTCCCCCAACTACGACAAGTGGGAAATGGAGCGCACCGACATCACCATGAAGCACAAGTTGGGTGGAGGCCAGTACGGGGAGGTGTACGAGGGCG"
-    	Map result = service.calculateAlignment(longSequence, "95", "6S95M") 
+    	Map result = service.calculateAlignment(longSequence,  "95",  "6S95M") 
     	assert result["sequence"] ==  "GTCCCCCAACTACGACAAGTGGGAAATGGAGCGCACCGACATCACCATGAAGCACAAGTTGGGTGGAGGCCAGTACGGGGAGGTGTACGAGGGCG"
     	assert result["markup"] ==    "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
     	assert result["reference"] == "GTCCCCCAACTACGACAAGTGGGAAATGGAGCGCACCGACATCACCATGAAGCACAAGTTGGGTGGAGGCCAGTACGGGGAGGTGTACGAGGGCG"
@@ -82,7 +82,7 @@ class SequenceServiceTests {
 
     void testCalculateAlignment9() {
     	String longSequence = "ACACACGGACACACACACACACACGCACACAGACACACACACA"
-    	Map result = service.calculateAlignment(longSequence, "25G17", "4H43M3H") 
+    	Map result = service.calculateAlignment(longSequence,  "25G17",  "4H43M3H") 
     	assert result["sequence"] ==  "ACACACGGACACACACACACACACGCACACAGACACACACACA"
     	assert result["markup"] ==    "|||||||||||||||||||||||||.|||||||||||||||||"
     	assert result["reference"] == "ACACACGGACACACACACACACACGGACACAGACACACACACA"
@@ -90,7 +90,7 @@ class SequenceServiceTests {
 
     void testCalculateAlignmentA() {
     	String longSequence = "AGAGAGACCCCCTGAAAAAACGCACACACACACACACACACACACACACACACACACACACACACGCACATGCACA"
-    	Map result = service.calculateAlignment(longSequence, "1C1C1C2A1A1A0C1C1C2A1G41A8", "12M1I57M2I4M") 
+    	Map result = service.calculateAlignment(longSequence,  "1C1C1C2A1A1A0C1C1C2A1G41A8",  "12M1I57M2I4M") 
     	assert result["sequence"] ==  "AGAGAGACCCCCTGAAAAAACGCACACACACACACACACACACACACACACACACACACACACACGCACATGCACA"
     	assert result["markup"] ==    "|.|.|.||.|.| ..|.|.||.|.|||||||||||||||||||||||||||||||||||||||||.||||  ||||"
     	assert result["reference"] == "ACACACACACAC-ACACACACACGCACACACACACACACACACACACACACACACACACACACACACACA--CACA"
