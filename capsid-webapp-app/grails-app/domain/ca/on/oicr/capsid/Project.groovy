@@ -52,7 +52,7 @@ class Project {
         label unique:true, blank:false, display:false, matches:/[\w\d\-]+/
         description blank:true, widget: 'textarea'
         wikiLink blank:true, url: true
-        roles blank:false, display:false, editable: false
+        roles display:false, editable: false
     }
 
     /**
