@@ -139,7 +139,7 @@
 
 		<div id="tooltip-container"></div>
 
-		<g:javascript>
+		<asset:script type="text/javascript">
 		var actionUrl = 
 			"${g.createLink(
 				controller: 'alignment', 
@@ -163,14 +163,17 @@
     			.datum(data)
     			.call(chart);
 		});
-		</g:javascript>
-		<g:javascript>
+		</asset:script>
+
+		<asset:script type="text/javascript">
 		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
 		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
 			var form = jQuery("#genomes-tab form.form-filters");
 		    form.find("input[name=taxonRootId]").val(value.id);
 		    form.trigger("submit");
 		});
-		</g:javascript>
+		</asset:script>
+
+		<asset:deferredScripts/>
 	</body>
 </html>

@@ -16,10 +16,11 @@
 
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 		
-		<r:require modules="capsid"/>
+		<asset:javascript src="capsid.js"/>
+		<asset:stylesheet href="style.css"/>
+
 		<!-- fav and touch icons -->
 		<g:layoutHead/> 
-		<r:layoutResources/>
 	</head>
 	
 	<body>
@@ -118,6 +119,5 @@
 		<div class="container-fluid">
 			<g:layoutBody/>
 		</div>
-		<r:layoutResources/>
 	</body>
 </html>
