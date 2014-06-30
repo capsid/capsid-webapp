@@ -46,8 +46,7 @@ grails.project.dependency.resolution = {
 
     plugins {
         
-        compile ":resources:1.2.8"
-        
+        compile ':asset-pipeline:1.9.0'        
         compile ":jquery:1.11.1"
         
         compile ':fields:1.3'

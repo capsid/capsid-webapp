@@ -23,9 +23,11 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 //grails.urlmapping.cache.maxsize = 1000
 
 // What URL patterns should be processed by the resources plugin
-grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
-grails.resources.mappers.hashandcache.excludes = ['**/*.js']
-grails.resources.processing.enabled = false
+//grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
+//grails.resources.mappers.hashandcache.excludes = ['**/*.js']
+//grails.resources.processing.enabled = false
+
+
 
 // The default codec used to encode data with ${}
 grails.views.default.codec = "none" // none, html, base64
@@ -90,6 +92,10 @@ log4j = { root ->
 
     debug  'com.mongodb'
 }
+
+grails.assets.minifyJs = false
+grails.assets.minifyCss = false
+grails.assets.mapping = 'assets'
 
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
