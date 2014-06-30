@@ -98,15 +98,19 @@ grails.assets.minifyCss = false
 grails.assets.mapping = 'assets'
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
-grails.plugins.springsecurity.authority.className = 'ca.on.oicr.capsid.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
+grails.plugin.springsecurity.authority.className = 'ca.on.oicr.capsid.Role'
+
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+   '/assets/**': ['permitAll'],
+]
 
 // Added by the Spring Security LDAP plugin:
-grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
-grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
+grails.plugin.springsecurity.ldap.context.anonymousReadOnly = true
+grails.plugin.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
+grails.plugin.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+grails.plugin.springsecurity.ldap.authorities.retrieveGroupRoles = true
 
 // Twitter Bootstrap
 grails.plugins.twitterbootstrap.customDir = 'less'
