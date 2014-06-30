@@ -1,3 +1,10 @@
+//= require jquery-1.11.1.js
+//= require js/bootstrap.js
+//= require capsid-filters.js
+//= require jquery.qtip.js
+//= require hierarchy-chooser.js
+//= require_self
+
 jQuery(function($) {
   $('body').ajaxStart(function() {
     $('.results table').css({'opacity': 0.4});
