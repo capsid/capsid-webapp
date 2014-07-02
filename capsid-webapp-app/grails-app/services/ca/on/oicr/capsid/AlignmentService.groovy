@@ -13,7 +13,6 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 import com.mongodb.BasicDBList
 import com.mongodb.BasicDBObject
-import grails.plugins.springsecurity.Secured
 
 /**
  * Service to handle alignment data access. 

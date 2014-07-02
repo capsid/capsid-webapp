@@ -18,7 +18,7 @@ import org.bson.types.ObjectId
 import com.mongodb.BasicDBObject
 
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 
 /**
  * Controller class for the browser controller. 

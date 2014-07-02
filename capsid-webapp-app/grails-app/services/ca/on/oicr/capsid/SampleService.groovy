@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.types.ObjectId
-import grails.plugins.springsecurity.Secured
 
 /**
  * Service to handle sample data access. 

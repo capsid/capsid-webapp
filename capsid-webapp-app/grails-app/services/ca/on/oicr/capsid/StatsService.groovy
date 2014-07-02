@@ -11,7 +11,6 @@
 package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
-import grails.plugins.springsecurity.Secured
 
 /**
  * Service to handle statistics record data access. 

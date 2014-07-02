@@ -10,7 +10,6 @@
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
 /**
@@ -77,14 +76,19 @@ class MappedService {
    */
   Map getSplitAlignment(Mapped mappedInstance) {
 
-    String cigar = sequenceService.tupleToCIGAR(mappedInstance['cigar'])
-    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, mappedInstance.MD, cigar)
-
     Map formatted = [
       query: [ seq: [], pos: [] ],
       ref: [ seq: [], pos: [] ],
       markup: []
     ]
+
+    String cigar = sequenceService.tupleToCIGAR(mappedInstance['cigar'])
+    String md = mappedInstance['MD']
+
+    if (! md) {
+      return formatted
+    }
+    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, md, cigar)
 
     formatted.query.seq = bucket(results['sequence'])
     formatted.ref.seq = bucket(results['reference'])

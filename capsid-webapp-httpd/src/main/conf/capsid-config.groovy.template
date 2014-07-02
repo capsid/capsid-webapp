@@ -2,7 +2,7 @@
 // These settings will not be overwritten by a new install of CaPSID
 
 grails {
-    plugins {
+    plugin {
         springsecurity {
             ldap {
                 active = true

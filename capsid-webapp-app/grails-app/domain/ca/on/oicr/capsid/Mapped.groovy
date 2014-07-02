@@ -93,6 +93,11 @@ class Mapped {
     List mapsGene
 
     /**
+     * List of mapped genes.
+     */
+    List cigar
+
+    /**
      * The actual sequence.
      */
     String sequence
@@ -101,11 +106,6 @@ class Mapped {
      * Alignment score.
      */
     Integer alignScore
-
-    /**
-     * The MD value.
-     */
-    String MD
 
     /**
      * Genome identifier.
@@ -158,7 +158,7 @@ class Mapped {
      * Mapping attributes.
      */
     static mapping = {
-            cache true
+            cache false
             version false
             stateless true
     }

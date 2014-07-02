@@ -16,11 +16,11 @@
 
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 		
-		<r:require modules="capsid"/>
+		<asset:javascript src="capsid.js"/>
+		<asset:stylesheet href="style.css"/>
+
 		<!-- fav and touch icons -->
-		<nav:resources override="true"/>
 		<g:layoutHead/> 
-		<r:layoutResources/>
 	</head>
 	
 	<body>
@@ -69,16 +69,12 @@
 					<div class="nav-collapse">
 						<ul class="nav">		
 							<li class="divider-vertical"></li>
-							<nav:eachItem var="item" group="project">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
-							<nav:eachItem var="item" group="sample">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
+							<li class="${controllerName=='project'?'active':''}">
+								<g:link controller="project" action="list">Projects</g:link>
+							</li>
+							<li class="${controllerName=='sample'?'active':''}">
+								<g:link controller="sample" action="list">Samples</g:link>
+							</li>
 							<li class="divider-vertical"></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
@@ -123,6 +119,5 @@
 		<div class="container-fluid">
 			<g:layoutBody/>
 		</div>
-		<r:layoutResources/>
 	</body>
 </html>

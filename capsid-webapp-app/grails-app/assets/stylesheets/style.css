@@ -1,3 +1,10 @@
+/*
+*= require css/bootstrap.css
+*= require_self
+*= require jquery.qtip.css
+*= encoding UTF-8
+*/
+
 @charset "UTF-8";
 /*
  *  Copyright 2011(c) The Ontario Institute for Cancer Research. All rights reserved.
@@ -32,7 +39,7 @@ h2 small {font-size: 16px;}
   padding: 8px 10px 12px;
 }
 .navbar .navbar-inner .dropdown-toggle.active {color: #ffffff;}
-.navbar .nav-icon:hover{background-image: url(../img/glyphicons-halflings-white.png);}
+.navbar .nav-icon:hover{background-image: url(img/glyphicons-halflings-white.png);}
 
 .navbar-inner {
   background-color: #446688; /* fallback color, place your own */
@@ -75,7 +82,7 @@ h2 small {font-size: 16px;}
 }
 
 .navbar .nav-icon {
-  background-image: url(../img/glyphicons-halflings-white.png);
+  background-image: url(img/glyphicons-halflings-white.png);
 }
 
 .navbar .nav li.dropdown>.dropdown-toggle .caret {
@@ -201,7 +208,7 @@ section .tab-pane {
   height: 14px;
   margin-left: 0.3em;
   vertical-align: text-top;
-  background-image: url(../img/glyphicons-halflings.png);
+  background-image: url(img/glyphicons-halflings.png);
   background-position: 14px 14px;
   background-repeat: no-repeat;
 }
