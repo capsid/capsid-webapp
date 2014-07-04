@@ -325,7 +325,10 @@ pre.snippet .error {
 }
 
 .capsid-feature-read {
-    fill: #888888;   
+    fill: #BB4444;
+}
+.capsid-feature-read.read_ref {
+    fill: #BBBBBB;
 }
 
 #gv-tracks {
@@ -335,7 +338,7 @@ pre.snippet .error {
 }
 
 #gv-application {
-  width: 80%; 
+  width: 80%;
   float: right;
 }
 

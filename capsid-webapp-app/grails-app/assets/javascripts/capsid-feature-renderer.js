@@ -82,13 +82,13 @@ CapsidFeatureRenderer.prototype.render = function (features, args) {
             if (foundArea) {
                 var featureGroup = SVG.addChild(args.svgCanvasFeatures, "g", {'feature_id': feature.id});
 
-                var genePath = 
+                var genePath =
                     feature.strand == 1
                         ? ["M", x, rowY, "l", width, 0, "l", arrowWidthX, arrowMidY, "l", -arrowWidthX, arrowMidY, "l", -width, 0, "z"].join(" ")
                         : ["M", x, rowY, "l", -arrowWidthX, arrowMidY, "l", arrowWidthX, arrowMidY, "l", width, 0, "l", 0, -height, "l", -width, 0, "z"].join(" ")
 
                 var path = SVG.addChild(featureGroup, "path", {
-                    'class':_this.blockClass,
+                    'class':_this.blockClass + ' ' + (feature.isRef ? "read_ref" : "read_noref"),
                     'd': genePath
                 });
 
