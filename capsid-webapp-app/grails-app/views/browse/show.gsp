@@ -19,7 +19,7 @@
 			<g:if test="${flash.message}">
 			<div class="message">${flash.message}</div>
 			</g:if>
-			
+
 			<div id="setup-loader"><span>Setting up genome browser...</span></div>
 
 			<div id="checkBrowser"></div>

@@ -151,7 +151,7 @@ class Mapped {
      * Define the field constraints.
      */
     static constraints = {
-                
+
     }
 
     /**

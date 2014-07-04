@@ -21,7 +21,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the browser controller. 
+ * Controller class for the browser controller.
  */
 @Secured(['ROLE_CAPSID'])
 class BrowseController {
@@ -52,7 +52,7 @@ class BrowseController {
   def sampleService
 
   /**
-   * The index action. Redirects to the list action. 
+   * The index action. Redirects to the list action.
    */
   def index = {redirect(action: "show", params: params)}
 
@@ -67,7 +67,7 @@ class BrowseController {
     Map model = [genomeInstance:genomeInstance, projectService: projectService, sampleService: sampleService]
 
     // The genome browser might also be invoked with a project and sample. If so, we should add that
-    // into the view. If not, we just display the genome. 
+    // into the view. If not, we just display the genome.
 
     String projectLabel = params.projectLabel
     String sampleName = params.sampleName
@@ -75,15 +75,15 @@ class BrowseController {
     if (projectLabel) {
       Project projectInstance = Project.findByLabel(projectLabel)
       assert projectInstance != null
-      
+
       model['projectInstance'] = projectInstance
 
       if (sampleName) {
         Sample sampleInstance = sampleService.get(sampleName, projectInstance.id)
         assert sampleInstance != null
 
-        model['sampleInstance'] = sampleInstance        
-      }   
+        model['sampleInstance'] = sampleInstance
+      }
     }
 
     return model
@@ -91,7 +91,7 @@ class BrowseController {
 
   /**
    * The apiGeneTrack action.
-   * 
+   *
    * Called when the action has its track parameter set to 'gene'.
    */
   def apiGeneTrack() {
@@ -115,18 +115,18 @@ class BrowseController {
     if (params.histogram == 'true') {
       Integer interval = params.interval.toInteger()
       assert interval != null
-  
+
       def histogram = genomeService.getHistogramRegion(genomeInstance, start, end, interval)
       render histogram as JSON
     } else {
       def genes = genomeService.getGenesRegion(genomeInstance, start, end)
-      render genes as JSON      
+      render genes as JSON
     }
   }
 
   /**
    * The apiFeatureTrack action handler method.
-   * 
+   *
    * Called when the action has its track parameter set to 'feature'.
    */
   def apiFeatureTrack() {
@@ -160,12 +160,12 @@ class BrowseController {
     if (params.histogram == 'true') {
       Integer interval = params.interval.toInteger()
       assert interval != null
-  
+
       def histogram = mappedService.getHistogramRegion(genomeInstance, sampleInstance, start, end, interval)
       render histogram as JSON
     } else {
       def features = mappedService.getMappedRegion(genomeInstance, sampleInstance, start, end)
-      render features as JSON      
+      render features as JSON
     }
   }
 
@@ -179,6 +179,6 @@ class BrowseController {
       apiFeatureTrack();
     } else {
       throw new Error("Invalid track type: " + params.track)
-    } 
+    }
   }
 }
