@@ -45,24 +45,24 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        
-        compile ':asset-pipeline:1.9.0'        
-        
+
+        compile ':asset-pipeline:1.9.0'
+
         compile ':fields:1.3'
-        
+
         compile ':mail:1.0.6'
         compile ':spring-security-core:2.0-RC3'
         compile ":spring-security-ldap:2.0-RC2"
-        compile ":scaffolding:2.1.2" 
+        compile ":scaffolding:2.1.2"
 
         runtime ":mongodb:3.0.1"
-        
+
         //runtime ":zipped-resources:latest.integration"
         //runtime ":cached-resources:latest.integration"
         runtime ":cache-headers:1.1.7"
         runtime ":webxml:1.4.1"
-        
+
         build ":tomcat:7.0.54"
-        
+
     }
 }
