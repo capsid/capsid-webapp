@@ -206,14 +206,15 @@ class ProjectController {
     def export() {
         Project projectInstance = findInstance()
         Integer taxonRootId = 1
+        String filename = "export_" + projectInstance.label + ".tsv"
         List statistics = statsService.list(taxonRootId: taxonRootId, ownerId: projectInstance.id, filters: params.filters, text: "", sort: "geneCoverageAvg", order: "desc", offset: 0)
 
         response.setHeader("Pragma", "public")
         response.setHeader("Expires", "0")
         response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0")
         response.addHeader("Cache-Control", "private")
-        response.setHeader("Content-Disposition", "attachment; filename=file.tsv")
-        response.setContentType("application/octet-stream")
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename)
+        response.setContentType("application/x-download")
         [projectInstance: projectInstance, statistics: statistics]
     }
 

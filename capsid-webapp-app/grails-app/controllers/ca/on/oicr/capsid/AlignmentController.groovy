@@ -15,7 +15,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the alignment controller. 
+ * Controller class for the alignment controller.
  */
 @Secured(['ROLE_CAPSID'])
 class AlignmentController {
@@ -46,7 +46,7 @@ class AlignmentController {
     def sampleService
 
     /**
-     * The index action. Redirects to the list action. 
+     * The index action. Redirects to the list action.
      */
     def index() { redirect action: 'list', params: params }
 
@@ -56,12 +56,12 @@ class AlignmentController {
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List results = alignmentService.list params
-        
+
         if (params._pjax) {
             params.remove('_pjax')
             return [alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount, layout:'ajax']
-        }        
-        
+        }
+
         withFormat {
             html alignmentInstanceList: results, alignmentInstanceTotal: results.totalCount
             json { render results as JSON  }
@@ -77,9 +77,9 @@ class AlignmentController {
         params.order = params.order ?: "desc"
         params.label = params.id
 
-        // We might also specify a root taxon identifier. This will default to 
+        // We might also specify a root taxon identifier. This will default to
         // a root identifier of one. We can inject this into the request if we
-        // like to filter. 
+        // like to filter.
         Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
 
         Map model = findModel()
@@ -95,7 +95,7 @@ class AlignmentController {
     /**
      * The create action.
      */
-    def create() { 
+    def create() {
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
         [alignmentInstance: new Alignment(params)] }
 
@@ -110,7 +110,7 @@ class AlignmentController {
 			render view: 'create', model: [alignmentInstance: alignmentInstance]
 			return
 		}
-		
+
 		flash.message = message(code: 'default.created.message', args: [message(code: 'alignment.label', default: 'Alignment'), alignmentInstance.name])
         redirect action: 'show', id: alignmentInstance.name
     }
@@ -130,7 +130,7 @@ class AlignmentController {
         Alignment alignmentInstance = findInstance(['collaborator', 'owner'])
 
         checkVersion(alignmentInstance, params)
-        
+
         alignmentInstance.properties = params
 
         if (!alignmentInstance.save(flush: true)) {
@@ -151,7 +151,7 @@ class AlignmentController {
         try {
             alignmentInstance.delete(flush: true)
 			alignmentService.delete alignmentInstance.name
-			
+
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
             redirect action: 'list'
         }
@@ -159,6 +159,31 @@ class AlignmentController {
 			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'alignment.label', default: 'Alignment'), params.id])
             redirect action: 'show', id: params.id
         }
+    }
+
+    /**
+     * The export action.
+     */
+    def export() {
+        Map model = findModel()
+        Project projectInstance = model['projectInstance']
+        assert projectInstance != null
+        Sample sampleInstance = model['sampleInstance']
+        assert sampleInstance != null
+        Alignment alignmentInstance = model['alignmentInstance']
+        assert alignmentInstance != null
+        Integer taxonRootId = 1
+        String filename = "export_" + projectInstance.label + "_" + sampleInstance.name + "_" + alignmentInstance.name + ".tsv"
+
+        model['statistics'] = statsService.list(taxonRootId: taxonRootId, ownerId: alignmentInstance.id, filters: params.filters, text: "", sort: "geneCoverageAvg", order: "desc", offset: 0)
+
+        response.setHeader("Pragma", "public")
+        response.setHeader("Expires", "0")
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0")
+        response.addHeader("Cache-Control", "private")
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename)
+        response.setContentType("application/octet-stream")
+        model
     }
 
     /**
@@ -175,8 +200,8 @@ class AlignmentController {
 
     /**
      * Builds a basic model comprising the alignment, sample, and project in a basic map
-     * that can be extended after return. 
-     * 
+     * that can be extended after return.
+     *
      * @return Map containing the model.
      */
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
@@ -207,8 +232,8 @@ class AlignmentController {
 
     /**
      * Checks the stored object version for optimistic locking control.
-     * 
-     * @param alignmentInstance the alignment. 
+     *
+     * @param alignmentInstance the alignment.
      * @param params the received new form values.
      */
     private void checkVersion(Alignment alignmentInstance, def params) {
@@ -222,5 +247,5 @@ class AlignmentController {
                 return
             }
         }
-    } 
+    }
 }
