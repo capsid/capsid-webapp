@@ -6,6 +6,7 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'project.label', default: 'Project')}" />
 		<title>${projectInstance.name}</title>
+		<asset:javascript src="charts.js"/>
 	</head>
 	<body>
 		<div class="row-fluid">

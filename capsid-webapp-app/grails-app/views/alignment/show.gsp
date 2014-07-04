@@ -8,18 +8,18 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'alignment.label', default: 'Alignment')}" />
 		<title>${alignmentInstance.name}</title>
-		<r:require modules="charts"/>
+		<asset:javascript src="charts.js"/>
 	</head>
 	<body>
 		<div class="row-fluid">
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${alignmentInstance.projectLabel}">${projectInstance.name}</g:link> 
+						<g:link controller="project" action="show" id="${alignmentInstance.projectLabel}">${projectInstance.name}</g:link>
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="sample" action="show" id="${alignmentInstance.sample}" params="${[projectLabel: alignmentInstance.projectLabel]}">${sampleInstance.name}</g:link> 
+						<g:link controller="sample" action="show" id="${alignmentInstance.sample}" params="${[projectLabel: alignmentInstance.projectLabel]}">${sampleInstance.name}</g:link>
 						<span class="divider">/</span>
 					</li>
 				</ul>
@@ -57,7 +57,7 @@
 								</g:if>
 
 								<g:if test="${alignmentInstance?.platform}">
-								<dt><g:message code="sample.platform.label" default="Platform" /></dt>						
+								<dt><g:message code="sample.platform.label" default="Platform" /></dt>
 								<dd>${alignmentInstance.platform}</dd>
 								</g:if>
 
@@ -140,11 +140,11 @@
 		<div id="tooltip-container"></div>
 
 		<asset:script type="text/javascript">
-		var actionUrl = 
+		var actionUrl =
 			"${g.createLink(
-				controller: 'alignment', 
-				action: 'taxonomy', 
-				id: alignmentInstance.name, 
+				controller: 'alignment',
+				action: 'taxonomy',
+				id: alignmentInstance.name,
 				params: [projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]
 			)}";
 
@@ -167,7 +167,7 @@
 
 		<asset:script type="text/javascript">
 		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
-		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
+		jQuery("#hierarchy-chooser").bind('change', function(evt, value) {
 			var form = jQuery("#genomes-tab form.form-filters");
 		    form.find("input[name=taxonRootId]").val(value.id);
 		    form.trigger("submit");
