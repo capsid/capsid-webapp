@@ -15,7 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the project controller. 
+ * Controller class for the project controller.
  */
 @Secured(['ROLE_CAPSID'])
 class ProjectController {
@@ -34,7 +34,7 @@ class ProjectController {
 		title:'Projects',
 		action:'list'
 	]
-	
+
     /**
      * Dependency injection for the AuthService.
      */
@@ -59,19 +59,19 @@ class ProjectController {
      * Dependency injection for the UserService.
      */
     def userService
-	
+
     /**
-     * The index action. Redirects to the list action. 
+     * The index action. Redirects to the list action.
      */
     def index() { redirect action: 'list', params: params }
 
     /**
-     * The list action. 
+     * The list action.
      */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
         List projects = projectService.list params
-		
+
         projects.each {
           it['sampleCount'] = Sample.countByProjectId(it.id)
         }
@@ -80,7 +80,7 @@ class ProjectController {
     }
 
     /**
-     * The show action. 
+     * The show action.
      */
     def show() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
@@ -89,40 +89,40 @@ class ProjectController {
         params.sample = "none"
         params.offset = params.offset ?: 0
 
-        // We might also specify a root taxon identifier. This will default to 
+        // We might also specify a root taxon identifier. This will default to
         // a root identifier of one. We can inject this into the request if we
-        // like to filter. 
+        // like to filter.
         Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
 
         Project projectInstance = findInstance()
-        
-        List statistics = statsService.list(taxonRootId: taxonRootId, ownerId: projectInstance.id, filters: params.filters, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
-        List samples = sampleService.list(projectId: projectInstance.id, filters: params.filters, text: params.text, max: params.max, sort: params.sort, order: params.order, offset: params.offset)
+
+        List statistics = statsService.list(taxonRootId: taxonRootId, ownerId: projectInstance.id, filters: params.filters, text: params.text, sort: params.sort, order: params.order, offset: params.offset)
+        List samples = sampleService.list(projectId: projectInstance.id, filters: params.filters, text: params.text, sort: params.sort, order: params.order, offset: params.offset)
 
         [projectInstance: projectInstance, statistics: statistics, samples: samples]
     }
 
     /**
-     * The create action. 
+     * The create action.
      */
-    def create() { 
+    def create() {
         isCapsidAdmin()
-        [projectInstance: new Project(params)] 
+        [projectInstance: new Project(params)]
     }
 
     /**
-     * The save action. 
+     * The save action.
      */
 	def save() {
         isCapsidAdmin()
 	    Project projectInstance = new Project(params)
-		
+
         String projectRole = 'ROLE_' + projectInstance.label.toUpperCase()
         List roles = [projectRole]
 
         if (!params.is_private.toBoolean()) { roles.push("ROLE_CAPSID") }
         projectInstance.roles = roles
-    
+
         // Role saved first because a project with no role is worse than a role with no project
         Role role = Role.findByAuthority(projectRole) ?: new Role(authority: projectRole).save(failOnError: true)
 
@@ -131,25 +131,25 @@ class ProjectController {
             return
         }
 
-        User user = authService.getCurrentUser()    
+        User user = authService.getCurrentUser()
 
-        /* 
+        /*
         *  If this step fails it doesn't matter that much since only Admins can create projects
         *  and Admins can already access any project. The user would be able to get in and add permission
         *  and probably wouldn't even notice. The owner role is more for adding non-Admins to the project
         */
         UserRole.create user, role, 'owner'
-        
+
 		flash.message = message(code: 'default.created.message', args: [message(code: 'project.label', default: 'Project'), projectInstance.name])
-        redirect action: 'show', id: projectInstance.label 
+        redirect action: 'show', id: projectInstance.label
     }
 
     /**
-     * The edit action. 
+     * The edit action.
      */
     def edit() {
         Project projectInstance = findInstance()
-        
+
         List userRoles = UserRole.findAllByRole(Role.findByAuthority('ROLE_' + projectInstance.label.toUpperCase()))
         Set unassignedUsers = userService.unassigned params
 
@@ -157,13 +157,13 @@ class ProjectController {
 	}
 
     /**
-     * The update action. 
+     * The update action.
      */
     def update() {
         Project projectInstance = findInstance()
 
         checkVersion(projectInstance, params)
-        
+
         projectInstance.properties = params
 
         if (params.is_private.toBoolean()) {
@@ -182,7 +182,7 @@ class ProjectController {
 	}
 
     /**
-     * The delete action. 
+     * The delete action.
      */
     def delete() {
         Project projectInstance = findInstance()
@@ -190,7 +190,7 @@ class ProjectController {
         try {
             projectInstance.delete(flush: true)
             projectService.delete projectInstance.label
-            
+
 			flash.message = message(code: 'default.deleted.message', args: [message(code: 'project.label', default: 'Project'), params.id])
             redirect action: 'list'
         }
@@ -201,7 +201,24 @@ class ProjectController {
     }
 
     /**
-     * Finds a project instance using the specified identifier in the form parameters. 
+     * The export action.
+     */
+    def export() {
+        Project projectInstance = findInstance()
+        Integer taxonRootId = 1
+        List statistics = statsService.list(taxonRootId: taxonRootId, ownerId: projectInstance.id, filters: params.filters, text: "", sort: "geneCoverageAvg", order: "desc", offset: 0)
+
+        response.setHeader("Pragma", "public")
+        response.setHeader("Expires", "0")
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0")
+        response.addHeader("Cache-Control", "private")
+        response.setHeader("Content-Disposition", "attachment; filename=file.tsv")
+        response.setContentType("application/octet-stream")
+        [projectInstance: projectInstance, statistics: statistics]
+    }
+
+    /**
+     * Finds a project instance using the specified identifier in the form parameters.
      */
 	private Project findInstance() {
 		Project projectInstance = projectService.get(params.id)
@@ -224,8 +241,8 @@ class ProjectController {
 
     /**
      * Checks the stored object version for optimistic locking control.
-     * 
-     * @param alignmentInstance the alignment. 
+     *
+     * @param alignmentInstance the alignment.
      * @param params the received new form values.
      */
     private void checkVersion(Project projectInstance, def params) {
@@ -239,7 +256,7 @@ class ProjectController {
                 return
             }
         }
-    } 
+    }
 
     /**
      * Checks if an administrator and redirects to the login denied page if not.

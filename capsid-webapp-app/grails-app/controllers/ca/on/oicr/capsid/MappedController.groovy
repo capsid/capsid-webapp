@@ -15,7 +15,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the mapped controller. 
+ * Controller class for the mapped controller.
  */
 @Secured(['ROLE_CAPSID'])
 class MappedController {
@@ -80,7 +80,7 @@ class MappedController {
 	}
 
     /**
-     * Finds a mapped instance using the specified identifier in the form parameters. 
+     * Finds a mapped instance using the specified identifier in the form parameters.
      */
 	private Mapped findInstance() {
 		Mapped mappedInstance = mappedService.get(params.id)

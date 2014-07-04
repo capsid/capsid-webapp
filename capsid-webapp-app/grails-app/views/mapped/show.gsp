@@ -21,50 +21,50 @@
 							<tbody>
 								<g:if test="${mappedInstance?.PG}">
 								<tr><td><g:message code="mapped.PG.label" default="PG" /></td>
-								
-									<td><g:fieldValue bean="${mappedInstance}" field="PG"/></td></tr>	
+
+									<td><g:fieldValue bean="${mappedInstance}" field="PG"/></td></tr>
 								</g:if>
-						
+
 								<tr><td><g:message code="mapped.platform.label" default="Platform" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="platform"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.sequencingType.label" default="Sequencing Type" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="sequencingType"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.readLength.label" default="Read Length" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="readLength"/></td></tr>
 
 								<tr><td><g:message code="mapped.alignLength.label" default="Align Length" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="alignLength"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.alignScore.label" default="Align Score" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="alignScore"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.mapq.label" default="Mapq" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="mapq"/></td></tr>
 
 								<tr><td><g:message code="mapped.minQual.label" default="Min Qual" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="minQual"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.avgQual.label" default="Avg Qual" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="avgQual"/></td></tr>
-							
+
 								<tr><td><g:message code="mapped.miscalls.label" default="Miscalls" /></td>
 									<td><g:fieldValue bean="${mappedInstance}" field="miscalls"/></td></tr>
-								
+
 								<tr><td><g:message code="mapped.mismatch.label" default="Mismatch" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="mismatch"/></td></tr>		
+									<td><g:fieldValue bean="${mappedInstance}" field="mismatch"/></td></tr>
 
 								<tr><td><g:message code="mapped.refStrand.label" default="Strand" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refStrand"/></td></tr>		
+									<td><g:fieldValue bean="${mappedInstance}" field="refStrand"/></td></tr>
 
 								<tr><td><g:message code="mapped.refStart.label" default="Start" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refStart"/></td></tr>		
+									<td><g:fieldValue bean="${mappedInstance}" field="refStart"/></td></tr>
 
 								<tr><td><g:message code="mapped.refEnd.label" default="End" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refEnd"/></td></tr>		
+									<td><g:fieldValue bean="${mappedInstance}" field="refEnd"/></td></tr>
 							</tbody>
-							</table>		
+							</table>
 					</ul>
 					<g:if test="${mappedInstance?.mapsGene}">
 					<hr>
@@ -97,19 +97,19 @@
 					<li>
 						<g:link controller="project" action="show" id="${mappedInstance.projectLabel}">
 						${Project.findById(mappedInstance.projectId).name}
-						</g:link> 
+						</g:link>
 						<span class="divider">/</span>
 					</li>
 					<li>
 						<g:link controller="sample" action="show" id="${mappedInstance.sample}" params="${[projectLabel: mappedInstance.projectLabel]}">
 						${mappedInstance.sample}
-						</g:link> 
+						</g:link>
 						<span class="divider">/</span>
 					</li>
 					<li>
 						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}" params="${[projectLabel: mappedInstance.projectLabel, sampleName: mappedInstance.sample]}">
 						${mappedInstance.alignment}
-						</g:link> 
+						</g:link>
 						<span class="divider">/</span>
 					</li>
 				</ul>
@@ -144,12 +144,12 @@
 						<g:render template='/mapped/fasta' model="[fasta:fasta, mappedInstance:mappedInstance]"/>
 					</div>
 					<div class="tab-pane" id="alignment">
-					    <div class="progress progress-info progress-striped active"> 
+					    <div class="progress progress-info progress-striped active">
 					    	<div class="bar" style="width: 100%;"></div>
 						</div>
 					</div>
 					<div class="tab-pane" id="contig">
-					    <div class="progress progress-info progress-striped active"> 
+					    <div class="progress progress-info progress-striped active">
 					    	<div class="bar" style="width: 100%;"></div>
 					    </div>
 					</div>

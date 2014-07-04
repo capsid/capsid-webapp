@@ -11,5 +11,8 @@
 		<div class="help-block explanation">Relative to background</div>
 		<label class="checkbox explained"><input type="checkbox" data-filter-name="lowgenomeCoverage"> Low genome coverage</label>
 		<div class="help-block explanation">Relative to background</div>
+		<legend>Export</legend>
+		<div class="btn search-export">Save data as tab file</div>
+		<div class="download-target"></div>
 	</fieldset>
 </g:form>

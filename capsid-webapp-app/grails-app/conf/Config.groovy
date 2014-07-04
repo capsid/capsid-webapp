@@ -118,14 +118,14 @@ grails.plugins.twitterbootstrap.customDir = 'less'
 grails.config.locations = []
 def defaultConfigFiles = [
     "/etc/capsid/capsid-config.properties",
-    "/etc/capsid/capsid-config.groovy",  
+    "/etc/capsid/capsid-config.groovy",
     "${userHome}/.grails/capsid-config.properties",
     "${userHome}/.grails/capsid-config.groovy"
 ]
 
 if (System.getProperty("CAPSID_HOME")) {
     defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.groovy";
-    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.properties";  
+    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.properties";
 } else if (System.getenv("CAPSID_HOME")) {
     defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.groovy";
     defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.properties";
@@ -144,11 +144,11 @@ environments {
         grails.gsp.enable.reload=true
     }
     development {
-        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.serverURL = "http://localhost:8080/${appName}"
         grails.gsp.enable.reload=true
     }
     test {
-        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.serverURL = "http://localhost:8080/${appName}"
         grails.gsp.enable.reload=true
     }
 }

@@ -29,6 +29,30 @@ jQuery(function($) {
     }
   });
 
+  $('.search-export').each(function () {
+    $(this).on('click', function(e) {
+      var form = $(e.currentTarget).parents('form:first');
+      var filters = '';
+      var controls = form.find('input[data-filter-name]:checked');
+      controls.each(function(i, x){
+        filters = filters + '&filters=' + $(x).data('filterName');
+      });
+      console.log(filters);
+      var action = form.attr('action');
+      action = action.replace('/show/', '/export/');
+
+      var hiddenIFrameID = 'hiddenDownloader',
+      iframe = document.getElementById(hiddenIFrameID);
+      if (iframe === null) {
+          iframe = document.createElement('iframe');
+          iframe.id = hiddenIFrameID;
+          iframe.style.display = 'none';
+          document.body.appendChild(iframe);
+      }
+      iframe.src = action + '?' + form.serialize() + filters;
+    })
+  });
+
   // Search
   if ($('.search').length) {
     $('.search').each(function () {
@@ -39,7 +63,7 @@ jQuery(function($) {
         $(this).parents('form').submit();
       });
 
-      $(this).submit(function(e) {        
+      $(this).submit(function(e) {
         var form, filters = '';
         form = $(e.target);
 
@@ -62,15 +86,15 @@ jQuery(function($) {
   $('.results').each(function () {
     var id = "#"+this.id;
     // Sorting
-    $(id).on('click', 'th a', function(e) {  
+    $(id).on('click', 'th a', function(e) {
       $(id).load($(this).attr('href') + ' ' + id);
       return false;
     });
     // Pagination
-    $(id).on('click', '.pagination a', function(e) {  
+    $(id).on('click', '.pagination a', function(e) {
       $(id).load($(this).attr('href') + ' ' + id);
       return false;
-    });  
+    });
   });
 
   // Radio Button Groups
@@ -160,9 +184,9 @@ jQuery(function($) {
           link = $(this);
           if (link.data('tab') === tab.attr('href')) {
             contig = ($('#contig-sequence')).val();
-            link.html('<a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?' + 
-                      'PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&' + 
-                      'LINK_LOC=blasthome&QUERY=' + contig + '" ' + 
+            link.html('<a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?' +
+                      'PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&' +
+                      'LINK_LOC=blasthome&QUERY=' + contig + '" ' +
                       'target="_blank">BLAST Contig Sequence</a>');
           }
         });

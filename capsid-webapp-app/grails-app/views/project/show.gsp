@@ -45,7 +45,7 @@
 					<g:if test="${flash.message}">
 					<bootstrap:alert class="alert-info">${flash.message}</bootstrap:alert>
 					</g:if>
-					
+
 					<ul id="nav-tab-controller" class="nav nav-tabs">
 				    	<li class="active"><a href="#genomes-tab" data-toggle="tab">Genomes</a></li>
 					    <li><a href="#samples" data-toggle="tab">Samples</a></li>
@@ -79,15 +79,15 @@
 											<g:each in="${statistics}" var="statisticsInstance">
 												<tr>
 													<td><g:link controller="genome" action="show" id="${statisticsInstance.accession}">${fieldValue(bean: statisticsInstance, field: "genome")}</g:link>
-						
+
 													<td>${fieldValue(bean: statisticsInstance, field: "genomeHits")}</td>
-						
+
 													<td>${fieldValue(bean: statisticsInstance, field: "geneHits")}</td>
-						
+
 													<td><g:formatNumber number="${statisticsInstance.genomeCoverage}" maxFractionDigits="2" type="percent"/></td>
-						
+
 													<td><g:formatNumber number="${statisticsInstance.geneCoverageAvg}" maxFractionDigits="2" type="percent"/></td>
-						
+
 													<td><g:formatNumber number="${statisticsInstance.geneCoverageMax}" maxFractionDigits="2" type="percent"/></td>
 												</tr>
 											</g:each>
@@ -109,7 +109,7 @@
 									<g:render template="/layouts/filter" model="['id':projectInstance.label]"/>
 								</div>
 								<div class="span10">
-									
+
 									<div id="samples-table" class="results">
 										<div class="pull-right"><bootstrap:pageSummary total="${statistics.totalCount}" params="${params}" /></div>
 										<table class="table table-striped table-condensed capsid-results">
@@ -118,13 +118,13 @@
 													<g:sortableColumn params="${params}" property="name" title="${message(code: 'sample.name.label', default: 'Name')}" />
 													<g:sortableColumn params="${params}" property="description" title="${message(code: 'sample.description.label', default: 'Description')}" />
 													<g:sortableColumn params="${params}" property="cancer" title="${message(code: 'sample.cancer.label', default: 'Cancer')}" />
-													<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />								
+													<g:sortableColumn params="${params}" property="role" title="${message(code: 'sample.role.label', default: 'Role')}" />
 													<g:sortableColumn params="${params}" property="source" title="${message(code: 'sample.source.label', default: 'Source')}" />
 												</tr>
 											</thead>
 											<tbody>
 											<g:each in="${samples}" var="sampleInstance">
-												<tr>		
+												<tr>
 													<td><g:link controller="sample" action="show" id="${sampleInstance.name}" params="${[projectLabel: sampleInstance.projectLabel]}">${fieldValue(bean: sampleInstance, field: "name")}</g:link></td>
 													<td>${fieldValue(bean: sampleInstance, field: "description")}</td>
 													<td>${fieldValue(bean: sampleInstance, field: "cancer")}</td>
