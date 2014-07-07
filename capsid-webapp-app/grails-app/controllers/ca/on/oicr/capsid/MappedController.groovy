@@ -44,7 +44,7 @@ class MappedController {
      * The show action.
      */
     def show() {
-        Mapped mappedInstance = findInstance()
+        MappedRead mappedInstance = findInstance()
         assert mappedInstance
 
         List fasta = mappedService.bucket(mappedInstance.sequence)
@@ -57,7 +57,7 @@ class MappedController {
      * The alignment action.
      */
     def alignment() {
-		Mapped mappedInstance = findInstance()
+		MappedRead mappedInstance = findInstance()
 		Genome genomeInstance = Genome.findByGi(mappedInstance.genome as int)
 
 	    Map alignment = mappedService.getSplitAlignment(mappedInstance)
@@ -71,7 +71,7 @@ class MappedController {
      * The contig action.
      */
 	def contig() {
-	    Mapped mappedInstance = findInstance()
+	    MappedRead mappedInstance = findInstance()
 
 	    ArrayList reads = mappedService.getOverlappingReads(mappedInstance)
 	    List sequence = mappedService.getContig(reads, mappedInstance)
@@ -82,8 +82,8 @@ class MappedController {
     /**
      * Finds a mapped instance using the specified identifier in the form parameters.
      */
-	private Mapped findInstance() {
-		Mapped mappedInstance = mappedService.get(params.id)
+	private MappedRead findInstance() {
+		MappedRead mappedInstance = mappedService.get(params['id'])
         if (!mappedInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'mapped.label', default: 'Mapped'), params.id])
             redirect action: 'list'
