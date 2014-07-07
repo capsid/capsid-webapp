@@ -12,10 +12,10 @@ package ca.on.oicr.capsid
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the sample controller. 
+ * Controller class for the sample controller.
  */
 @Secured(['ROLE_CAPSID'])
 class SampleController {
@@ -29,9 +29,9 @@ class SampleController {
      * Navigation and menu data.
      */
 	static navigation = [
-        group:'sample', 
-        order:10, 
-        title:'Samples', 
+        group:'sample',
+        order:10,
+        title:'Samples',
         action:'list'
     ]
 
@@ -56,23 +56,23 @@ class SampleController {
     def statsService
 
     /**
-     * The index action. Redirects to the list action. 
+     * The index action. Redirects to the list action.
      */
     def index() { redirect action: 'list', params: params }
 
     /**
-     * The list action. 
+     * The list action.
      */
     def list() {
         params.max = Math.min(params.max ? params.int('max') : 15, 100)
 
         List samples = sampleService.list params
-        
+
         [samples: samples]
     }
 
     /**
-     * The show action. 
+     * The show action.
      */
     def show() {
 
@@ -81,9 +81,9 @@ class SampleController {
         params.order = params.order ?: "desc"
         params.offset = params.offset ?: 0
 
-        // We might also specify a root taxon identifier. This will default to 
+        // We might also specify a root taxon identifier. This will default to
         // a root identifier of one. We can inject this into the request if we
-        // like to filter. 
+        // like to filter.
         Integer taxonRootId = (params.taxonRootId ?: "1").toInteger();
 
         Map model = findModel()
@@ -99,45 +99,45 @@ class SampleController {
     }
 
     /**
-     * The create action. 
+     * The create action.
      */
-    def create() { 
+    def create() {
         authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
-        [sampleInstance: new Sample(params)] 
+        [sampleInstance: new Sample(params)]
     }
 
     /**
-     * The save action. 
+     * The save action.
      */
 	def save() {
-        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])	
+        authorize(['ROLE_' + params.project.toUpperCase()], ['collaborator', 'owner'])
         Sample sampleInstance = new Sample(params)
-		
+
 		if (!sampleInstance.save(flush: true)) {
 			render view: 'create', model: [sampleInstance: sampleInstance]
 			return
 		}
-		
+
 		flash.message = message(code: 'default.created.message', args: [message(code: 'sample.label', default: 'Sample'), sampleInstance.name])
         redirect action: 'show', id: sampleInstance.name
     }
 
     /**
-     * The edit action. 
+     * The edit action.
      */
     def edit() {
         findModel()
 	}
 
     /**
-     * The update action. 
+     * The update action.
      */
     def update() {
         Map model = findModel(['collaborator', 'owner'])
         Sample sampleInstance = model['sampleInstance']
 
         checkVersion(sampleInstance, params)
-        
+
         sampleInstance.properties = params
 
         if (!sampleInstance.save(flush: true)) {
@@ -150,7 +150,7 @@ class SampleController {
 	}
 
     /**
-     * The delete action. 
+     * The delete action.
      */
     def delete() {
         Map model = findModel(['collaborator', 'owner'])
@@ -170,9 +170,32 @@ class SampleController {
     }
 
     /**
+     * The export action.
+     */
+    def export() {
+        Map model = findModel()
+        Project projectInstance = model['projectInstance']
+        assert projectInstance != null
+        Sample sampleInstance = model['sampleInstance']
+        assert sampleInstance != null
+        Integer taxonRootId = 1
+        String filename = "export_" + projectInstance.label + "_" + sampleInstance.name + ".tsv"
+
+        model['statistics'] = statsService.list(taxonRootId: taxonRootId, ownerId: sampleInstance.id, filters: params.filters, text: "", sort: "geneCoverageAvg", order: "desc", offset: 0)
+
+        response.setHeader("Pragma", "public")
+        response.setHeader("Expires", "0")
+        response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0")
+        response.addHeader("Cache-Control", "private")
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename)
+        response.setContentType("application/octet-stream")
+        model
+    }
+
+    /**
      * Builds a basic model comprising the alignment, sample, and project in a basic map
-     * that can be extended after return. 
-     * 
+     * that can be extended after return.
+     *
      * @return Map containing the model.
      */
 	private Map findModel(List roles = ['user', 'collaborator', 'owner']) {
@@ -203,8 +226,8 @@ class SampleController {
 
     /**
      * Checks the stored object version for optimistic locking control.
-     * 
-     * @param alignmentInstance the alignment. 
+     *
+     * @param alignmentInstance the alignment.
      * @param params the received new form values.
      */
     private void checkVersion(Sample sampleInstance, def params) {
@@ -218,5 +241,5 @@ class SampleController {
                 return
             }
         }
-    } 
+    }
 }

@@ -23,9 +23,11 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 //grails.urlmapping.cache.maxsize = 1000
 
 // What URL patterns should be processed by the resources plugin
-grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
-grails.resources.mappers.hashandcache.excludes = ['**/*.js']
-grails.resources.processing.enabled = false
+//grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
+//grails.resources.mappers.hashandcache.excludes = ['**/*.js']
+//grails.resources.processing.enabled = false
+
+
 
 // The default codec used to encode data with ${}
 grails.views.default.codec = "none" // none, html, base64
@@ -91,16 +93,24 @@ log4j = { root ->
     debug  'com.mongodb'
 }
 
+grails.assets.minifyJs = false
+grails.assets.minifyCss = false
+grails.assets.mapping = 'assets'
+
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
-grails.plugins.springsecurity.authority.className = 'ca.on.oicr.capsid.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
+grails.plugin.springsecurity.authority.className = 'ca.on.oicr.capsid.Role'
+
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+   '/assets/**': ['permitAll'],
+]
 
 // Added by the Spring Security LDAP plugin:
-grails.plugins.springsecurity.ldap.context.anonymousReadOnly = true
-grails.plugins.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
-grails.plugins.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
-grails.plugins.springsecurity.ldap.authorities.retrieveGroupRoles = true
+grails.plugin.springsecurity.ldap.context.anonymousReadOnly = true
+grails.plugin.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
+grails.plugin.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
+grails.plugin.springsecurity.ldap.authorities.retrieveGroupRoles = true
 
 // Twitter Bootstrap
 grails.plugins.twitterbootstrap.customDir = 'less'
@@ -108,14 +118,14 @@ grails.plugins.twitterbootstrap.customDir = 'less'
 grails.config.locations = []
 def defaultConfigFiles = [
     "/etc/capsid/capsid-config.properties",
-    "/etc/capsid/capsid-config.groovy",  
+    "/etc/capsid/capsid-config.groovy",
     "${userHome}/.grails/capsid-config.properties",
     "${userHome}/.grails/capsid-config.groovy"
 ]
 
 if (System.getProperty("CAPSID_HOME")) {
     defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.groovy";
-    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.properties";  
+    defaultConfigFiles << System.getProperty("CAPSID_HOME") + "/capsid-config.properties";
 } else if (System.getenv("CAPSID_HOME")) {
     defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.groovy";
     defaultConfigFiles << System.getenv("CAPSID_HOME") + "/capsid-config.properties";
@@ -134,11 +144,11 @@ environments {
         grails.gsp.enable.reload=true
     }
     development {
-        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.serverURL = "http://localhost:8080/${appName}"
         grails.gsp.enable.reload=true
     }
     test {
-        grails.serverURL = "http://localhost:8080/${appName}"   
+        grails.serverURL = "http://localhost:8080/${appName}"
         grails.gsp.enable.reload=true
     }
 }

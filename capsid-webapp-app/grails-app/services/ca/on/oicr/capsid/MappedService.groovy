@@ -10,16 +10,15 @@
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
 import org.bson.types.ObjectId
 
 /**
- * Service to handle mapped read data access. 
+ * Service to handle mapped read data access.
  */
 class MappedService {
 
     /**
-     * Don't use transactions. 
+     * Don't use transactions.
      */
     static transactional = false
 
@@ -62,7 +61,7 @@ class MappedService {
         .collect {
           [
             id: it["_id"].toString()
-            , gi: it["genome"] 
+            , gi: it["genome"]
             , refStart: it["refStart"]
             , refEnd: it["refEnd"]
           ]
@@ -71,20 +70,25 @@ class MappedService {
 
   /**
    * Reads the split alignment for a mapped read.
-   * 
+   *
    * @param mappedInstance the mapped read.
    * @return a defining the split alignment.
    */
   Map getSplitAlignment(Mapped mappedInstance) {
-
-    String cigar = sequenceService.tupleToCIGAR(mappedInstance['cigar'])
-    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, mappedInstance.MD, cigar)
 
     Map formatted = [
       query: [ seq: [], pos: [] ],
       ref: [ seq: [], pos: [] ],
       markup: []
     ]
+
+    String cigar = sequenceService.tupleToCIGAR(mappedInstance['cigar'])
+    String md = mappedInstance['MD']
+
+    if (! md) {
+      return formatted
+    }
+    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, md, cigar)
 
     formatted.query.seq = bucket(results['sequence'])
     formatted.ref.seq = bucket(results['reference'])
@@ -102,7 +106,7 @@ class MappedService {
 
   /**
    * Turns a sequence string into a set of buckets, splitting by semicolons.
-   * 
+   *
    * @param a sequence string.
    * @return a list of buckets.
    */
@@ -112,7 +116,7 @@ class MappedService {
 
   /**
    * Build overlapping read information for a mapped read.
-   * 
+   *
    * @param mappedInstance the mapped read.
    * @return a list of reads.
    */
@@ -132,11 +136,11 @@ class MappedService {
         , refEnd: it.refEnd
         , sequence: it.sequence
       ]
-    } 
+    }
 
     while (true) {
       reads = results.findAll {it.refStart < end && it.refEnd > start }
-        
+
       if (start == reads.refStart.min() && end == reads.refEnd.max() ) {
         break
       }
@@ -150,7 +154,7 @@ class MappedService {
 
   /**
    * Build config information for a set of reads.
-   * 
+   *
    * @param reads a list of reads
    * @param mappedInstance the mapped read.
    * @return a list of contig info records.
@@ -175,13 +179,13 @@ class MappedService {
 
     seq_array[mappedInstance.refStart] = '<b>' + seq_array[mappedInstance.refStart]
     seq_array[mappedInstance.refEnd] = seq_array[mappedInstance.refEnd] + '</b>'
-    
+
     seq_array.collect { it.value }
   }
 
   /**
    * Calculate and build a histogram for the gene data across the region.
-   * 
+   *
    * @param genome the specified genome
    * @param start start position within the genome.
    * @param end end position within the genome.
@@ -194,10 +198,10 @@ class MappedService {
 
     Integer[] data = new int[histogramCount]
 
-    // There is a huge performance hit in using GORM for large data blocks. So instead, 
+    // There is a huge performance hit in using GORM for large data blocks. So instead,
     // we use gmongo directly. This appars to be about an order of magnitude faster for
     // the purposes of building a histogram. Using aggregation would probably be faster
-    // still, but that can wait. 
+    // still, but that can wait.
     def cursor = Mapped.collection.find(genome: genome.gi, sampleId: sample.id, refStart: [$lte: end], refEnd: [$gte: start]).hint(["genome":1, "sampleId":1, "refStart":1])
     cursor.each { f ->
       def bin = Math.floor((f['refStart'] - start) / interval).toInteger()
@@ -223,7 +227,7 @@ class MappedService {
 
   /**
    * Retrieve the mapped read data across the region.
-   * 
+   *
    * @param genome the specified genome
    * @param sample the specified sample
    * @param start start position within the genome.
@@ -232,17 +236,10 @@ class MappedService {
    */
   def getMappedRegion(Genome genome, Sample sample, Integer start, Integer end) {
 
-    def criteria = Mapped.createCriteria();
-    List<Mapped> results = criteria.list {
-      eq("genome", genome.gi)
-      eq("sampleId", sample.id)
-      le("refStart", end)
-      ge("refEnd", start)
-      arguments hint:["genome":1, "sampleId":1, "refStart":1]
-    }
+    def cursor = Mapped.collection.find(genome: genome.gi, sampleId: sample.id, refStart: [$lte: end], refEnd: [$gte: start]).hint(["genome":1, "sampleId":1, "refStart":1])
 
-    List<Map> data = results.collect { Mapped m ->
-      [start: m.refStart, end: m.refEnd, strand: m.refStrand, readId: m.readId, id: m.id.toString()]
+    List<Map> data = cursor.collect { f ->
+      [start: f['refStart'], end: f['refEnd'], strand: f['refStrand'], readId: f['readId'], id: f['_id'].toString(), isRef: (f['isRef'] ? true : false) ]
     }
 
     return [data: data]

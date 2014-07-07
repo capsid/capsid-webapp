@@ -10,8 +10,6 @@
 
 package ca.on.oicr.capsid
 
-import grails.plugins.springsecurity.Secured
-
 /**
  * Service to handle project data access. 
  */

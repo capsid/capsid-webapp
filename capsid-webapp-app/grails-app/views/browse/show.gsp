@@ -3,8 +3,8 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="Genome" />
 		<title>${genomeInstance.accession} - ${genomeInstance.name}</title>
-		<r:require modules="browser"/>
-
+		<asset:javascript src="browser.js"/>
+		<asset:stylesheet src="browser.css"/>
 	</head>
 	<body>
 		<div class="content">
@@ -19,7 +19,7 @@
 			<g:if test="${flash.message}">
 			<div class="message">${flash.message}</div>
 			</g:if>
-			
+
 			<div id="setup-loader"><span>Setting up genome browser...</span></div>
 
 			<div id="checkBrowser"></div>
@@ -42,25 +42,28 @@
 			<div id="gv-closer"></div>
 		</div>
 
-		<g:javascript>
+		<asset:script type="text/javascript">
 var genomeViewer = initializeGenomeViewer(${genomeInstance.length});
 var urlBase = "${resource(dir: '/browse/api')}";
 addGeneTrack(genomeViewer, urlBase, {
 	accession: "${genomeInstance.accession}"
 });
-		</g:javascript>
+		</asset:script>
 		<g:if test="${sampleInstance}">
-		<g:javascript>
+		<asset:script type="text/javascript">
 addSampleTrack(genomeViewer, urlBase, {
 	accession: "${genomeInstance.accession}",
 	projectLabel: "${projectInstance.label}",
 	sampleName: "${sampleInstance.name}"
 });
-		</g:javascript>
+		</asset:script>
 		</g:if>
-		<g:javascript>
+
+		<asset:script type="text/javascript">
 bootstrapGenomeViewer(genomeViewer);
 jQuery("#setup-loader").remove();
-		</g:javascript>
+		</asset:script>
+
+		<asset:deferredScripts/>
 	</body>
 </html>

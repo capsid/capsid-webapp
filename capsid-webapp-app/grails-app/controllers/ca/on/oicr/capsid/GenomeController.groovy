@@ -12,7 +12,7 @@ package ca.on.oicr.capsid
 
 import org.springframework.dao.DataIntegrityViolationException
 import grails.converters.JSON
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 
 /**
  * Controller class for the genome controller. 

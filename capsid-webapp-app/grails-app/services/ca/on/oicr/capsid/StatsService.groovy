@@ -11,15 +11,14 @@
 package ca.on.oicr.capsid
 
 import org.bson.types.ObjectId
-import grails.plugins.springsecurity.Secured
 
 /**
- * Service to handle statistics record data access. 
+ * Service to handle statistics record data access.
  */
 class StatsService {
 
     /**
-     * Don't use transactions. 
+     * Don't use transactions.
      */
 	static transactional = false
 
@@ -47,8 +46,8 @@ class StatsService {
 	List list(Map params) {
 
 		// If we have a taxon identifier, we should use this as a filter. To do so, we
-		// need to get the taxon and use its left/right values as a between filter on 
-		// the left in the statistics. 
+		// need to get the taxon and use its left/right values as a between filter on
+		// the left in the statistics.
 		Taxon tx = null;
 		if (params.taxonRootId) {
 			tx = Taxon.findById(params.taxonRootId);
@@ -58,10 +57,10 @@ class StatsService {
 
 		List results = criteria.list(params) {
 			and {
-				
+
 				// Security Check
                 //'in'("label", projectService.list([:]).label)
-            
+
             	// Project
 				// if (params.label) {
 				// 	if (params.label instanceof String) {
@@ -81,7 +80,7 @@ class StatsService {
 					eq("projectId", params.projectId)
 				}
 
-				// And this adds the filter on taxon range, if we need it. 
+				// And this adds the filter on taxon range, if we need it.
 				if (tx != null) {
 					between("left", tx.left, tx.right);
 				}

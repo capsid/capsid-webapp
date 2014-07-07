@@ -7,14 +7,14 @@
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'sample.label', default: 'Sample')}" />
 		<title>${sampleInstance.name}</title>
-		<r:require modules="charts"/>
+		<asset:javascript src="charts.js"/>
 	</head>
 	<body>
 		<div class="row-fluid">
 			<div class="content">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${sampleInstance.projectLabel}">${Project.findById(sampleInstance.projectId).name}</g:link> 
+						<g:link controller="project" action="show" id="${sampleInstance.projectLabel}">${Project.findById(sampleInstance.projectId).name}</g:link>
 						<span class="divider">/</span>
 					</li>
 				</ul>
@@ -71,14 +71,14 @@
 									<td><g:fieldValue bean="${sampleInstance}" field="cancer"/></td>
 								</tr>
 								</g:if>
-							
+
 								<g:if test="${sampleInstance?.role}">
 								<tr>
-									<td><g:message code="sample.role.label" default="Role" /></td>						
+									<td><g:message code="sample.role.label" default="Role" /></td>
 									<td><g:fieldValue bean="${sampleInstance}" field="role"/></td>
 								</tr>
 								</g:if>
-							
+
 								<g:if test="${sampleInstance?.source}">
 								<tr>
 									<td><g:message code="sample.source.label" default="Source" /></td>
@@ -145,7 +145,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="tab-pane" id="alignments-tab">
 						<div class="row-fluid">
 							<div class="span2">
@@ -207,16 +207,16 @@
 		<g:each in="${alignments}" var="alignmentInstance" status="i">
 		<g:javascript>
 		addChart(${i}, "${g.createLink(
-			controller: 'alignment', 
-			action: 'taxonomy', 
-			id: alignmentInstance.name, 
+			controller: 'alignment',
+			action: 'taxonomy',
+			id: alignmentInstance.name,
 			params: [projectLabel: alignmentInstance.projectLabel, sampleName: alignmentInstance.sample]
 		)}");
 		</g:javascript>
 		</g:each>
 		<g:javascript>
 		jQuery("#hierarchy-chooser").hierarchyChooser({baseUrl: "${resource(dir: '/taxon/api')}", taxonRootId: 1});
-		jQuery("#hierarchy-chooser").bind('change', function(evt, value) { 
+		jQuery("#hierarchy-chooser").bind('change', function(evt, value) {
 			var form = jQuery("#genomes-tab form.form-filters");
 		    form.find("input[name=taxonRootId]").val(value.id);
 		    form.trigger("submit");

@@ -1,19 +1,19 @@
 modules = {
-	
+
 	capsid {
         dependsOn 'bootstrap'
 		resource url:'js/capsid.js'
         resource url:'js/capsid-filters.js'
         resource url:'js/jquery.qtip.min.js'
         resource url:'js/hierarchy-chooser.js'
-        resource url:'css/style.css'        
+        resource url:'css/style.css'
         resource url:'css/jquery.qtip.css'
 	}
 
     charts {
         dependsOn 'capsid'
         resource url:'js/d3.v3.js'
-        resource url:'js/hierarchy.js'        
+        resource url:'js/hierarchy.js'
     }
 
     browser {
@@ -38,12 +38,12 @@ modules = {
     bootstrap {
         dependsOn 'jquery'
         resource url:'js/bootstrap.min.js'
-        resource url:'css/bootstrap.min.css'   
+        resource url:'css/bootstrap.min.css'
     }
 
     overrides {
         jquery {
-            resource id:'js', disposition:'defer'    
+            resource id:'js', disposition:'defer'
         }
     }
 }

@@ -15,26 +15,26 @@
 		<![endif]-->
 
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
-		
-		<r:require modules="capsid"/>
+
+		<asset:javascript src="capsid.js"/>
+		<asset:stylesheet href="style.css"/>
+
 		<!-- fav and touch icons -->
-		<nav:resources override="true"/>
-		<g:layoutHead/> 
-		<r:layoutResources/>
+		<g:layoutHead/>
 	</head>
-	
+
 	<body>
 		<nav class="navbar">
 			<div class="navbar-inner">
-				<div class="container-fluid">		
+				<div class="container-fluid">
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					
+
 					<a class="brand" href="${createLink(uri: '/')}">CaPSIDv${grailsApplication.metadata.'app.version'}</a>
-					
+
 					<sec:ifLoggedIn>
 					<g:set var="user" value="${User.findByUsername(sec?.username())}" />
 					<div class="modal hide fade" id="add-bookmark-modal" style="display: none;">
@@ -44,7 +44,7 @@
 				        </div>
 				        <g:form controller="user" action="add_bookmark" id="${sec.username()}" class="form-horizontal" style="margin:0">
 					        <fieldset>
-						    
+
 				        	<div class="modal-body">
 			        	    	<div class="control-group ">
 									<label class="control-label" for="title">Title</label>
@@ -65,20 +65,16 @@
 					            </div>
 			        		</fieldset>
 						</g:form>
-				    </div>		
+				    </div>
 					<div class="nav-collapse">
-						<ul class="nav">		
+						<ul class="nav">
 							<li class="divider-vertical"></li>
-							<nav:eachItem var="item" group="project">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
-							<nav:eachItem var="item" group="sample">
-								<li class="${controllerName==item.controller?'active':''}">
-									<g:link controller="${item.controller}" action="${item.action}">${item.title}</g:link>
-								</li>
-							</nav:eachItem>
+							<li class="${controllerName=='project'?'active':''}">
+								<g:link controller="project" action="list">Projects</g:link>
+							</li>
+							<li class="${controllerName=='sample'?'active':''}">
+								<g:link controller="sample" action="list">Samples</g:link>
+							</li>
 							<li class="divider-vertical"></li>
 							<li class="dropdown">
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Bookmarks <b class="caret"></b></a>
@@ -92,7 +88,7 @@
 					                	<li><a href="${bookmark['address']}"><i class="icon-bookmark"></i> ${bookmark['title']}</a></li>
 					            	</g:each>
 					            </ul>
-							</li>					
+							</li>
 							<li class="divider-vertical"></li>
 						</ul>
 
@@ -111,7 +107,7 @@
 					<sec:ifNotLoggedIn>
 					<div class="nav-collapse">
 						<ul class="nav pull-right">
-							<li class="divider-vertical"></li>							
+							<li class="divider-vertical"></li>
 							<li><g:link controller="login" action="auth">Login</g:link></li>
 						</ul>
 					</div>
@@ -123,6 +119,5 @@
 		<div class="container-fluid">
 			<g:layoutBody/>
 		</div>
-		<r:layoutResources/>
 	</body>
 </html>
