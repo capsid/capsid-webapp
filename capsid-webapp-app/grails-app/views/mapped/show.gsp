@@ -8,8 +8,8 @@
 	<head>
 		<meta name="layout" content="${layout?:'bootstrap'}">
 		<g:set var="entityName" value="${message(code: 'mapped.label', default: 'Mapped')}" />
-		<g:set var="genomeInstance" value="${Genome.findByGi(mappedInstance.genome)}" />
-		<title>${mappedInstance.readId}</title>
+		<g:set var="genomeInstance" value="${Genome.findByGi(mappedInstance['genome'])}" />
+		<title>${mappedInstance['readId']}</title>
 	</head>
 	<body>
 		<div class="row-fluid">
@@ -19,60 +19,60 @@
 						<li class="nav-header">Details</li>
 						<table class="table">
 							<tbody>
-								<g:if test="${mappedInstance?.PG}">
+								<g:if test="${mappedInstance['PG']}">
 								<tr><td><g:message code="mapped.PG.label" default="PG" /></td>
 
-									<td><g:fieldValue bean="${mappedInstance}" field="PG"/></td></tr>
+									<td>${mappedInstance['PG']}</td></tr>
 								</g:if>
 
 								<tr><td><g:message code="mapped.platform.label" default="Platform" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="platform"/></td></tr>
+									<td>${mappedInstance['platform']}</td></tr>
 
 								<tr><td><g:message code="mapped.sequencingType.label" default="Sequencing Type" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="sequencingType"/></td></tr>
+									<td>${mappedInstance['sequencingType']}</td></tr>
 
 								<tr><td><g:message code="mapped.readLength.label" default="Read Length" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="readLength"/></td></tr>
+									<td>${mappedInstance['readLength']}</td></tr>
 
 								<tr><td><g:message code="mapped.alignLength.label" default="Align Length" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="alignLength"/></td></tr>
+									<td>${mappedInstance['alignLength']}</td></tr>
 
 								<tr><td><g:message code="mapped.alignScore.label" default="Align Score" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="alignScore"/></td></tr>
+									<td>${mappedInstance['alignScore']}</td></tr>
 
 								<tr><td><g:message code="mapped.mapq.label" default="Mapq" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="mapq"/></td></tr>
+									<td>${mappedInstance['mapq']}</td></tr>
 
 								<tr><td><g:message code="mapped.minQual.label" default="Min Qual" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="minQual"/></td></tr>
+									<td>${mappedInstance['minQual']}</td></tr>
 
 								<tr><td><g:message code="mapped.avgQual.label" default="Avg Qual" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="avgQual"/></td></tr>
+									<td>${mappedInstance['avgQual']}</td></tr>
 
 								<tr><td><g:message code="mapped.miscalls.label" default="Miscalls" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="miscalls"/></td></tr>
+									<td>${mappedInstance['miscalls']}</td></tr>
 
 								<tr><td><g:message code="mapped.mismatch.label" default="Mismatch" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="mismatch"/></td></tr>
+									<td>${mappedInstance['mismatch']}</td></tr>
 
 								<tr><td><g:message code="mapped.refStrand.label" default="Strand" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refStrand"/></td></tr>
+									<td>${mappedInstance['refStrand']}</td></tr>
 
 								<tr><td><g:message code="mapped.refStart.label" default="Start" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refStart"/></td></tr>
+									<td>${mappedInstance['refStart']}</td></tr>
 
 								<tr><td><g:message code="mapped.refEnd.label" default="End" /></td>
-									<td><g:fieldValue bean="${mappedInstance}" field="refEnd"/></td></tr>
+									<td>${mappedInstance['refEnd']}</td></tr>
 							</tbody>
 							</table>
 					</ul>
-					<g:if test="${mappedInstance?.mapsGene}">
+					<g:if test="${mappedInstance['mapsGene']}">
 					<hr>
 					<ul class="nav nav-list">
 						<li class="nav-header">Mapped to Genes</li>
 					</ul>
 					<ul id="items" class="nav nav-list">
-						<g:each in="${mappedInstance.mapsGene}" var="uid">
+						<g:each in="${mappedInstance['mapsGene']}" var="uid">
 
 							<g:set var="featureInstance" value="${Feature.findByUidAndType(uid, 'gene')}" />
 							<g:if test="${featureInstance}">
@@ -95,33 +95,33 @@
 			<div class="content span9">
 				<ul class="breadcrumb">
 					<li>
-						<g:link controller="project" action="show" id="${mappedInstance.projectLabel}">
-						${Project.findById(mappedInstance.projectId).name}
+						<g:link controller="project" action="show" id="${mappedInstance['projectLabel']}">
+						${Project.findById(mappedInstance['projectId']).name}
 						</g:link>
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="sample" action="show" id="${mappedInstance.sample}" params="${[projectLabel: mappedInstance.projectLabel]}">
-						${mappedInstance.sample}
+						<g:link controller="sample" action="show" id="${mappedInstance['sample']}" params="${[projectLabel: mappedInstance['projectLabel']]}">
+						${mappedInstance['sample']}
 						</g:link>
 						<span class="divider">/</span>
 					</li>
 					<li>
-						<g:link controller="alignment" action="show" id="${mappedInstance.alignment}" params="${[projectLabel: mappedInstance.projectLabel, sampleName: mappedInstance.sample]}">
-						${mappedInstance.alignment}
+						<g:link controller="alignment" action="show" id="${mappedInstance['alignment']}" params="${[projectLabel: mappedInstance['projectLabel'], sampleName: mappedInstance['sample']]}">
+						${mappedInstance['alignment']}
 						</g:link>
 						<span class="divider">/</span>
 					</li>
 				</ul>
 				<div class="row-fluid page-header">
-					<h1 class="pull-left"><small>READ</small> ${mappedInstance.readId}</h1>
+					<h1 class="pull-left"><small>READ</small> ${mappedInstance['readId']}</h1>
 					<div id="blast" class="btn-group pull-right">
 			        	<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			          		<i class="icon-share-alt icon-white"></i>
 			          		BLAST <span class="caret"></span>
 			        	</button>
 			        	<ul class="dropdown-menu" style="left:auto; right:0;">
-			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&BLAST_PROGRAMS=megaBlast&PAGE_TYPE=BlastSearch&SHOW_DEFAULTS=on&LINK_LOC=blasthome&QUERY=${mappedInstance.sequence}" target="_blank">BLAST Read Sequence</a></li>
+			            	<li><a href="http://www.ncbi.nlm.nih.gov/blast/Blast.cgi?PROGRAM=blastn&amp;BLAST_PROGRAMS=megaBlast&amp;PAGE_TYPE=BlastSearch&amp;SHOW_DEFAULTS=on&amp;LINK_LOC=blasthome&amp;QUERY=${mappedInstance['sequence']}" target="_blank">BLAST Read Sequence</a></li>
 			            	<li data-tab="#contig"><span class="disabled">Generating Contig...</span></li>
 			        	</ul>
 			        </div>
@@ -133,8 +133,8 @@
 				<h2><small>MAPS TO GENOME</small> <g:link controller="genome" action="show" id="${genomeInstance.accession}">${genomeInstance.name}</g:link></h2>
 			    <ul class="nav nav-tabs">
 			    	<li class="active"><a href="#fasta" data-toggle="tab">Fasta</a></li>
-			    	<li class="ajax"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance.id])}">Generating Alignment...</a></li>
-				    <li class="ajax"><a class="disabled" href="#contig" data-toggle="tab" data-url="${createLink([action:'contig',id:mappedInstance.id])}" data-loaded="Contig Sequence">Generating Contig...</a></li>
+			    	<li class="ajax"><a class="disabled" href="#alignment" data-toggle="tab" data-loaded="Alignment" data-url="${createLink([action:'alignment',id:mappedInstance['_id']])}">Generating Alignment...</a></li>
+				    <li class="ajax"><a class="disabled" href="#contig" data-toggle="tab" data-url="${createLink([action:'contig',id:mappedInstance['_id']])}" data-loaded="Contig Sequence">Generating Contig...</a></li>
 					<g:if test="${otherHits}">
 					<li><a href="#other" data-toggle="tab">Other Hits</a></li>
 					</g:if>
@@ -179,7 +179,7 @@
 								</tbody>
 							</table>
 							<div class="pagination">
-								<bootstrap:paginate id="${mappedInstance?.id}" total="${otherHits.size()}" params="${params}" />
+								<bootstrap:paginate id="${mappedInstance['id']}" total="${otherHits.size()}" params="${params}" />
 							</div>
 						</div>
 					</div>

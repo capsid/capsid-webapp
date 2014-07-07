@@ -14,9 +14,9 @@
 			</div>
 			<div class="seq ref">
 				<span class="seqlabel">${genomeInstance.accession}</span>
-				<span class="seqpos">${(i==0)?mappedInstance.refStart:(mappedInstance.refStart+alignment.ref.pos[i-1])}</span>
+				<span class="seqpos">${(i==0)?mappedInstance['refStart']:(mappedInstance['refStart']+alignment.ref.pos[i-1])}</span>
 				<span class="seqstr">${alignment.ref.seq[i]}</span>
-				<span class="seqpos">${mappedInstance.refStart+alignment.ref.pos[i] - 1}</span>
+				<span class="seqpos">${mappedInstance['refStart']+alignment.ref.pos[i] - 1}</span>
 			</div>
 		</div>
     </g:each>
