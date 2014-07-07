@@ -25,15 +25,15 @@ class SequenceService {
     		Integer count = it[1] as Integer
     		String identifier = it[2]
     		if (identifier == 'D' || identifier == 'N' || identifier == 'P') {
-                cigarActions << [CIGAR_DELETE, count] 
+                cigarActions << [CIGAR_DELETE, count]
             } else if (identifier == 'I') {
-    			cigarActions << [CIGAR_INSERT, count] 
+    			cigarActions << [CIGAR_INSERT, count]
     		} else if (identifier == 'M' || identifier == '=' || identifier == 'X') {
-    			cigarActions << [CIGAR_MATCH, count] 
+    			cigarActions << [CIGAR_MATCH, count]
     		} else if (identifier == 'H') {
-    			cigarActions << [CIGAR_HARD_CLIPPING, count] 
+    			cigarActions << [CIGAR_HARD_CLIPPING, count]
 			} else if (identifier == 'S') {
-    			cigarActions << [CIGAR_SOFT_CLIPPING, count] 
+    			cigarActions << [CIGAR_SOFT_CLIPPING, count]
 			}
     	}
 
@@ -64,7 +64,7 @@ class SequenceService {
 	 * cigar string. The result is a Map with three keys: sequence, reference, and markup,
 	 * which can then be converted into buckets. Note that the sequence is returned as we
 	 * may well embed marks in for reference data.
-	 * 
+	 *
 	 * @param inputSequence a sequence string
 	 * @param MD an MD string
 	 * @param cigar a CIGAR string
@@ -78,7 +78,7 @@ class SequenceService {
     	// Helpfully*, our sequence already has soft clipping removed, so there is nothing
     	// we can do apart from drop it.
     	//
-    	// * I lied. It isn't helpful. 
+    	// * I lied. It isn't helpful.
 
     	Integer inputSequencePosition = 0
      	StringBuilder sequence = new StringBuilder()
@@ -92,8 +92,8 @@ class SequenceService {
     	log.debug("cigarActions: " + cigarActions)
     	log.debug("mdActions: " + mdActions)
 
-    	// Main loop involves pulling cigar actions. When we are done, we are done. 
-    	// During this, we rely a lot on the basic principle that we are dealing entirely 
+    	// Main loop involves pulling cigar actions. When we are done, we are done.
+    	// During this, we rely a lot on the basic principle that we are dealing entirely
     	// with commands that consist of a length (for MD == 0). This allows us to modify
     	// the length as we work through the cigar actions. Should we need to.
     	while(cigarActions.size() > 0) {
@@ -110,8 +110,8 @@ class SequenceService {
     		} else if (action[0] == CIGAR_INSERT) {
 
     			// Case: we're an insert. This is an additional set of chars in the sequence
-    			// so we can infer the reference as a subset, by dropping them from the 
-    			// reference, and not matching them. 
+    			// so we can infer the reference as a subset, by dropping them from the
+    			// reference, and not matching them.
 
     			// There *must not* be a corresponding MD action. In fact, the next MD action
     			// *must* be an MD_COPY, and we decrement its count. If that count becomes zero or less
@@ -135,10 +135,10 @@ class SequenceService {
 
     		} else if (action[0] == CIGAR_DELETE) {
 
-    			// Case, we're a delete. This is an additional set of chars in the reference, 
+    			// Case, we're a delete. This is an additional set of chars in the reference,
     			// so we expect an MD_INSERT action, and if we don't find one, then we will moan.
     			// We also expect the length of the insert to be the same as the length of the
-    			// deletion action. And unlike the insert, we don't move the sequence pointer as 
+    			// deletion action. And unlike the insert, we don't move the sequence pointer as
     			// we don't use any sequence chars.
 
     			assert mdActions[0][0] == MD_INSERT
@@ -156,9 +156,9 @@ class SequenceService {
 
     		} else if (action[0] == CIGAR_MATCH) {
 
-    			// Case, we're a match. In a naive world, we can simply copy across stuff. In 
+    			// Case, we're a match. In a naive world, we can simply copy across stuff. In
     			// practice, we might well encounter various MD substitutions along the way, and
-    			// we will need to handle these if they exist. 
+    			// we will need to handle these if they exist.
 
     			Integer mdHandled = 0
 
@@ -242,13 +242,17 @@ class SequenceService {
    		log.debug("markup:    " + markup)
    		log.debug("reference: " + reference)
 
+        while(mdActions.size() > 0 && mdActions[0][0] == MD_COPY && mdActions[0][1] == 0) {
+            mdActions.remove(0)
+        }
+
    		while(cigarActions.size() > 0 && cigarActions[0][0] == CIGAR_HARD_CLIPPING) {
    			cigarActions.remove(0)
    		}
 
    		assert mdActions.size() == 0
    		assert cigarActions.size() == 0
-    	return [sequence: sequence.toString(), reference: reference.toString(), markup: markup.toString()]    	
+    	return [sequence: sequence.toString(), reference: reference.toString(), markup: markup.toString()]
     }
 
     private static final String[] cig_ops = ['M','I','D','N','S','H','P','M','X']
@@ -259,6 +263,6 @@ class SequenceService {
     		cigar << tuple[1]
     		cigar << cig_ops[tuple[0]]
     	}
-    	return cigar.toString()    
+    	return cigar.toString()
     }
 }
