@@ -141,6 +141,11 @@ class SequenceService {
     			// deletion action. And unlike the insert, we don't move the sequence pointer as
     			// we don't use any sequence chars.
 
+                // In a few cases, there's an empty copy first. If so, drop it.
+                while(mdActions.size() > 0 && mdActions[0][0] == MD_COPY && mdActions[0][1] == 0) {
+                    mdActions.remove(0)
+                }
+
     			assert mdActions[0][0] == MD_INSERT
     			assert mdActions[0][1].size() == count
 
@@ -242,6 +247,7 @@ class SequenceService {
    		log.debug("markup:    " + markup)
    		log.debug("reference: " + reference)
 
+        // Sometimes we are left with an empty copy, if so drop it.
         while(mdActions.size() > 0 && mdActions[0][0] == MD_COPY && mdActions[0][1] == 0) {
             mdActions.remove(0)
         }
