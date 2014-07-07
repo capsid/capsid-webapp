@@ -156,6 +156,12 @@
             <version>3.0.1</version>
             <scope>runtime</scope>
             <type>zip</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.grails</groupId>
+                    <artifactId>grails-bootstrap</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -184,7 +190,7 @@
             <scope>provided</scope>
             <type>zip</type>
         </dependency>
-            
+
 
         <dependency>
             <groupId>org.mongodb</groupId>
@@ -192,7 +198,7 @@
             <version>2.12.2</version>
             <scope>runtime</scope>
         </dependency>
-                        
+
 
 
         <dependency>
