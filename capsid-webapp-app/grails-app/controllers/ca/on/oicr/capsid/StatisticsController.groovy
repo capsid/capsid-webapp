@@ -13,7 +13,7 @@ package ca.on.oicr.capsid
 import grails.plugin.springsecurity.annotation.Secured
 
 /**
- * Controller class for the statistics controller. 
+ * Controller class for the statistics controller.
  */
 @Secured(['ROLE_CAPSID'])
 class StatisticsController {
@@ -27,14 +27,14 @@ class StatisticsController {
      * Navigation and menu data.
      */
 	static navigation = [
-		group:'statistics', 
-		order:10, 
-		title:'Statistics', 
+		group:'statistics',
+		order:10,
+		title:'Statistics',
 		action:'list'
 	]
 
     /**
-     * The list action. 
+     * The list action.
      */
 	def list() {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)

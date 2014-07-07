@@ -43,8 +43,8 @@ class MappedService {
      * @param id the read identifier.
      * @return the mapped read.
      */
-    Mapped get(String id) {
-        Mapped.get(new ObjectId(id))
+    MappedRead get(String id) {
+        return (MappedRead) Mapped.collection.findOne('_id': new ObjectId(id))
     }
 
     /**
@@ -53,10 +53,10 @@ class MappedService {
      * @param mappedInstance the mapped read.
      * @return the list of mapped read records.
      */
-    ArrayList otherHits(Mapped mappedInstance) {
+    ArrayList otherHits(MappedRead mappedInstance) {
         return Mapped.collection.find(
-          "readId": mappedInstance.readId
-          , "_id": [$ne: mappedInstance.id]
+          "readId": mappedInstance['readId']
+          , "_id": [$ne: mappedInstance['_id']]
         )
         .collect {
           [
@@ -74,7 +74,7 @@ class MappedService {
    * @param mappedInstance the mapped read.
    * @return a defining the split alignment.
    */
-  Map getSplitAlignment(Mapped mappedInstance) {
+  Map getSplitAlignment(MappedRead mappedInstance) {
 
     Map formatted = [
       query: [ seq: [], pos: [] ],
@@ -88,7 +88,7 @@ class MappedService {
     if (! md) {
       return formatted
     }
-    Map results = sequenceService.calculateAlignment(mappedInstance.sequence, md, cigar)
+    Map results = sequenceService.calculateAlignment(mappedInstance['sequence'], md, cigar)
 
     formatted.query.seq = bucket(results['sequence'])
     formatted.ref.seq = bucket(results['reference'])
@@ -120,22 +120,16 @@ class MappedService {
    * @param mappedInstance the mapped read.
    * @return a list of reads.
    */
-  ArrayList getOverlappingReads(Mapped mappedInstance) {
+  ArrayList getOverlappingReads(MappedRead mappedInstance) {
     ArrayList reads = []
-    int start = mappedInstance.refStart
-    int end = mappedInstance.refEnd
+    int start = mappedInstance['refStart']
+    int end = mappedInstance['refEnd']
 
-    def criteria = Mapped.createCriteria();
-    List<Mapped> results = criteria.list {
-      eq("genome", mappedInstance.genome as int)
-      eq("alignmentId", mappedInstance.alignmentId)
-      eq("refStrand", mappedInstance.refStrand)
-    }.collect {
-      [
-        refStart: it.refStart
-        , refEnd: it.refEnd
-        , sequence: it.sequence
-      ]
+    def cursor = Mapped.collection.find(genome: mappedInstance['genome'] as int, alignmentId: mappedInstance['alignmentId'], refStrand: mappedInstance['refStrand'], refStart: [$lte: end], refEnd: [$gte: start])
+    List<Map> results = cursor.collect { f ->
+      [refStart: f['refStart'],
+       refEnd: f['refEnd'],
+       sequence: f['sequence']]
     }
 
     while (true) {
@@ -159,7 +153,7 @@ class MappedService {
    * @param mappedInstance the mapped read.
    * @return a list of contig info records.
    */
-  List getContig(ArrayList reads, Mapped mappedInstance) {
+  List getContig(ArrayList reads, MappedRead mappedInstance) {
 
     Map seq_array = [:]
 
@@ -177,8 +171,8 @@ class MappedService {
       }
     }
 
-    seq_array[mappedInstance.refStart] = '<b>' + seq_array[mappedInstance.refStart]
-    seq_array[mappedInstance.refEnd] = seq_array[mappedInstance.refEnd] + '</b>'
+    seq_array[mappedInstance['refStart']] = '<b>' + seq_array[mappedInstance['refStart']]
+    seq_array[mappedInstance['refEnd']] = seq_array[mappedInstance['refEnd']] + '</b>'
 
     seq_array.collect { it.value }
   }

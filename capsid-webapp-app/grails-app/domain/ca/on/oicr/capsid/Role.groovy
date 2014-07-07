@@ -13,7 +13,7 @@ package ca.on.oicr.capsid
 import org.bson.types.ObjectId
 
 class Role {
-	
+
 	/**
 	 * Unique identifier.
 	 */
@@ -23,7 +23,7 @@ class Role {
 	 * String authority name for authorization.
 	 */
 	String authority
-	
+
     /**
      * Define the field constraints.
      */
