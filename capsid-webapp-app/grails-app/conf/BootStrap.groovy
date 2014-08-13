@@ -20,13 +20,15 @@ class BootStrap {
     private void createUser() {
         def capsidRole = Role.findByAuthority('ROLE_CAPSID') ?: new Role(authority: 'ROLE_CAPSID').save(failOnError: true)
 
+        def password = 'admin'
+
         def adminUser = User.findByUsername("admin") ?: new User(
             username: "admin",
             userRealName: "CaPSID Administrator",
             email: "admin@company.com",
             institute: '',
             location: '',
-            password: springSecurityService.encodePassword('admin'),
+            password: springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password,
             enabled: true).save(failOnError: true)
 
         if (!adminUser.authorities.id.contains(capsidRole.id)) {

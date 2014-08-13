@@ -100,7 +100,7 @@ class UserController {
         // Generate password
         String password = authService.getRandomString(8)
         
-		params.password = springSecurityService.encodePassword(password)
+		params.password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
         params.enabled = true
 
 	    User userInstance = new User(params)

@@ -102,11 +102,14 @@ grails.plugin.springsecurity.userLookup.userDomainClassName = 'ca.on.oicr.capsid
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'ca.on.oicr.capsid.UserRole'
 grails.plugin.springsecurity.authority.className = 'ca.on.oicr.capsid.Role'
 
+grails.plugin.springsecurity.password.algorithm = 'bcrypt'
+
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
    '/assets/**': ['permitAll'],
 ]
 
 // Added by the Spring Security LDAP plugin:
+grails.plugin.springsecurity.ldap.active = false
 grails.plugin.springsecurity.ldap.context.anonymousReadOnly = true
 grails.plugin.springsecurity.ldap.authorities.groupSearchFilter = 'memberUid={1}'
 grails.plugin.springsecurity.ldap.authorities.retrieveDatabaseRoles = true
