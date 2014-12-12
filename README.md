@@ -21,7 +21,7 @@ You will need a MongoDB database, a Python 2.7 installation and a Java Web Serve
 Running the web application from the command line
 -------------------------------------------------
 
-CaPSID now uses Maven for building the web application. We recommend:
+CaPSID now uses Maven (make sure to use 3.1.1 at least) for building the web application. We recommend:
 
 ```shell
 $ mvn 
